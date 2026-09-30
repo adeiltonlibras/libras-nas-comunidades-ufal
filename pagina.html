@@ -5,138 +5,71 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="page-title">Página — Libras nas Comunidades</title>
 <link rel="stylesheet" href="estilo.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="header-brand">
-      <div class="header-logos">
-        <img src="logo-ufal.png" alt="UFAL">
-        <div class="divisor"></div>
-        <img src="logo-letras-libras.png" alt="Letras Libras">
-      </div>
-      <div class="header-txt">
-        <div class="uni">UFAL · PROEXC · FALE</div>
-        <div class="proj">Libras nas Comunidades</div>
-      </div>
-    </a>
-    <button class="menu-toggle" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
-    <nav class="header-menu" id="menu"></nav>
-    <a href="#" class="header-cta" id="ctaHeader" target="_blank">Inscrever-se →</a>
-  </div>
+<header class="app-header">
+  <a href="index.html" class="app-brand">
+    <div style="display:flex; gap:8px; align-items:center;">
+      <img src="logo-ufal.png" alt="UFAL">
+      <img src="logo-letras-libras.png" alt="Letras Libras">
+    </div>
+    <div>
+      <div class="app-title">Libras nas Comunidades</div>
+      <div class="app-subtitle">UFAL · FALE · PROEXC</div>
+    </div>
+  </a>
+  <nav class="app-nav" id="menu"></nav>
 </header>
 
-<div id="app">
-  <div class="container" style="padding: 60px 20px; text-align: center;">
-    <h2>Carregando conteúdo...</h2>
-  </div>
+<div class="wrapper" id="app">
+  <div style="padding: 60px 20px; text-align: center;"><h2>Carregando conteúdo...</h2></div>
 </div>
+
+<footer class="app-footer">
+  <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
+  <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 6px;">Coordenação: Profa. Dra. Edineide dos Santos Silva | Instrutor: Adeilton Wachill dos Santos Olimpio</p>
+</footer>
 
 <script>
 (async function(){
   let D;
   try{
     const r = await fetch('dados.json?t=' + Date.now());
-    if(!r.ok) throw new Error('Erro ao carregar dados');
+    if(!r.ok) throw new Error('Erro');
     D = await r.json();
   }catch(e){
-    document.getElementById('app').innerHTML = '<div class="container" style="padding:60px 20px;text-align:center;"><h2>Erro</h2><p>Não foi possível carregar os dados do site.</p></div>';
+    document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar dados</h2></div>';
     return;
   }
 
-  const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // Pega o slug da URL (ex: pagina.html?slug=sobre -> pega "sobre")
   const urlParams = new URLSearchParams(window.location.search);
-  const slugDesejado = urlParams.get('slug');
+  const slugDesejado = urlParams.get('slug') || 'sobre';
 
-  // Encontra a página no dados.json
   const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
   const paginaAtual = paginas.find(p => p.slug === slugDesejado) || paginas[0];
 
   if(!paginaAtual){
-    document.getElementById('app').innerHTML = '<div class="container" style="padding:60px 20px;text-align:center;"><h2>Página não encontrada</h2><p>A página solicitada não existe ou foi removida.</p><a href="index.html" class="btn btn-primary" style="margin-top:20px;display:inline-block;">Voltar ao Início</a></div>';
+    document.getElementById('app').innerHTML = '<div style="padding:60px 20px;text-align:center;"><h2>Página não encontrada</h2><a href="index.html" style="color:var(--primary);display:block;margin-top:15px;">← Voltar ao Início</a></div>';
     return;
   }
 
-  // Atualiza o título da aba do navegador
   document.getElementById('page-title').textContent = `${paginaAtual.titulo} — Libras nas Comunidades`;
 
-  // Monta o Menu Superior Dinâmico
   document.getElementById('menu').innerHTML = paginas.map(p => {
     const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
     const active = p.slug === slugDesejado ? 'active' : '';
-    return `<a href="${link}" class="${active}">${p.icone||''} ${esc(p.titulo)}</a>`;
-  }).join('');
-  document.getElementById('ctaHeader').href = S.linkCadastro || '#';
+    return `<li><a href="${link}" class="${active}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+  }).join('') + `<li><a href="pagina.html?slug=inscricoes" class="btn-inscricao">📝 Pré-Inscrição</a></li>`;
 
-  // Cabeçalho Interno da Página (Hero)
-  const pageHeroHtml = `
-    <section class="page-hero">
-      <div class="page-hero-inner">
-        <div class="breadcrumb"><a href="index.html">Início</a> <span>/</span> <span>${esc(paginaAtual.titulo)}</span></div>
-        <h1>${paginaAtual.icone || '📄'} ${esc(paginaAtual.titulo)}</h1>
-        <p>${esc(paginaAtual.descricao || S.subtitulo || '')}</p>
-      </div>
-    </section>
-  `;
-
-  // Conteúdo HTML cadastrado no Admin
-  const conteudoHtml = `
-    <div class="page-content" style="background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,0.05);margin:30px auto;max-width:900px;">
-      ${paginaAtual.html || '<p>Nenhum conteúdo cadastrado nesta página.</p>'}
+  document.getElementById('app').innerHTML = `
+    <div style="background:#FFF; border:1px solid var(--border); border-radius:var(--radius); padding:36px; box-shadow:var(--shadow);">
+      ${paginaAtual.html || '<p>Sem conteúdo cadastrado.</p>'}
     </div>
   `;
-
-  // Rodapé Padrão
-  const footerHtml = `
-    <footer class="footer" style="margin-top:60px;">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div>
-            <div class="footer-logos">
-              <img src="logo-ufal.png" alt="UFAL">
-              <img src="logo-letras-libras.png" alt="Letras Libras">
-            </div>
-            <div class="footer-brand">
-              <div class="txt">
-                <div class="uni">UFAL · PROEXC · FALE</div>
-                <div class="proj">Libras nas Comunidades</div>
-              </div>
-            </div>
-            <p class="footer-desc" style="margin-top:14px;">Projeto de extensão universitária da UFAL, dedicado a difundir a Língua Brasileira de Sinais em comunidades periféricas de Maceió.</p>
-          </div>
-          <div class="footer-col">
-            <h4>📌 Projeto</h4>
-            <p><b>Benedito Bentes 3</b></p>
-            <p>Código CR096-2026</p>
-            <p>Ação de Extensão</p>
-          </div>
-          <div class="footer-col">
-            <h4>👥 Equipe</h4>
-            <p><b>Coordenação</b></p>
-            <p>Profa. Dra. Edineide dos Santos Silva</p>
-            <p style="margin-top:10px;"><b>Instrutor</b></p>
-            <p>Adeilton Wachill dos Santos Olimpio</p>
-          </div>
-          <div class="footer-col">
-            <h4>🔗 Links</h4>
-            <a href="index.html">→ Início</a>
-            <a href="calendario.html">→ Calendário</a>
-            <a href="${esc(S.linkCadastro || '#')}" target="_blank">→ SIGAA/UFAL</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <div>© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
-        </div>
-      </div>
-    </footer>
-  `;
-
-  // Injeta tudo na página
-  document.getElementById('app').innerHTML = pageHeroHtml + '<div class="container">' + conteudoHtml + '</div>' + footerHtml;
 })();
 </script>
 </body>
