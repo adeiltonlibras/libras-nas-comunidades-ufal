@@ -4,43 +4,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Libras nas Comunidades: Benedito Bentes 3 — Projeto de Extensão da UFAL. Curso Básico de Libras – Nível I">
-<title>Libras nas Comunidades — Curso Básico de Libras Nível I</title>
+<title>Libras nas Comunidades — Portal do Curso</title>
 <link rel="stylesheet" href="estilo.css">
-<!-- Google Fonts Inter -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-app: #0F172A;
+    --card-bg: #FFFFFF;
+    --primary: #2563EB;
+    --primary-dark: #1D4ED8;
+    --accent: #F97316;
+    --text-dark: #0F172A;
+    --text-muted: #64748B;
+    --border: #E2E8F0;
+    --radius: 16px;
+    --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+  }
+
+  * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #F8FAFC; color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* Topbar Minimalista Moderna */
+  .app-header { background: #FFFFFF; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; }
+  .app-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .app-brand img { height: 36px; object-fit: contain; }
+  .app-title { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); letter-spacing: -0.3px; }
+  .app-subtitle { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+  .app-nav { display: flex; gap: 8px; list-style: none; align-items: center; }
+  .app-nav a { text-decoration: none; color: var(--text-muted); font-size: 0.82rem; font-weight: 700; padding: 8px 14px; border-radius: 10px; transition: all 0.2s; }
+  .app-nav a:hover, .app-nav a.active { background: #F1F5F9; color: var(--primary); }
+  .btn-inscricao { background: linear-gradient(135deg, var(--accent), #FB923C); color: #FFF !important; box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25); }
+
+  /* Layout Dashboard */
+  .wrapper { max-width: 1200px; width: 100%; margin: 32px auto; padding: 0 20px; flex: 1; }
+
+  /* Banner Principal / Dashboard Hero */
+  .dashboard-hero { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: #FFF; border-radius: 24px; padding: 40px; display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 30px; align-items: center; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15); margin-bottom: 32px; position: relative; overflow: hidden; }
+  .dashboard-hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+  .dashboard-hero h1 span { color: #60A5FA; }
+  .dashboard-hero p { color: #94A3B8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; max-width: 600px; }
+  
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; color: #93C5FD; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+
+  .hero-stats-card { background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; backdrop-filter: blur(10px); }
+  .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: #94A3B8; }
+  .stat-val { font-weight: 700; color: #FFF; }
+
+  /* Grid de Atalhos / Módulos */
+  .section-title { font-size: 1.1rem; font-weight: 800; color: var(--text-dark); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 40px; }
+  
+  .module-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); text-decoration: none; color: inherit; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.25s ease; }
+  .module-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 15px 35px rgba(37, 99, 235, 0.1); }
+  .module-card .icon-box { width: 48px; height: 48px; background: #EFF6FF; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 16px; color: var(--primary); }
+  .module-card h3 { font-size: 1.05rem; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
+  .module-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+  .module-card .card-footer { font-size: 0.78rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 6px; }
+
+  /* Rodapé Clean */
+  .app-footer { background: #FFFFFF; border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; margin-top: auto; }
+  .app-footer p { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px; }
+  .app-footer strong { color: var(--text-dark); }
+
+  @media(max-width: 768px) {
+    .dashboard-hero { grid-template-columns: 1fr; padding: 24px; }
+    .app-header { padding: 14px 16px; }
+    .app-nav { display: none; }
+  }
+</style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="header-brand">
-      <div class="header-logos">
-        <img src="logo-ufal.png" alt="UFAL">
-        <div class="divisor"></div>
-        <img src="logo-letras-libras.png" alt="Letras Libras">
-      </div>
-      <div class="header-txt">
-        <div class="uni">UFAL · PROEXC · FALE</div>
-        <div class="proj">Libras nas Comunidades</div>
-      </div>
-    </a>
-    <button class="menu-toggle" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
-    <nav class="header-menu" id="menu"></nav>
-    <a href="#" class="header-cta" id="ctaHeader" target="_blank">Inscrever-se →</a>
-  </div>
+<header class="app-header">
+  <a href="index.html" class="app-brand">
+    <div style="display:flex; gap:8px; align-items:center;">
+      <img src="logo-ufal.png" alt="UFAL">
+      <img src="logo-letras-libras.png" alt="Letras Libras">
+    </div>
+    <div>
+      <div class="app-title">Libras nas Comunidades</div>
+      <div class="app-subtitle">UFAL · FALE · PROEXC</div>
+    </div>
+  </a>
+  <nav class="app-nav" id="menu">
+    <!-- Gerado via JS -->
+  </nav>
 </header>
 
-<div id="app"></div>
+<div class="wrapper" id="app">
+  <!-- Conteúdo injetado via JS -->
+</div>
+
+<footer class="app-footer">
+  <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
+  <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 6px;">Coordenação: Profa. Dra. Edineide dos Santos Silva | Instrutor: Adeilton Wachill dos Santos Olimpio</p>
+</footer>
 
 <script>
 (async function(){
   let D;
   try{
     const r = await fetch('dados.json?t=' + Date.now());
-    if(!r.ok) throw new Error('Erro ao carregar dados');
+    if(!r.ok) throw new Error('Erro');
     D = await r.json();
   }catch(e){
-    document.getElementById('app').innerHTML = '<div class="container" style="padding:60px 20px;text-align:center;"><h2>Erro ao carregar dados</h2><p>Verifique se o arquivo dados.json está na raiz do projeto.</p></div>';
+    document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar os dados do sistema.</h2></div>';
     return;
   }
 
@@ -48,115 +120,57 @@
   const H = D.home || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // Renderiza o menu superior dinamicamente
+  // Renderiza menu superior
   const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
   document.getElementById('menu').innerHTML = paginas.map(p => {
     const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-    const active = p.slug === 'home' || p.tipo === 'home' ? 'active' : '';
-    return `<li><a href="${link}" class="${active}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+    const isCta = p.slug === 'inscricoes' || p.tipo === 'inscricao';
+    return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+  }).join('') + `<li><a href="${esc(S.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
+
+  // Hero do Dashboard
+  const dashboardHero = `
+    <div class="dashboard-hero">
+      <div>
+        <div class="hero-badge"><span class="dot"></span> Ação Oficial de Extensão Universitária</div>
+        <h1>${esc(S.curso || 'Curso Básico de Libras')}<br><span>Nível I — Benedito Bentes 3</span></h1>
+        <p>${esc(H.descricao || S.subtitulo)}</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="calendario.html" style="background:var(--primary);color:#FFF;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;font-size:0.85rem;box-shadow:0 4px 15px rgba(37,99,235,0.3);">📅 Ver Cronograma de Aulas</a>
+          <a href="${esc(S.linkCadastro)}" target="_blank" style="background:rgba(255,255,255,0.1);color:#FFF;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;font-size:0.85rem;border:1px solid rgba(255,255,255,0.2);">🔗 Inscrição no SIGAA</a>
+        </div>
+      </div>
+      <div class="hero-stats-card">
+        <h4 style="color:#FFF;font-size:0.9rem;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px;">📌 Detalhes da Turma</h4>
+        <div class="stat-row"><span class="stat-label">Período</span><span class="stat-val">${esc(S.periodo)}</span></div>
+        <div class="stat-row"><span class="stat-label">Dias</span><span class="stat-val">${esc(S.aulas)}</span></div>
+        <div class="stat-row"><span class="stat-label">Horário</span><span class="stat-val">${esc(S.horario)}</span></div>
+        <div class="stat-row"><span class="stat-label">Carga Horária</span><span class="stat-val">${esc(S.carga)}h (Certificado UFAL)</span></div>
+      </div>
+    </div>
+  `;
+
+  // Grid de Módulos (Páginas cadastradas no JSON)
+  const cardsGrid = paginas.map(p => {
+    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    return `
+      <a href="${link}" class="module-card">
+        <div>
+          <div class="icon-box">${p.icone || '📂'}</div>
+          <h3>${esc(p.titulo)}</h3>
+          <p>${esc(p.descricao || 'Acesse o conteúdo detalhado desta seção do curso.')}</p>
+        </div>
+        <div class="card-footer">Acessar seção →</div>
+      </a>
+    `;
   }).join('');
-  document.getElementById('ctaHeader').href = S.linkCadastro || '#';
 
-  // Seção Hero da Home
-  const heroHtml = `
-    <section class="hero">
-      <div class="container">
-        <div class="hero-inner">
-          <div>
-            <div class="hero-tag"><span class="dot"></span>Projeto de Extensão Universitária · UFAL</div>
-            <h1>${esc(S.curso || 'Curso Básico de Libras')}<br><span>Nível I</span></h1>
-            <p>${esc(H.descricao || S.subtitulo)}</p>
-            <div class="hero-btns">
-              <a href="${esc(S.linkCadastro || '#')}" class="btn btn-primary" target="_blank">📝 Fazer Inscrição no SIGAA</a>
-              <a href="calendario.html" class="btn btn-outline">📅 Ver Calendário de Aulas</a>
-            </div>
-            <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:.85rem;color:#93C5FD;margin-top:20px;">
-              <div><b>📍 Período:</b> ${esc(S.periodo)}</div>
-              <div><b>🕒 Horário:</b> ${esc(S.aulas)}, ${esc(S.horario)}</div>
-            </div>
-          </div>
-          <div class="hero-card">
-            <h3>📋 Informações do Curso</h3>
-            <div class="hero-card-list">
-              <div class="hero-card-item"><div class="icon">⏱️</div><div class="txt"><div class="label">Carga Horária</div><div class="valor">${esc(S.carga)} horas</div></div></div>
-              <div class="hero-card-item"><div class="icon">📍</div><div class="txt"><div class="label">Local das Aulas</div><div class="valor">Assembleia de Deus — BB3</div></div></div>
-              <div class="hero-card-item"><div class="icon">🎓</div><div class="txt"><div class="label">Certificação</div><div class="valor">PROEXC / UFAL</div></div></div>
-              <div class="hero-card-item"><div class="icon">💚</div><div class="txt"><div class="label">Investimento</div><div class="valor">100% Gratuito</div></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  document.getElementById('app').innerHTML = dashboardHero + `
+    <div style="margin-top:36px;">
+      <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
+      <div class="modules-grid">${cardsGrid}</div>
+    </div>
   `;
-
-  // Seção de Destaques
-  const highlightsHtml = `
-    <section class="section section-alt">
-      <div class="container">
-        <div class="section-header">
-          <div style="color:var(--accent);font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Por que participar</div>
-          <h2>Aprenda Libras com Metodologia Visual</h2>
-          <p class="sub">Um projeto de extensão que une teoria e prática para promover a inclusão na comunidade.</p>
-        </div>
-        <div class="highlights">
-          <div class="highlight"><div class="icon">📚</div><h3>Metodologia Visual</h3><p>Aulas dinâmicas com jogos, recursos visuais e expressões corporais naturais.</p></div>
-          <div class="highlight"><div class="icon">👥</div><h3>Comunidade & Inclusão</h3><p>Foco na comunicação cotidiana com surdos no bairro Benedito Bentes 3.</p></div>
-          <div class="highlight"><div class="icon">🎓</div><h3>Certificado Oficial</h3><p>Certificação de 40 horas emitida pela Pró-Reitoria de Extensão da UFAL.</p></div>
-          <div class="highlight"><div class="icon">✨</div><h3>Totalmente Gratuito</h3><p>Ação universitária sem fins lucrativos aberta à comunidade em geral.</p></div>
-        </div>
-      </div>
-    </section>
-  `;
-
-  // Rodapé Institucional
-  const footerHtml = `
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div>
-            <div class="footer-logos">
-              <img src="logo-ufal.png" alt="UFAL">
-              <img src="logo-letras-libras.png" alt="Letras Libras">
-            </div>
-            <div class="footer-brand">
-              <div class="uni">UFAL · PROEXC · FALE</div>
-              <div class="proj">Libras nas Comunidades</div>
-            </div>
-            <p class="footer-desc" style="margin-top:14px;">Projeto de extensão universitária da Universidade Federal de Alagoas, dedicado a difundir a Língua Brasileira de Sinais em Maceió.</p>
-          </div>
-          <div class="footer-col">
-            <h4>📌 Projeto</h4>
-            <p><b>Benedito Bentes 3</b></p>
-            <p>Código CR096-2026</p>
-            <p>Ação de Extensão</p>
-          </div>
-          <div class="footer-col">
-            <h4>👥 Equipe</h4>
-            <p><b>Coordenação</b></p>
-            <p>Profa. Dra. Edineide dos Santos Silva</p>
-            <p style="margin-top:10px;"><b>Instrutor</b></p>
-            <p>Adeilton Wachill dos Santos Olimpio</p>
-          </div>
-          <div class="footer-col">
-            <h4>🔗 Links</h4>
-            <a href="index.html">→ Início</a>
-            <a href="calendario.html">→ Calendário</a>
-            <a href="${esc(S.linkCadastro || '#')}" target="_blank">→ SIGAA/UFAL</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <div>&copy; 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
-          <div class="links">
-            <a href="pagina.html?slug=sobre">Sobre</a>
-            <a href="pagina.html?slug=equipe">Equipe</a>
-            <a href="pagina.html?slug=faq">FAQ</a>
-          </div>
-        </div>
-      </div>
-    </footer>
-  `;
-
-  document.getElementById('app').innerHTML = heroHtml + highlightsHtml + footerHtml;
 })();
 </script>
 </body>
