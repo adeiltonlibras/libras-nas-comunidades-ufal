@@ -3,22 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Libras nas Comunidades: Benedito Bentes 3 — Projeto de Extensão da UFAL">
-<title>Libras nas Comunidades — Benedito Bentes 3</title>
+<meta name="description" content="Libras nas Comunidades: Benedito Bentes 3 — Projeto de Extensão da UFAL. Curso Básico de Libras – Nível I">
+<title>Libras nas Comunidades — Curso Básico de Libras Nível I</title>
 <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
 
-<nav class="nav-top">
-  <div class="nav-top-inner" id="menu-top"></div>
-</nav>
-
-<div class="container" id="app">
-  <div class="loading">
-    <div class="spinner"></div>
-    <div>Carregando...</div>
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-brand">
+      <div class="header-logos">
+        <img src="logo-ufal.png" alt="UFAL">
+        <div class="divisor"></div>
+        <img src="logo-letras-libras.png" alt="Letras Libras">
+      </div>
+      <div class="header-txt">
+        <div class="uni">UFAL · PROEXC · FALE</div>
+        <div class="proj">Libras nas Comunidades</div>
+      </div>
+    </a>
+    <button class="menu-toggle" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+    <nav class="header-menu" id="menu"></nav>
+    <a href="#" class="header-cta" id="ctaHeader" target="_blank">Inscrever-se →</a>
   </div>
-</div>
+</header>
+
+<div id="app"></div>
 
 <script>
 (async function(){
@@ -27,12 +37,7 @@
     const r = await fetch('dados.json?t=' + Date.now());
     D = await r.json();
   }catch(e){
-    document.getElementById('app').innerHTML = `
-      <div class="secao" style="text-align:center;padding:60px 24px;">
-        <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
-        <h3 style="color:#0B2545;">Erro ao carregar</h3>
-        <p style="color:#64748B;font-size:.85rem;margin-top:8px;">Verifique se o arquivo <b>dados.json</b> existe.</p>
-      </div>`;
+    document.getElementById('app').innerHTML = '<div class="container" style="padding:60px 20px;text-align:center;"><h2>Erro ao carregar</h2><p>Verifique se o arquivo dados.json existe.</p></div>';
     return;
   }
 
@@ -40,95 +45,171 @@
   const H = D.home || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  function renderMenu(atual){
-    const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
-    const home = `<a href="index.html" class="${atual==='home'?'active':''}">🏠 Início</a>`;
-    const links = paginas.map(p => {
-      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-      return `<a href="${link}" class="${atual===p.slug?'active':''}">${p.icone||''} ${p.titulo}</a>`;
-    }).join('');
-    document.getElementById('menu-top').innerHTML = home + links;
-  }
-  renderMenu('home');
+  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+  document.getElementById('menu').innerHTML = paginas.map(p => {
+    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    return `<a href="${link}">${p.icone||''} ${p.titulo}</a>`;
+  }).join('');
+  document.getElementById('ctaHeader').href = S.linkCadastro || '#';
 
   const heroHtml = `
     <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-topo">
-          <div class="hero-logo">🤟</div>
-          <div class="hero-topo-txt">
-            <div class="uni">Universidade Federal de Alagoas</div>
-            <div class="pro-reit">PROEXC · Faculdade de Letras — FALE</div>
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-tag"><span class="dot"></span>Projeto de Extensão · UFAL</div>
+            <h1>${esc(S.curso || 'Curso Básico de Libras')}<br><span>Nível I</span></h1>
+            <p>${esc(H.descricao || 'Aprenda Língua Brasileira de Sinais em um curso gratuito, presencial e com certificado. Uma realização da UFAL para a comunidade do Benedito Bentes 3.')}</p>
+            <div class="hero-btns">
+              <a href="${esc(S.linkCadastro || '#')}" class="btn btn-primary" target="_blank">📝 Fazer inscrição</a>
+              <a href="calendario.html" class="btn btn-outline">📅 Ver calendário</a>
+            </div>
+            <div class="hero-info">
+              <div class="hero-info-item"><span class="dot"></span><b>Período:</b> ${esc(S.periodo)}</div>
+              <div class="hero-info-item"><span class="dot"></span><b>Aulas:</b> ${esc(S.aulas)}</div>
+              <div class="hero-info-item"><span class="dot"></span><b>Horário:</b> ${esc(S.horario)}</div>
+            </div>
           </div>
-        </div>
-        <div class="hero-bar"></div>
-        <div class="hero-eyebrow">Projeto de Extensão</div>
-        <h1 class="hero-titulo">${esc(H.titulo || S.projeto)}</h1>
-        <p class="hero-subtitulo">${esc(H.subtitulo || S.curso)}</p>
-        <div class="hero-meta">
-          <div class="hero-meta-item"><span class="dot"></span><b>Período:</b> ${esc(S.periodo)}</div>
-          <div class="hero-meta-item"><span class="dot"></span><b>Aulas:</b> ${esc(S.aulas)}</div>
-          <div class="hero-meta-item"><span class="dot"></span><b>Horário:</b> ${esc(S.horario)}</div>
-          <div class="hero-meta-item"><span class="dot"></span><b>Carga:</b> ${esc(S.carga)} horas</div>
+          <div class="hero-card">
+            <h3>📋 Sobre o curso</h3>
+            <div class="hero-card-list">
+              <div class="hero-card-item"><div class="icon">⏱️</div><div class="txt"><div class="label">Carga-horária</div><div class="valor">${esc(S.carga)} horas</div></div></div>
+              <div class="hero-card-item"><div class="icon">📍</div><div class="txt"><div class="label">Local</div><div class="valor">Assembleia de Deus — BB3</div></div></div>
+              <div class="hero-card-item"><div class="icon">🎓</div><div class="txt"><div class="label">Certificado</div><div class="valor">UFAL / PROEXC</div></div></div>
+              <div class="hero-card-item"><div class="icon">💰</div><div class="txt"><div class="label">Investimento</div><div class="valor">100% gratuito</div></div></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   `;
 
-  const descricaoHtml = H.descricao ? `
-    <div class="secao" style="text-align:center;padding:22px 26px;">
-      <p style="font-size:.92rem;color:#334155;line-height:1.6;max-width:820px;margin:0 auto;">${esc(H.descricao)}</p>
-    </div>
-  ` : '';
-
-  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
-  const cardsHtml = paginas.length ? `
-    <div class="home-grid">
-      ${paginas.map(p => {
-        const link = p.tipo === 'calendario' ? 'calendario.html' : 'pagina.html?slug=' + encodeURIComponent(p.slug);
-        return `
-          <a class="home-card" href="${link}">
-            <div class="icone">${esc(p.icone || '📄')}</div>
-            <h3>${esc(p.titulo)}</h3>
-            <p>${esc(p.descricao || '')}</p>
-            <span class="seta">Acessar →</span>
-          </a>`;
-      }).join('')}
-    </div>
-  ` : '<p style="text-align:center;color:#64748B;padding:30px;">Nenhuma página disponível.</p>';
-
-  const rodapeHtml = `
-    <footer class="rodape">
-      <div class="rodape-topo">
-        <div class="uni">UNIVERSIDADE FEDERAL DE ALAGOAS</div>
-        <div class="pro-reit">Pró-Reitoria de Extensão e Cultura — PROEXC · Faculdade de Letras — FALE</div>
-      </div>
-      <div class="rodape-corpo">
-        <div class="rodape-col">
-          <h4>📌 Projeto</h4>
-          <p><b>Libras nas Comunidades</b></p>
-          <p>Benedito Bentes 3</p>
-          <p>Código CR096-2026</p>
+  const highlightsHtml = `
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Por que fazer este curso</div>
+          <h2>Aprenda Libras com quem entende</h2>
+          <p class="sub">Um projeto de extensão que une teoria e prática, com metodologia visual e foco na inclusão social.</p>
         </div>
-        <div class="rodape-col">
-          <h4>👥 Equipe</h4>
-          <p><b>Coordenação</b></p>
-          <p>Profa. Dra. Edineide dos Santos Silva</p>
-          <p style="margin-top:8px;"><b>Instrutor</b></p>
-          <p>Adeilton Wachill dos Santos Olimpio</p>
-        </div>
-        <div class="rodape-col">
-          <h4>🔗 Links úteis</h4>
-          <a href="${esc(S.linkCadastro || '#')}" target="_blank" rel="noopener">→ Cadastro no SIGAA/UFAL</a>
-          <a href="${esc(S.linkVideo || '#')}" target="_blank" rel="noopener">→ Vídeo passo a passo</a>
-          <a href="https://ufal.br" target="_blank" rel="noopener">→ Portal da UFAL</a>
+        <div class="highlights">
+          <div class="highlight"><div class="icon">📚</div><h3>Metodologia Visual</h3><p>Aulas dinâmicas com jogos, teatros, mímicas e imagens que tornam o aprendizado natural.</p></div>
+          <div class="highlight"><div class="icon">👥</div><h3>Turmas Reduzidas</h3><p>Vagas limitadas para garantir atenção individual e melhor aproveitamento das aulas.</p></div>
+          <div class="highlight"><div class="icon">🎓</div><h3>Certificado UFAL</h3><p>Certificado de 40 horas emitido pela Pró-Reitoria de Extensão da UFAL.</p></div>
+          <div class="highlight"><div class="icon">💚</div><h3>Totalmente Gratuito</h3><p>Projeto de extensão sem fins lucrativos, aberto à comunidade do Benedito Bentes 3.</p></div>
         </div>
       </div>
-      <div class="rodape-base">© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
+    </section>
+  `;
+
+  const statsHtml = `
+    <section class="section">
+      <div class="container">
+        <div class="stats">
+          <div class="stat"><div class="num">${esc(S.carga)}h</div><div class="label">Carga-horária</div></div>
+          <div class="stat"><div class="num">14</div><div class="label">Encontros</div></div>
+          <div class="stat"><div class="num">40</div><div class="label">Vagas totais</div></div>
+          <div class="stat"><div class="num">100%</div><div class="label">Gratuito</div></div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  const sobreHtml = `
+    <section class="section section-alt">
+      <div class="container">
+        <div class="about">
+          <div class="about-text">
+            <div class="section-tag" style="margin-bottom:16px;">Sobre o projeto</div>
+            <h3>Levar a Libras para dentro das comunidades</h3>
+            <p>O projeto <strong>Libras nas Comunidades: Benedito Bentes 3</strong> é uma ação de extensão da Universidade Federal de Alagoas (UFAL), desenvolvida pela Faculdade de Letras (FALE) em parceria com a Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+            <p>Nosso objetivo é difundir a Língua Brasileira de Sinais nas comunidades periféricas de Maceió, promovendo inclusão social e capacitando ouvintes para a comunicação com a comunidade surda.</p>
+            <ul>
+              <li>Estimular a prática docente dos licenciandos em Letras Libras</li>
+              <li>Capacitar a comunidade acerca da Educação dos Surdos</li>
+              <li>Promover o ensino, a pesquisa e a extensão</li>
+              <li>Reduzir o preconceito linguístico</li>
+            </ul>
+            <a href="pagina.html?slug=sobre" class="btn btn-navy">Saber mais →</a>
+          </div>
+          <div class="about-visual">
+            <h4>Informações rápidas</h4>
+            <div class="item"><div class="ic">📍</div><div class="txt"><b>Local das aulas</b><span>Assembleia de Deus em Benedito Bentes 3 — Maceió/AL</span></div></div>
+            <div class="item"><div class="ic">📅</div><div class="txt"><b>Período</b><span>${esc(S.periodo)}</span></div></div>
+            <div class="item"><div class="ic">🕒</div><div class="txt"><b>Dia e horário</b><span>${esc(S.aulas)}, das ${esc(S.horario)}</span></div></div>
+            <div class="item"><div class="ic">🎯</div><div class="txt"><b>Público-alvo</b><span>Jovens e adultos ouvintes, a partir de 15 anos</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  const ctaHtml = `
+    <section class="section">
+      <div class="container">
+        <div class="cta">
+          <h2>Garanta sua vaga agora</h2>
+          <p>As inscrições são gratuitas e realizadas pelo SIGAA/UFAL – Extensão. Não perca essa oportunidade de aprender Libras com quem entende do assunto.</p>
+          <a href="${esc(S.linkCadastro || '#')}" class="btn" target="_blank">📝 Fazer inscrição no SIGAA →</a>
+        </div>
+      </div>
+    </section>
+  `;
+
+  const footerHtml = `
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logos">
+              <img src="logo-ufal.png" alt="UFAL">
+              <img src="logo-letras-libras.png" alt="Letras Libras">
+            </div>
+            <div class="footer-brand">
+              <div class="txt">
+                <div class="uni">UFAL · PROEXC · FALE</div>
+                <div class="proj">Libras nas Comunidades</div>
+              </div>
+            </div>
+            <p class="footer-desc" style="margin-top:14px;">Projeto de extensão universitária da Universidade Federal de Alagoas, dedicado a difundir a Língua Brasileira de Sinais em comunidades periféricas de Maceió.</p>
+          </div>
+          <div class="footer-col">
+            <h4>📌 Projeto</h4>
+            <p><b>Benedito Bentes 3</b></p>
+            <p>Código CR096-2026</p>
+            <p>Ação de Extensão Universitária</p>
+            <p>Modalidade: Presencial</p>
+          </div>
+          <div class="footer-col">
+            <h4>👥 Equipe</h4>
+            <p><b>Coordenação</b></p>
+            <p>Profa. Dra. Edineide dos Santos Silva</p>
+            <p style="margin-top:10px;"><b>Instrutor</b></p>
+            <p>Adeilton Wachill dos Santos Olimpio</p>
+          </div>
+          <div class="footer-col">
+            <h4>🔗 Links úteis</h4>
+            <a href="index.html">→ Página inicial</a>
+            <a href="calendario.html">→ Calendário</a>
+            <a href="${esc(S.linkCadastro || '#')}" target="_blank">→ Cadastro no SIGAA/UFAL</a>
+            <a href="${esc(S.linkVideo || '#')}" target="_blank">→ Vídeo passo a passo</a>
+            <a href="https://ufal.br" target="_blank">→ Portal da UFAL</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div>© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
+          <div class="links">
+            <a href="pagina.html?slug=sobre">Sobre</a>
+            <a href="pagina.html?slug=equipe">Equipe</a>
+            <a href="pagina.html?slug=faq">FAQ</a>
+            <a href="pagina.html?slug=inscricoes">Inscrições</a>
+          </div>
+        </div>
+      </div>
     </footer>
   `;
 
-  document.getElementById('app').innerHTML = heroHtml + descricaoHtml + cardsHtml + rodapeHtml;
+  document.getElementById('app').innerHTML = heroHtml + highlightsHtml + statsHtml + sobreHtml + ctaHtml + footerHtml;
 })();
 </script>
 </body>
