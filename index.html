@@ -40,7 +40,6 @@
   const H = D.home || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  /* Menu */
   function renderMenu(atual){
     const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
     const home = `<a href="index.html" class="${atual==='home'?'active':''}">🏠 Início</a>`;
@@ -52,7 +51,6 @@
   }
   renderMenu('home');
 
-  /* Hero */
   const heroHtml = `
     <section class="hero">
       <div class="hero-inner">
@@ -77,14 +75,12 @@
     </section>
   `;
 
-  /* Descrição */
   const descricaoHtml = H.descricao ? `
     <div class="secao" style="text-align:center;padding:22px 26px;">
       <p style="font-size:.92rem;color:#334155;line-height:1.6;max-width:820px;margin:0 auto;">${esc(H.descricao)}</p>
     </div>
   ` : '';
 
-  /* Cards */
   const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
   const cardsHtml = paginas.length ? `
     <div class="home-grid">
@@ -101,7 +97,6 @@
     </div>
   ` : '<p style="text-align:center;color:#64748B;padding:30px;">Nenhuma página disponível.</p>';
 
-  /* Rodapé */
   const rodapeHtml = `
     <footer class="rodape">
       <div class="rodape-topo">
