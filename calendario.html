@@ -3,259 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calendário — Libras nas Comunidades</title>
+<title>Calendário e Aulas — Libras nas Comunidades</title>
 <link rel="stylesheet" href="estilo.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="header-brand">
-      <div class="header-logos">
-        <img src="logo-ufal.png" alt="UFAL">
-        <div class="divisor"></div>
-        <img src="logo-letras-libras.png" alt="Letras Libras">
-      </div>
-      <div class="header-txt">
-        <div class="uni">UFAL · PROEXC · FALE</div>
-        <div class="proj">Libras nas Comunidades</div>
-      </div>
-    </a>
-    <button class="menu-toggle" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
-    <nav class="header-menu" id="menu"></nav>
-    <a href="#" class="header-cta" id="ctaHeader" target="_blank">Inscrever-se →</a>
-  </div>
+<header class="app-header">
+  <a href="index.html" class="app-brand">
+    <div style="display:flex; gap:8px; align-items:center;">
+      <img src="logo-ufal.png" alt="UFAL" onerror="this.style.display='none'">
+      <img src="logo-letras-libras.png" alt="Letras Libras" onerror="this.style.display='none'">
+    </div>
+    <div>
+      <div class="app-title">Libras nas Comunidades</div>
+      <div class="app-subtitle">UFAL · FALE · PROEXC</div>
+    </div>
+  </a>
+  <nav class="app-nav" id="menu"></nav>
 </header>
 
-<div id="app"></div>
+<div class="wrapper" id="app">
+  <div style="padding: 60px 20px; text-align: center;">
+    <h3 style="color: #2563EB;">Carregando cronograma...</h3>
+  </div>
+</div>
+
+<footer class="app-footer">
+  <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
+  <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 6px;">Coordenação: Profa. Dra. Edineide dos Santos Silva | Instrutor: Adeilton Wachill dos Santos Olimpio</p>
+</footer>
 
 <script>
 (async function(){
   let D;
   try{
     const r = await fetch('dados.json?t=' + Date.now());
-    if(!r.ok) throw new Error('Erro ao carregar dados');
+    if(!r.ok) throw new Error('HTTP ' + r.status);
     D = await r.json();
   }catch(e){
-    document.getElementById('app').innerHTML = '<div class="container" style="padding:60px 20px;text-align:center;"><h2>Erro ao carregar os dados do sistema. Verifique o arquivo dados.json.</h2></div>';
+    console.error("Erro ao carregar dados.json:", e);
+    document.getElementById('app').innerHTML = '<div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:40px;text-align:center;"><h3 style="color:#DC2626;">Erro ao carregar cronograma</h3><p style="margin-top:10px;">Verifique o ficheiro dados.json</p></div>';
     return;
   }
 
   const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  
-  // Correção segura para data evitando problemas de fuso horário
-  const dataBR = iso => { 
-    if(!iso) return ''; 
-    const partes = iso.split('-'); 
-    if(partes.length !== 3) return iso;
-    return `${partes[2]}/${partes[1]}/${partes[0]}`; 
-  };
-  
-  const diaSemanaBR = iso => { 
-    if(!iso) return '';
-    const [a, m, d] = iso.split('-').map(Number);
-    const dt = new Date(a, m - 1, d); // Construtor local seguro sem UTC shift
-    return ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'][dt.getDay()]; 
-  };
 
-  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
-  document.getElementById('menu').innerHTML = paginas.map(p => {
-    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-    const active = p.tipo === 'calendario' ? 'active' : '';
-    return `<a href="${link}" class="${active}">${p.icone||''} ${esc(p.titulo)}</a>`;
-  }).join('');
-  document.getElementById('ctaHeader').href = S.linkCadastro || '#';
-
-  const TIPOS_INFO = {
-    inicio:{label:'Início do Curso',sub:'Aula inaugural',cor:'#16A34A'},
-    aula:{label:'Aula Presencial',sub:'Sábado, 15h às 17h',cor:'#2563EB'},
-    meet:{label:'Google Meet',sub:'Encontro online',cor:'#7C3AED'},
-    ativ:{label:'Atividade Complementar',sub:'Compõe as 10h',cor:'#0D9488'},
-    avaliacao:{label:'Avaliação',sub:'Prova, nota 0–10',cor:'#F97316'},
-    recesso:{label:'Recesso',sub:'Sem aula',cor:'#FACC15'},
-    feriado:{label:'Feriado',sub:'Sem aula',cor:'#475569'},
-    cancelado:{label:'Cancelado',sub:'Aula cancelada',cor:'#DC2626'},
-    fim:{label:'Encerramento',sub:'Aula final',cor:'#38BDF8'}
-  };
-
-  const pageHeroHtml = `
-    <section class="page-hero">
-      <div class="page-hero-inner">
-        <div class="breadcrumb"><a href="index.html">Início</a> <span>/</span> <span>Calendário</span></div>
-        <h1>📅 Calendário do Curso</h1>
-        <p>Todas as aulas, recessos e eventos programados para o período de ${esc(S.periodo)}.</p>
-      </div>
-    </section>
-  `;
-
-  const infoCards = `
-    <div class="highlights" style="margin-bottom:30px;">
-      <div class="highlight"><div class="valor">${esc(S.periodo)}</div><h3>Período do curso</h3></div>
-      <div class="highlight"><div class="valor">${esc(S.aulas)}</div><h3>Dia das aulas</h3><p>${esc(S.horario)}</p></div>
-      <div class="highlight"><div class="valor">${esc(S.carga)} horas</div><h3>Carga-horária total</h3></div>
-      <div class="highlight"><div class="valor">14 encontros</div><h3>Aulas presenciais</h3></div>
-    </div>
-  `;
-
-  const avisoHtml = `
-    <div class="aviso">
-      <div class="icon">⚠️</div>
-      <div>
-        <strong>IMPORTANTE — Certificado</strong>
-        <p>A participação no curso <b>exige cadastro prévio no SIGAA/UFAL – Extensão</b>. Sem esse cadastro, o certificado de ${esc(S.carga)} horas não poderá ser emitido.</p>
-      </div>
-    </div>
-  `;
-
-  const eventos = D.eventos || [];
-  const mapa = {};
-  eventos.forEach(ev => { if(!mapa[ev.data]) mapa[ev.data]=[]; mapa[ev.data].push(ev); });
-
-  const datas = eventos.map(e=>e.data).sort();
-  const meses = [];
-  if(datas.length){
-    // Cria datas locais seguras para os meses
-    const [anoIni, mesIni] = datas[0].split('-').map(Number);
-    const [anoFim, mesFim] = datas[datas.length-1].split('-').map(Number);
-    
-    let cur = new Date(anoIni, mesIni - 1, 1);
-    const fim = new Date(anoFim, mesFim - 1, 1);
-    
-    while(cur <= fim){ 
-      meses.push({ano:cur.getFullYear(), mes:cur.getMonth()}); 
-      cur.setMonth(cur.getMonth() + 1); 
-    }
+  // Renderiza menu superior mantendo o padrão das outras páginas
+  if(Array.isArray(D.paginas)){
+    const paginas = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    document.getElementById('menu').innerHTML = paginas.map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      const active = p.tipo === 'calendario' ? 'active' : '';
+      const isCta = p.slug === 'inscricoes';
+      return `<li><a href="${link}" class="${active} ${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+    }).join('') + `<li><a href="${esc(S.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
   }
-  const nomesMes = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
 
-  const mesesHtml = meses.map(({ano,mes}) => {
-    const primeiro = new Date(ano, mes, 1);
-    const ultimo = new Date(ano, mes + 1, 0);
-    const diaInicio = primeiro.getDay();
-    const total = ultimo.getDate();
-    let cells = '';
-    for(let i=0; i<diaInicio; i++) cells += `<div class="dia vazio"></div>`;
-    for(let d=1; d<=total; d++){
-      const iso = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const evs = mapa[iso]||[];
-      const dt = new Date(ano, mes, d);
-      const diaSem = dt.getDay();
-      let classe = diaSem === 0 ? 'dom' : '';
-      let tag = '';
-      if(evs.length){ classe = evs[0].tipo; tag = evs[0].rotulo || ''; }
-      cells += `<div class="dia ${classe}"><span class="num">${d}</span>${tag?`<span class="tag">${esc(tag)}</span>`:''}</div>`;
-    }
-    return `<article class="mes"><div class="mes-titulo">${nomesMes[mes]} ${ano}</div><div class="mes-dias-semana"><div class="dom">DOM</div><div>SEG</div><div>TER</div><div>QUA</div><div>QUI</div><div>SEX</div><div>SÁB</div></div><div class="mes-grid">${cells}</div></article>`;
-  }).join('');
+  // Processa e ordena os eventos por data
+  const eventos = Array.isArray(D.eventos) ? [...D.eventos].sort((a,b) => a.data.localeCompare(b.data)) : [];
+  const hojeStr = new Date().toISOString().slice(0,10);
 
-  const tiposUsados = new Set(eventos.map(e=>e.tipo));
-  const legendaItens = Object.keys(TIPOS_INFO).filter(t=>tiposUsados.has(t)).map(t => `
-    <div class="legenda-item ${t}">
-      <div class="sq" style="background:${TIPOS_INFO[t].cor}"></div>
-      <div><div class="txt">${TIPOS_INFO[t].label}</div><div class="sub">${TIPOS_INFO[t].sub}</div></div>
-    </div>`).join('');
+  let listaEventosHtml = '';
+  if(eventos.length === 0){
+    listaEventosHtml = '<p style="text-align:center;color:#64748B;padding:20px;">Nenhum evento ou aula cadastrado no momento.</p>';
+  } else {
+    let proximaIdentificada = false;
+    listaEventosHtml = eventos.map(ev => {
+      const [ano, mes, dia] = ev.data.split('-');
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+      
+      // Identifica o próximo encontro futuro
+      const isProximo = !proximaIdentificada && ev.data >= hojeStr;
+      if(isProximo) proximaIdentificada = true;
 
-  const ordenados = eventos.slice().sort((a,b)=>a.data.localeCompare(b.data));
-  let n=0;
-  const cronogramaHtml = ordenados.map(ev => { n++;
-    return `<div class="aula-item ${ev.tipo||'aula'}">
-      <div class="aula-num">${String(n).padStart(2,'0')}</div>
-      <div class="aula-data">${dataBR(ev.data)}<small>${diaSemanaBR(ev.data)} · ${esc(ev.horario||'')}</small></div>
-      <div class="aula-tema">${esc(ev.descricao||ev.rotulo||'')}</div>
-    </div>`;
-  }).join('');
+      const badgeStyle = isProximo 
+        ? 'background:#2563EB;color:#FFF;' 
+        : 'background:#F1F5F9;color:#475569;';
 
-  const itens = (D.conteudo||'').split('\n').filter(s=>s.trim());
-  const conteudoProgHtml = itens.map(i=>`<li style="padding:6px 0 6px 22px;position:relative;font-size:.85rem;color:#334155;border-bottom:1px dashed #E2E8F0;"><span style="position:absolute;left:0;top:13px;width:10px;height:10px;border-radius:3px;background:linear-gradient(135deg,#F97316,#FBBF24);"></span>${esc(i)}</li>`).join('');
+      const cardBorder = isProximo 
+        ? 'border:2px solid #2563EB;box-shadow:0 10px 25px rgba(37,99,235,0.15);' 
+        : 'border:1px solid #E2E8F0;';
 
-  const passos = ['Acesse o link do SIGAA/UFAL.','Clique em "Cadastre-se".','Preencha seus dados pessoais.','Crie seu usuário e senha.','Confirme o cadastro.','Acesse o SIGAA com seu login e senha.','Procure pelo curso "Libras nas Comunidades" e realize a inscrição.'];
-
-  const contentHtml = `
-    <div class="page-content">
-      <div class="top-actions">
-        <button class="btn-pdf" onclick="window.print()">📄 SALVAR PDF</button>
-      </div>
-
-      ${infoCards}
-      ${avisoHtml}
-
-      <h2 style="font-size:1.2rem;font-weight:800;color:#0B2545;margin:36px 0 18px;padding-bottom:10px;border-bottom:2px solid #F97316;">📅 Calendário de Aulas</h2>
-      <div class="calendario">${mesesHtml}</div>
-
-      <h2 style="font-size:1.2rem;font-weight:800;color:#0B2545;margin:36px 0 18px;padding-bottom:10px;border-bottom:2px solid #F97316;">🎨 Legenda</h2>
-      <div class="legenda-grid">${legendaItens}</div>
-
-      <h2 style="font-size:1.2rem;font-weight:800;color:#0B2545;margin:36px 0 18px;padding-bottom:10px;border-bottom:2px solid #F97316;">📋 Cronograma Completo</h2>
-      <div class="cronograma">${cronogramaHtml}</div>
-
-      ${itens.length ? `<h2 style="font-size:1.2rem;font-weight:800;color:#0B2545;margin:36px 0 18px;padding-bottom:10px;border-bottom:2px solid #F97316;">📖 Conteúdo Programático</h2><ul style="list-style:none;">${conteudoProgHtml}</ul>` : ''}
-
-      <h2 style="font-size:1.2rem;font-weight:800;color:#0B2545;margin:36px 0 18px;padding-bottom:10px;border-bottom:2px solid #F97316;">🔗 ${esc(S.inscTitulo || 'Inscrição')}</h2>
-      <div class="sigaa-bloco">
-        <h4>${esc(S.inscTexto || 'Faça sua inscrição')}</h4>
-        <p>Para receber o certificado de ${esc(S.carga)} horas, é necessário se cadastrar no SIGAA/UFAL – Extensão:</p>
-        <ol class="passos">${passos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol>
-        <div class="sigaa-links">
-          ${S.linkCadastro?`<a href="${esc(S.linkCadastro)}" target="_blank" rel="noopener">🔗 Cadastro no SIGAA</a>`:''}
-          ${S.linkVideo?`<a class="youtube" href="${esc(S.linkVideo)}" target="_blank" rel="noopener">🎥 Vídeo passo a passo</a>`:''}
+      return `
+        <div style="background:#FFF; ${cardBorder} border-radius:16px; padding:24px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; transition:all 0.2s;">
+          <div style="display:flex; align-items:center; gap:20px;">
+            <div style="${badgeStyle} border-radius:12px; padding:14px 18px; text-align:center; min-width:90px;">
+              <div style="font-size:0.7rem;text-transform:uppercase;font-weight:700;opacity:0.9;">${esc(ev.rotulo || 'Aula')}</div>
+              <div style="font-size:1.15rem;font-weight:800;margin-top:2px;">${dataFormatada}</div>
+            </div>
+            <div>
+              <div style="font-size:1rem;font-weight:800;color:#0F172A;margin-bottom:4px;">${esc(ev.descricao)}</div>
+              <div style="font-size:0.82rem;color:#64748B;">🕒 Horário: <b>${esc(ev.horario || '15h às 17h')}</b> &nbsp;•&nbsp; ⏱️ Carga: <b>${esc(ev.carga || '2')}h</b> &nbsp;•&nbsp; 📍 Local: Assembleia de Deus (Benedito Bentes 3)</div>
+            </div>
+          </div>
+          ${isProximo ? '<span style="background:#EFF6FF;color:#2563EB;padding:6px 14px;border-radius:20px;font-size:0.75rem;font-weight:800;border:1px solid #BFDBFE;">📌 Próximo Encontro</span>' : ''}
         </div>
-        ${S.linkCadastro?`<div class="qr-bloco"><div id="qrcode"></div><div class="qr-txt"><strong>📱 QR Code do cadastro</strong>Aponte a câmera do celular para acessar o SIGAA/UFAL.</div></div>`:''}
+      `;
+    }).join('');
+  }
+
+  document.getElementById('app').innerHTML = `
+    <div style="background:#FFF; border:1px solid var(--border); border-radius:var(--radius); padding:40px; box-shadow:var(--shadow);">
+      <div style="margin-bottom:28px; border-bottom:2px solid #F1F5F9; padding-bottom:16px;">
+        <h2 style="font-size:1.35rem; font-weight:800; color:#0F172A; margin-bottom:6px;">📅 Cronograma de Aulas e Eventos</h2>
+        <p style="font-size:0.85rem; color:#64748B;">Acompanhe abaixo o calendário oficial das aulas presenciais do curso básico de Libras.</p>
       </div>
+      <div>${listaEventosHtml}</div>
     </div>
   `;
-
-  const footerHtml = `
-    <footer class="footer" style="margin-top:60px;">
-      <div class="footer-inner">
-        <div class="footer-grid">
-          <div>
-            <div class="footer-logos">
-              <img src="logo-ufal.png" alt="UFAL">
-              <img src="logo-letras-libras.png" alt="Letras Libras">
-            </div>
-            <div class="footer-brand">
-              <div class="txt">
-                <div class="uni">UFAL · PROEXC · FALE</div>
-                <div class="proj">Libras nas Comunidades</div>
-              </div>
-            </div>
-            <p class="footer-desc" style="margin-top:14px;">Projeto de extensão da UFAL para difundir Libras nas comunidades periféricas de Maceió.</p>
-          </div>
-          <div class="footer-col">
-            <h4>📌 Projeto</h4>
-            <p><b>Benedito Bentes 3</b></p>
-            <p>Código CR096-2026</p>
-            <p>Ação de Extensão</p>
-          </div>
-          <div class="footer-col">
-            <h4>👥 Equipe</h4>
-            <p><b>Coordenação</b></p>
-            <p>Profa. Dra. Edineide Silva</p>
-            <p style="margin-top:10px;"><b>Instrutor</b></p>
-            <p>Adeilton Wachill Olimpio</p>
-          </div>
-          <div class="footer-col">
-            <h4>🔗 Links</h4>
-            <a href="index.html">→ Início</a>
-            <a href="${esc(S.linkCadastro || '#')}" target="_blank">→ SIGAA/UFAL</a>
-            <a href="${esc(S.linkVideo || '#')}" target="_blank">→ Vídeo</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <div>© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
-        </div>
-      </div>
-    </footer>
-  `;
-
-  document.getElementById('app').innerHTML = pageHeroHtml + '<div class="container">' + contentHtml + '</div>' + footerHtml;
-
-  if(S.linkCadastro && typeof QRCode !== 'undefined'){
-    const el = document.getElementById('qrcode');
-    if(el) new QRCode(el,{text:S.linkCadastro,width:100,height:100,colorDark:'#0B2545',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
-  }
 })();
 </script>
 </body>
