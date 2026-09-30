@@ -3,759 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Libras nas Comunidades — UFAL</title>
-<style>
-  :root{--navy:#0B2545;--navy-2:#0F2E56;--navy-3:#1E3A8A;--blue:#2563EB;--green:#16A34A;--orange:#F97316;--red:#DC2626;--yellow:#FACC15;--purple:#7C3AED;--teal:#0D9488;--gray:#475569;--line:#E2E8F0;--white:#FFF;--bg:#F1F5F9;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:#0F172A;line-height:1.6;padding:0 0 60px;}
-
-  /* Topbar / Navegação Pública */
-  .topbar{background:linear-gradient(135deg,#0B2545,#1E3A8A);color:#fff;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;box-shadow:0 4px 20px rgba(11,37,69,.25);position:sticky;top:0;z-index:100;}
-  .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:.95rem;letter-spacing:.5px;cursor:pointer;}
-  .logo .ic{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#F97316,#FACC15);display:flex;align-items:center;justify-content:center;font-size:1.1rem;}
-  .logo .sub{font-size:.68rem;color:#B9CCE5;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
-  .nav-menu{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
-
-  .btn{border:none;border-radius:9px;padding:10px 18px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px;transition:transform .12s, box-shadow .12s;letter-spacing:.3px;text-decoration:none;}
-  .btn:hover{transform:translateY(-1px);}
-  .btn.orange{background:var(--orange);color:#fff;box-shadow:0 4px 12px rgba(249,115,22,.3);}
-  .btn.green{background:var(--green);color:#fff;box-shadow:0 4px 12px rgba(22,163,74,.3);}
-  .btn.blue{background:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3);}
-  .btn.gray{background:var(--gray);color:#fff;}
-  .btn.red{background:var(--red);color:#fff;}
-  .btn.small{padding:7px 13px;font-size:.72rem;}
-  .btn.outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4);}
-
-  .container{max-width:1300px;margin:0 auto;padding:26px 18px;}
-
-  /* Hero / Destaque na Home */
-  .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-3) 100%);color:#fff;border-radius:20px;padding:40px 32px;margin-bottom:26px;box-shadow:0 10px 30px rgba(11,37,69,.2);position:relative;overflow:hidden;}
-  .hero h1{font-size:2rem;font-weight:800;margin-bottom:10px;letter-spacing:-.5px;}
-  .hero p{font-size:1.05rem;color:#CBD5E1;max-width:700px;margin-bottom:24px;}
-  .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,.15);}
-  .hero-stat{font-size:.8rem;color:#93C5FD;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
-  .hero-stat span{display:block;font-size:1.2rem;color:#fff;font-weight:800;margin-top:3px;}
-
-  /* Cards de Páginas e Seções */
-  .grid-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:26px;}
-  .card-link{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 4px 16px rgba(11,37,69,.06);cursor:pointer;transition:all .2s;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:inherit;}
-  .card-link:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(11,37,69,.12);border-color:var(--orange);}
-  .card-link .top-card{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
-  .card-link .ic-card{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
-  .card-link h3{font-size:1.1rem;font-weight:800;color:var(--navy);}
-  .card-link p{font-size:.85rem;color:var(--gray);line-height:1.5;}
-
-  /* Tabelas e Paineis Admin */
-  .tabs{display:flex;gap:4px;background:#fff;padding:6px;border-radius:14px;box-shadow:0 4px 16px rgba(11,37,69,.07);margin-bottom:20px;overflow-x:auto;border:1px solid var(--line);}
-  .tab{border:none;background:transparent;color:var(--gray);padding:11px 20px;border-radius:10px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;letter-spacing:.3px;}
-  .tab:hover{background:#F8FAFC;color:var(--navy);}
-  .tab.active{background:linear-gradient(135deg,var(--navy),var(--navy-3));color:#fff;box-shadow:0 4px 12px rgba(11,37,69,.25);}
-
-  .painel-view{display:none;}
-  .painel-view.active{display:block;}
-
-  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;box-shadow:0 4px 16px rgba(11,37,69,.07);margin-bottom:18px;}
-  .card h3{font-size:.88rem;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--navy);padding-bottom:10px;border-bottom:2px solid var(--orange);margin-bottom:18px;display:flex;align-items:center;gap:9px;}
-  .card h3 .ic{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--navy),var(--navy-3));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.85rem;}
-  .help{font-size:.75rem;color:var(--gray);margin-bottom:14px;line-height:1.5;}
-
-  .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 18px;}
-  .field{display:flex;flex-direction:column;gap:5px;}
-  .field label{font-size:.66rem;font-weight:800;letter-spacing:.6px;color:var(--navy-3);text-transform:uppercase;}
-  .field input,.field select,.field textarea{font-family:inherit;font-size:.82rem;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;background:#FBFDFF;color:var(--navy);width:100%;}
-  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(249,115,22,.15);background:#fff;}
-  .field textarea{resize:vertical;min-height:80px;line-height:1.55;font-family:'Courier New',monospace;font-size:.78rem;}
-  .field.full{grid-column:1/-1;}
-
-  .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--line);background:#fff;}
-  .data-table{width:100%;border-collapse:collapse;font-size:.75rem;min-width:900px;}
-  .data-table th{background:var(--navy);color:#fff;text-align:left;padding:10px 11px;font-size:.62rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;border:1px solid var(--navy);white-space:nowrap;}
-  .data-table td{border:1px solid var(--line);padding:5px 7px;background:#FBFDFF;vertical-align:middle;}
-  .data-table input,.data-table select{font-family:inherit;font-size:.75rem;padding:7px 9px;border:1px solid #CBD5E1;border-radius:6px;background:#fff;width:100%;}
-  .row-del{background:transparent;border:none;color:var(--red);font-size:1rem;cursor:pointer;padding:4px 7px;border-radius:6px;font-weight:800;}
-  .row-del:hover{background:#FEE2E2;}
-  .add-row{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
-
-  .publicar-box{background:linear-gradient(135deg,#16A34A 0%,#0B2545 100%);color:#fff;border-radius:14px;padding:24px 28px;margin-bottom:20px;box-shadow:0 8px 26px rgba(11,37,69,.22);}
-  .publicar-box h3{font-size:1rem;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:10px;padding-bottom:0;border-bottom:none;color:#fff;}
-  .publicar-box p{font-size:.78rem;color:#D1FAE5;margin-bottom:16px;line-height:1.6;}
-  .publicar-box .btn{background:#fff;color:var(--green);font-weight:800;padding:14px 26px;font-size:.85rem;box-shadow:0 6px 20px rgba(0,0,0,.2);}
-  .publicar-box .info{margin-top:14px;background:rgba(255,255,255,.1);border-radius:9px;padding:14px 18px;font-size:.72rem;line-height:1.7;color:#D1FAE5;}
-
-  .paginas-lista{display:flex;flex-direction:column;gap:12px;margin-top:14px;}
-  .pagina-item{background:#F8FAFC;border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:60px 1fr auto;gap:16px;align-items:center;}
-  .pagina-item .icone{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:var(--navy);}
-  .pagina-item .info h4{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:3px;}
-  .pagina-item .info .slug{font-size:.7rem;color:var(--gray);font-family:'Courier New',monospace;margin-bottom:5px;}
-  .pagina-item .acoes{display:flex;gap:6px;flex-wrap:wrap;}
-
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:14px 24px;border-radius:12px;font-size:.82rem;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.3);opacity:0;transition:all .3s ease;z-index:9999;pointer-events:none;max-width:90vw;text-align:center;}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-  .overlay{display:none;position:fixed;inset:0;background:rgba(11,37,69,.6);z-index:500;align-items:center;justify-content:center;padding:20px;}
-  .overlay.show{display:flex;}
-  .modal{background:#fff;border-radius:16px;padding:26px;max-width:760px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4);}
-  .modal h3{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:18px;padding-bottom:14px;border-bottom:2px solid var(--orange);}
-  .modal-acoes{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);}
-</style>
+<meta name="description" content="Libras nas Comunidades: Benedito Bentes 3 — Projeto de Extensão da UFAL. Curso Básico de Libras – Nível I">
+<title>Libras nas Comunidades — Curso Básico de Libras Nível I</title>
+<link rel="stylesheet" href="estilo.css">
+<!-- Google Fonts Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- BARRA DE NAVEGAÇÃO SUPERIOR -->
-<div class="topbar">
-  <div class="logo" onclick="mudarVisao('site')">
-    <div class="ic">🤟</div>
-    <div>
-      <div id="nav-titulo-projeto">LIBRAS NAS COMUNIDADES</div>
-      <div class="sub">UFAL · Extensão Universitária</div>
-    </div>
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="header-brand">
+      <div class="header-logos">
+        <img src="logo-ufal.png" alt="UFAL">
+        <div class="divisor"></div>
+        <img src="logo-letras-libras.png" alt="Letras Libras">
+      </div>
+      <div class="header-txt">
+        <div class="uni">UFAL · PROEXC · FALE</div>
+        <div class="proj">Libras nas Comunidades</div>
+      </div>
+    </a>
+    <button class="menu-toggle" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+    <nav class="header-menu" id="menu"></nav>
+    <a href="#" class="header-cta" id="ctaHeader" target="_blank">Inscrever-se →</a>
   </div>
-  <div class="nav-menu" id="menu-publico">
-    <!-- Dinâmico via JS -->
-  </div>
-</div>
+</header>
 
-<div class="container">
-
-  <!-- VISÃO PÚBLICA DO SITE -->
-  <div id="view-site" class="painel-view active">
-    <div class="hero">
-      <h1 id="pub-home-titulo">Carregando...</h1>
-      <p id="pub-home-sub">Aguarde enquanto carregamos as informações do projeto.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;" id="pub-acoes-topo"></div>
-      <div class="hero-grid">
-        <div class="hero-stat">Período<span id="pub-periodo">—</span></div>
-        <div class="hero-stat">Aulas<span id="pub-aulas">—</span></div>
-        <div class="hero-stat">Horário<span id="pub-horario">—</span></div>
-        <div class="hero-stat">Carga Horária<span id="pub-carga">—</span></div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:24px;border-left:5px solid var(--orange);">
-      <h3 style="border-bottom:none;margin-bottom:8px;"><span class="ic">📌</span> Apresentação do Projeto</h3>
-      <p id="pub-home-desc" style="color:var(--gray);font-size:.95rem;line-height:1.7;"></p>
-    </div>
-
-    <h2 style="font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:16px;">📚 Páginas e Seções do Curso</h2>
-    <div class="grid-cards" id="pub-grid-paginas"></div>
-  </div>
-
-  <!-- VISÃO DE PÁGINA INTERNA DINÂMICA (HTML / CALENDÁRIO) -->
-  <div id="view-pagina-dinamica" class="painel-view">
-    <button class="btn gray small" onclick="mudarVisao('site')" style="margin-bottom:16px;">← Voltar para a Início</button>
-    <div class="card" id="conteudo-pagina-dinamica"></div>
-  </div>
-
-  <!-- PAINEL ADMINISTRATIVO -->
-  <div id="view-admin" class="painel-view">
-    <div class="tabs">
-      <button class="tab active" data-tab="inicio">🏠 Início Admin</button>
-      <button class="tab" data-tab="site">⚙️ Dados do Site</button>
-      <button class="tab" data-tab="eventos">📅 Calendário/Eventos</button>
-      <button class="tab" data-tab="paginas">📄 Gerenciar Páginas</button>
-      <button class="tab" data-tab="conteudo">📖 Conteúdo Programático</button>
-      <button class="tab" data-tab="sigaa">🔗 SIGAA / Inscrição</button>
-      <button class="tab" onclick="mudarVisao('site')" style="background:#E2E8F0;color:var(--navy);">👁️ Ver Site Público</button>
-    </div>
-
-    <div class="painel" id="p-inicio">
-      <div class="publicar-box">
-        <h3>📤 Publicar alterações no GitHub</h3>
-        <p>Ao clicar em <b>PUBLICAR AGORA</b>, o arquivo <b>dados.json</b> será baixado. Suba ele no seu repositório do GitHub para atualizar o site instantaneamente para os alunos!</p>
-        <button class="btn" onclick="publicar()">📤 PUBLICAR AGORA (BAIXAR JSON)</button>
-        <div class="info">
-          <b>Repositório Alvo:</b> adeiltonlibras/libras-nas-comunidades-ufal<br>
-          <b>Passo a passo:</b> Baixe o JSON → Vá no GitHub → Clique em `dados.json` → Ícone de lápis (Edit) → Cole e faça o commit.
-        </div>
-      </div>
-      <div class="card">
-        <h3><span class="ic">📊</span> Estatísticas Atuais</h3>
-        <div id="stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;"></div>
-      </div>
-    </div>
-
-    <div class="painel" id="p-site">
-      <div class="card">
-        <h3><span class="ic">🏛️</span> Identificação do Curso</h3>
-        <div class="form-grid">
-          <div class="field"><label>Nome do Projeto</label><input id="f_projeto"></div>
-          <div class="field"><label>Nome do Curso</label><input id="f_curso"></div>
-          <div class="field"><label>Subtítulo</label><input id="f_subtitulo"></div>
-          <div class="field full"><label>Local</label><input id="f_local"></div>
-          <div class="field"><label>Período</label><input id="f_periodo"></div>
-          <div class="field"><label>Dias das aulas</label><input id="f_aulas"></div>
-          <div class="field"><label>Horário</label><input id="f_horario"></div>
-          <div class="field"><label>Carga-horária (h)</label><input type="number" id="f_carga"></div>
-        </div>
-      </div>
-      <div class="card">
-        <h3><span class="ic">🏠</span> Página Inicial</h3>
-        <div class="form-grid">
-          <div class="field full"><label>Título da Home</label><input id="f_home_titulo"></div>
-          <div class="field full"><label>Subtítulo da Home</label><input id="f_home_subtitulo"></div>
-          <div class="field full"><label>Texto de apresentação</label><textarea id="f_home_descricao" style="font-family:inherit;"></textarea></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="painel" id="p-eventos">
-      <div class="card">
-        <h3><span class="ic">📅</span> Eventos e Cronograma</h3>
-        <p class="help">Adicione aulas, recessos ou eventos avaliativos.</p>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th style="width:130px">Data</th>
-                <th style="width:180px">Tipo</th>
-                <th style="width:120px">Rótulo</th>
-                <th>Descrição</th>
-                <th style="width:110px">Horário</th>
-                <th style="width:80px">Carga</th>
-                <th style="width:50px"></th>
-              </tr>
-            </thead>
-            <tbody id="corpo-eventos"></tbody>
-          </table>
-        </div>
-        <div class="add-row">
-          <button class="btn green small" onclick="addEvento()">➕ Adicionar evento</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="painel" id="p-paginas">
-      <div class="card">
-        <h3><span class="ic">📄</span> Páginas do Site</h3>
-        <p class="help">Crie páginas livres (tipo HTML) ou o calendário dinâmico.</p>
-        <div class="add-row" style="margin-top:0;margin-bottom:16px;">
-          <button class="btn orange small" onclick="abrirNovaPagina()">➕ Criar nova página</button>
-        </div>
-        <div class="paginas-lista" id="lista-paginas"></div>
-      </div>
-    </div>
-
-    <div class="painel" id="p-conteudo">
-      <div class="card">
-        <h3><span class="ic">📖</span> Conteúdo Programático</h3>
-        <p class="help">Um tópico por linha para exibição na ementa.</p>
-        <div class="field full"><textarea id="f_conteudo" style="min-height:220px;font-family:inherit;"></textarea></div>
-      </div>
-    </div>
-
-    <div class="painel" id="p-sigaa">
-      <div class="card">
-        <h3><span class="ic">🔗</span> Cadastro no SIGAA / Inscrição</h3>
-        <div class="form-grid">
-          <div class="field full"><label>Título da seção</label><input id="f_inscTitulo"></div>
-          <div class="field full"><label>Texto de apoio</label><textarea id="f_inscTexto" style="font-family:inherit;"></textarea></div>
-          <div class="field"><label>Link do cadastro (SIGAA)</label><input id="f_linkCadastro"></div>
-          <div class="field"><label>Link do vídeo explicativo</label><input id="f_linkVideo"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- MODAL DE CRIAÇÃO/EDIÇÃO DE PÁGINA -->
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <h3 id="modal-titulo">📄 Nova Página</h3>
-    <div class="form-grid">
-      <div class="field"><label>Slug (URL amigável)</label><input id="pg_slug" placeholder="ex: material"></div>
-      <div class="field"><label>Ícone (Emoji)</label><input id="pg_icone" placeholder="📚" maxlength="4"></div>
-      <div class="field full"><label>Título da Página</label><input id="pg_titulo" placeholder="Ex: Material de Apoio"></div>
-      <div class="field full"><label>Descrição curta (Card)</label><input id="pg_descricao" placeholder="Breve resumo exibido na home"></div>
-      <div class="field"><label>Tipo de Página</label>
-        <select id="pg_tipo">
-          <option value="html">HTML (Conteúdo Livre)</option>
-          <option value="calendario">Calendário de Aulas (Especial)</option>
-        </select>
-      </div>
-      <div class="field"><label>Ordem de Exibição</label><input type="number" id="pg_ordem" value="99" min="1"></div>
-      <div class="field"><label>Status</label>
-        <select id="pg_publicada"><option value="true">Publicada</option><option value="false">Rascunho</option></select>
-      </div>
-      <div class="field full" id="pg_html_wrap"><label>Conteúdo HTML</label><textarea id="pg_html" style="min-height:220px;" placeholder="<h2>Título</h2><p>Escreva seu conteúdo em HTML aqui...</p>"></textarea></div>
-    </div>
-    <div class="modal-acoes">
-      <button class="btn gray small" onclick="fecharModal()">Cancelar</button>
-      <button class="btn green small" onclick="salvarPagina()">💾 Salvar Página</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<div id="app"></div>
 
 <script>
-const URL_DADOS = 'https://adeiltonlibras.github.io/libras-nas-comunidades-ufal/dados.json';
-
-const TIPOS_EVENTO = {
-  inicio:{label:'🟢 Início',cor:'#16A34A'},
-  aula:{label:'🟦 Aula Presencial',cor:'#2563EB'},
-  meet:{label:'🟪 Google Meet',cor:'#7C3AED'},
-  ativ:{label:'📝 Ativ. Complementar',cor:'#0D9488'},
-  avaliacao:{label:'🟠 Avaliação',cor:'#F97316'},
-  recesso:{label:'🟨 Recesso',cor:'#FACC15'},
-  feriado:{label:'⚫ Feriado',cor:'#475569'},
-  cancelado:{label:'🔴 Cancelado',cor:'#DC2626'},
-  fim:{label:'🔵 Encerramento',cor:'#38BDF8'}
-};
-
-const DADOS_PADRAO = {
-  site:{
-    projeto:'LIBRAS NAS COMUNIDADES',
-    curso:'CURSO BÁSICO DE LIBRAS – NÍVEL I',
-    subtitulo:'Projeto de Extensão Universitária · UFAL',
-    local:'Assembleia de Deus em Benedito Bentes 3 • Maceió/AL',
-    periodo:'17/10/2026 a 23/01/2027',
-    aulas:'aos sábados',
-    horario:'15h às 17h',
-    carga:40,
-    inscTitulo:'CADASTRO NO SIGAA/UFAL – EXTENSÃO',
-    inscTexto:'Para participar do curso Libras nas Comunidades, realize seu cadastro oficial no sistema SIGAA da UFAL.',
-    linkCadastro:'https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf',
-    linkVideo:'https://youtu.be/WtgErX91gs0'
-  },
-  home:{
-    titulo:'Libras nas Comunidades',
-    subtitulo:'Bem-vindo(a) ao ambiente virtual do projeto de extensão da UFAL',
-    descricao:'Aprenda Língua Brasileira de Sinais em um curso gratuito, presencial e com certificação universitária. Uma realização da UFAL voltada para a comunidade do Benedito Bentes 3.'
-  },
-  conteudo:'Vocabulário básico e usual do cotidiano\nAlfabeto manual\nNúmeros e datilologia\nCumprimentos e saudações\nVerbos principais do cotidiano\nCalendário, dias da semana e meses\nHoras e cores\nSinais do contexto escolar e familiar\nIntrodução aos 5 parâmetros da LIBRAS\nExpressões faciais e sentimentos',
-  eventos:[
-    {data:'2026-10-17', tipo:'inicio', rotulo:'Início', descricao:'Aula 01 · Introdução à Libras, comunidade e cultura surda', horario:'15h às 17h', carga:2},
-    {data:'2026-10-24', tipo:'aula', rotulo:'Aula', descricao:'Aula 02 · Alfabeto manual e datilologia', horario:'15h às 17h', carga:2},
-    {data:'2026-10-31', tipo:'aula', rotulo:'Aula', descricao:'Aula 03 · Números, idade, datas e horários', horario:'15h às 17h', carga:2}
-  ],
-  paginas:[
-    {slug:'sobre', titulo:'Sobre o Curso', icone:'📖', descricao:'Conheça a história, objetivos e equipe do projeto.', tipo:'html', publicada:true, ordem:1, html:'<h2>Sobre o Projeto</h2><p>O projeto <b>Libras nas Comunidades</b> tem como objetivo principal democratizar o acesso ao aprendizado da Língua Brasileira de Sinais...</p>'},
-    {slug:'calendario', titulo:'Cronograma', icone:'📅', descricao:'Confira a programação completa de aulas e eventos.', tipo:'calendario', publicada:true, ordem:2}
-  ]
-};
-
-let D = JSON.parse(JSON.stringify(DADOS_PADRAO));
-let paginaEmEdicao = null;
-
-function toast(msg, ms){
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('show'), ms||2600);
-}
-
-// Inicialização ao carregar
-window.addEventListener('DOMContentLoaded', async () => {
-  await carregarDados();
-  configurarAbasAdmin();
-  verificarRotaUrl();
-});
-
-async function carregarDados(){
+(async function(){
+  let D;
   try{
-    const r = await fetch(URL_DADOS + '?t=' + Date.now());
-    if(r.ok){
-      const json = await r.json();
-      D = Object.assign(JSON.parse(JSON.stringify(DADOS_PADRAO)), json);
-      if(!Array.isArray(D.eventos)) D.eventos = [];
-      if(!Array.isArray(D.paginas)) D.paginas = [];
-      toast('✅ Dados sincronizados com o GitHub!');
-    } else {
-      throw new Error('Erro HTTP ' + r.status);
-    }
+    const r = await fetch('dados.json?t=' + Date.now());
+    if(!r.ok) throw new Error('Erro ao carregar dados');
+    D = await r.json();
   }catch(e){
-    console.warn(e);
-    toast('⚠️ Usando dados locais padrão.', 3000);
+    document.getElementById('app').innerHTML = '<div class="container" style="padding:60px 20px;text-align:center;"><h2>Erro ao carregar dados</h2><p>Verifique se o arquivo dados.json está na raiz do projeto.</p></div>';
+    return;
   }
-  renderizarSitePublico();
-  renderAdminTudo();
-}
 
-// Controle de Visão (Site Público / Páginas Dinâmicas / Admin)
-function mudarVisao(visao, slugParam = null){
-  document.querySelectorAll('.painel-view').forEach(v => v.classList.remove('active'));
-  
-  if(visao === 'site'){
-    document.getElementById('view-site').classList.add('active');
-    renderizarSitePublico();
-    window.scrollTo({top:0, behavior:'smooth'});
-  } else if(visao === 'admin'){
-    document.getElementById('view-admin').classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
-  } else if(visao === 'pagina'){
-    document.getElementById('view-pagina-dinamica').classList.add('active');
-    renderizarPaginaDinamica(slugParam);
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
-}
+  const S = D.site || {};
+  const H = D.home || {};
+  const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-function verificarRotaUrl(){
-  const hash = window.location.hash.replace('#','');
-  if(hash === 'admin'){
-    mudarVisao('admin');
-  } else if(hash.startsWith('p/')){
-    const slug = hash.replace('p/','');
-    mudarVisao('pagina', slug);
-  } else {
-    mudarVisao('site');
-  }
-}
+  // Renderiza o menu superior dinamicamente
+  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+  document.getElementById('menu').innerHTML = paginas.map(p => {
+    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    const active = p.slug === 'home' || p.tipo === 'home' ? 'active' : '';
+    return `<li><a href="${link}" class="${active}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+  }).join('');
+  document.getElementById('ctaHeader').href = S.linkCadastro || '#';
 
-window.addEventListener('hashchange', verificarRotaUrl);
-
-// RENDERIZAÇÃO DO SITE PÚBLICO
-function renderizarSitePublico(){
-  const S = D.site;
-  const H = D.home;
-
-  document.getElementById('nav-titulo-projeto').textContent = S.projeto || 'LIBRAS';
-  document.getElementById('pub-home-titulo').textContent = H.titulo || S.projeto;
-  document.getElementById('pub-home-sub').textContent = H.subtitulo || S.substitulo;
-  document.getElementById('pub-home-desc').textContent = H.descricao || '';
-  document.getElementById('pub-periodo').textContent = S.periodo || '—';
-  document.getElementById('pub-aulas').textContent = S.aulas || '—';
-  document.getElementById('pub-horario').textContent = S.horario || '—';
-  document.getElementById('pub-carga').textContent = (S.carga || '0') + ' horas';
-
-  // Botões Inteligentes do Topo e Hero
-  let htmlAcoes = '';
-  if(S.linkCadastro) htmlAcoes += `<a href="${S.linkCadastro}" target="_blank" class="btn orange">📝 Inscrição SIGAA</a>`;
-  if(S.linkVideo) htmlAcoes += `<a href="${S.linkVideo}" target="_blank" class="btn outline">▶️ Vídeo Explicativo</a>`;
-  htmlAcoes += `<button class="btn outline small" onclick="mudarVisao('admin'); location.hash='admin';">⚙️ Painel Admin</button>`;
-  document.getElementById('pub-acoes-topo').innerHTML = htmlAcoes;
-  document.getElementById('menu-publico').innerHTML = htmlAcoes;
-
-  // Grid de Páginas Públicas
-  const grid = document.getElementById('pub-grid-paginas');
-  let htmlPaginas = '';
-  
-  // Ordena páginas publicadas
-  const paginasPub = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
-  
-  paginasPub.forEach(p => {
-    htmlPaginas += `
-      <div class="card-link" onclick="location.hash='p/${p.slug}'; mudarVisao('pagina', '${p.slug}');">
-        <div>
-          <div class="top-card">
-            <div class="ic-card">${p.icone || '📄'}</div>
-            <h3>${p.titulo}</h3>
+  // Seção Hero da Home
+  const heroHtml = `
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="hero-tag"><span class="dot"></span>Projeto de Extensão Universitária · UFAL</div>
+            <h1>${esc(S.curso || 'Curso Básico de Libras')}<br><span>Nível I</span></h1>
+            <p>${esc(H.descricao || S.subtitulo)}</p>
+            <div class="hero-btns">
+              <a href="${esc(S.linkCadastro || '#')}" class="btn btn-primary" target="_blank">📝 Fazer Inscrição no SIGAA</a>
+              <a href="calendario.html" class="btn btn-outline">📅 Ver Calendário de Aulas</a>
+            </div>
+            <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:.85rem;color:#93C5FD;margin-top:20px;">
+              <div><b>📍 Período:</b> ${esc(S.periodo)}</div>
+              <div><b>🕒 Horário:</b> ${esc(S.aulas)}, ${esc(S.horario)}</div>
+            </div>
           </div>
-          <p>${p.descricao || 'Clique para acessar o conteúdo.'}</p>
+          <div class="hero-card">
+            <h3>📋 Informações do Curso</h3>
+            <div class="hero-card-list">
+              <div class="hero-card-item"><div class="icon">⏱️</div><div class="txt"><div class="label">Carga Horária</div><div class="valor">${esc(S.carga)} horas</div></div></div>
+              <div class="hero-card-item"><div class="icon">📍</div><div class="txt"><div class="label">Local das Aulas</div><div class="valor">Assembleia de Deus — BB3</div></div></div>
+              <div class="hero-card-item"><div class="icon">🎓</div><div class="txt"><div class="label">Certificação</div><div class="valor">PROEXC / UFAL</div></div></div>
+              <div class="hero-card-item"><div class="icon">💚</div><div class="txt"><div class="label">Investimento</div><div class="valor">100% Gratuito</div></div></div>
+            </div>
+          </div>
         </div>
-        <div style="margin-top:16px;font-size:.78rem;font-weight:800;color:var(--blue);">Acessar página →</div>
       </div>
-    `;
-  });
-  grid.innerHTML = htmlPaginas;
-}
+    </section>
+  `;
 
-// RENDERIZAR PÁGINA DINÂMICA
-function renderizarPaginaDinamica(slug){
-  const pg = D.paginas.find(p => p.slug === slug);
-  const container = document.getElementById('conteudo-pagina-dinamica');
-
-  if(!pg){
-    container.innerHTML = `<h3>Página não encontrada</h3><p>A página solicitada não existe ou foi removida.</p>`;
-    return;
-  }
-
-  let htmlCorpo = '';
-  if(pg.tipo === 'calendario'){
-    htmlCorpo = `<h2>${pg.icone || '📅'} ${pg.titulo}</h2><p class="help">${pg.descricao || ''}</p><hr style="border:0;border-top:1px solid var(--line);margin:16px 0;">`;
-    
-    if(!D.eventos.length){
-      htmlCorpo += `<p style="color:var(--gray);font-style:italic;">Nenhum evento cadastrado no cronograma.</p>`;
-    } else {
-      htmlCorpo += `<div class="table-wrap"><table class="data-table"><thead><tr><th>Data</th><th>Tipo</th><th>Rótulo</th><th>Descrição</th><th>Horário</th><th>Carga</th></tr></thead><tbody>`;
-      D.eventos.slice().sort((a,b)=>a.data.localeCompare(b.data)).forEach(ev => {
-        const tInfo = TIPOS_EVENTO[ev.tipo] || {label:ev.tipo, cor:'#475569'};
-        htmlCorpo += `<tr>
-          <td><b>${ev.data.split('-').reverse().join('/')}</b></td>
-          <td><span style="display:inline-block;padding:3px 8px;border-radius:6px;background:${tInfo.cor};color:#fff;font-size:.7rem;font-weight:700;">${tInfo.label}</span></td>
-          <td><b>${ev.rotulo || ''}</b></td>
-          <td>${ev.descricao || ''}</td>
-          <td>${ev.horario || '—'}</td>
-          <td>${ev.carga ? ev.carga + 'h' : '—'}</td>
-        </tr>`;
-      });
-      htmlCorpo += `</tbody></table></div>`;
-    }
-
-    // Seção de Conteúdo Programático na página de calendário se houver
-    if(D.conteudo){
-      htmlCorpo += `<h3 style="margin-top:30px;"><span class="ic">📖</span> Conteúdo Programático</h3><ul>`;
-      D.conteudo.split('\n').forEach(topico => {
-        if(topico.trim()) htmlCorpo += `<li style="margin-bottom:6px;font-size:.9rem;color:var(--navy);">${topico.trim()}</li>`;
-      });
-      htmlCorpo += `</ul>`;
-    }
-
-  } else {
-    // Tipo HTML livre
-    htmlCorpo = `<h2>${pg.icone || '📄'} ${pg.titulo}</h2><hr style="border:0;border-top:1px solid var(--line);margin:16px 0;"><div style="font-size:.95rem;color:#1E293B;line-height:1.7;">${pg.html || ''}</div>`;
-  }
-
-  container.innerHTML = htmlCorpo;
-}
-
-// PAINEL ADMINISTRATIVO E CONFIGURAÇÕES
-function configurarAbasAdmin(){
-  document.querySelectorAll('.tabs .tab[data-tab]').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));
-      tab.classList.add('active');
-      document.querySelectorAll('.painel').forEach(p=>p.classList.remove('active'));
-      document.getElementById('p-' + tab.dataset.tab).classList.add('active');
-    });
-  });
-}
-
-function renderAdminTudo(){
-  renderSiteForm();
-  renderHomeForm();
-  renderEventosAdmin();
-  renderPaginasAdmin();
-  renderConteudoAdmin();
-  renderSigaaAdmin();
-  renderStatsAdmin();
-}
-
-function renderSiteForm(){
-  const S = D.site;
-  const mapa = { f_projeto:'projeto', f_curso:'curso', f_subtitulo:'subtitulo', f_local:'local', f_periodo:'periodo', f_aulas:'aulas', f_horario:'horario', f_carga:'carga' };
-  Object.entries(mapa).forEach(([id, k]) => {
-    const el = document.getElementById(id);
-    if(el){ el.value = S[k] ?? ''; el.oninput = () => { S[k] = el.type==='number'?Number(el.value):el.value; }; }
-  });
-}
-
-function renderHomeForm(){
-  const H = D.home;
-  const mapa = { f_home_titulo:'titulo', f_home_subtitulo:'subtitulo', f_home_descricao:'descricao' };
-  Object.entries(mapa).forEach(([id, k]) => {
-    const el = document.getElementById(id);
-    if(el){ el.value = H[k] ?? ''; el.oninput = () => { H[k] = el.value; }; }
-  });
-}
-
-function renderEventosAdmin(){
-  const corpo = document.getElementById('corpo-eventos');
-  corpo.innerHTML = '';
-  if(!D.eventos.length){
-    corpo.innerHTML = `<tr><td colspan="7" style="text-align:center;color:#94A3B8;padding:22px;font-style:italic">Nenhum evento cadastrado.</td></tr>`;
-    return;
-  }
-  D.eventos.slice().sort((a,b)=>a.data.localeCompare(b.data)).forEach((ev, idx) => {
-    const tr = document.createElement('tr');
-    
-    const tdData = document.createElement('td');
-    const inp = document.createElement('input'); inp.type = 'date'; inp.value = ev.data;
-    inp.onchange = () => { ev.data = inp.value; };
-    tdData.appendChild(inp); tr.appendChild(tdData);
-
-    const tdTipo = document.createElement('td');
-    const sel = document.createElement('select');
-    Object.entries(TIPOS_EVENTO).forEach(([k,v])=>{
-      const o = document.createElement('option'); o.value = k; o.textContent = v.label;
-      if(k === ev.tipo) o.selected = true;
-      sel.appendChild(o);
-    });
-    sel.onchange = () => { ev.tipo = sel.value; };
-    tdTipo.appendChild(sel); tr.appendChild(tdTipo);
-
-    const tdRot = document.createElement('td');
-    const inpR = document.createElement('input'); inpR.value = ev.rotulo || '';
-    inpR.oninput = () => { ev.rotulo = inpR.value; };
-    tdRot.appendChild(inpR); tr.appendChild(tdRot);
-
-    const tdDesc = document.createElement('td');
-    const inpD = document.createElement('input'); inpD.value = ev.descricao || '';
-    inpD.oninput = () => { ev.descricao = inpD.value; };
-    tdDesc.appendChild(inpD); tr.appendChild(tdDesc);
-
-    const tdHor = document.createElement('td');
-    const inpH = document.createElement('input'); inpH.value = ev.horario || '';
-    inpH.oninput = () => { ev.horario = inpH.value; };
-    tdHor.appendChild(inpH); tr.appendChild(tdHor);
-
-    const tdCarga = document.createElement('td');
-    const inpC = document.createElement('input'); inpC.type = 'number'; inpC.value = ev.carga || 0;
-    inpC.oninput = () => { ev.carga = Number(inpC.value) || 0; };
-    tdCarga.appendChild(inpC); tr.appendChild(tdCarga);
-
-    const tdAcao = document.createElement('td');
-    tdAcao.style.textAlign = 'center';
-    const btn = document.createElement('button'); btn.className = 'row-del'; btn.textContent = '✕';
-    btn.onclick = () => {
-      if(confirm('Excluir este evento?')){
-        D.eventos.splice(idx, 1);
-        renderEventosAdmin(); renderStatsAdmin();
-      }
-    };
-    tdAcao.appendChild(btn); tr.appendChild(tdAcao);
-
-    corpo.appendChild(tr);
-  });
-}
-
-function addEvento(){
-  D.eventos.push({
-    data: new Date().toISOString().slice(0,10),
-    tipo:'aula', rotulo:'Aula', descricao:'',
-    horario:'15h às 17h', carga:2
-  });
-  renderEventosAdmin(); renderStatsAdmin();
-  toast('Evento adicionado.');
-}
-
-function renderPaginasAdmin(){
-  const lista = document.getElementById('lista-paginas');
-  lista.innerHTML = '';
-  D.paginas.slice().sort((a,b)=>(a.ordem||99)-(b.ordem||99)).forEach((pg, idx) => {
-    const div = document.createElement('div');
-    div.className = 'pagina-item';
-    div.innerHTML = `
-      <div class="icone">${pg.icone || '📄'}</div>
-      <div class="info">
-        <h4>${pg.titulo} ${pg.publicada === false ? '<span style="background:#FEF3C7;color:#713F12;padding:2px 8px;border-radius:20px;font-size:.6rem;margin-left:6px;">RASCUNHO</span>' : ''}</h4>
-        <div class="slug">/${pg.slug} · tipo: ${pg.tipo}</div>
-        <div class="desc" style="font-size:.76rem;color:#475569;">${pg.descricao || ''}</div>
+  // Seção de Destaques
+  const highlightsHtml = `
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <div style="color:var(--accent);font-weight:800;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Por que participar</div>
+          <h2>Aprenda Libras com Metodologia Visual</h2>
+          <p class="sub">Um projeto de extensão que une teoria e prática para promover a inclusão na comunidade.</p>
+        </div>
+        <div class="highlights">
+          <div class="highlight"><div class="icon">📚</div><h3>Metodologia Visual</h3><p>Aulas dinâmicas com jogos, recursos visuais e expressões corporais naturais.</p></div>
+          <div class="highlight"><div class="icon">👥</div><h3>Comunidade & Inclusão</h3><p>Foco na comunicação cotidiana com surdos no bairro Benedito Bentes 3.</p></div>
+          <div class="highlight"><div class="icon">🎓</div><h3>Certificado Oficial</h3><p>Certificação de 40 horas emitida pela Pró-Reitoria de Extensão da UFAL.</p></div>
+          <div class="highlight"><div class="icon">✨</div><h3>Totalmente Gratuito</h3><p>Ação universitária sem fins lucrativos aberta à comunidade em geral.</p></div>
+        </div>
       </div>
-      <div class="acoes">
-        <button class="btn small gray" onclick="editarPagina(${idx})">✏️ Editar</button>
-        <button class="btn small red" onclick="excluirPagina(${idx})">🗑️ Excluir</button>
+    </section>
+  `;
+
+  // Rodapé Institucional
+  const footerHtml = `
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-logos">
+              <img src="logo-ufal.png" alt="UFAL">
+              <img src="logo-letras-libras.png" alt="Letras Libras">
+            </div>
+            <div class="footer-brand">
+              <div class="uni">UFAL · PROEXC · FALE</div>
+              <div class="proj">Libras nas Comunidades</div>
+            </div>
+            <p class="footer-desc" style="margin-top:14px;">Projeto de extensão universitária da Universidade Federal de Alagoas, dedicado a difundir a Língua Brasileira de Sinais em Maceió.</p>
+          </div>
+          <div class="footer-col">
+            <h4>📌 Projeto</h4>
+            <p><b>Benedito Bentes 3</b></p>
+            <p>Código CR096-2026</p>
+            <p>Ação de Extensão</p>
+          </div>
+          <div class="footer-col">
+            <h4>👥 Equipe</h4>
+            <p><b>Coordenação</b></p>
+            <p>Profa. Dra. Edineide dos Santos Silva</p>
+            <p style="margin-top:10px;"><b>Instrutor</b></p>
+            <p>Adeilton Wachill dos Santos Olimpio</p>
+          </div>
+          <div class="footer-col">
+            <h4>🔗 Links</h4>
+            <a href="index.html">→ Início</a>
+            <a href="calendario.html">→ Calendário</a>
+            <a href="${esc(S.linkCadastro || '#')}" target="_blank">→ SIGAA/UFAL</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div>&copy; 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
+          <div class="links">
+            <a href="pagina.html?slug=sobre">Sobre</a>
+            <a href="pagina.html?slug=equipe">Equipe</a>
+            <a href="pagina.html?slug=faq">FAQ</a>
+          </div>
+        </div>
       </div>
-    `;
-    lista.appendChild(div);
-  });
-}
+    </footer>
+  `;
 
-function abrirNovaPagina(){
-  paginaEmEdicao = null;
-  document.getElementById('modal-titulo').textContent = '📄 Nova Página';
-  document.getElementById('pg_slug').value = '';
-  document.getElementById('pg_icone').value = '📄';
-  document.getElementById('pg_titulo').value = '';
-  document.getElementById('pg_descricao').value = '';
-  document.getElementById('pg_tipo').value = 'html';
-  document.getElementById('pg_ordem').value = (D.paginas.length + 1);
-  document.getElementById('pg_publicada').value = 'true';
-  document.getElementById('pg_html').value = '<h2>Título</h2>\n<p>Escreva o conteúdo aqui...</p>';
-  toggleHtmlWrap();
-  document.getElementById('overlay').classList.add('show');
-}
-
-function editarPagina(idx){
-  const pg = D.paginas[idx];
-  paginaEmEdicao = idx;
-  document.getElementById('modal-titulo').textContent = '✏️ Editar Página';
-  document.getElementById('pg_slug').value = pg.slug || '';
-  document.getElementById('pg_icone').value = pg.icone || '📄';
-  document.getElementById('pg_titulo').value = pg.titulo || '';
-  document.getElementById('pg_descricao').value = pg.descricao || '';
-  document.getElementById('pg_tipo').value = pg.tipo || 'html';
-  document.getElementById('pg_ordem').value = pg.ordem || 99;
-  document.getElementById('pg_publicada').value = pg.publicada === false ? 'false' : 'true';
-  document.getElementById('pg_html').value = pg.html || '';
-  toggleHtmlWrap();
-  document.getElementById('overlay').classList.add('show');
-}
-
-function toggleHtmlWrap(){
-  const tipo = document.getElementById('pg_tipo').value;
-  document.getElementById('pg_html_wrap').style.display = tipo === 'html' ? 'flex' : 'none';
-}
-document.getElementById('pg_tipo').addEventListener('change', toggleHtmlWrap);
-
-function fecharModal(){
-  document.getElementById('overlay').classList.remove('show');
-}
-
-function salvarPagina(){
-  const slug = document.getElementById('pg_slug').value.trim().toLowerCase().replace(/[^a-z0-9-]/g,'-');
-  const titulo = document.getElementById('pg_titulo').value.trim();
-
-  if(!slug || !titulo){ alert('Preencha o slug e o título da página.'); return; }
-
-  const nova = {
-    slug, titulo,
-    icone: document.getElementById('pg_icone').value.trim() || '📄',
-    descricao: document.getElementById('pg_descricao').value.trim(),
-    tipo: document.getElementById('pg_tipo').value,
-    ordem: Number(document.getElementById('pg_ordem').value) || 99,
-    publicada: document.getElementById('pg_publicada').value === 'true',
-    html: document.getElementById('pg_html').value
-  };
-
-  if(paginaEmEdicao !== null){
-    D.paginas[paginaEmEdicao] = nova;
-    toast('✅ Página atualizada');
-  } else {
-    D.paginas.push(nova);
-    toast('✅ Página criada');
-  }
-
-  fecharModal();
-  renderPaginasAdmin(); renderStatsAdmin();
-}
-
-function excluirPagina(idx){
-  if(!confirm('Deseja realmente excluir esta página?')) return;
-  D.paginas.splice(idx, 1);
-  renderPaginasAdmin(); renderStatsAdmin();
-  toast('Página removida.');
-}
-
-function renderConteudoAdmin(){
-  const el = document.getElementById('f_conteudo');
-  el.value = D.conteudo || '';
-  el.oninput = () => { D.conteudo = el.value; };
-}
-
-function renderSigaaAdmin(){
-  const S = D.site;
-  const mapa = { f_inscTitulo:'inscTitulo', f_inscTexto:'inscTexto', f_linkCadastro:'linkCadastro', f_linkVideo:'linkVideo' };
-  Object.entries(mapa).forEach(([id, k]) => {
-    const el = document.getElementById(id);
-    if(el){ el.value = S[k] ?? ''; el.oninput = () => { S[k] = el.value; }; }
-  });
-}
-
-function renderStatsAdmin(){
-  const totalAulas = D.eventos.filter(e => ['inicio','aula','fim'].includes(e.tipo)).length;
-  const paginasPub = D.paginas.filter(p => p.publicada !== false).length;
-
-  const cards = [
-    {label:'Aulas', valor: totalAulas, cor:'#2563EB'},
-    {label:'Eventos Totais', valor: D.eventos.length, cor:'#7C3AED'},
-    {label:'Páginas Publicadas', valor: paginasPub, cor:'#16A34A'},
-    {label:'Rascunhos', valor: D.paginas.length - paginasPub, cor:'#FACC15'}
-  ];
-
-  document.getElementById('stats').innerHTML = cards.map(c => `
-    <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px 18px;border-left:4px solid ${c.cor};">
-      <div style="font-size:.65rem;font-weight:800;letter-spacing:1px;color:#64748B;text-transform:uppercase;margin-bottom:6px;">${c.label}</div>
-      <div style="font-size:1.6rem;font-weight:800;color:#0B2545;line-height:1;">${c.valor}</div>
-    </div>
-  `).join('');
-}
-
-// PUBLICAR E GERAR JSON PARA O GITHUB
-function publicar(){
-  const jsonStr = JSON.stringify(D, null, 2);
-  const blob = new Blob([jsonStr], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'dados.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-
-  toast('📦 Arquivo dados.json gerado e baixado com sucesso!');
-}
+  document.getElementById('app').innerHTML = heroHtml + highlightsHtml + footerHtml;
+})();
 </script>
 </body>
 </html>
