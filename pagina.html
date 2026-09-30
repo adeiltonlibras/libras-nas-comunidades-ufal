@@ -59,14 +59,17 @@
 
   document.getElementById('page-title').textContent = `${paginaAtual.titulo} — Libras nas Comunidades`;
 
+  // Renderiza o menu superior mantendo o padrão exato da home
   document.getElementById('menu').innerHTML = paginas.map(p => {
     const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
     const active = p.slug === slugDesejado ? 'active' : '';
-    return `<li><a href="${link}" class="${active}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-  }).join('') + `<li><a href="pagina.html?slug=inscricoes" class="btn-inscricao">📝 Pré-Inscrição</a></li>`;
+    const isCta = p.slug === 'inscricoes';
+    return `<li><a href="${link}" class="${active} ${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+  }).join('') + `<li><a href="${esc(D.site.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
 
+  // Renderiza o conteúdo da página interna dentro do cartão padrão
   document.getElementById('app').innerHTML = `
-    <div style="background:#FFF; border:1px solid var(--border); border-radius:var(--radius); padding:36px; box-shadow:var(--shadow);">
+    <div style="background:#FFF; border:1px solid var(--border); border-radius:var(--radius); padding:40px; box-shadow:var(--shadow);">
       ${paginaAtual.html || '<p>Sem conteúdo cadastrado.</p>'}
     </div>
   `;
