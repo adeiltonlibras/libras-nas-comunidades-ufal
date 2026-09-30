@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Calendário do Curso Básico de Libras – Libras nas Comunidades">
+<title>Calendário — Libras nas Comunidades</title>
+<link rel="stylesheet" href="estilo.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+<nav class="nav-top">
+  <div class="nav-top-inner" id="menu-top"></div>
+</nav>
+
+<div class="container" id="app">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div>Carregando calendário...</div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  let D;
+  try{
+    const r = await fetch('dados.json?t=' + Date.now());
+    D = await r.json();
+  }catch(e){
+    document.getElementById('app').innerHTML = `
+      <div class="secao" style="text-align:center;padding:60px 24px;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
+        <h3 style="color:#0B2545;">Erro ao carregar</h3>
+      </div>`;
+    return;
+  }
+
+  const S = D.site || {};
+  const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  const dataBR = iso => { if(!iso) return ''; const [a,m,d] = iso.split('-'); return `${d}/${m}/${a}`; };
+  const diaSemanaBR = iso => { const dt = new Date(iso+'T12:00:00'); return ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'][dt.getDay()]; };
+
+  function renderMenu(atual){
+    const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    const home = `<a href="index.html" class="${atual==='home'?'active':''}">🏠 Início</a>`;
+    const links = paginas.map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      return `<a href="${link}" class="${atual===p.slug?'active':''}">${p.icone||''} ${p.titulo}</a>`;
+    }).join('');
+    document.getElementById('menu-top').innerHTML = home + links;
+  }
+  renderMenu('calendario');
+
+  const TIPOS_INFO = {
+    inicio:{label:'Início do Curso',sub:'Aula inaugural',cor:'#16A34A'},
+    aula:{label:'Aula Presencial',sub:'Sábado, 15h às 17h',cor:'#2563EB'},
+    meet:{label:'Google Meet',sub:'Encontro online',cor:'#7C3AED'},
+    ativ:{label:'Atividade Complementar',sub:'Compõe as 10h',cor:'#0D9488'},
+    avaliacao:{label:'Avaliação',sub:'Prova, nota 0–10',cor:'#F97316'},
+    recesso:{label:'Recesso',sub:'Sem aula',cor:'#FACC15'},
+    feriado:{label:'Feriado',sub:'Sem aula',cor:'#475569'},
+    cancelado:{label:'Cancelado',sub:'Aula cancelada',cor:'#DC2626'},
+    fim:{label:'Encerramento',sub:'Aula final',cor:'#38BDF8'}
+  };
+
+  const topbarHtml = `
+    <div class="topbar">
+      <a class="voltar" href="index.html">← Voltar para a página inicial</a>
+      <button class="btn-pdf" onclick="window.print()">📄 SALVAR PDF</button>
+    </div>
+  `;
+
+  const heroHtml = `
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-topo">
+          <div class="hero-logo">📅</div>
+          <div class="hero-topo-txt">
+            <div class="uni">Universidade Federal de Alagoas</div>
+            <div class="pro-reit">PROEXC · Faculdade de Letras — FALE</div>
+          </div>
+        </div>
+        <div class="hero-bar"></div>
+        <div class="hero-eyebrow">Calendário do Curso</div>
+        <h1 class="hero-titulo">${esc(S.curso)}</h1>
+        <p class="hero-subtitulo">${esc(S.projeto)} — ${esc(S.subtitulo || '')}</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item"><span class="dot"></span><b>Período:</b> ${esc(S.periodo)}</div>
+          <div class="hero-meta-item"><span class="dot"></span><b>Aulas:</b> ${esc(S.aulas)}</div>
+          <div class="hero-meta-item"><span class="dot"></span><b>Horário:</b> ${esc(S.horario)}</div>
+          <div class="hero-meta-item"><span class="dot"></span><b>Carga:</b> ${esc(S.carga)} horas</div>
+        </div>
+      </div>
+    </section>
+  `;
+
+  const infoCardsHtml = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px;">
+      <div style="background:#fff;border-radius:16px;padding:20px 22px;border:1px solid #E2E8F0;border-top:4px solid #2563EB;box-shadow:0 4px 18px rgba(11,37,69,.06);">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:1.2px;color:#475569;text-transform:uppercase;margin-bottom:8px;">Período</div>
+        <div style="font-size:1.05rem;font-weight:800;color:#0B2545;">${esc(S.periodo)}</div>
+      </div>
+      <div style="background:#fff;border-radius:16px;padding:20px 22px;border:1px solid #E2E8F0;border-top:4px solid #F97316;box-shadow:0 4px 18px rgba(11,37,69,.06);">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:1.2px;color:#475569;text-transform:uppercase;margin-bottom:8px;">Dia e horário</div>
+        <div style="font-size:1.05rem;font-weight:800;color:#0B2545;">${esc(S.aulas)}<small style="display:block;font-size:.75rem;font-weight:600;color:#64748B;margin-top:4px;">${esc(S.horario)}</small></div>
+      </div>
+      <div style="background:#fff;border-radius:16px;padding:20px 22px;border:1px solid #E2E8F0;border-top:4px solid #16A34A;box-shadow:0 4px 18px rgba(11,37,69,.06);">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:1.2px;color:#475569;text-transform:uppercase;margin-bottom:8px;">Carga-horária</div>
+        <div style="font-size:1.05rem;font-weight:800;color:#0B2545;">${esc(S.carga)} horas<small style="display:block;font-size:.75rem;font-weight:600;color:#64748B;margin-top:4px;">15 encontros + atividades</small></div>
+      </div>
+      <div style="background:#fff;border-radius:16px;padding:20px 22px;border:1px solid #E2E8F0;border-top:4px solid #7C3AED;box-shadow:0 4px 18px rgba(11,37,69,.06);">
+        <div style="font-size:.68rem;font-weight:800;letter-spacing:1.2px;color:#475569;text-transform:uppercase;margin-bottom:8px;">Local</div>
+        <div style="font-size:1.05rem;font-weight:800;color:#0B2545;line-height:1.3;">${esc(S.local)}</div>
+      </div>
+    </div>
+  `;
+
+  const avisoHtml = `
+    <div class="aviso">
+      <div class="icon">⚠️</div>
+      <div>
+        <strong>IMPORTANTE — Certificado</strong>
+        <p>A participação no curso <b>exige cadastro prévio no SIGAA/UFAL – Extensão</b>. Sem esse cadastro, o certificado de ${esc(S.carga)} horas não poderá ser emitido.</p>
+      </div>
+    </div>
+  `;
+
+  const eventos = D.eventos || [];
+  const mapa = {};
+  eventos.forEach(ev => { if(!mapa[ev.data]) mapa[ev.data]=[]; mapa[ev.data].push(ev); });
+
+  const datas = eventos.map(e=>e.data).sort();
+  const meses = [];
+  if(datas.length){
+    let cur = new Date(datas[0]+'T12:00:00'); cur.setDate(1);
+    const fim = new Date(datas[datas.length-1]+'T12:00:00');
+    while(cur <= fim){ meses.push({ano:cur.getFullYear(),mes:cur.getMonth()}); cur.setMonth(cur.getMonth()+1); }
+  }
+  const nomesMes = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
+
+  const mesesHtml = meses.map(({ano,mes}) => {
+    const primeiro = new Date(ano,mes,1);
+    const ultimo = new Date(ano,mes+1,0);
+    const diaInicio = primeiro.getDay();
+    const total = ultimo.getDate();
+    let cells = '';
+    for(let i=0;i<diaInicio;i++) cells += `<div class="dia vazio"></div>`;
+    for(let d=1;d<=total;d++){
+      const dt = new Date(ano,mes,d);
+      const iso = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const evs = mapa[iso]||[];
+      const diaSem = dt.getDay();
+      let classe = diaSem === 0 ? 'dom' : '';
+      let tag = '';
+      if(evs.length){ classe = evs[0].tipo; tag = evs[0].rotulo || ''; }
+      cells += `<div class="dia ${classe}"><span class="num">${d}</span>${tag?`<span class="tag">${esc(tag)}</span>`:''}</div>`;
+    }
+    return `<article class="mes"><div class="mes-titulo">${nomesMes[mes]} ${ano}</div><div class="mes-dias-semana"><div class="dom">DOM</div><div>SEG</div><div>TER</div><div>QUA</div><div>QUI</div><div>SEX</div><div>SÁB</div></div><div class="mes-grid">${cells}</div></article>`;
+  }).join('');
+
+  const calendarioHtml = `<section class="secao"><div class="secao-header"><div class="icone">📅</div><div><h2>Calendário de Aulas</h2><div class="sub">Visualização mensal completa</div></div></div><div class="calendario">${mesesHtml}</div></section>`;
+
+  const tiposUsados = new Set(eventos.map(e=>e.tipo));
+  const legendaItens = Object.keys(TIPOS_INFO).filter(t=>tiposUsados.has(t)).map(t => `
+    <div class="legenda-item ${t}">
+      <div class="sq" style="background:${TIPOS_INFO[t].cor}"></div>
+      <div><div class="txt">${TIPOS_INFO[t].label}</div><div class="sub">${TIPOS_INFO[t].sub}</div></div>
+    </div>`).join('');
+  const legendaHtml = `<section class="secao"><div class="secao-header"><div class="icone">🎨</div><div><h2>Legenda</h2><div class="sub">Cores e significados</div></div></div><div class="legenda-grid">${legendaItens}</div></section>`;
+
+  const ordenados = eventos.slice().sort((a,b)=>a.data.localeCompare(b.data));
+  let n=0;
+  const cronogramaHtml = ordenados.length ? `
+    <section class="secao">
+      <div class="secao-header"><div class="icone">📋</div><div><h2>Cronograma Completo</h2><div class="sub">Lista detalhada de todos os encontros</div></div></div>
+      <div class="cronograma">
+        ${ordenados.map(ev => { n++;
+          return `<div class="aula-item ${ev.tipo||'aula'}">
+            <div class="aula-num">${String(n).padStart(2,'0')}</div>
+            <div class="aula-data">${dataBR(ev.data)}<small>${diaSemanaBR(ev.data)} · ${esc(ev.horario||'')}</small></div>
+            <div class="aula-tema">${esc(ev.descricao||ev.rotulo||'')}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </section>` : '';
+
+  const itens = (D.conteudo||'').split('\n').filter(s=>s.trim());
+  const conteudoHtml = itens.length ? `
+    <section class="secao">
+      <div class="secao-header"><div class="icone">📖</div><div><h2>Conteúdo Programático</h2><div class="sub">${itens.length} tópicos abordados</div></div></div>
+      <ul class="prog-grid">${itens.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>
+    </section>` : '';
+
+  const passos = ['Acesse o link do SIGAA/UFAL.','Clique em "Cadastre-se".','Preencha seus dados pessoais.','Crie seu usuário e senha.','Confirme o cadastro.','Acesse o SIGAA com seu login e senha.','Procure pelo curso "Libras nas Comunidades" e realize a inscrição.'];
+  const sigaaHtml = `
+    <section class="secao">
+      <div class="secao-header"><div class="icone">🔗</div><div><h2>${esc(S.inscTitulo)}</h2><div class="sub">Passo a passo para emissão do certificado</div></div></div>
+      <div class="sigaa-bloco">
+        <h4>${esc(S.inscTexto)}</h4>
+        <p>Para receber o certificado de ${esc(S.carga)} horas, é necessário se cadastrar no SIGAA/UFAL – Extensão:</p>
+        <ol class="passos">${passos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol>
+        <div class="sigaa-links">
+          ${S.linkCadastro?`<a href="${esc(S.linkCadastro)}" target="_blank" rel="noopener">🔗 Cadastro no SIGAA</a>`:''}
+          ${S.linkVideo?`<a class="youtube" href="${esc(S.linkVideo)}" target="_blank" rel="noopener">🎥 Vídeo passo a passo</a>`:''}
+        </div>
+        ${S.linkCadastro?`<div class="qr-bloco"><div id="qrcode"></div><div class="qr-txt"><strong>📱 QR Code do cadastro</strong>Aponte a câmera do celular para acessar o SIGAA/UFAL.</div></div>`:''}
+      </div>
+    </section>`;
+
+  const rodapeHtml = `
+    <footer class="rodape">
+      <div class="rodape-topo">
+        <div class="uni">UNIVERSIDADE FEDERAL DE ALAGOAS</div>
+        <div class="pro-reit">Pró-Reitoria de Extensão e Cultura — PROEXC · Faculdade de Letras — FALE</div>
+      </div>
+      <div class="rodape-corpo">
+        <div class="rodape-col">
+          <h4>📌 Projeto</h4>
+          <p><b>Libras nas Comunidades</b></p>
+          <p>Benedito Bentes 3</p>
+          <p>Código CR096-2026</p>
+        </div>
+        <div class="rodape-col">
+          <h4>👥 Equipe</h4>
+          <p><b>Coordenação</b></p>
+          <p>Profa. Dra. Edineide dos Santos Silva</p>
+          <p style="margin-top:8px;"><b>Instrutor</b></p>
+          <p>Adeilton Wachill dos Santos Olimpio</p>
+        </div>
+        <div class="rodape-col">
+          <h4>🔗 Links úteis</h4>
+          <a href="index.html">→ Página inicial</a>
+          <a href="${esc(S.linkCadastro || '#')}" target="_blank" rel="noopener">→ Cadastro no SIGAA/UFAL</a>
+          <a href="${esc(S.linkVideo || '#')}" target="_blank" rel="noopener">→ Vídeo passo a passo</a>
+        </div>
+      </div>
+      <div class="rodape-base">© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
+    </footer>
+  `;
+
+  document.getElementById('app').innerHTML =
+    topbarHtml + heroHtml + infoCardsHtml + avisoHtml + calendarioHtml +
+    legendaHtml + cronogramaHtml + conteudoHtml + sigaaHtml + rodapeHtml;
+
+  if(S.linkCadastro && typeof QRCode !== 'undefined'){
+    const el = document.getElementById('qrcode');
+    if(el) new QRCode(el,{text:S.linkCadastro,width:100,height:100,colorDark:'#0B2545',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+  }
+})();
+</script>
+</body>
+</html>
