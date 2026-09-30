@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página — Libras nas Comunidades</title>
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<nav class="nav-top">
+  <div class="nav-top-inner" id="menu-top"></div>
+</nav>
+
+<div class="container" id="app">
+  <div class="loading">
+    <div class="spinner"></div>
+    <div>Carregando...</div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+
+  let D;
+  try{
+    const r = await fetch('dados.json?t=' + Date.now());
+    D = await r.json();
+  }catch(e){
+    document.getElementById('app').innerHTML = '<div class="secao" style="text-align:center;">Erro ao carregar dados.</div>';
+    return;
+  }
+
+  const S = D.site || {};
+  const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  function renderMenu(atual){
+    const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    const home = `<a href="index.html" class="${atual==='home'?'active':''}">🏠 Início</a>`;
+    const links = paginas.map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      return `<a href="${link}" class="${atual===p.slug?'active':''}">${p.icone||''} ${p.titulo}</a>`;
+    }).join('');
+    document.getElementById('menu-top').innerHTML = home + links;
+  }
+  renderMenu(slug);
+
+  const pagina = (D.paginas || []).find(p => p.slug === slug);
+
+  if(!pagina || pagina.publicada === false){
+    document.getElementById('app').innerHTML = `
+      <div class="secao" style="text-align:center;padding:60px 24px;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">📄</div>
+        <h3 style="color:#0B2545;">Página não encontrada</h3>
+        <p style="color:#64748B;font-size:.85rem;margin-top:8px;margin-bottom:20px;">A página que você procura não existe ou foi removida.</p>
+        <a href="index.html" style="background:#F97316;color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:800;font-size:.82rem;">← Voltar para o início</a>
+      </div>`;
+    return;
+  }
+
+  document.title = pagina.titulo + ' — Libras nas Comunidades';
+
+  const topbarHtml = `
+    <div class="topbar">
+      <a class="voltar" href="index.html">← Voltar para a página inicial</a>
+      <button class="btn-pdf" onclick="window.print()">📄 SALVAR PDF</button>
+    </div>
+  `;
+
+  const heroHtml = `
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-topo">
+          <div class="hero-logo">${esc(pagina.icone || '📄')}</div>
+          <div class="hero-topo-txt">
+            <div class="uni">Universidade Federal de Alagoas</div>
+            <div class="pro-reit">PROEXC · Faculdade de Letras — FALE</div>
+          </div>
+        </div>
+        <div class="hero-bar"></div>
+        <div class="hero-eyebrow">Libras nas Comunidades</div>
+        <h1 class="hero-titulo">${esc(pagina.titulo)}</h1>
+        ${pagina.descricao?`<p class="hero-subtitulo">${esc(pagina.descricao)}</p>`:''}
+      </div>
+    </section>
+  `;
+
+  const conteudoHtml = `
+    <section class="secao">
+      <div class="conteudo-html">
+        ${pagina.html || '<p>Esta página ainda não tem conteúdo.</p>'}
+      </div>
+    </section>
+  `;
+
+  const rodapeHtml = `
+    <footer class="rodape">
+      <div class="rodape-topo">
+        <div class="uni">UNIVERSIDADE FEDERAL DE ALAGOAS</div>
+        <div class="pro-reit">Pró-Reitoria de Extensão e Cultura — PROEXC · Faculdade de Letras — FALE</div>
+      </div>
+      <div class="rodape-corpo">
+        <div class="rodape-col">
+          <h4>📌 Projeto</h4>
+          <p><b>Libras nas Comunidades</b></p>
+          <p>Benedito Bentes 3</p>
+          <p>Código CR096-2026</p>
+        </div>
+        <div class="rodape-col">
+          <h4>👥 Equipe</h4>
+          <p><b>Coordenação</b></p>
+          <p>Profa. Dra. Edineide dos Santos Silva</p>
+          <p style="margin-top:8px;"><b>Instrutor</b></p>
+          <p>Adeilton Wachill dos Santos Olimpio</p>
+        </div>
+        <div class="rodape-col">
+          <h4>🔗 Links úteis</h4>
+          <a href="index.html">→ Página inicial</a>
+          <a href="calendario.html">→ Calendário</a>
+          <a href="${esc(S.linkCadastro || '#')}" target="_blank" rel="noopener">→ SIGAA/UFAL</a>
+        </div>
+      </div>
+      <div class="rodape-base">© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
+    </footer>
+  `;
+
+  document.getElementById('app').innerHTML = topbarHtml + heroHtml + conteudoHtml + rodapeHtml;
+})();
+</script>
+</body>
+</html>
