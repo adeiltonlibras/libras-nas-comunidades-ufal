@@ -20,17 +20,12 @@
       <div class="app-subtitle">UFAL · FALE · PROEXC</div>
     </div>
   </a>
-  <nav class="app-nav" id="menu">
-    <li><a href="index.html">Início</a></li>
-    <li><a href="calendario.html">Calendário</a></li>
-    <li><a href="pagina.html?slug=inscricoes" class="btn-inscricao">📝 Pré-Inscrição</a></li>
-  </nav>
+  <nav class="app-nav" id="menu"></nav>
 </header>
 
 <div class="wrapper" id="app">
   <div style="padding: 60px 20px; text-align: center;">
     <h3 style="color: #2563EB;">Carregando informações do portal...</h3>
-    <p style="color: #64748B; margin-top: 8px;">Aguarde um instante.</p>
   </div>
 </div>
 
@@ -48,28 +43,20 @@
     D = await r.json();
   }catch(e){
     console.error("Erro ao carregar dados.json:", e);
-    document.getElementById('app').innerHTML = `
-      <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:16px; padding:40px; text-align:center; max-width:600px; margin:40px auto; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
-        <h3 style="color:#DC2626; margin-bottom:10px;">⚠️ Aviso do Sistema</h3>
-        <p style="color:#475569; font-size:0.9rem; margin-bottom:20px;">Não foi possível carregar o arquivo <b>dados.json</b>. Verifique se ele está enviado corretamente na raiz do repositório no GitHub.</p>
-        <a href="pagina.html?slug=inscricoes" style="background:#2563EB; color:#FFF; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.85rem;">Ir para Página de Inscrições</a>
-      </div>
-    `;
     return;
   }
 
   const S = D.site || {};
-  const H = D.home || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // Renderiza menu superior com segurança
+  // Renderiza menu superior
   if(Array.isArray(D.paginas)){
     const paginas = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
     document.getElementById('menu').innerHTML = paginas.map(p => {
       const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
       const isCta = p.slug === 'inscricoes';
       return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-    }).join('');
+    }).join('') + `<li><a href="${esc(S.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
   }
 
   // Alerta Inteligente da Próxima Aula
@@ -82,7 +69,7 @@
     if(proximaAula){
       const [ano, mes, dia] = proximaAula.data.split('-');
       alertaProximaAulaHtml = `
-        <div style="background:rgba(37,99,235,0.25);border:1px solid rgba(96,165,250,0.4);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:0.82rem;display:flex;align-items:center;gap:10px;color:#E2E8F0;">
+        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:12px 18px; margin-bottom:24px; font-size:0.85rem; display:flex; align-items:center; gap:10px; color:#1E3A8A;">
           <span style="font-size:1.2rem;">📌</span>
           <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(proximaAula.descricao)}</div>
         </div>
@@ -90,27 +77,11 @@
     }
   }
 
-  const dashboardHero = `
-    <div class="dashboard-hero">
-      <div>
-        <div class="hero-badge"><span class="dot"></span> Ação Oficial de Extensão Universitária</div>
-        <h1>Curso Básico de Libras<br><span>Nível I — Benedito Bentes 3</span></h1>
-        <p>${esc(H.descricao || S.subtitulo || '')}</p>
-        
-        ${alertaProximaAulaHtml}
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="calendario.html" style="background:var(--primary);color:#FFF;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;font-size:0.85rem;box-shadow:0 4px 15px rgba(37,99,235,0.3);">📅 Ver Cronograma Completo</a>
-          <a href="pagina.html?slug=inscricoes" style="background:var(--accent);color:#FFF;padding:12px 24px;border-radius:12px;text-decoration:none;font-weight:700;font-size:0.85rem;box-shadow:0 4px 15px rgba(249,115,22,0.3);">📝 Fazer Pré-Inscrição</a>
-        </div>
-      </div>
-      
-      <div class="hero-stats-card">
-        <h4 style="color:#FFF;font-size:0.9rem;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px;">📌 Detalhes da Turma</h4>
-        <div class="stat-row"><span class="stat-label">Período</span><span class="stat-val">${esc(S.periodo || '—')}</span></div>
-        <div class="stat-row"><span class="stat-label">Dias</span><span class="stat-val">${esc(S.aulas || '—')}</span></div>
-        <div class="stat-row"><span class="stat-label">Horário</span><span class="stat-val">${esc(S.horario || '—')}</span></div>
-        <div class="stat-row"><span class="stat-label">Carga Horária</span><span class="stat-val">${esc(S.carga || '40')}h (Certificado UFAL)</span></div>
+  // Substituição do banner azul antigo pelo seu banner oficial personalizado
+  const bannerHeroHtml = `
+    <div style="margin-bottom:36px;">
+      <div style="width:100%; overflow:hidden; border-radius:20px; box-shadow:0 15px 35px rgba(11,37,69,0.12); background:#0B2545;">
+        <img src="arte-formulario.png" alt="Curso de Libras Básico I - Adeilton Wachill" style="width:100%; height:auto; display:block; object-fit:cover; max-height:420px;">
       </div>
     </div>
   `;
@@ -132,8 +103,8 @@
     }).join('');
   }
 
-  document.getElementById('app').innerHTML = dashboardHero + `
-    <div style="margin-top:36px;">
+  document.getElementById('app').innerHTML = bannerHeroHtml + alertaProximaAulaHtml + `
+    <div>
       <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
       <div class="modules-grid">${cardsGrid}</div>
     </div>
