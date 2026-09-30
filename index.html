@@ -3,174 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Calendário do Curso Básico de Libras – Libras nas Comunidades: Benedito Bentes 3">
-<title>Calendário – Libras nas Comunidades</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<style>
-  :root{
-    --navy:#0B2545; --navyMid:#15305C; --navyDark:#1E3A8A;
-    --blue:#2563EB; --blueLight:#60A5FA;
-    --green:#16A34A; --yellow:#FACC15; --orange:#F97316;
-    --red:#DC2626; --purple:#7C3AED; --teal:#0D9488;
-    --gray:#475569; --line:#E2E8F0; --white:#FFF;
-    --bg:#F1F5F9; --bgBlue:#EFF6FF; --textLight:#B9CCE5;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--navy);line-height:1.5;padding:0 0 40px;}
-  .container{max-width:1200px;margin:0 auto;padding:20px 16px;}
-
-  /* Ações */
-  .top-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
-  .btn{border:none;border-radius:10px;padding:12px 22px;font-size:.82rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;font-family:inherit;text-decoration:none;transition:transform .15s;}
-  .btn:hover{transform:translateY(-2px);}
-  .btn.pdf{background:linear-gradient(135deg,#DC2626,#F97316);color:#fff;box-shadow:0 6px 18px rgba(220,38,38,.3);}
-
-  /* Cabeçalho */
-  .header{background:var(--navy);color:#fff;border-radius:18px;padding:30px 32px 26px;position:relative;overflow:hidden;box-shadow:0 8px 26px rgba(11,37,69,.22);margin-bottom:22px;}
-  .header::after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:rgba(249,115,22,.12);}
-  .header .universidade{font-size:.72rem;font-weight:800;letter-spacing:2px;color:var(--textLight);position:relative;z-index:2;}
-  .header .proReitoria{font-size:.68rem;color:var(--textLight);margin-top:4px;position:relative;z-index:2;}
-  .header .projeto{font-size:clamp(.82rem,1.4vw,1rem);font-weight:800;letter-spacing:1.4px;color:var(--orange);text-transform:uppercase;margin-top:14px;position:relative;z-index:2;}
-  .header h1{font-size:clamp(1.3rem,2.8vw,2rem);font-weight:800;margin-top:8px;position:relative;z-index:2;line-height:1.15;}
-  .header .bar{width:74px;height:5px;background:var(--orange);border-radius:4px;margin:14px 0 18px;position:relative;z-index:2;}
-  .info{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 24px;position:relative;z-index:2;}
-  .info p{font-size:clamp(.76rem,1.3vw,.92rem);color:#DCE7F5;display:flex;align-items:baseline;gap:7px;}
-  .info p b{color:#fff;font-weight:700;}
-  .info p .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);flex:0 0 auto;transform:translateY(-1px);}
-
-  /* Cards */
-  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:0 4px 16px rgba(11,37,69,.07);margin-bottom:20px;}
-  .card h3{font-size:.88rem;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--navy);padding-bottom:10px;border-bottom:2px solid var(--orange);margin-bottom:14px;display:flex;align-items:center;gap:9px;}
-  .card h3 .ic{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--navy),var(--navyDark));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
-
-  /* Aviso */
-  .aviso{background:#FEF3C7;border-left:5px solid #EAB308;border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;gap:12px;align-items:flex-start;}
-  .aviso .icon{font-size:1.3rem;line-height:1;flex:0 0 auto;}
-  .aviso strong{display:block;font-size:.82rem;color:#713F12;margin-bottom:4px;}
-  .aviso p{font-size:.76rem;color:#854D0E;line-height:1.55;}
-
-  /* Calendário */
-  .months{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
-  .month{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 4px 16px rgba(11,37,69,.07);}
-  .month h3{font-size:clamp(.88rem,1.4vw,1rem);font-weight:800;color:#fff;background:var(--navyDark);letter-spacing:.6px;text-transform:uppercase;padding:10px;margin:-14px -14px 12px -14px;border-radius:16px 16px 0 0;text-align:center;display:block;border:none;}
-  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-  .dow{font-size:clamp(.5rem,.85vw,.62rem);font-weight:800;text-align:center;color:#fff;background:var(--navyDark);padding:6px 2px;letter-spacing:.4px;border-radius:4px;}
-  .dow.dom{color:#FCA5A5;}
-  .day{min-height:62px;border:1px solid var(--line);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4px 2px;background:#fff;overflow:hidden;}
-  .day .num{font-size:clamp(.78rem,1.3vw,1rem);font-weight:600;line-height:1;color:var(--navy);}
-  .day .tag{font-size:clamp(.34rem,.62vw,.5rem);font-weight:800;line-height:1.05;margin-top:3px;letter-spacing:.2px;text-transform:uppercase;}
-  .day.sat{background:var(--bgBlue);border-color:#BFDBFE;}
-  .day.sat .num{color:var(--navyDark);font-weight:800;}
-  .day.dom .num{color:var(--red);font-weight:800;}
-  .day.empty{background:transparent;border-color:transparent;}
-  .day.inicio{background:#16A34A;border-color:#16A34A;}
-  .day.inicio .num,.day.inicio .tag{color:#fff;}
-  .day.aula{background:#2563EB;border-color:#2563EB;}
-  .day.aula .num,.day.aula .tag{color:#fff;}
-  .day.meet{background:#7C3AED;border-color:#7C3AED;}
-  .day.meet .num,.day.meet .tag{color:#fff;}
-  .day.recesso{background:#FACC15;border-color:#EAB308;}
-  .day.recesso .num{color:#422006;}
-  .day.recesso .tag{color:#713F12;}
-  .day.fim{background:#38BDF8;border-color:#38BDF8;}
-  .day.fim .num,.day.fim .tag{color:#0C2A44;}
-  .day.ativ{background:#0D9488;border-color:#0D9488;}
-  .day.ativ .num,.day.ativ .tag{color:#fff;}
-  .day.avaliacao{background:#F97316;border-color:#F97316;}
-  .day.avaliacao .num,.day.avaliacao .tag{color:#fff;}
-  .day.feriado{background:#475569;border-color:#475569;}
-  .day.feriado .num,.day.feriado .tag{color:#fff;}
-  .day.cancelado{background:#DC2626;border-color:#DC2626;}
-  .day.cancelado .num,.day.cancelado .tag{color:#fff;}
-
-  /* Legenda */
-  .legend{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;box-shadow:0 3px 12px rgba(11,37,69,.06);margin-bottom:20px;}
-  .legend .title{font-size:.68rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--navy);border-right:2px solid var(--orange);padding-right:14px;}
-  .legend .item{display:flex;align-items:center;gap:7px;font-size:.72rem;font-weight:600;color:var(--navy);}
-  .sw{width:15px;height:15px;border-radius:4px;flex:0 0 auto;}
-
-  /* Cronograma */
-  .aulas-lista{display:flex;flex-direction:column;gap:8px;}
-  .aula-item{display:grid;grid-template-columns:52px 150px 1fr;align-items:center;gap:14px;padding:12px 16px;background:#FBFDFF;border:1px solid var(--line);border-radius:12px;}
-  .aula-num{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;}
-  .aula-item.inicio .aula-num{background:#16A34A;}
-  .aula-item.aula .aula-num{background:#2563EB;}
-  .aula-item.meet .aula-num{background:#7C3AED;}
-  .aula-item.recesso .aula-num{background:#FACC15;color:#422006;}
-  .aula-item.fim .aula-num{background:#38BDF8;color:#0C2A44;}
-  .aula-data{font-size:.85rem;font-weight:800;color:var(--navyDark);}
-  .aula-data small{display:block;font-size:.62rem;color:var(--gray);font-weight:700;text-transform:uppercase;margin-top:2px;}
-  .aula-tema{font-size:.82rem;color:#334155;line-height:1.5;}
-
-  /* Conteúdo */
-  .prog-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px 24px;list-style:none;}
-  .prog-list li{font-size:.78rem;color:#334155;padding-left:18px;position:relative;line-height:1.55;}
-  .prog-list li::before{content:"●";color:var(--orange);font-size:.55rem;position:absolute;left:0;top:6px;}
-
-  /* SIGAA */
-  .sigaa-card{background:linear-gradient(135deg,#F1F5F9 0%,#E0E7FF 100%);border-radius:14px;padding:20px 22px;border-left:6px solid var(--orange);}
-  .sigaa-card h4{font-size:.95rem;font-weight:800;color:var(--navy);margin-bottom:10px;}
-  .sigaa-card p{font-size:.8rem;color:#334155;margin-bottom:14px;line-height:1.6;}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 20px;margin-bottom:16px;counter-reset:step;list-style:none;}
-  .steps li{font-size:.76rem;color:#334155;list-style:none;padding-left:28px;position:relative;line-height:1.5;}
-  .steps li::before{content:counter(step);counter-increment:step;position:absolute;left:0;top:-2px;width:20px;height:20px;border-radius:50%;background:var(--navy);color:#fff;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
-  .sigaa-links{display:flex;flex-wrap:wrap;gap:10px;}
-  .sigaa-links a{text-decoration:none;background:var(--orange);color:#fff;padding:10px 18px;border-radius:10px;font-size:.74rem;font-weight:800;display:inline-flex;align-items:center;gap:7px;box-shadow:0 4px 12px rgba(249,115,22,.25);}
-  .sigaa-links a.youtube{background:var(--red);box-shadow:0 4px 12px rgba(220,38,38,.25);}
-  .qr-box{display:flex;align-items:center;gap:16px;margin-top:16px;padding:14px;border:1px dashed #C7D2E1;border-radius:12px;background:#fff;}
-  .qr-box #qrcode{width:110px;height:110px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
-  .qr-box .qr-txt{font-size:.74rem;color:#334155;line-height:1.5;}
-  .qr-box .qr-txt strong{display:block;color:var(--navy);font-size:.82rem;margin-bottom:4px;}
-
-  /* RODAPÉ INSTITUCIONAL */
-  .footer{margin-top:30px;background:var(--navy);color:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 26px rgba(11,37,69,.22);}
-  .footer-top{padding:22px 30px 18px;border-bottom:1px solid rgba(255,255,255,.12);text-align:center;}
-  .footer-top .uni{font-size:clamp(.85rem,1.5vw,1.05rem);font-weight:800;letter-spacing:1.4px;color:#fff;}
-  .footer-top .pro-reit{font-size:clamp(.68rem,1.1vw,.78rem);color:var(--textLight);margin-top:5px;letter-spacing:.6px;}
-  .footer-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px 40px;padding:24px 30px;}
-  .footer-col h4{font-size:.68rem;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--orange);margin-bottom:11px;}
-  .footer-col p{font-size:.76rem;color:#DCE7F5;line-height:1.65;margin-bottom:4px;}
-  .footer-col p b{color:#fff;font-weight:700;}
-  .footer-col a{display:block;font-size:.76rem;color:#DCE7F5;text-decoration:none;padding:3px 0;transition:color .15s;}
-  .footer-col a:hover{color:var(--orange);}
-  .footer-bottom{background:rgba(0,0,0,.25);padding:14px 30px;text-align:center;font-size:.7rem;color:var(--textLight);letter-spacing:.4px;line-height:1.6;}
-  .footer-bottom strong{color:#fff;}
-
-  /* Loading */
-  .loading{text-align:center;padding:60px 20px;color:var(--gray);}
-  .loading .spinner{display:inline-block;width:40px;height:40px;border:4px solid var(--line);border-top-color:var(--orange);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:14px;}
-  @keyframes spin{to{transform:rotate(360deg);}}
-
-  /* Responsivo */
-  @media (max-width:980px){.months{grid-template-columns:1fr;}}
-  @media (max-width:560px){
-    .container{padding:14px 10px;}
-    .header{padding:22px 18px;border-radius:14px;}
-    .card{padding:16px;}
-    .day{min-height:48px;border-radius:5px;}
-    .aula-item{grid-template-columns:44px 1fr;gap:10px;}
-    .aula-data{grid-column:2;}
-    .aula-tema{grid-column:1/-1;font-size:.78rem;}
-    .legend{gap:8px 12px;padding:12px;}
-    .legend .title{border-right:none;padding-right:0;width:100%;}
-    .btn{font-size:.74rem;padding:10px 16px;}
-    .footer-body{grid-template-columns:1fr;gap:18px;padding:20px;}
-    .footer-top,.footer-bottom{padding:16px 20px;}
-  }
-  @media print{
-    .top-actions{display:none;}
-    .header,.card,.month,.legend,.aula-item,.sigaa-card,.aviso{box-shadow:none !important;}
-    .months{grid-template-columns:1fr 1fr !important;}
-    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
-  }
-</style>
+<meta name="description" content="Libras nas Comunidades: Benedito Bentes 3 — Projeto de Extensão da UFAL">
+<title>Libras nas Comunidades — Benedito Bentes 3</title>
+<link rel="stylesheet" href="estilo.css">
 </head>
 <body>
+
+<nav class="nav-top">
+  <div class="nav-top-inner" id="menu-top"></div>
+</nav>
 
 <div class="container" id="app">
   <div class="loading">
     <div class="spinner"></div>
-    <div>Carregando calendário...</div>
+    <div>Carregando...</div>
   </div>
 </div>
 
@@ -178,198 +24,116 @@
 (async function(){
   let D;
   try{
-    const resp = await fetch('dados.json?t=' + Date.now());
-    if(!resp.ok) throw new Error('HTTP ' + resp.status);
-    D = await resp.json();
+    const r = await fetch('dados.json?t=' + Date.now());
+    D = await r.json();
   }catch(e){
     document.getElementById('app').innerHTML = `
-      <div class="card" style="text-align:center;padding:60px 20px;">
-        <h3 style="border:none;justify-content:center;">⚠️ Não foi possível carregar o calendário</h3>
-        <p style="color:#64748B;font-size:.85rem;margin-top:10px;">Verifique se o arquivo <b>dados.json</b> existe.</p>
+      <div class="secao" style="text-align:center;padding:60px 24px;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
+        <h3 style="color:#0B2545;">Erro ao carregar</h3>
+        <p style="color:#64748B;font-size:.85rem;margin-top:8px;">Verifique se o arquivo <b>dados.json</b> existe.</p>
       </div>`;
     return;
   }
 
-  const TIPOS_INFO = {
-    inicio:{label:'Início do Curso',cor:'#16A34A'},
-    aula:{label:'Aula Presencial',cor:'#2563EB'},
-    meet:{label:'Google Meet',cor:'#7C3AED'},
-    ativ:{label:'Atividade Complementar',cor:'#0D9488'},
-    avaliacao:{label:'Avaliação',cor:'#F97316'},
-    recesso:{label:'Recesso',cor:'#FACC15'},
-    feriado:{label:'Feriado',cor:'#475569'},
-    cancelado:{label:'Cancelado',cor:'#DC2626'},
-    fim:{label:'Encerramento',cor:'#38BDF8'}
-  };
-
-  const dataBR = iso => { if(!iso) return ''; const [a,m,d] = iso.split('-'); return `${d}/${m}/${a}`; };
-  const diaSemanaBR = iso => { const dt = new Date(iso+'T12:00:00'); return ['domingo','segunda','terça','quarta','quinta','sexta','sábado'][dt.getDay()]; };
+  const S = D.site || {};
+  const H = D.home || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  /* Cabeçalho */
-  const headerHtml = `
-    <header class="header">
-      <div class="universidade">UNIVERSIDADE FEDERAL DE ALAGOAS</div>
-      <div class="proReitoria">PRÓ-REITORIA DE EXTENSÃO E CULTURA – PROEXC • FACULDADE DE LETRAS</div>
-      <div class="projeto">${esc(D.projeto)}</div>
-      <h1>🤟 ${esc(D.curso)}</h1>
-      ${D.subtitulo?`<div style="font-size:.9rem;color:#B9CCE5;margin-top:6px;position:relative;z-index:2;">${esc(D.subtitulo)}</div>`:''}
-      <div class="bar"></div>
-      <div class="info">
-        <p><span class="dot"></span><b>Período:</b> ${esc(D.periodo)}</p>
-        <p><span class="dot"></span><b>Aulas:</b> ${esc(D.aulas)}</p>
-        <p><span class="dot"></span><b>Horário:</b> ${esc(D.horario)}</p>
-        <p><span class="dot"></span><b>Carga-horária:</b> ${D.carga} horas</p>
-        ${D.local?`<p><span class="dot"></span><b>Local:</b> ${esc(D.local)}</p>`:''}
-      </div>
-    </header>
-  `;
-
-  /* Aviso */
-  const avisoHtml = `
-    <div class="aviso">
-      <div class="icon">⚠️</div>
-      <div>
-        <strong>IMPORTANTE — Certificado</strong>
-        <p>A participação no curso <b>exige cadastro prévio no SIGAA/UFAL – Extensão</b>. Sem esse cadastro, o certificado de ${D.carga} horas não poderá ser emitido.</p>
-      </div>
-    </div>
-  `;
-
-  /* Calendário */
-  const eventos = D.eventos || [];
-  const mapa = {};
-  eventos.forEach(ev => { if(!mapa[ev.data]) mapa[ev.data]=[]; mapa[ev.data].push(ev); });
-
-  const datas = eventos.map(e => e.data).sort();
-  const meses = [];
-  if(datas.length){
-    let cur = new Date(datas[0]+'T12:00:00'); cur.setDate(1);
-    const fim = new Date(datas[datas.length-1]+'T12:00:00');
-    while(cur <= fim){ meses.push({ano:cur.getFullYear(),mes:cur.getMonth()}); cur.setMonth(cur.getMonth()+1); }
+  /* Menu */
+  function renderMenu(atual){
+    const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    const home = `<a href="index.html" class="${atual==='home'?'active':''}">🏠 Início</a>`;
+    const links = paginas.map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      return `<a href="${link}" class="${atual===p.slug?'active':''}">${p.icone||''} ${p.titulo}</a>`;
+    }).join('');
+    document.getElementById('menu-top').innerHTML = home + links;
   }
+  renderMenu('home');
 
-  const nomesMes = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
-
-  const mesesHtml = meses.map(({ano,mes}) => {
-    const primeiro = new Date(ano,mes,1);
-    const ultimo = new Date(ano,mes+1,0);
-    const diaInicio = primeiro.getDay();
-    const total = ultimo.getDate();
-    let cells = '';
-    for(let i=0;i<diaInicio;i++) cells+=`<div class="day empty"></div>`;
-    for(let d=1;d<=total;d++){
-      const dt = new Date(ano,mes,d);
-      const iso = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const evs = mapa[iso]||[];
-      const diaSem = dt.getDay();
-      let classe = '', tag = '';
-      if(evs.length){ classe=evs[0].tipo; tag=evs[0].rotulo||''; }
-      else if(diaSem===6) classe='sat';
-      else if(diaSem===0) classe='dom';
-      cells+=`<div class="day ${classe}"><span class="num">${d}</span>${tag?`<span class="tag">${esc(tag)}</span>`:''}</div>`;
-    }
-    return `<article class="month"><h3>${nomesMes[mes]} ${ano}</h3><div class="grid">
-      <div class="dow dom">DOM</div><div class="dow">SEG</div><div class="dow">TER</div>
-      <div class="dow">QUA</div><div class="dow">QUI</div><div class="dow">SEX</div><div class="dow">SÁB</div>
-      ${cells}</div></article>`;
-  }).join('');
-
-  const calHtml = `<div class="months">${mesesHtml}</div>`;
-
-  /* Legenda */
-  const tiposUsados = new Set(eventos.map(e=>e.tipo));
-  const legendItems = Object.keys(TIPOS_INFO).filter(t=>tiposUsados.has(t))
-    .map(t=>`<span class="item"><span class="sw" style="background:${TIPOS_INFO[t].cor}"></span> ${TIPOS_INFO[t].label}</span>`).join('');
-  const legendHtml = `<div class="legend"><span class="title">Legenda</span>${legendItems||'<span class="item">Nenhum evento</span>'}</div>`;
-
-  /* Cronograma */
-  const ordenados = eventos.slice().sort((a,b)=>a.data.localeCompare(b.data));
-  let n=0;
-  const aulasHtml = ordenados.length ? `
-    <div class="card"><h3><span class="ic">📅</span> Cronograma Completo</h3>
-      <div class="aulas-lista">
-        ${ordenados.map(ev=>{ n++;
-          return `<div class="aula-item ${ev.tipo||'aula'}">
-            <div class="aula-num">${String(n).padStart(2,'0')}</div>
-            <div class="aula-data">${dataBR(ev.data)}<small>${diaSemanaBR(ev.data)} · ${D.horario}</small></div>
-            <div class="aula-tema">${esc(ev.descricao||ev.rotulo||'')}</div>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>` : '';
-
-  /* Conteúdo */
-  const itens = (D.conteudo||'').split('\n').filter(s=>s.trim());
-  const conteudoHtml = itens.length ? `
-    <div class="card"><h3><span class="ic">📖</span> Conteúdo Programático</h3>
-      <ul class="prog-list">${itens.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>
-    </div>` : '';
-
-  /* SIGAA */
-  const passos = ['Acesse o link do SIGAA/UFAL.','Clique em "Cadastre-se".','Preencha seus dados pessoais.','Crie seu usuário e senha.','Confirme o cadastro.','Acesse o SIGAA com seu login e senha.','Procure pelo curso "Libras nas Comunidades" e realize a inscrição.'];
-  const sigaaHtml = `
-    <div class="card"><h3><span class="ic">🔗</span> ${esc(D.inscTitulo||'Cadastro no SIGAA/UFAL')}</h3>
-      <div class="sigaa-card">
-        <h4>${esc(D.inscTexto||'Realize seu cadastro no SIGAA/UFAL – Extensão.')}</h4>
-        <p>Para receber o certificado, é necessário se cadastrar no SIGAA/UFAL – Extensão:</p>
-        <ol class="steps">${passos.map(p=>`<li>${esc(p)}</li>`).join('')}</ol>
-        <div class="sigaa-links">
-          ${D.linkCadastro?`<a href="${esc(D.linkCadastro)}" target="_blank" rel="noopener">🔗 Cadastro no SIGAA</a>`:''}
-          ${D.linkVideo?`<a class="youtube" href="${esc(D.linkVideo)}" target="_blank" rel="noopener">🎥 Vídeo passo a passo</a>`:''}
+  /* Hero */
+  const heroHtml = `
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-topo">
+          <div class="hero-logo">🤟</div>
+          <div class="hero-topo-txt">
+            <div class="uni">Universidade Federal de Alagoas</div>
+            <div class="pro-reit">PROEXC · Faculdade de Letras — FALE</div>
+          </div>
         </div>
-        ${D.linkCadastro?`<div class="qr-box"><div id="qrcode"></div><div class="qr-txt"><strong>📱 QR Code do cadastro</strong>Aponte a câmera do celular para acessar diretamente o link do SIGAA/UFAL.</div></div>`:''}
+        <div class="hero-bar"></div>
+        <div class="hero-eyebrow">Projeto de Extensão</div>
+        <h1 class="hero-titulo">${esc(H.titulo || S.projeto)}</h1>
+        <p class="hero-subtitulo">${esc(H.subtitulo || S.curso)}</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item"><span class="dot"></span><b>Período:</b> ${esc(S.periodo)}</div>
+          <div class="hero-meta-item"><span class="dot"></span><b>Aulas:</b> ${esc(S.aulas)}</div>
+          <div class="hero-meta-item"><span class="dot"></span><b>Horário:</b> ${esc(S.horario)}</div>
+          <div class="hero-meta-item"><span class="dot"></span><b>Carga:</b> ${esc(S.carga)} horas</div>
+        </div>
       </div>
-    </div>`;
+    </section>
+  `;
 
-  /* RODAPÉ */
+  /* Descrição */
+  const descricaoHtml = H.descricao ? `
+    <div class="secao" style="text-align:center;padding:22px 26px;">
+      <p style="font-size:.92rem;color:#334155;line-height:1.6;max-width:820px;margin:0 auto;">${esc(H.descricao)}</p>
+    </div>
+  ` : '';
+
+  /* Cards */
+  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+  const cardsHtml = paginas.length ? `
+    <div class="home-grid">
+      ${paginas.map(p => {
+        const link = p.tipo === 'calendario' ? 'calendario.html' : 'pagina.html?slug=' + encodeURIComponent(p.slug);
+        return `
+          <a class="home-card" href="${link}">
+            <div class="icone">${esc(p.icone || '📄')}</div>
+            <h3>${esc(p.titulo)}</h3>
+            <p>${esc(p.descricao || '')}</p>
+            <span class="seta">Acessar →</span>
+          </a>`;
+      }).join('')}
+    </div>
+  ` : '<p style="text-align:center;color:#64748B;padding:30px;">Nenhuma página disponível.</p>';
+
+  /* Rodapé */
   const rodapeHtml = `
-    <footer class="footer">
-      <div class="footer-top">
+    <footer class="rodape">
+      <div class="rodape-topo">
         <div class="uni">UNIVERSIDADE FEDERAL DE ALAGOAS</div>
         <div class="pro-reit">Pró-Reitoria de Extensão e Cultura — PROEXC · Faculdade de Letras — FALE</div>
       </div>
-
-      <div class="footer-body">
-        <div class="footer-col">
+      <div class="rodape-corpo">
+        <div class="rodape-col">
           <h4>📌 Projeto</h4>
           <p><b>Libras nas Comunidades</b></p>
           <p>Benedito Bentes 3</p>
           <p>Código CR096-2026</p>
-          <p>Ação de Extensão Universitária</p>
         </div>
-
-        <div class="footer-col">
+        <div class="rodape-col">
           <h4>👥 Equipe</h4>
           <p><b>Coordenação</b></p>
           <p>Profa. Dra. Edineide dos Santos Silva</p>
           <p style="margin-top:8px;"><b>Instrutor</b></p>
           <p>Adeilton Wachill dos Santos Olimpio</p>
         </div>
-
-        <div class="footer-col">
+        <div class="rodape-col">
           <h4>🔗 Links úteis</h4>
-          <a href="${D.linkCadastro || '#'}" target="_blank" rel="noopener">→ Cadastro no SIGAA/UFAL</a>
-          <a href="${D.linkVideo || '#'}" target="_blank" rel="noopener">→ Vídeo passo a passo</a>
+          <a href="${esc(S.linkCadastro || '#')}" target="_blank" rel="noopener">→ Cadastro no SIGAA/UFAL</a>
+          <a href="${esc(S.linkVideo || '#')}" target="_blank" rel="noopener">→ Vídeo passo a passo</a>
           <a href="https://ufal.br" target="_blank" rel="noopener">→ Portal da UFAL</a>
-          <a href="https://sigaa.sig.ufal.br" target="_blank" rel="noopener">→ SIGAA/UFAL</a>
         </div>
       </div>
-
-      <div class="footer-bottom">
-        © 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados
-      </div>
+      <div class="rodape-base">© 2026 <strong>UFAL</strong> · PROEXC · FALE · Todos os direitos reservados</div>
     </footer>
   `;
 
-  const actionsHtml = `<div class="top-actions"><button class="btn pdf" onclick="window.print()">📄 SALVAR COMO PDF</button></div>`;
-
-  document.getElementById('app').innerHTML = actionsHtml + headerHtml + avisoHtml + calHtml + legendHtml + aulasHtml + conteudoHtml + sigaaHtml + rodapeHtml;
-
-  if(D.linkCadastro && typeof QRCode !== 'undefined'){
-    const el = document.getElementById('qrcode');
-    if(el) new QRCode(el,{text:D.linkCadastro,width:100,height:100,colorDark:'#0B2545',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
-  }
+  document.getElementById('app').innerHTML = heroHtml + descricaoHtml + cardsHtml + rodapeHtml;
 })();
 </script>
 </body>
