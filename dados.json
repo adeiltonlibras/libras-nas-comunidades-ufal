@@ -1,0 +1,32 @@
+{
+  "projeto": "LIBRAS NAS COMUNIDADES",
+  "curso": "CURSO BÁSICO DE LIBRAS – NÍVEL I",
+  "subtitulo": "Projeto de Extensão • UFAL",
+  "local": "Assembleia de Deus em Benedito Bentes 3 • Maceió/AL",
+  "periodo": "17/10/2026 a 23/01/2027",
+  "aulas": "aos sábados",
+  "horario": "15h às 17h",
+  "carga": 40,
+  "inscTitulo": "CADASTRO NO SIGAA/UFAL – EXTENSÃO",
+  "inscTexto": "Para participar do curso Libras nas Comunidades, realize seu cadastro no SIGAA/UFAL – Extensão.",
+  "linkCadastro": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf",
+  "linkVideo": "https://youtu.be/WtgErX91gs0",
+  "conteudo": "Vocabulário básico e usual do cotidiano\nAlfabeto manual\nNúmeros\nDatilologia\nCumprimentos\nVerbos\nCalendário\nSemana\nMeses\nAno\nHoras\nCores\nSinais do contexto escolar\nSinais do contexto familiar\nIntrodução aos 5 parâmetros da LIBRAS\nExpressões faciais e sentimentos\nAdjetivos\nAntônimos\nPronomes pessoais\nPronomes possessivos\nPronomes demonstrativos",
+  "eventos": [
+    {"data":"2026-10-17","tipo":"inicio","rotulo":"Início","descricao":"Aula 01 · Introdução à Libras, língua, comunidade e cultura surda","horario":"15h às 17h","carga":2},
+    {"data":"2026-10-24","tipo":"aula","rotulo":"Aula","descricao":"Aula 02 · Alfabeto manual e datilologia","horario":"15h às 17h","carga":2},
+    {"data":"2026-10-31","tipo":"aula","rotulo":"Aula","descricao":"Aula 03 · Números, idade, datas e horários","horario":"15h às 17h","carga":2},
+    {"data":"2026-11-07","tipo":"aula","rotulo":"Aula","descricao":"Aula 04 · Saudações e apresentação pessoal","horario":"15h às 17h","carga":2},
+    {"data":"2026-11-14","tipo":"aula","rotulo":"Aula","descricao":"Aula 05 · Família, pessoas e relações sociais","horario":"15h às 17h","carga":2},
+    {"data":"2026-11-21","tipo":"aula","rotulo":"Aula","descricao":"Aula 06 · Cores, objetos, lugares e vocabulário básico","horario":"15h às 17h","carga":2},
+    {"data":"2026-11-28","tipo":"aula","rotulo":"Aula","descricao":"Aula 07 · Verbos e frases básicas","horario":"15h às 17h","carga":2},
+    {"data":"2026-12-05","tipo":"aula","rotulo":"Aula","descricao":"Aula 08 · Perguntas, respostas e comunicação cotidiana","horario":"15h às 17h","carga":2},
+    {"data":"2026-12-12","tipo":"aula","rotulo":"Aula","descricao":"Aula 09 · Estrutura básica das frases em Libras","horario":"15h às 17h","carga":2},
+    {"data":"2026-12-19","tipo":"aula","rotulo":"Aula","descricao":"Aula 10 · Expressões não manuais e uso do espaço","horario":"15h às 17h","carga":2},
+    {"data":"2026-12-26","tipo":"recesso","rotulo":"Recesso","descricao":"Recesso de fim de ano — sem aula","horario":"—","carga":0},
+    {"data":"2027-01-02","tipo":"aula","rotulo":"Aula","descricao":"Aula 11 · Situações comunicativas do cotidiano","horario":"15h às 17h","carga":2},
+    {"data":"2027-01-09","tipo":"aula","rotulo":"Aula","descricao":"Aula 12 · Libras e acessibilidade em espaços sociais","horario":"15h às 17h","carga":2},
+    {"data":"2027-01-16","tipo":"aula","rotulo":"Aula","descricao":"Aula 13 · Libras no contexto religioso e sinais bíblicos","horario":"15h às 17h","carga":2},
+    {"data":"2027-01-23","tipo":"fim","rotulo":"Encerramento","descricao":"Aula 14 · Prática integrada e avaliação final","horario":"15h às 17h","carga":2}
+  ]
+}
