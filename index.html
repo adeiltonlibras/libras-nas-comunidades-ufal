@@ -12,18 +12,27 @@
 <header class="app-header">
   <a href="index.html" class="app-brand">
     <div style="display:flex; gap:8px; align-items:center;">
-      <img src="logo-ufal.png" alt="UFAL">
-      <img src="logo-letras-libras.png" alt="Letras Libras">
+      <img src="logo-ufal.png" alt="UFAL" onerror="this.style.display='none'">
+      <img src="logo-letras-libras.png" alt="Letras Libras" onerror="this.style.display='none'">
     </div>
     <div>
       <div class="app-title">Libras nas Comunidades</div>
       <div class="app-subtitle">UFAL · FALE · PROEXC</div>
     </div>
   </a>
-  <nav class="app-nav" id="menu"></nav>
+  <nav class="app-nav" id="menu">
+    <li><a href="index.html">Início</a></li>
+    <li><a href="calendario.html">Calendário</a></li>
+    <li><a href="pagina.html?slug=inscricoes" class="btn-inscricao">📝 Pré-Inscrição</a></li>
+  </nav>
 </header>
 
-<div class="wrapper" id="app"></div>
+<div class="wrapper" id="app">
+  <div style="padding: 60px 20px; text-align: center;">
+    <h3 style="color: #2563EB;">Carregando informações do portal...</h3>
+    <p style="color: #64748B; margin-top: 8px;">Aguarde um instante.</p>
+  </div>
+</div>
 
 <footer class="app-footer">
   <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
@@ -35,10 +44,17 @@
   let D;
   try{
     const r = await fetch('dados.json?t=' + Date.now());
-    if(!r.ok) throw new Error('Erro');
+    if(!r.ok) throw new Error('HTTP ' + r.status);
     D = await r.json();
   }catch(e){
-    document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar dados.json</h2></div>';
+    console.error("Erro ao carregar dados.json:", e);
+    document.getElementById('app').innerHTML = `
+      <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:16px; padding:40px; text-align:center; max-width:600px; margin:40px auto; box-shadow:0 10px 30px rgba(0,0,0,0.05);">
+        <h3 style="color:#DC2626; margin-bottom:10px;">⚠️ Aviso do Sistema</h3>
+        <p style="color:#475569; font-size:0.9rem; margin-bottom:20px;">Não foi possível carregar o arquivo <b>dados.json</b>. Verifique se ele está enviado corretamente na raiz do repositório no GitHub.</p>
+        <a href="pagina.html?slug=inscricoes" style="background:#2563EB; color:#FFF; padding:10px 20px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.85rem;">Ir para Página de Inscrições</a>
+      </div>
+    `;
     return;
   }
 
@@ -46,28 +62,32 @@
   const H = D.home || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // Renderiza menu superior
-  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
-  document.getElementById('menu').innerHTML = paginas.map(p => {
-    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-    const isCta = p.slug === 'inscricoes';
-    return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-  }).join('') + `<li><a href="pagina.html?slug=inscricoes" class="btn-inscricao">📝 Pré-Inscrição</a></li>`;
+  // Renderiza menu superior com segurança
+  if(Array.isArray(D.paginas)){
+    const paginas = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    document.getElementById('menu').innerHTML = paginas.map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      const isCta = p.slug === 'inscricoes';
+      return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
+    }).join('');
+  }
 
   // Alerta Inteligente da Próxima Aula
-  const hojeStr = new Date().toISOString().slice(0,10);
-  const eventosFuturos = (D.eventos || []).filter(e => e.data >= hojeStr).sort((a,b) => a.data.localeCompare(b.data));
-  const proximaAula = eventosFuturos.length ? eventosFuturos[0] : null;
-
   let alertaProximaAulaHtml = '';
-  if(proximaAula){
-    const [ano, mes, dia] = proximaAula.data.split('-');
-    alertaProximaAulaHtml = `
-      <div style="background:rgba(37,99,235,0.25);border:1px solid rgba(96,165,250,0.4);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:0.82rem;display:flex;align-items:center;gap:10px;color:#E2E8F0;">
-        <span style="font-size:1.2rem;">📌</span>
-        <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(proximaAula.descricao)}</div>
-      </div>
-    `;
+  if(Array.isArray(D.eventos) && D.eventos.length > 0){
+    const hojeStr = new Date().toISOString().slice(0,10);
+    const eventosFuturos = D.eventos.filter(e => e.data >= hojeStr).sort((a,b) => a.data.localeCompare(b.data));
+    const proximaAula = eventosFuturos.length ? eventosFuturos[0] : null;
+
+    if(proximaAula){
+      const [ano, mes, dia] = proximaAula.data.split('-');
+      alertaProximaAulaHtml = `
+        <div style="background:rgba(37,99,235,0.25);border:1px solid rgba(96,165,250,0.4);border-radius:12px;padding:12px 16px;margin-bottom:20px;font-size:0.82rem;display:flex;align-items:center;gap:10px;color:#E2E8F0;">
+          <span style="font-size:1.2rem;">📌</span>
+          <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(proximaAula.descricao)}</div>
+        </div>
+      `;
+    }
   }
 
   const dashboardHero = `
@@ -75,7 +95,7 @@
       <div>
         <div class="hero-badge"><span class="dot"></span> Ação Oficial de Extensão Universitária</div>
         <h1>Curso Básico de Libras<br><span>Nível I — Benedito Bentes 3</span></h1>
-        <p>${esc(H.descricao || S.subtitulo)}</p>
+        <p>${esc(H.descricao || S.subtitulo || '')}</p>
         
         ${alertaProximaAulaHtml}
 
@@ -87,27 +107,30 @@
       
       <div class="hero-stats-card">
         <h4 style="color:#FFF;font-size:0.9rem;margin-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:8px;">📌 Detalhes da Turma</h4>
-        <div class="stat-row"><span class="stat-label">Período</span><span class="stat-val">${esc(S.periodo)}</span></div>
-        <div class="stat-row"><span class="stat-label">Dias</span><span class="stat-val">${esc(S.aulas)}</span></div>
-        <div class="stat-row"><span class="stat-label">Horário</span><span class="stat-val">${esc(S.horario)}</span></div>
-        <div class="stat-row"><span class="stat-label">Carga Horária</span><span class="stat-val">${esc(S.carga)}h (Certificado UFAL)</span></div>
+        <div class="stat-row"><span class="stat-label">Período</span><span class="stat-val">${esc(S.periodo || '—')}</span></div>
+        <div class="stat-row"><span class="stat-label">Dias</span><span class="stat-val">${esc(S.aulas || '—')}</span></div>
+        <div class="stat-row"><span class="stat-label">Horário</span><span class="stat-val">${esc(S.horario || '—')}</span></div>
+        <div class="stat-row"><span class="stat-label">Carga Horária</span><span class="stat-val">${esc(S.carga || '40')}h (Certificado UFAL)</span></div>
       </div>
     </div>
   `;
 
-  const cardsGrid = paginas.map(p => {
-    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-    return `
-      <a href="${link}" class="module-card">
-        <div>
-          <div class="icon-box">${p.icone || '📂'}</div>
-          <h3>${esc(p.titulo)}</h3>
-          <p>${esc(p.descricao || 'Acesse o conteúdo detalhado desta seção.')}</p>
-        </div>
-        <div class="card-footer">Acessar seção →</div>
-      </a>
-    `;
-  }).join('');
+  let cardsGrid = '';
+  if(Array.isArray(D.paginas)){
+    cardsGrid = D.paginas.filter(p => p.publicada !== false).map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      return `
+        <a href="${link}" class="module-card">
+          <div>
+            <div class="icon-box">${p.icone || '📂'}</div>
+            <h3>${esc(p.titulo)}</h3>
+            <p>${esc(p.descricao || 'Acesse o conteúdo detalhado desta seção.')}</p>
+          </div>
+          <div class="card-footer">Acessar seção →</div>
+        </a>
+      `;
+    }).join('');
+  }
 
   document.getElementById('app').innerHTML = dashboardHero + `
     <div style="margin-top:36px;">
