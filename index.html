@@ -6,15 +6,21 @@
 <title>Libras nas Comunidades — Portal do Curso</title>
 <link rel="stylesheet" href="estilo.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  .aviso-topo{
+    padding:12px 20px;text-align:center;font-size:0.85rem;font-weight:700;
+    letter-spacing:0.2px;display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .aviso-topo.amarelo{background:#FEF3C7;color:#713F12;border-bottom:2px solid #FCD34D;}
+  .aviso-topo.azul{background:#EFF6FF;color:#1E40AF;border-bottom:2px solid #BFDBFE;}
+  .aviso-topo.verde{background:#DCFCE7;color:#166534;border-bottom:2px solid #86EFAC;}
+  .aviso-topo.vermelho{background:#FEE2E2;color:#991B1B;border-bottom:2px solid #FCA5A5;}
+</style>
 </head>
 <body>
 
-<!-- ============================================================
-     HEADER (TOPO)
-     - Para mudar o nome do projeto: edite .app-title
-     - Para mudar o subtítulo: edite .app-subtitle
-     - O menu é gerado automaticamente pelo JavaScript
-     ============================================================ -->
+<div id="avisoTopo"></div>
+
 <header class="app-header">
   <a href="index.html" class="app-brand">
     <div>
@@ -25,40 +31,22 @@
   <nav class="app-nav" id="menu"></nav>
 </header>
 
-
-<!-- ============================================================
-     CONTEÚDO PRINCIPAL
-     Todo o conteúdo abaixo é gerado pelo JavaScript
-     ============================================================ -->
 <div class="wrapper" id="app">
-  <div style="padding: 60px 20px; text-align: center;">
-    <h3 style="color: #2563EB;">Carregando informações do portal...</h3>
+  <div style="padding:60px 20px;text-align:center;">
+    <h3 style="color:#2563EB;">Carregando informações do portal...</h3>
   </div>
 </div>
 
-
-<!-- ============================================================
-     RODAPÉ
-     - Para mudar o texto: edite as linhas abaixo
-     ============================================================ -->
 <footer class="app-footer">
   <p style="font-size:.8rem;color:#64748B;line-height:1.7;max-width:800px;margin:0 auto;">
-    Ferramenta de apoio ao curso · Projeto Libras nas Comunidades<br>
-    <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">
-      Este site não é uma página oficial da UFAL
-    </span><br>
+    Ferramenta de apoio ao curso · <strong style="color:#0F172A;">Projeto Libras nas Comunidades</strong><br>
+    <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">Este site não é uma página oficial da UFAL</span><br>
     <span style="font-size:.72rem;color:#475569;margin-top:12px;display:inline-block;padding-top:12px;border-top:1px solid #E2E8F0;">
       💻 Desenvolvido por <strong style="color:#2563EB;">Adeilton Olimpio</strong> · © 2026
     </span>
   </p>
 </footer>
 
-
-<!-- ============================================================
-     JAVASCRIPT
-     - Carrega dados.json e monta a página automaticamente
-     - Não precisa mexer aqui a menos que queira mudar o comportamento
-     ============================================================ -->
 <script>
 (async function(){
   let D;
@@ -67,7 +55,7 @@
     if(!r.ok) throw new Error('HTTP ' + r.status);
     D = await r.json();
   }catch(e){
-    console.error("Erro ao carregar dados.json:", e);
+    console.error("Erro:", e);
     document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar os dados do sistema.</h2></div>';
     return;
   }
@@ -75,71 +63,87 @@
   const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // ============================
-  // MENU SUPERIOR
-  // ============================
+  // Configurações
+  const CFG = D.configuracoes || {};
+  const cfgAviso = CFG.avisoTopo || {};
+  const cfgHero = CFG.hero || {};
+  const cfgMenu = CFG.menu || {};
+  const cfgHome = CFG.home || {};
+
+  const mostrarAviso = cfgAviso.ativo === true;
+  const avisoTexto = cfgAviso.texto || '';
+  const avisoCor = cfgAviso.cor || 'amarelo';
+  const heroBanner = cfgHero.mostrarBanner !== false;
+  const heroBtn1 = cfgHero.mostrarBotao1 !== false;
+  const heroBtn2 = cfgHero.mostrarBotao2 !== false;
+  const menuInscricoes = cfgMenu.mostrarInscricoes !== false;
+  const menuSigaa = cfgMenu.mostrarSigaa !== false;
+  const homeAlerta = cfgHome.mostrarAlerta !== false;
+  const homeModulos = cfgHome.mostrarModulos !== false;
+
+  // Aviso topo
+  if(mostrarAviso && avisoTexto.trim()){
+    const el = document.getElementById('avisoTopo');
+    el.className = 'aviso-topo ' + avisoCor;
+    el.innerHTML = `<span>📢</span><span>${esc(avisoTexto)}</span>`;
+  }
+
+  // Menu
   if(Array.isArray(D.paginas)){
     const paginas = D.paginas
       .filter(p => p.publicada !== false)
+      .filter(p => !(p.slug === 'inscricoes' && !menuInscricoes))
       .sort((a,b) => (a.ordem||99) - (b.ordem||99));
 
-    document.getElementById('menu').innerHTML = paginas.map(p => {
-      const link = p.tipo === 'calendario'
-        ? 'calendario.html'
-        : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    let menuHtml = paginas.map(p => {
+      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
       const isCta = p.slug === 'inscricoes';
       return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-    }).join('') + `
-      <li>
-        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
-           target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a>
-      </li>`;
+    }).join('');
+
+    if(menuSigaa){
+      menuHtml += `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a></li>`;
+    }
+
+    document.getElementById('menu').innerHTML = menuHtml;
   }
 
-  // ============================
-  // ALERTA PRÓXIMO ENCONTRO
-  // ============================
-  let alertaProximaAulaHtml = '';
-  if(Array.isArray(D.eventos) && D.eventos.length > 0){
+  // Alerta próximo
+  let alertaHtml = '';
+  if(homeAlerta && Array.isArray(D.eventos) && D.eventos.length > 0){
     const hojeStr = new Date().toISOString().slice(0,10);
-    const eventosFuturos = D.eventos
-      .filter(e => e.data >= hojeStr)
-      .sort((a,b) => a.data.localeCompare(b.data));
-    const proximaAula = eventosFuturos.length ? eventosFuturos[0] : null;
-
-    if(proximaAula){
-      const [ano, mes, dia] = proximaAula.data.split('-');
-      alertaProximaAulaHtml = `
+    const futuros = D.eventos.filter(e => e.data >= hojeStr).sort((a,b) => a.data.localeCompare(b.data));
+    const prox = futuros.length ? futuros[0] : null;
+    if(prox){
+      const [ano, mes, dia] = prox.data.split('-');
+      alertaHtml = `
         <div class="alerta-proximo">
           <span>📌</span>
-          <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(proximaAula.descricao)}</div>
+          <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(prox.descricao)}</div>
         </div>
       `;
     }
   }
 
-  // ============================
-  // BANNER PRINCIPAL
-  // ============================
-  const bannerHeroHtml = `
-    <div class="banner-hero">
-      <img src="arte-formulario.png" alt="Curso de Libras Básico I"
-           onerror="this.parentElement.style.display='none'">
-    </div>
-  `;
+  // Banner
+  let bannerHtml = '';
+  if(heroBanner){
+    bannerHtml = `
+      <div class="banner-hero">
+        <img src="arte-formulario.png" alt="Curso de Libras Básico I" onerror="this.parentElement.style.display='none'">
+      </div>
+    `;
+  }
 
-  // ============================
-  // GRID DE MÓDULOS
-  // ============================
+  // Módulos
   let cardsGrid = '';
-  if(Array.isArray(D.paginas)){
+  if(homeModulos && Array.isArray(D.paginas)){
     cardsGrid = D.paginas
       .filter(p => p.publicada !== false)
+      .filter(p => !(p.slug === 'inscricoes' && !menuInscricoes))
       .sort((a,b) => (a.ordem||99) - (b.ordem||99))
       .map(p => {
-        const link = p.tipo === 'calendario'
-          ? 'calendario.html'
-          : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+        const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
         return `
           <a href="${link}" class="module-card">
             <div>
@@ -153,18 +157,14 @@
       }).join('');
   }
 
-  // ============================
-  // RENDER FINAL
-  // ============================
-  document.getElementById('app').innerHTML =
-    bannerHeroHtml +
-    alertaProximaAulaHtml +
-    `
-      <div>
-        <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
-        <div class="modules-grid">${cardsGrid}</div>
-      </div>
-    `;
+  const modulosHtml = (homeModulos && cardsGrid) ? `
+    <div>
+      <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
+      <div class="modules-grid">${cardsGrid}</div>
+    </div>
+  ` : '';
+
+  document.getElementById('app').innerHTML = bannerHtml + alertaHtml + modulosHtml;
 })();
 </script>
 </body>
