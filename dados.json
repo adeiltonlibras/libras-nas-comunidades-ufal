@@ -1,10 +1,6 @@
 {
   "configuracoes": {
-    "avisoTopo": {
-      "ativo": false,
-      "texto": "",
-      "cor": "amarelo"
-    },
+    "avisoTopo": { "ativo": false, "texto": "", "cor": "amarelo" },
     "hero": {
       "mostrarBanner": true,
       "mostrarBotao1": true,
@@ -14,14 +10,8 @@
       "botao2Texto": "📝 Fazer Inscrição",
       "botao2Link": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
     },
-    "menu": {
-      "mostrarInscricoes": true,
-      "mostrarSigaa": true
-    },
-    "home": {
-      "mostrarAlerta": true,
-      "mostrarModulos": true
-    }
+    "menu": { "mostrarInscricoes": true, "mostrarSigaa": true },
+    "home": { "mostrarAlerta": true, "mostrarModulos": true }
   },
   "site": {
     "projeto": "Libras nas Comunidades",
@@ -35,7 +25,8 @@
     "inscTitulo": "Cadastro no SIGAA/UFAL",
     "inscTexto": "Para participar do curso Libras nas Comunidades, realize seu cadastro no SIGAA/UFAL – Extensão.",
     "linkCadastro": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf",
-    "linkVideo": "https://youtu.be/WtgErX91gs0"
+    "linkVideo": "https://youtu.be/WtgErX91gs0",
+    "linkFormulario": ""
   },
   "home": {
     "titulo": "Libras nas Comunidades",
@@ -76,10 +67,10 @@
       "titulo": "Orientações",
       "icone": "📘",
       "descricao": "Documento oficial com etapas, cronograma e requisitos",
-      "tipo": "html",
+      "tipo": "orientacoes",
       "ordem": 2,
       "publicada": true,
-      "html": "<!-- Conteúdo renderizado automaticamente pelo pagina.html -->"
+      "html": ""
     },
     {
       "slug": "calendario",
