@@ -1,90 +1,24 @@
-{
-  "site": {
-    "projeto": "Libras nas Comunidades",
-    "curso": "Curso Básico de Libras – Nível I",
-    "subtitulo": "Projeto de Extensão Universitária",
-    "local": "Maceió/AL",
-    "periodo": "17/10/2026 a 23/01/2027",
-    "aulas": "aos sábados",
-    "horario": "15h às 17h30",
-    "carga": 40,
-    "inscTitulo": "Cadastro no SIGAA/UFAL",
-    "inscTexto": "Para participar do curso, realize seu cadastro no SIGAA/UFAL – Extensão.",
-    "linkCadastro": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf",
-    "linkVideo": "https://youtu.be/WtgErX91gs0"
+"configuracoes": {
+  "avisoTopo": {
+    "ativo": false,
+    "texto": "",
+    "cor": "amarelo"
+  },
+  "hero": {
+    "mostrarBanner": true,
+    "mostrarBotao1": true,
+    "botao1Texto": "📅 Ver Cronograma",
+    "botao1Link": "calendario.html",
+    "mostrarBotao2": true,
+    "botao2Texto": "📝 Fazer Inscrição",
+    "botao2Link": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
+  },
+  "menu": {
+    "mostrarInscricoes": true,
+    "mostrarSigaa": true
   },
   "home": {
-    "titulo": "Libras nas Comunidades",
-    "subtitulo": "Portal de apoio ao curso básico de Libras",
-    "descricao": "O projeto Libras nas Comunidades tem como objetivo difundir a Língua Brasileira de Sinais em comunidades de Maceió."
-  },
-  "conteudo": "Vocabulário básico\nAlfabeto manual\nNúmeros\nDatilologia\nCumprimentos",
-  "eventos": [
-    {"data":"2026-10-17","tipo":"inicio","rotulo":"Início","descricao":"Aula 01 · Introdução à Libras","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-10-24","tipo":"aula","rotulo":"Aula","descricao":"Aula 02 · Alfabeto manual","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-10-31","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
-    {"data":"2026-11-07","tipo":"aula","rotulo":"Aula","descricao":"Aula 03 · Números","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-11-14","tipo":"aula","rotulo":"Aula","descricao":"Aula 04 · Saudações","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-11-21","tipo":"aula","rotulo":"Aula","descricao":"Aula 05 · Família","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-11-28","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
-    {"data":"2026-12-05","tipo":"aula","rotulo":"Aula","descricao":"Aula 06 · Cores","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-12-12","tipo":"aula","rotulo":"Aula","descricao":"Aula 07 · Verbos","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-12-19","tipo":"aula","rotulo":"Aula","descricao":"Aula 08 · Perguntas","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-12-26","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
-    {"data":"2027-01-02","tipo":"aula","rotulo":"Aula","descricao":"Aula 09 · Estrutura das frases","horario":"15h às 17h30","carga":2.5},
-    {"data":"2027-01-09","tipo":"aula","rotulo":"Aula","descricao":"Aula 10 · Expressões não manuais","horario":"15h às 17h30","carga":2.5},
-    {"data":"2027-01-16","tipo":"aula","rotulo":"Aula","descricao":"Aula 11 · Situações comunicativas","horario":"15h às 17h30","carga":2.5},
-    {"data":"2027-01-23","tipo":"fim","rotulo":"Encerramento","descricao":"Aula 12 · Prática integrada","horario":"15h às 17h30","carga":2.5}
-  ],
-  "paginas": [
-    {
-      "slug": "sobre",
-      "titulo": "Sobre o Curso",
-      "icone": "📖",
-      "descricao": "Apresentação, objetivos e metodologia do projeto",
-      "tipo": "html",
-      "ordem": 1,
-      "publicada": true,
-      "html": "<h2>Sobre o Curso</h2><p>O curso <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária dedicado ao ensino da Língua Brasileira de Sinais (Libras) para ouvintes.</p><h3>Objetivo geral</h3><p>Difundir a Língua Brasileira de Sinais em comunidades, promovendo o acesso à comunicação e à cultura surda.</p><h3>Objetivos específicos</h3><ul><li>Estimular a prática docente dos licenciandos em Letras Libras;</li><li>Capacitar a comunidade sobre a Educação dos Surdos;</li><li>Promover o ensino, a pesquisa e a extensão universitária;</li><li>Reduzir o preconceito linguístico.</li></ul>"
-    },
-    {
-      "slug": "orientacoes",
-      "titulo": "Orientações",
-      "icone": "📘",
-      "descricao": "Documento oficial com etapas, cronograma e requisitos",
-      "tipo": "html",
-      "ordem": 2,
-      "publicada": true,
-      "html": "<h2>Orientações aos Participantes</h2><p>Documento destinado aos participantes pré-inscritos no curso.</p><h3>Próximas etapas</h3><ol><li>Aguardar as orientações do professor</li><li>Realizar o cadastro no SIGAA</li><li>Efetivar a inscrição no curso</li><li>Participar das aulas e atividades</li></ol>"
-    },
-    {
-      "slug": "calendario",
-      "titulo": "Calendário",
-      "icone": "📅",
-      "descricao": "Cronograma completo de aulas e eventos",
-      "tipo": "calendario",
-      "ordem": 3,
-      "publicada": true
-    },
-    {
-      "slug": "inscricoes",
-      "titulo": "Inscrições",
-      "icone": "📝",
-      "descricao": "Como se inscrever pelo SIGAA/UFAL",
-      "tipo": "html",
-      "ordem": 4,
-      "publicada": true,
-      "html": "<h2>Inscrições</h2><p>As inscrições são realizadas pelo <strong>SIGAA/UFAL – Módulo Extensão</strong>.</p><h3>Passo a passo</h3><ol><li>Acesse o link do SIGAA/UFAL – Extensão</li><li>Clique em <strong>Cadastre-se</strong></li><li>Preencha seus dados pessoais</li><li>Crie seu usuário e senha</li><li>Confirme o cadastro</li><li>Acesse o SIGAA com seu login</li><li>Procure pelo curso <strong>Libras nas Comunidades</strong> e realize a inscrição</li></ol>"
-    },
-    {
-      "slug": "equipe",
-      "titulo": "Equipe",
-      "icone": "👥",
-      "descricao": "Coordenação e equipe do projeto",
-      "tipo": "html",
-      "ordem": 5,
-      "publicada": true,
-      "html": "<h2>Equipe do Projeto</h2><h3>Coordenação</h3><p><strong>Profa. Dra. Edineide dos Santos Silva</strong><br>Faculdade de Letras (FALE) — UFAL</p><h3>Instrutor</h3><p><strong>Adeilton Wachill dos Santos Olimpio</strong><br>Discente de Letras Libras — UFAL</p>"
-    }
-  ]
+    "mostrarAlerta": true,
+    "mostrarModulos": true
+  }
 }
