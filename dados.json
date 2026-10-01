@@ -1,171 +1,114 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Libras nas Comunidades — Portal do Curso</title>
-<link rel="stylesheet" href="estilo.css">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  .aviso-topo{
-    padding:12px 20px;text-align:center;font-size:0.85rem;font-weight:700;
-    letter-spacing:0.2px;display:flex;align-items:center;justify-content:center;gap:10px;
-  }
-  .aviso-topo.amarelo{background:#FEF3C7;color:#713F12;border-bottom:2px solid #FCD34D;}
-  .aviso-topo.azul{background:#EFF6FF;color:#1E40AF;border-bottom:2px solid #BFDBFE;}
-  .aviso-topo.verde{background:#DCFCE7;color:#166534;border-bottom:2px solid #86EFAC;}
-  .aviso-topo.vermelho{background:#FEE2E2;color:#991B1B;border-bottom:2px solid #FCA5A5;}
-</style>
-</head>
-<body>
-
-<div id="avisoTopo"></div>
-
-<header class="app-header">
-  <a href="index.html" class="app-brand">
-    <div>
-      <div class="app-title">Libras nas Comunidades</div>
-      <div class="app-subtitle">UFAL · FALE · PROEXC</div>
-    </div>
-  </a>
-  <nav class="app-nav" id="menu"></nav>
-</header>
-
-<div class="wrapper" id="app">
-  <div style="padding:60px 20px;text-align:center;">
-    <h3 style="color:#2563EB;">Carregando informações do portal...</h3>
-  </div>
-</div>
-
-<footer class="app-footer">
-  <p style="font-size:.8rem;color:#64748B;line-height:1.7;max-width:800px;margin:0 auto;">
-    Ferramenta de apoio ao curso · <strong style="color:#0F172A;">Projeto Libras nas Comunidades</strong><br>
-    <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">Este site não é uma página oficial da UFAL</span><br>
-    <span style="font-size:.72rem;color:#475569;margin-top:12px;display:inline-block;padding-top:12px;border-top:1px solid #E2E8F0;">
-      💻 Desenvolvido por <strong style="color:#2563EB;">Adeilton Olimpio</strong> · © 2026
-    </span>
-  </p>
-</footer>
-
-<script>
-(async function(){
-  let D;
-  try{
-    const r = await fetch('dados.json?t=' + Date.now());
-    if(!r.ok) throw new Error('HTTP ' + r.status);
-    D = await r.json();
-  }catch(e){
-    console.error("Erro:", e);
-    document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar os dados do sistema.</h2></div>';
-    return;
-  }
-
-  const S = D.site || {};
-  const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-
-  // Configurações
-  const CFG = D.configuracoes || {};
-  const cfgAviso = CFG.avisoTopo || {};
-  const cfgHero = CFG.hero || {};
-  const cfgMenu = CFG.menu || {};
-  const cfgHome = CFG.home || {};
-
-  const mostrarAviso = cfgAviso.ativo === true;
-  const avisoTexto = cfgAviso.texto || '';
-  const avisoCor = cfgAviso.cor || 'amarelo';
-  const heroBanner = cfgHero.mostrarBanner !== false;
-  const heroBtn1 = cfgHero.mostrarBotao1 !== false;
-  const heroBtn2 = cfgHero.mostrarBotao2 !== false;
-  const menuInscricoes = cfgMenu.mostrarInscricoes !== false;
-  const menuSigaa = cfgMenu.mostrarSigaa !== false;
-  const homeAlerta = cfgHome.mostrarAlerta !== false;
-  const homeModulos = cfgHome.mostrarModulos !== false;
-
-  // Aviso topo
-  if(mostrarAviso && avisoTexto.trim()){
-    const el = document.getElementById('avisoTopo');
-    el.className = 'aviso-topo ' + avisoCor;
-    el.innerHTML = `<span>📢</span><span>${esc(avisoTexto)}</span>`;
-  }
-
-  // Menu
-  if(Array.isArray(D.paginas)){
-    const paginas = D.paginas
-      .filter(p => p.publicada !== false)
-      .filter(p => !(p.slug === 'inscricoes' && !menuInscricoes))
-      .sort((a,b) => (a.ordem||99) - (b.ordem||99));
-
-    let menuHtml = paginas.map(p => {
-      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-      const isCta = p.slug === 'inscricoes';
-      return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-    }).join('');
-
-    if(menuSigaa){
-      menuHtml += `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a></li>`;
+{
+  "configuracoes": {
+    "avisoTopo": {
+      "ativo": false,
+      "texto": "",
+      "cor": "amarelo"
+    },
+    "hero": {
+      "mostrarBanner": true,
+      "mostrarBotao1": true,
+      "botao1Texto": "📅 Ver Cronograma",
+      "botao1Link": "calendario.html",
+      "mostrarBotao2": true,
+      "botao2Texto": "📝 Fazer Inscrição",
+      "botao2Link": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
+    },
+    "menu": {
+      "mostrarInscricoes": true,
+      "mostrarSigaa": true
+    },
+    "home": {
+      "mostrarAlerta": true,
+      "mostrarModulos": true
     }
-
-    document.getElementById('menu').innerHTML = menuHtml;
-  }
-
-  // Alerta próximo
-  let alertaHtml = '';
-  if(homeAlerta && Array.isArray(D.eventos) && D.eventos.length > 0){
-    const hojeStr = new Date().toISOString().slice(0,10);
-    const futuros = D.eventos.filter(e => e.data >= hojeStr).sort((a,b) => a.data.localeCompare(b.data));
-    const prox = futuros.length ? futuros[0] : null;
-    if(prox){
-      const [ano, mes, dia] = prox.data.split('-');
-      alertaHtml = `
-        <div class="alerta-proximo">
-          <span>📌</span>
-          <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(prox.descricao)}</div>
-        </div>
-      `;
+  },
+  "site": {
+    "projeto": "Libras nas Comunidades",
+    "curso": "Curso Básico de Libras – Nível I",
+    "subtitulo": "Projeto de Extensão Universitária",
+    "local": "Maceió/AL",
+    "periodo": "17/10/2026 a 23/01/2027",
+    "aulas": "aos sábados",
+    "horario": "15h às 17h30",
+    "carga": 40,
+    "inscTitulo": "Cadastro no SIGAA/UFAL",
+    "inscTexto": "Para participar do curso Libras nas Comunidades, realize seu cadastro no SIGAA/UFAL – Extensão.",
+    "linkCadastro": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf",
+    "linkVideo": "https://youtu.be/WtgErX91gs0"
+  },
+  "home": {
+    "titulo": "Libras nas Comunidades",
+    "subtitulo": "Portal de apoio ao curso básico de Libras",
+    "descricao": "O projeto Libras nas Comunidades tem como objetivo difundir a Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social e capacitando ouvintes para a comunicação com a comunidade surda."
+  },
+  "conteudo": "Vocabulário básico e usual do cotidiano\nAlfabeto manual\nNúmeros\nDatilologia\nCumprimentos\nVerbos\nCalendário\nSemana\nMeses\nAno\nHoras\nCores\nSinais do contexto escolar\nSinais do contexto familiar\nIntrodução aos 5 parâmetros da LIBRAS\nExpressões faciais e sentimentos\nAdjetivos\nAntônimos\nPronomes pessoais\nPronomes possessivos\nPronomes demonstrativos",
+  "eventos": [
+    {"data":"2026-10-17","tipo":"inicio","rotulo":"Início","descricao":"Aula 01 · Introdução à Libras, língua, comunidade e cultura surda","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-10-24","tipo":"aula","rotulo":"Aula","descricao":"Aula 02 · Alfabeto manual e datilologia","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-10-31","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
+    {"data":"2026-11-07","tipo":"aula","rotulo":"Aula","descricao":"Aula 03 · Números, idade, datas e horários","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-11-14","tipo":"aula","rotulo":"Aula","descricao":"Aula 04 · Saudações e apresentação pessoal","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-11-21","tipo":"aula","rotulo":"Aula","descricao":"Aula 05 · Família, pessoas e relações sociais","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-11-28","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
+    {"data":"2026-12-05","tipo":"aula","rotulo":"Aula","descricao":"Aula 06 · Cores, objetos, lugares e vocabulário básico","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-12-12","tipo":"aula","rotulo":"Aula","descricao":"Aula 07 · Verbos e frases básicas","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-12-19","tipo":"aula","rotulo":"Aula","descricao":"Aula 08 · Perguntas, respostas e comunicação cotidiana","horario":"15h às 17h30","carga":2.5},
+    {"data":"2026-12-26","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
+    {"data":"2027-01-02","tipo":"aula","rotulo":"Aula","descricao":"Aula 09 · Estrutura básica das frases em Libras","horario":"15h às 17h30","carga":2.5},
+    {"data":"2027-01-09","tipo":"aula","rotulo":"Aula","descricao":"Aula 10 · Expressões não manuais e uso do espaço","horario":"15h às 17h30","carga":2.5},
+    {"data":"2027-01-16","tipo":"aula","rotulo":"Aula","descricao":"Aula 11 · Situações comunicativas do cotidiano","horario":"15h às 17h30","carga":2.5},
+    {"data":"2027-01-23","tipo":"fim","rotulo":"Encerramento","descricao":"Aula 12 · Prática integrada e avaliação final","horario":"15h às 17h30","carga":2.5}
+  ],
+  "paginas": [
+    {
+      "slug": "sobre",
+      "titulo": "Sobre o Curso",
+      "icone": "📖",
+      "descricao": "Apresentação, objetivos e metodologia do projeto",
+      "tipo": "html",
+      "ordem": 1,
+      "publicada": true,
+      "html": "<h2>Sobre o Curso</h2><p>O curso <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária dedicado ao ensino da Língua Brasileira de Sinais (Libras) para ouvintes, com o objetivo de promover a inclusão social e a comunicação com a comunidade surda.</p><h3>Objetivo geral</h3><p>Difundir a Língua Brasileira de Sinais em comunidades, promovendo o acesso à comunicação e à cultura surda.</p><h3>Objetivos específicos</h3><ul><li>Estimular a prática docente dos licenciandos em Letras Libras;</li><li>Capacitar a comunidade sobre a Educação dos Surdos;</li><li>Promover o ensino, a pesquisa e a extensão universitária;</li><li>Reduzir o preconceito linguístico e promover a inclusão.</li></ul><h3>Metodologia</h3><p>As aulas priorizam o aspecto visual, com atividades práticas, jogos, teatros, mímicas e imagens que facilitam a compreensão e a expressão em Libras.</p><h3>Perfil do participante</h3><p>Não é necessário conhecimento prévio em Libras. O curso é destinado a jovens e adultos ouvintes que desejam aprender a se comunicar com a comunidade surda.</p>"
+    },
+    {
+      "slug": "orientacoes",
+      "titulo": "Orientações",
+      "icone": "📘",
+      "descricao": "Documento oficial com etapas, cronograma e requisitos",
+      "tipo": "html",
+      "ordem": 2,
+      "publicada": true,
+      "html": "<!-- Conteúdo renderizado automaticamente pelo pagina.html -->"
+    },
+    {
+      "slug": "calendario",
+      "titulo": "Calendário",
+      "icone": "📅",
+      "descricao": "Cronograma completo de aulas e eventos",
+      "tipo": "calendario",
+      "ordem": 3,
+      "publicada": true
+    },
+    {
+      "slug": "inscricoes",
+      "titulo": "Inscrições",
+      "icone": "📝",
+      "descricao": "Como se inscrever pelo SIGAA/UFAL",
+      "tipo": "html",
+      "ordem": 4,
+      "publicada": true,
+      "html": "<h2>Inscrições</h2><p>As inscrições são realizadas pelo <strong>SIGAA/UFAL – Módulo Extensão</strong>.</p><h3>Passo a passo</h3><ol><li>Acesse o link do SIGAA/UFAL – Extensão</li><li>Clique em <strong>Cadastre-se</strong></li><li>Preencha seus dados pessoais</li><li>Crie seu usuário e senha</li><li>Confirme o cadastro</li><li>Acesse o SIGAA com seu login</li><li>Procure pelo curso <strong>Libras nas Comunidades</strong> e realize a inscrição</li></ol><p style='text-align:center;margin-top:24px;'><a href='https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf' target='_blank' style='display:inline-block;background:#F97316;color:#FFF;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:800;'>🔗 Acessar SIGAA/UFAL</a></p>"
+    },
+    {
+      "slug": "equipe",
+      "titulo": "Equipe",
+      "icone": "👥",
+      "descricao": "Coordenação e equipe do projeto",
+      "tipo": "html",
+      "ordem": 5,
+      "publicada": true,
+      "html": "<h2>Equipe do Projeto</h2><h3>Coordenação</h3><p><strong>Profa. Dra. Edineide dos Santos Silva</strong><br>Faculdade de Letras (FALE) — UFAL</p><h3>Instrutor</h3><p><strong>Adeilton Wachill dos Santos Olimpio</strong><br>Discente de Letras Libras — UFAL</p><h3>Apoio institucional</h3><p>Pró-Reitoria de Extensão e Cultura (PROEXC)<br>Faculdade de Letras (FALE)<br>Assembleia de Deus em Benedito Bentes 3</p>"
     }
-  }
-
-  // Banner
-  let bannerHtml = '';
-  if(heroBanner){
-    bannerHtml = `
-      <div class="banner-hero">
-        <img src="arte-formulario.png" alt="Curso de Libras Básico I" onerror="this.parentElement.style.display='none'">
-      </div>
-    `;
-  }
-
-  // Módulos
-  let cardsGrid = '';
-  if(homeModulos && Array.isArray(D.paginas)){
-    cardsGrid = D.paginas
-      .filter(p => p.publicada !== false)
-      .filter(p => !(p.slug === 'inscricoes' && !menuInscricoes))
-      .sort((a,b) => (a.ordem||99) - (b.ordem||99))
-      .map(p => {
-        const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-        return `
-          <a href="${link}" class="module-card">
-            <div>
-              <div class="icon-box">${p.icone || '📂'}</div>
-              <h3>${esc(p.titulo)}</h3>
-              <p>${esc(p.descricao || 'Acesse o conteúdo detalhado desta seção.')}</p>
-            </div>
-            <div class="card-footer">Acessar seção →</div>
-          </a>
-        `;
-      }).join('');
-  }
-
-  const modulosHtml = (homeModulos && cardsGrid) ? `
-    <div>
-      <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
-      <div class="modules-grid">${cardsGrid}</div>
-    </div>
-  ` : '';
-
-  document.getElementById('app').innerHTML = bannerHtml + alertaHtml + modulosHtml;
-})();
-</script>
-</body>
-</html>
+  ]
+}
