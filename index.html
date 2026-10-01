@@ -9,12 +9,14 @@
 </head>
 <body>
 
+<!-- ============================================================
+     HEADER (TOPO)
+     - Para mudar o nome do projeto: edite .app-title
+     - Para mudar o subtítulo: edite .app-subtitle
+     - O menu é gerado automaticamente pelo JavaScript
+     ============================================================ -->
 <header class="app-header">
   <a href="index.html" class="app-brand">
-    <div style="display:flex; gap:8px; align-items:center;">
-      <img src="logo-ufal.png" alt="UFAL" onerror="this.style.display='none'">
-      <img src="logo-letras-libras.png" alt="Letras Libras" onerror="this.style.display='none'">
-    </div>
     <div>
       <div class="app-title">Libras nas Comunidades</div>
       <div class="app-subtitle">UFAL · FALE · PROEXC</div>
@@ -23,17 +25,40 @@
   <nav class="app-nav" id="menu"></nav>
 </header>
 
+
+<!-- ============================================================
+     CONTEÚDO PRINCIPAL
+     Todo o conteúdo abaixo é gerado pelo JavaScript
+     ============================================================ -->
 <div class="wrapper" id="app">
   <div style="padding: 60px 20px; text-align: center;">
     <h3 style="color: #2563EB;">Carregando informações do portal...</h3>
   </div>
 </div>
 
+
+<!-- ============================================================
+     RODAPÉ
+     - Para mudar o texto: edite as linhas abaixo
+     ============================================================ -->
 <footer class="app-footer">
-  <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
-  <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 6px;">Coordenação: Profa. Dra. Edineide dos Santos Silva | Instrutor: Adeilton Wachill dos Santos Olimpio</p>
+  <p style="font-size:.8rem;color:#64748B;line-height:1.7;max-width:800px;margin:0 auto;">
+    Ferramenta de apoio ao curso · Projeto Libras nas Comunidades<br>
+    <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">
+      Este site não é uma página oficial da UFAL
+    </span><br>
+    <span style="font-size:.72rem;color:#475569;margin-top:12px;display:inline-block;padding-top:12px;border-top:1px solid #E2E8F0;">
+      💻 Desenvolvido por <strong style="color:#2563EB;">Adeilton Olimpio</strong> · © 2026
+    </span>
+  </p>
 </footer>
 
+
+<!-- ============================================================
+     JAVASCRIPT
+     - Carrega dados.json e monta a página automaticamente
+     - Não precisa mexer aqui a menos que queira mudar o comportamento
+     ============================================================ -->
 <script>
 (async function(){
   let D;
@@ -43,72 +68,103 @@
     D = await r.json();
   }catch(e){
     console.error("Erro ao carregar dados.json:", e);
+    document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar os dados do sistema.</h2></div>';
     return;
   }
 
   const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // Renderiza menu superior
+  // ============================
+  // MENU SUPERIOR
+  // ============================
   if(Array.isArray(D.paginas)){
-    const paginas = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    const paginas = D.paginas
+      .filter(p => p.publicada !== false)
+      .sort((a,b) => (a.ordem||99) - (b.ordem||99));
+
     document.getElementById('menu').innerHTML = paginas.map(p => {
-      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      const link = p.tipo === 'calendario'
+        ? 'calendario.html'
+        : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
       const isCta = p.slug === 'inscricoes';
       return `<li><a href="${link}" class="${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-    }).join('') + `<li><a href="${esc(S.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
+    }).join('') + `
+      <li>
+        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
+           target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a>
+      </li>`;
   }
 
-  // Alerta Inteligente da Próxima Aula
+  // ============================
+  // ALERTA PRÓXIMO ENCONTRO
+  // ============================
   let alertaProximaAulaHtml = '';
   if(Array.isArray(D.eventos) && D.eventos.length > 0){
     const hojeStr = new Date().toISOString().slice(0,10);
-    const eventosFuturos = D.eventos.filter(e => e.data >= hojeStr).sort((a,b) => a.data.localeCompare(b.data));
+    const eventosFuturos = D.eventos
+      .filter(e => e.data >= hojeStr)
+      .sort((a,b) => a.data.localeCompare(b.data));
     const proximaAula = eventosFuturos.length ? eventosFuturos[0] : null;
 
     if(proximaAula){
       const [ano, mes, dia] = proximaAula.data.split('-');
       alertaProximaAulaHtml = `
-        <div style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:12px; padding:12px 18px; margin-bottom:24px; font-size:0.85rem; display:flex; align-items:center; gap:10px; color:#1E3A8A;">
-          <span style="font-size:1.2rem;">📌</span>
+        <div class="alerta-proximo">
+          <span>📌</span>
           <div><b>Próximo Encontro (${dia}/${mes}/${ano}):</b> ${esc(proximaAula.descricao)}</div>
         </div>
       `;
     }
   }
 
-  // Substituição do banner azul antigo pelo seu banner oficial personalizado
+  // ============================
+  // BANNER PRINCIPAL
+  // ============================
   const bannerHeroHtml = `
-    <div style="margin-bottom:36px;">
-      <div style="width:100%; overflow:hidden; border-radius:20px; box-shadow:0 15px 35px rgba(11,37,69,0.12); background:#0B2545;">
-        <img src="arte-formulario.png" alt="Curso de Libras Básico I - Adeilton Wachill" style="width:100%; height:auto; display:block; object-fit:cover; max-height:420px;">
-      </div>
+    <div class="banner-hero">
+      <img src="arte-formulario.png" alt="Curso de Libras Básico I"
+           onerror="this.parentElement.style.display='none'">
     </div>
   `;
 
+  // ============================
+  // GRID DE MÓDULOS
+  // ============================
   let cardsGrid = '';
   if(Array.isArray(D.paginas)){
-    cardsGrid = D.paginas.filter(p => p.publicada !== false).map(p => {
-      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-      return `
-        <a href="${link}" class="module-card">
-          <div>
-            <div class="icon-box">${p.icone || '📂'}</div>
-            <h3>${esc(p.titulo)}</h3>
-            <p>${esc(p.descricao || 'Acesse o conteúdo detalhado desta seção.')}</p>
-          </div>
-          <div class="card-footer">Acessar seção →</div>
-        </a>
-      `;
-    }).join('');
+    cardsGrid = D.paginas
+      .filter(p => p.publicada !== false)
+      .sort((a,b) => (a.ordem||99) - (b.ordem||99))
+      .map(p => {
+        const link = p.tipo === 'calendario'
+          ? 'calendario.html'
+          : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+        return `
+          <a href="${link}" class="module-card">
+            <div>
+              <div class="icon-box">${p.icone || '📂'}</div>
+              <h3>${esc(p.titulo)}</h3>
+              <p>${esc(p.descricao || 'Acesse o conteúdo detalhado desta seção.')}</p>
+            </div>
+            <div class="card-footer">Acessar seção →</div>
+          </a>
+        `;
+      }).join('');
   }
 
-  document.getElementById('app').innerHTML = bannerHeroHtml + alertaProximaAulaHtml + `
-    <div>
-      <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
-      <div class="modules-grid">${cardsGrid}</div>
-    </div>
-  `;
+  // ============================
+  // RENDER FINAL
+  // ============================
+  document.getElementById('app').innerHTML =
+    bannerHeroHtml +
+    alertaProximaAulaHtml +
+    `
+      <div>
+        <h2 class="section-title">⚡ Acesso Rápido aos Módulos e Informações</h2>
+        <div class="modules-grid">${cardsGrid}</div>
+      </div>
+    `;
 })();
 </script>
 </body>
