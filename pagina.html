@@ -11,10 +11,6 @@
 
 <header class="app-header">
   <a href="index.html" class="app-brand">
-    <div style="display:flex; gap:8px; align-items:center;">
-      <img src="logo-ufal.png" alt="UFAL">
-      <img src="logo-letras-libras.png" alt="Letras Libras">
-    </div>
     <div>
       <div class="app-title">Libras nas Comunidades</div>
       <div class="app-subtitle">UFAL · FALE · PROEXC</div>
@@ -24,12 +20,19 @@
 </header>
 
 <div class="wrapper" id="app">
-  <div style="padding: 60px 20px; text-align: center;"><h2>Carregando conteúdo...</h2></div>
+  <div style="padding: 60px 20px; text-align: center;">
+    <h3 style="color: #2563EB;">Carregando conteúdo...</h3>
+  </div>
 </div>
 
 <footer class="app-footer">
-  <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
-  <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 6px;">Coordenação: Profa. Dra. Edineide dos Santos Silva | Instrutor: Adeilton Wachill dos Santos Olimpio</p>
+  <p style="font-size:.8rem;color:#64748B;line-height:1.7;max-width:800px;margin:0 auto;">
+    Ferramenta de apoio ao curso · Projeto Libras nas Comunidades<br>
+    <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">Este site não é uma página oficial da UFAL</span><br>
+    <span style="font-size:.72rem;color:#475569;margin-top:12px;display:inline-block;padding-top:12px;border-top:1px solid #E2E8F0;">
+      💻 Desenvolvido por <strong style="color:#2563EB;">Adeilton Olimpio</strong> · © 2026
+    </span>
+  </p>
 </footer>
 
 <script>
@@ -37,40 +40,73 @@
   let D;
   try{
     const r = await fetch('dados.json?t=' + Date.now());
-    if(!r.ok) throw new Error('Erro');
+    if(!r.ok) throw new Error('HTTP ' + r.status);
     D = await r.json();
   }catch(e){
     document.getElementById('app').innerHTML = '<div style="padding:60px;text-align:center;"><h2>Erro ao carregar dados</h2></div>';
     return;
   }
 
+  const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
   const urlParams = new URLSearchParams(window.location.search);
   const slugDesejado = urlParams.get('slug') || 'sobre';
 
-  const paginas = (D.paginas || []).filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+  const paginas = (D.paginas || [])
+    .filter(p => p.publicada !== false)
+    .sort((a,b) => (a.ordem||99) - (b.ordem||99));
+
   const paginaAtual = paginas.find(p => p.slug === slugDesejado) || paginas[0];
 
-  if(!paginaAtual){
-    document.getElementById('app').innerHTML = '<div style="padding:60px 20px;text-align:center;"><h2>Página não encontrada</h2><a href="index.html" style="color:var(--primary);display:block;margin-top:15px;">← Voltar ao Início</a></div>';
-    return;
-  }
-
-  document.getElementById('page-title').textContent = `${paginaAtual.titulo} — Libras nas Comunidades`;
-
-  // Renderiza o menu superior mantendo o padrão exato da home
+  // ============================
+  // MENU SUPERIOR
+  // ============================
   document.getElementById('menu').innerHTML = paginas.map(p => {
-    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    const link = p.tipo === 'calendario'
+      ? 'calendario.html'
+      : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
     const active = p.slug === slugDesejado ? 'active' : '';
     const isCta = p.slug === 'inscricoes';
     return `<li><a href="${link}" class="${active} ${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-  }).join('') + `<li><a href="${esc(D.site.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
+  }).join('') + `
+    <li>
+      <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
+         target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a>
+    </li>`;
 
-  // Renderiza o conteúdo da página interna dentro do cartão padrão
+  // ============================
+  // PÁGINA NÃO ENCONTRADA
+  // ============================
+  if(!paginaAtual){
+    document.getElementById('app').innerHTML = `
+      <div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:60px 20px;text-align:center;box-shadow:0 10px 30px -5px rgba(0,0,0,.08);">
+        <div style="font-size:3rem;margin-bottom:14px;">📄</div>
+        <h2 style="color:#0F172A;font-size:1.3rem;margin-bottom:12px;">Página não encontrada</h2>
+        <p style="color:#64748B;margin-bottom:20px;">A página que você procura não existe ou foi removida.</p>
+        <a href="index.html" style="background:#2563EB;color:#FFF;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.85rem;">← Voltar ao Início</a>
+      </div>
+    `;
+    return;
+  }
+
+  document.title = `${paginaAtual.titulo} — Libras nas Comunidades`;
+  document.getElementById('page-title').textContent = `${paginaAtual.titulo} — Libras nas Comunidades`;
+
+  // ============================
+  // RENDER DA PÁGINA
+  // ============================
   document.getElementById('app').innerHTML = `
-    <div style="background:#FFF; border:1px solid var(--border); border-radius:var(--radius); padding:40px; box-shadow:var(--shadow);">
-      ${paginaAtual.html || '<p>Sem conteúdo cadastrado.</p>'}
+    <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:16px; padding:40px; box-shadow:0 10px 30px -5px rgba(0,0,0,.08);">
+      <div style="margin-bottom:24px; padding-bottom:16px; border-bottom:2px solid #F1F5F9;">
+        <h1 style="font-size:1.6rem; font-weight:800; color:#0F172A; margin-bottom:8px; letter-spacing:-.3px;">
+          ${paginaAtual.icone || '📄'} ${esc(paginaAtual.titulo)}
+        </h1>
+        ${paginaAtual.descricao ? `<p style="font-size:.9rem; color:#64748B;">${esc(paginaAtual.descricao)}</p>` : ''}
+      </div>
+      <div class="conteudo-html">
+        ${paginaAtual.html || '<p>Sem conteúdo cadastrado.</p>'}
+      </div>
     </div>
   `;
 })();
