@@ -11,10 +11,6 @@
 
 <header class="app-header">
   <a href="index.html" class="app-brand">
-    <div style="display:flex; gap:8px; align-items:center;">
-      <img src="logo-ufal.png" alt="UFAL" onerror="this.style.display='none'">
-      <img src="logo-letras-libras.png" alt="Letras Libras" onerror="this.style.display='none'">
-    </div>
     <div>
       <div class="app-title">Libras nas Comunidades</div>
       <div class="app-subtitle">UFAL · FALE · PROEXC</div>
@@ -30,8 +26,13 @@
 </div>
 
 <footer class="app-footer">
-  <p>&copy; 2026 <strong>Universidade Federal de Alagoas (UFAL)</strong> · Projeto de Extensão · Benedito Bentes 3</p>
-  <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 6px;">Coordenação: Profa. Dra. Edineide dos Santos Silva | Instrutor: Adeilton Wachill dos Santos Olimpio</p>
+  <p style="font-size:.8rem;color:#64748B;line-height:1.7;max-width:800px;margin:0 auto;">
+    Ferramenta de apoio ao curso · <strong style="color:#0F172A;">Projeto Libras nas Comunidades</strong><br>
+    <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">Este site não é uma página oficial da UFAL</span><br>
+    <span style="font-size:.72rem;color:#475569;margin-top:12px;display:inline-block;padding-top:12px;border-top:1px solid #E2E8F0;">
+      💻 Desenvolvido por <strong style="color:#2563EB;">Adeilton Olimpio</strong> · © 2026
+    </span>
+  </p>
 </footer>
 
 <script>
@@ -42,27 +43,41 @@
     if(!r.ok) throw new Error('HTTP ' + r.status);
     D = await r.json();
   }catch(e){
-    console.error("Erro ao carregar dados.json:", e);
-    document.getElementById('app').innerHTML = '<div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:40px;text-align:center;"><h3 style="color:#DC2626;">Erro ao carregar cronograma</h3><p style="margin-top:10px;">Verifique o ficheiro dados.json</p></div>';
+    document.getElementById('app').innerHTML = '<div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:40px;text-align:center;"><h3 style="color:#DC2626;">Erro ao carregar cronograma</h3></div>';
     return;
   }
 
   const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-  // Renderiza menu superior mantendo o padrão das outras páginas
+  // ============================
+  // MENU SUPERIOR
+  // ============================
   if(Array.isArray(D.paginas)){
-    const paginas = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>(a.ordem||99)-(b.ordem||99));
+    const paginas = D.paginas
+      .filter(p => p.publicada !== false)
+      .sort((a,b) => (a.ordem||99) - (b.ordem||99));
+
     document.getElementById('menu').innerHTML = paginas.map(p => {
-      const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+      const link = p.tipo === 'calendario'
+        ? 'calendario.html'
+        : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
       const active = p.tipo === 'calendario' ? 'active' : '';
       const isCta = p.slug === 'inscricoes';
       return `<li><a href="${link}" class="${active} ${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
-    }).join('') + `<li><a href="${esc(S.linkCadastro)}" target="_blank" class="btn-inscricao">📝 SIGAA/UFAL</a></li>`;
+    }).join('') + `
+      <li>
+        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
+           target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a>
+      </li>`;
   }
 
-  // Processa e ordena os eventos por data
-  const eventos = Array.isArray(D.eventos) ? [...D.eventos].sort((a,b) => a.data.localeCompare(b.data)) : [];
+  // ============================
+  // EVENTOS
+  // ============================
+  const eventos = Array.isArray(D.eventos)
+    ? [...D.eventos].sort((a,b) => a.data.localeCompare(b.data))
+    : [];
   const hojeStr = new Date().toISOString().slice(0,10);
 
   let listaEventosHtml = '';
@@ -73,21 +88,20 @@
     listaEventosHtml = eventos.map(ev => {
       const [ano, mes, dia] = ev.data.split('-');
       const dataFormatada = `${dia}/${mes}/${ano}`;
-      
-      // Identifica o próximo encontro futuro
+
       const isProximo = !proximaIdentificada && ev.data >= hojeStr;
       if(isProximo) proximaIdentificada = true;
 
-      const badgeStyle = isProximo 
-        ? 'background:#2563EB;color:#FFF;' 
+      const badgeStyle = isProximo
+        ? 'background:#2563EB;color:#FFF;'
         : 'background:#F1F5F9;color:#475569;';
 
-      const cardBorder = isProximo 
-        ? 'border:2px solid #2563EB;box-shadow:0 10px 25px rgba(37,99,235,0.15);' 
+      const cardBorder = isProximo
+        ? 'border:2px solid #2563EB;box-shadow:0 10px 25px rgba(37,99,235,0.15);'
         : 'border:1px solid #E2E8F0;';
 
       return `
-        <div style="background:#FFF; ${cardBorder} border-radius:16px; padding:24px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; transition:all 0.2s;">
+        <div style="background:#FFF; ${cardBorder} border-radius:16px; padding:24px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
           <div style="display:flex; align-items:center; gap:20px;">
             <div style="${badgeStyle} border-radius:12px; padding:14px 18px; text-align:center; min-width:90px;">
               <div style="font-size:0.7rem;text-transform:uppercase;font-weight:700;opacity:0.9;">${esc(ev.rotulo || 'Aula')}</div>
@@ -95,7 +109,10 @@
             </div>
             <div>
               <div style="font-size:1rem;font-weight:800;color:#0F172A;margin-bottom:4px;">${esc(ev.descricao)}</div>
-              <div style="font-size:0.82rem;color:#64748B;">🕒 Horário: <b>${esc(ev.horario || '15h às 17h')}</b> &nbsp;•&nbsp; ⏱️ Carga: <b>${esc(ev.carga || '2')}h</b> &nbsp;•&nbsp; 📍 Local: Assembleia de Deus (Benedito Bentes 3)</div>
+              <div style="font-size:0.82rem;color:#64748B;">
+                🕒 <b>${esc(ev.horario || '15h às 17h30')}</b> &nbsp;•&nbsp; 
+                ⏱️ <b>${esc(ev.carga || '2.5')}h</b>
+              </div>
             </div>
           </div>
           ${isProximo ? '<span style="background:#EFF6FF;color:#2563EB;padding:6px 14px;border-radius:20px;font-size:0.75rem;font-weight:800;border:1px solid #BFDBFE;">📌 Próximo Encontro</span>' : ''}
@@ -104,11 +121,14 @@
     }).join('');
   }
 
+  // ============================
+  // RENDER FINAL
+  // ============================
   document.getElementById('app').innerHTML = `
-    <div style="background:#FFF; border:1px solid var(--border); border-radius:var(--radius); padding:40px; box-shadow:var(--shadow);">
+    <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:16px; padding:40px; box-shadow:0 10px 30px -5px rgba(0,0,0,.08);">
       <div style="margin-bottom:28px; border-bottom:2px solid #F1F5F9; padding-bottom:16px;">
         <h2 style="font-size:1.35rem; font-weight:800; color:#0F172A; margin-bottom:6px;">📅 Cronograma de Aulas e Eventos</h2>
-        <p style="font-size:0.85rem; color:#64748B;">Acompanhe abaixo o calendário oficial das aulas presenciais do curso básico de Libras.</p>
+        <p style="font-size:0.85rem; color:#64748B;">Acompanhe abaixo o calendário oficial das aulas do curso básico de Libras.</p>
       </div>
       <div>${listaEventosHtml}</div>
     </div>
