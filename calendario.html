@@ -3,9 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calendário e Aulas — Libras nas Comunidades</title>
+<title>Calendário — Libras nas Comunidades</title>
 <link rel="stylesheet" href="estilo.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============================
+     GRADE DO CALENDÁRIO
+     ============================ */
+  .cal-wrap{
+    background:#FFF;
+    border:1px solid #E2E8F0;
+    border-radius:16px;
+    padding:36px;
+    box-shadow:0 10px 30px -5px rgba(0,0,0,.08);
+  }
+
+  .cal-header{
+    margin-bottom:32px;
+    padding-bottom:20px;
+    border-bottom:2px solid #F1F5F9;
+  }
+  .cal-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#EFF6FF;
+    color:#1E40AF;
+    padding:5px 12px;
+    border-radius:20px;
+    font-size:0.68rem;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .cal-badge .dot{
+    width:6px;
+    height:6px;
+    background:#F97316;
+    border-radius:50%;
+  }
+  .cal-titulo{
+    font-size:1.5rem;
+    font-weight:800;
+    color:#0F172A;
+    margin-bottom:8px;
+    letter-spacing:-0.4px;
+  }
+  .cal-sub{
+    font-size:0.9rem;
+    color:#64748B;
+    line-height:1.6;
+  }
+
+  /* Info resumo */
+  .cal-info{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:12px;
+    margin-bottom:36px;
+  }
+  .cal-info-item{
+    background:#F8FAFC;
+    border-radius:10px;
+    padding:14px 16px;
+    border-left:3px solid #2563EB;
+  }
+  .cal-info-item.roxo{border-left-color:#7C3AED;}
+  .cal-info-item.verde{border-left-color:#16A34A;}
+  .cal-info-item.laranja{border-left-color:#F97316;}
+  .cal-info-item .label{
+    font-size:0.62rem;
+    font-weight:800;
+    color:#64748B;
+    letter-spacing:0.8px;
+    text-transform:uppercase;
+  }
+  .cal-info-item .valor{
+    font-size:0.82rem;
+    font-weight:700;
+    color:#0F172A;
+    margin-top:4px;
+  }
+
+  /* Grade dos meses */
+  .cal-meses{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:24px;
+  }
+  @media (max-width:900px){
+    .cal-meses{grid-template-columns:1fr;}
+  }
+
+  .cal-mes{
+    background:#FFF;
+    border:1px solid #E2E8F0;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.04);
+  }
+  .cal-mes-titulo{
+    background:linear-gradient(135deg, #0F172A, #1E3A8A);
+    color:#FFF;
+    padding:14px 18px;
+    font-size:0.92rem;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    text-align:center;
+  }
+
+  .cal-dias-semana{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    background:#F8FAFC;
+    border-bottom:1px solid #E2E8F0;
+  }
+  .cal-dias-semana div{
+    padding:10px 4px;
+    text-align:center;
+    font-size:0.65rem;
+    font-weight:800;
+    color:#64748B;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+  }
+  .cal-dias-semana .dom{color:#DC2626;}
+
+  .cal-grade{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:2px;
+    padding:8px;
+    background:#F8FAFC;
+  }
+
+  .cal-dia{
+    background:#FFF;
+    border-radius:6px;
+    min-height:68px;
+    padding:6px 4px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    text-align:center;
+    position:relative;
+    transition:all 0.15s;
+  }
+  .cal-dia .num{
+    font-size:0.88rem;
+    font-weight:700;
+    color:#0F172A;
+    line-height:1;
+  }
+  .cal-dia.dom .num{color:#DC2626;}
+  .cal-dia.vazio{background:transparent;}
+
+  /* Marcadores de evento */
+  .cal-dia .tag{
+    font-size:0.44rem;
+    font-weight:800;
+    line-height:1.1;
+    margin-top:5px;
+    letter-spacing:0.2px;
+    text-transform:uppercase;
+    padding:2px 5px;
+    border-radius:4px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:100%;
+  }
+
+  /* Estados com cor */
+  .cal-dia.inicio{background:linear-gradient(135deg, #16A34A, #22C55E);}
+  .cal-dia.inicio .num, .cal-dia.inicio .tag{color:#FFF;}
+
+  .cal-dia.aula{background:linear-gradient(135deg, #2563EB, #3B82F6);}
+  .cal-dia.aula .num, .cal-dia.aula .tag{color:#FFF;}
+
+  .cal-dia.meet{background:linear-gradient(135deg, #7C3AED, #8B5CF6);}
+  .cal-dia.meet .num, .cal-dia.meet .tag{color:#FFF;}
+
+  .cal-dia.recesso{background:linear-gradient(135deg, #FACC15, #FDE047);}
+  .cal-dia.recesso .num{color:#422006;}
+  .cal-dia.recesso .tag{color:#713F12;}
+
+  .cal-dia.avaliacao{background:linear-gradient(135deg, #F97316, #FB923C);}
+  .cal-dia.avaliacao .num, .cal-dia.avaliacao .tag{color:#FFF;}
+
+  .cal-dia.fim{background:linear-gradient(135deg, #38BDF8, #7DD3FC);}
+  .cal-dia.fim .num, .cal-dia.fim .tag{color:#0C2A44;}
+
+  .cal-dia.feriado{background:linear-gradient(135deg, #475569, #64748B);}
+  .cal-dia.feriado .num, .cal-dia.feriado .tag{color:#FFF;}
+
+  .cal-dia.cancelado{background:linear-gradient(135deg, #DC2626, #EF4444);}
+  .cal-dia.cancelado .num, .cal-dia.cancelado .tag{color:#FFF;}
+
+  /* Legenda */
+  .cal-legenda{
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid #E2E8F0;
+  }
+  .cal-legenda h4{
+    font-size:0.72rem;
+    font-weight:800;
+    color:#64748B;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .cal-legenda-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+    gap:10px;
+  }
+  .cal-legenda-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:0.78rem;
+    font-weight:600;
+    color:#334155;
+  }
+  .cal-legenda-item .sq{
+    width:16px;
+    height:16px;
+    border-radius:4px;
+    flex:0 0 auto;
+  }
+</style>
 </head>
 <body>
 
@@ -21,7 +252,7 @@
 
 <div class="wrapper" id="app">
   <div style="padding: 60px 20px; text-align: center;">
-    <h3 style="color: #2563EB;">Carregando cronograma...</h3>
+    <h3 style="color: #2563EB;">Carregando calendário...</h3>
   </div>
 </div>
 
@@ -43,7 +274,7 @@
     if(!r.ok) throw new Error('HTTP ' + r.status);
     D = await r.json();
   }catch(e){
-    document.getElementById('app').innerHTML = '<div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:40px;text-align:center;"><h3 style="color:#DC2626;">Erro ao carregar cronograma</h3></div>';
+    document.getElementById('app').innerHTML = '<div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:40px;text-align:center;"><h3 style="color:#DC2626;">Erro ao carregar calendário</h3></div>';
     return;
   }
 
@@ -72,128 +303,163 @@
   }
 
   // ============================
-  // AGRUPAR EVENTOS POR MÊS
+  // MAPA DE EVENTOS POR DATA (chave: "YYYY-MM-DD")
   // ============================
-  const eventos = Array.isArray(D.eventos)
-    ? [...D.eventos].sort((a,b) => a.data.localeCompare(b.data))
-    : [];
-  const hojeStr = new Date().toISOString().slice(0,10);
+  const eventos = Array.isArray(D.eventos) ? D.eventos : [];
+  const mapaEventos = {};
+  eventos.forEach(ev => {
+    mapaEventos[ev.data] = ev;
+  });
 
-  const mesesNome = {
-    '01':'Janeiro','02':'Fevereiro','03':'Março','04':'Abril',
-    '05':'Maio','06':'Junho','07':'Julho','08':'Agosto',
-    '09':'Setembro','10':'Outubro','11':'Novembro','12':'Dezembro'
-  };
+  // ============================
+  // DETECTAR MESES ENTRE O PRIMEIRO E O ÚLTIMO EVENTO
+  // ============================
+  const datasOrdenadas = eventos.map(e => e.data).sort();
+  const meses = [];
 
-  let listaEventosHtml = '';
-  if(eventos.length === 0){
-    listaEventosHtml = '<p style="text-align:center;color:#64748B;padding:20px;">Nenhum evento ou aula cadastrado no momento.</p>';
-  } else {
-    let proximaIdentificada = false;
-    let mesAtual = '';
+  if(datasOrdenadas.length > 0){
+    const primeira = new Date(datasOrdenadas[0] + 'T12:00:00');
+    const ultima = new Date(datasOrdenadas[datasOrdenadas.length - 1] + 'T12:00:00');
 
-    listaEventosHtml = eventos.map(ev => {
-      const [ano, mes, dia] = ev.data.split('-');
-      const dataFormatada = `${dia}/${mes}/${ano}`;
-      const chaveMes = `${mes}/${ano}`;
+    let atual = new Date(primeira.getFullYear(), primeira.getMonth(), 1);
+    const fim = new Date(ultima.getFullYear(), ultima.getMonth(), 1);
 
-      const isProximo = !proximaIdentificada && ev.data >= hojeStr;
-      if(isProximo) proximaIdentificada = true;
-
-      // Cabeçalho de mês
-      let cabecalhoMes = '';
-      if(chaveMes !== mesAtual){
-        mesAtual = chaveMes;
-        cabecalhoMes = `
-          <div style="margin:32px 0 18px; padding-bottom:10px; border-bottom:2px solid #E2E8F0; display:flex; align-items:center; gap:12px;">
-            <div style="width:8px; height:8px; background:#F97316; border-radius:50%;"></div>
-            <h3 style="font-size:0.95rem; font-weight:800; color:#0F172A; letter-spacing:0.5px; text-transform:uppercase;">
-              ${mesesNome[mes]} ${ano}
-            </h3>
-          </div>
-        `;
-      }
-
-      const badgeStyle = isProximo
-        ? 'background:#2563EB;color:#FFF;'
-        : 'background:#F1F5F9;color:#475569;';
-
-      const cardBorder = isProximo
-        ? 'border:2px solid #2563EB;box-shadow:0 10px 25px rgba(37,99,235,0.15);'
-        : 'border:1px solid #E2E8F0;';
-
-      return cabecalhoMes + `
-        <div style="background:#FFF; ${cardBorder} border-radius:14px; padding:20px 22px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-          <div style="display:flex; align-items:center; gap:18px;">
-            <div style="${badgeStyle} border-radius:10px; padding:12px 16px; text-align:center; min-width:85px;">
-              <div style="font-size:0.65rem; text-transform:uppercase; font-weight:700; opacity:0.9; letter-spacing:0.5px;">
-                ${esc(ev.rotulo || 'Aula')}
-              </div>
-              <div style="font-size:1.05rem; font-weight:800; margin-top:3px;">${dataFormatada}</div>
-            </div>
-            <div>
-              <div style="font-size:0.92rem; font-weight:700; color:#0F172A; margin-bottom:4px;">
-                ${esc(ev.descricao)}
-              </div>
-              <div style="font-size:0.78rem; color:#64748B;">
-                🕒 <b>${esc(ev.horario || '15h às 17h30')}</b> &nbsp;•&nbsp; ⏱️ <b>${esc(ev.carga || '2.5')}h</b>
-              </div>
-            </div>
-          </div>
-          ${isProximo ? '<span style="background:#EFF6FF; color:#2563EB; padding:5px 12px; border-radius:20px; font-size:0.7rem; font-weight:800; border:1px solid #BFDBFE;">📌 Próximo</span>' : ''}
-        </div>
-      `;
-    }).join('');
+    while(atual <= fim){
+      meses.push({ ano: atual.getFullYear(), mes: atual.getMonth() });
+      atual.setMonth(atual.getMonth() + 1);
+    }
   }
 
+  const nomesMeses = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO',
+                      'JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
+
   // ============================
-  // CABEÇALHO + RENDER FINAL
+  // RENDER DE CADA MÊS
+  // ============================
+  const mesesHtml = meses.map(({ ano, mes }) => {
+    const primeiroDia = new Date(ano, mes, 1);
+    const ultimoDia = new Date(ano, mes + 1, 0);
+    const diaInicio = primeiroDia.getDay(); // 0=dom, 6=sab
+    const totalDias = ultimoDia.getDate();
+
+    let celulas = '';
+
+    // Espaços vazios antes do dia 1
+    for(let i = 0; i < diaInicio; i++){
+      celulas += '<div class="cal-dia vazio"></div>';
+    }
+
+    // Dias do mês
+    for(let d = 1; d <= totalDias; d++){
+      const dt = new Date(ano, mes, d);
+      const diaSemana = dt.getDay();
+      const iso = `${ano}-${String(mes+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const ev = mapaEventos[iso];
+
+      let classe = '';
+      let tag = '';
+
+      if(ev){
+        classe = ev.tipo || 'aula';
+        tag = ev.rotulo || '';
+      } else if(diaSemana === 0){
+        classe = 'dom';
+      }
+
+      celulas += `
+        <div class="cal-dia ${classe}">
+          <span class="num">${d}</span>
+          ${tag ? `<span class="tag">${esc(tag)}</span>` : ''}
+        </div>
+      `;
+    }
+
+    return `
+      <article class="cal-mes">
+        <div class="cal-mes-titulo">${nomesMeses[mes]} ${ano}</div>
+        <div class="cal-dias-semana">
+          <div class="dom">DOM</div>
+          <div>SEG</div>
+          <div>TER</div>
+          <div>QUA</div>
+          <div>QUI</div>
+          <div>SEX</div>
+          <div>SÁB</div>
+        </div>
+        <div class="cal-grade">${celulas}</div>
+      </article>
+    `;
+  }).join('');
+
+  // ============================
+  // TIPOS USADOS (para legenda dinâmica)
+  // ============================
+  const TIPOS_INFO = {
+    inicio:    { label:'Início do Curso', cor:'#16A34A' },
+    aula:      { label:'Aula Presencial', cor:'#2563EB' },
+    meet:      { label:'Google Meet',     cor:'#7C3AED' },
+    avaliacao: { label:'Avaliação',       cor:'#F97316' },
+    recesso:   { label:'Recesso',         cor:'#FACC15' },
+    feriado:   { label:'Feriado',         cor:'#475569' },
+    cancelado: { label:'Cancelado',       cor:'#DC2626' },
+    fim:       { label:'Encerramento',    cor:'#38BDF8' }
+  };
+
+  const tiposUsados = new Set(eventos.map(e => e.tipo));
+  const legendaItens = Object.keys(TIPOS_INFO)
+    .filter(t => tiposUsados.has(t))
+    .map(t => `
+      <div class="cal-legenda-item">
+        <span class="sq" style="background:${TIPOS_INFO[t].cor}"></span>
+        ${TIPOS_INFO[t].label}
+      </div>
+    `).join('');
+
+  // ============================
+  // RENDER FINAL
   // ============================
   document.getElementById('app').innerHTML = `
-    <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:16px; padding:40px; box-shadow:0 10px 30px -5px rgba(0,0,0,.08);">
+    <div class="cal-wrap">
 
-      <!-- Cabeçalho da página -->
-      <div style="margin-bottom:28px; padding-bottom:20px; border-bottom:2px solid #F1F5F9;">
-        <div style="display:inline-flex; align-items:center; gap:8px; background:#EFF6FF; color:#1E40AF; padding:5px 12px; border-radius:20px; font-size:0.68rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;">
-          <span style="width:6px; height:6px; background:#F97316; border-radius:50%;"></span>
+      <!-- Cabeçalho -->
+      <div class="cal-header">
+        <div class="cal-badge">
+          <span class="dot"></span>
           Cronograma Oficial
         </div>
-        <h2 style="font-size:1.4rem; font-weight:800; color:#0F172A; margin-bottom:8px; letter-spacing:-0.3px;">
-          📅 Calendário de Aulas
-        </h2>
-        <p style="font-size:0.88rem; color:#64748B; line-height:1.6;">
-          Cronograma das aulas presenciais, atividades assíncronas e encontros pelo Google Meet do curso básico de Libras.
+        <h1 class="cal-titulo">📅 Calendário de Aulas</h1>
+        <p class="cal-sub">
+          Visualização mensal das aulas presenciais, atividades assíncronas e encontros pelo Google Meet do curso básico de Libras.
         </p>
       </div>
 
       <!-- Info resumo -->
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:28px;">
-        <div style="background:#F8FAFC; border-radius:10px; padding:14px 16px; border-left:3px solid #2563EB;">
-          <div style="font-size:0.62rem; font-weight:800; color:#64748B; letter-spacing:0.8px; text-transform:uppercase;">Período</div>
-          <div style="font-size:0.82rem; font-weight:700; color:#0F172A; margin-top:4px;">17/10/2026 — 23/01/2027</div>
+      <div class="cal-info">
+        <div class="cal-info-item">
+          <div class="label">Período</div>
+          <div class="valor">17/10/2026 — 23/01/2027</div>
         </div>
-        <div style="background:#F8FAFC; border-radius:10px; padding:14px 16px; border-left:3px solid #7C3AED;">
-          <div style="font-size:0.62rem; font-weight:800; color:#64748B; letter-spacing:0.8px; text-transform:uppercase;">Dias</div>
-          <div style="font-size:0.82rem; font-weight:700; color:#0F172A; margin-top:4px;">Sábados · 15h às 17h30</div>
+        <div class="cal-info-item roxo">
+          <div class="label">Dias</div>
+          <div class="valor">Sábados · 15h às 17h30</div>
         </div>
-        <div style="background:#F8FAFC; border-radius:10px; padding:14px 16px; border-left:3px solid #16A34A;">
-          <div style="font-size:0.62rem; font-weight:800; color:#64748B; letter-spacing:0.8px; text-transform:uppercase;">Carga-horária</div>
-          <div style="font-size:0.82rem; font-weight:700; color:#0F172A; margin-top:4px;">40 horas</div>
+        <div class="cal-info-item verde">
+          <div class="label">Carga-horária</div>
+          <div class="valor">40 horas</div>
         </div>
-        <div style="background:#F8FAFC; border-radius:10px; padding:14px 16px; border-left:3px solid #F97316;">
-          <div style="font-size:0.62rem; font-weight:800; color:#64748B; letter-spacing:0.8px; text-transform:uppercase;">Encontros</div>
-          <div style="font-size:0.82rem; font-weight:700; color:#0F172A; margin-top:4px;">15 encontros</div>
+        <div class="cal-info-item laranja">
+          <div class="label">Encontros</div>
+          <div class="valor">15 encontros</div>
         </div>
       </div>
 
-      <!-- Lista de eventos -->
-      <div>${listaEventosHtml}</div>
+      <!-- Grade dos meses -->
+      <div class="cal-meses">${mesesHtml}</div>
 
-      <!-- Rodapé da seção -->
-      <div style="margin-top:36px; padding-top:20px; border-top:1px solid #E2E8F0; text-align:center;">
-        <p style="font-size:0.72rem; color:#94A3B8; font-style:italic;">
-          Última atualização: ${new Date().toLocaleDateString('pt-BR')}
-        </p>
+      <!-- Legenda -->
+      <div class="cal-legenda">
+        <h4>Legenda</h4>
+        <div class="cal-legenda-grid">${legendaItens}</div>
       </div>
 
     </div>
