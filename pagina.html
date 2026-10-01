@@ -6,6 +6,283 @@
 <title id="page-title">Página — Libras nas Comunidades</title>
 <link rel="stylesheet" href="estilo.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     HERO DA PÁGINA
+     ============================================================ */
+  .page-hero{
+    background:linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+    color:#FFF;
+    border-radius:18px;
+    padding:36px 40px;
+    margin-bottom:24px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 12px 40px rgba(11,37,69,.2);
+  }
+  .page-hero::after{
+    content:"";
+    position:absolute;
+    right:-60px;top:-60px;
+    width:220px;height:220px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(249,115,22,.18) 0%, transparent 70%);
+  }
+  .page-hero .breadcrumb{
+    font-size:0.68rem;font-weight:700;color:#94A3B8;
+    letter-spacing:1.4px;text-transform:uppercase;
+    margin-bottom:14px;position:relative;z-index:2;
+  }
+  .page-hero .breadcrumb a{color:#94A3B8;text-decoration:none;}
+  .page-hero .breadcrumb a:hover{color:#F97316;}
+  .page-hero .breadcrumb span{margin:0 8px;color:#475569;}
+  .page-hero h1{
+    font-size:clamp(1.4rem, 2.8vw, 1.9rem);
+    font-weight:800;line-height:1.2;letter-spacing:-0.4px;
+    margin-bottom:10px;position:relative;z-index:2;
+    display:flex;align-items:center;gap:14px;
+  }
+  .page-hero .desc{
+    font-size:0.92rem;color:#CBD5E1;line-height:1.6;
+    max-width:720px;position:relative;z-index:2;
+  }
+
+  /* ============================================================
+     CONTAINER
+     ============================================================ */
+  .page-content{
+    background:#FFF;border:1px solid #E2E8F0;border-radius:18px;
+    padding:40px;box-shadow:0 10px 30px -5px rgba(0,0,0,.06);
+  }
+
+  /* ============================================================
+     FLUXOGRAMA
+     ============================================================ */
+  .flow-wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:20px 0 40px;
+  }
+  .flow-etapa{
+    display:flex;
+    align-items:stretch;
+    gap:20px;
+    margin-bottom:8px;
+    position:relative;
+  }
+  .flow-num{
+    width:56px;
+    flex:0 0 56px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .flow-num .bola{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:linear-gradient(135deg, #0F172A, #1E3A8A);
+    color:#FFF;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    font-size:1.1rem;
+    box-shadow:0 6px 18px rgba(15,23,42,.25);
+    flex:0 0 auto;
+    border:3px solid #FFF;
+    position:relative;
+    z-index:2;
+  }
+  .flow-num .linha{
+    width:3px;
+    flex:1;
+    background:linear-gradient(180deg, #2563EB 0%, #7C3AED 100%);
+    margin:4px 0;
+    border-radius:2px;
+  }
+  .flow-etapa:last-child .flow-num .linha{display:none;}
+
+  .flow-card{
+    flex:1;
+    background:#F8FAFC;
+    border:1px solid #E2E8F0;
+    border-radius:14px;
+    padding:20px 24px;
+    margin-bottom:20px;
+    border-left:5px solid #2563EB;
+    transition:all 0.2s;
+  }
+  .flow-card:hover{
+    transform:translateX(4px);
+    box-shadow:0 8px 22px rgba(37,99,235,.1);
+    border-left-color:#F97316;
+  }
+  .flow-card .titulo{
+    font-size:1rem;
+    font-weight:800;
+    color:#0F172A;
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    letter-spacing:-0.2px;
+  }
+  .flow-card .titulo .emoji{
+    font-size:1.3rem;
+    line-height:1;
+  }
+  .flow-card .texto{
+    font-size:0.85rem;
+    color:#475569;
+    line-height:1.65;
+  }
+
+  /* Cores por etapa */
+  .flow-etapa[data-cor="azul"] .flow-num .bola{background:linear-gradient(135deg, #2563EB, #3B82F6);}
+  .flow-etapa[data-cor="azul"] .flow-num .linha{background:linear-gradient(180deg, #2563EB 0%, #7C3AED 100%);}
+  .flow-etapa[data-cor="azul"] .flow-card{border-left-color:#2563EB;}
+
+  .flow-etapa[data-cor="roxo"] .flow-num .bola{background:linear-gradient(135deg, #7C3AED, #8B5CF6);}
+  .flow-etapa[data-cor="roxo"] .flow-num .linha{background:linear-gradient(180deg, #7C3AED 0%, #0D9488 100%);}
+  .flow-etapa[data-cor="roxo"] .flow-card{border-left-color:#7C3AED;}
+
+  .flow-etapa[data-cor="verde"] .flow-num .bola{background:linear-gradient(135deg, #16A34A, #22C55E);}
+  .flow-etapa[data-cor="verde"] .flow-num .linha{background:linear-gradient(180deg, #16A34A 0%, #F97316 100%);}
+  .flow-etapa[data-cor="verde"] .flow-card{border-left-color:#16A34A;}
+
+  .flow-etapa[data-cor="laranja"] .flow-num .bola{background:linear-gradient(135deg, #F97316, #FB923C);}
+  .flow-etapa[data-cor="laranja"] .flow-num .linha{background:linear-gradient(180deg, #F97316 0%, #FACC15 100%);}
+  .flow-etapa[data-cor="laranja"] .flow-card{border-left-color:#F97316;}
+
+  .flow-etapa[data-cor="amarelo"] .flow-num .bola{background:linear-gradient(135deg, #FACC15, #FDE047);color:#422006;}
+  .flow-etapa[data-cor="amarelo"] .flow-num .linha{background:linear-gradient(180deg, #FACC15 0%, #DC2626 100%);}
+  .flow-etapa[data-cor="amarelo"] .flow-card{border-left-color:#FACC15;}
+
+  .flow-etapa[data-cor="vermelho"] .flow-num .bola{background:linear-gradient(135deg, #DC2626, #EF4444);}
+  .flow-etapa[data-cor="vermelho"] .flow-num .linha{background:linear-gradient(180deg, #DC2626 0%, #0F172A 100%);}
+  .flow-etapa[data-cor="vermelho"] .flow-card{border-left-color:#DC2626;}
+
+  /* ============================================================
+     SEÇÃO DE INFORMAÇÕES
+     ============================================================ */
+  .info-section{
+    background:#FFF;
+    border:1px solid #E2E8F0;
+    border-radius:14px;
+    padding:28px 30px;
+    margin-top:36px;
+  }
+  .info-section h3{
+    font-size:1rem;
+    font-weight:800;
+    color:#0F172A;
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:2px solid #F97316;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .info-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.85rem;
+  }
+  .info-table tr{border-bottom:1px solid #F1F5F9;}
+  .info-table tr:last-child{border-bottom:none;}
+  .info-table td{padding:12px 4px;color:#334155;}
+  .info-table td:first-child{font-weight:800;color:#0F172A;width:200px;}
+
+  .checklist{
+    list-style:none;
+    padding:0;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:10px;
+  }
+  .checklist li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:14px 16px;
+    background:#F8FAFC;
+    border-left:4px solid #16A34A;
+    border-radius:10px;
+    font-size:0.82rem;
+    color:#334155;
+    line-height:1.5;
+  }
+  .checklist li .check{
+    width:22px;height:22px;
+    border-radius:50%;
+    background:#16A34A;
+    color:#FFF;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.7rem;font-weight:800;
+    flex:0 0 auto;
+    margin-top:1px;
+  }
+
+  .aviso-box{
+    background:linear-gradient(135deg, #FEF3C7 0%, #FEF9C3 100%);
+    border-left:5px solid #EAB308;
+    border-radius:12px;
+    padding:18px 22px;
+    margin:24px 0;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+  .aviso-box .icon{font-size:1.4rem;line-height:1;flex:0 0 auto;}
+  .aviso-box strong{display:block;color:#713F12;font-size:0.88rem;margin-bottom:4px;}
+  .aviso-box p{font-size:0.82rem;color:#854D0E;line-height:1.6;margin:0;}
+
+  .btn-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 22px;
+    background:linear-gradient(135deg, #F97316, #FB923C);
+    color:#FFF;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:800;
+    font-size:0.82rem;
+    box-shadow:0 4px 14px rgba(249,115,22,.3);
+    transition:all 0.2s;
+    margin:4px 4px 4px 0;
+  }
+  .btn-link:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(249,115,22,.4);}
+  .btn-link.vermelho{background:linear-gradient(135deg, #DC2626, #EF4444);box-shadow:0 4px 14px rgba(220,38,38,.3);}
+
+  /* Conteúdo HTML padrão (para outras páginas) */
+  .conteudo-html{font-size:0.92rem;color:#334155;line-height:1.75;}
+  .conteudo-html h2{font-size:1.2rem;font-weight:800;color:#0F172A;margin:32px 0 16px;padding-bottom:10px;border-bottom:2px solid #F97316;}
+  .conteudo-html h3{font-size:1rem;font-weight:800;color:#0F172A;margin:24px 0 12px;}
+  .conteudo-html p{margin-bottom:14px;}
+  .conteudo-html ul,.conteudo-html ol{margin:14px 0 14px 24px;}
+  .conteudo-html li{margin-bottom:8px;}
+  .conteudo-html a{color:#F97316;font-weight:700;}
+  .conteudo-html table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.85rem;}
+  .conteudo-html th{background:#0F172A;color:#fff;padding:11px 14px;text-align:left;font-size:.78rem;font-weight:800;}
+  .conteudo-html td{padding:11px 14px;border-bottom:1px solid #E2E8F0;}
+  .conteudo-html tr:nth-child(even) td{background:#F8FAFC;}
+
+  /* Responsivo */
+  @media (max-width:700px){
+    .page-hero{padding:24px 22px;border-radius:14px;}
+    .page-hero h1{font-size:1.2rem;}
+    .page-content{padding:24px 20px;}
+    .flow-num{width:44px;flex:0 0 44px;}
+    .flow-num .bola{width:40px;height:40px;font-size:0.95rem;border-width:2px;}
+    .flow-card{padding:16px 18px;}
+    .flow-card .titulo{font-size:0.92rem;}
+    .flow-card .texto{font-size:0.8rem;}
+    .info-table td:first-child{width:auto;}
+  }
+</style>
 </head>
 <body>
 
@@ -27,7 +304,7 @@
 
 <footer class="app-footer">
   <p style="font-size:.8rem;color:#64748B;line-height:1.7;max-width:800px;margin:0 auto;">
-    Ferramenta de apoio ao curso · Projeto Libras nas Comunidades<br>
+    Ferramenta de apoio ao curso · <strong style="color:#0F172A;">Projeto Libras nas Comunidades</strong><br>
     <span style="font-size:.68rem;color:#94A3B8;margin-top:6px;display:inline-block;">Este site não é uma página oficial da UFAL</span><br>
     <span style="font-size:.72rem;color:#475569;margin-top:12px;display:inline-block;padding-top:12px;border-top:1px solid #E2E8F0;">
       💻 Desenvolvido por <strong style="color:#2563EB;">Adeilton Olimpio</strong> · © 2026
@@ -47,7 +324,6 @@
     return;
   }
 
-  const S = D.site || {};
   const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -60,12 +336,10 @@
   const paginaAtual = paginas.find(p => p.slug === slugDesejado) || paginas[0];
 
   // ============================
-  // MENU SUPERIOR
+  // MENU
   // ============================
   document.getElementById('menu').innerHTML = paginas.map(p => {
-    const link = p.tipo === 'calendario'
-      ? 'calendario.html'
-      : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    const link = p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
     const active = p.slug === slugDesejado ? 'active' : '';
     const isCta = p.slug === 'inscricoes';
     return `<li><a href="${link}" class="${active} ${isCta ? 'btn-inscricao' : ''}">${p.icone||''} ${esc(p.titulo)}</a></li>`;
@@ -75,35 +349,140 @@
          target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA/UFAL</a>
     </li>`;
 
-  // ============================
-  // PÁGINA NÃO ENCONTRADA
-  // ============================
   if(!paginaAtual){
     document.getElementById('app').innerHTML = `
       <div style="background:#FFF;border:1px solid #E2E8F0;border-radius:16px;padding:60px 20px;text-align:center;box-shadow:0 10px 30px -5px rgba(0,0,0,.08);">
         <div style="font-size:3rem;margin-bottom:14px;">📄</div>
         <h2 style="color:#0F172A;font-size:1.3rem;margin-bottom:12px;">Página não encontrada</h2>
-        <p style="color:#64748B;margin-bottom:20px;">A página que você procura não existe ou foi removida.</p>
         <a href="index.html" style="background:#2563EB;color:#FFF;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:.85rem;">← Voltar ao Início</a>
       </div>
     `;
     return;
   }
 
-  document.title = `${paginaAtual.titulo} — Libras nas Comunidades`;
   document.getElementById('page-title').textContent = `${paginaAtual.titulo} — Libras nas Comunidades`;
 
   // ============================
-  // RENDER DA PÁGINA
+  // HERO
   // ============================
-  document.getElementById('app').innerHTML = `
-    <div style="background:#FFF; border:1px solid #E2E8F0; border-radius:16px; padding:40px; box-shadow:0 10px 30px -5px rgba(0,0,0,.08);">
-      <div style="margin-bottom:24px; padding-bottom:16px; border-bottom:2px solid #F1F5F9;">
-        <h1 style="font-size:1.6rem; font-weight:800; color:#0F172A; margin-bottom:8px; letter-spacing:-.3px;">
-          ${paginaAtual.icone || '📄'} ${esc(paginaAtual.titulo)}
-        </h1>
-        ${paginaAtual.descricao ? `<p style="font-size:.9rem; color:#64748B;">${esc(paginaAtual.descricao)}</p>` : ''}
+  const heroHtml = `
+    <div class="page-hero">
+      <div class="breadcrumb">
+        <a href="index.html">Início</a><span>/</span>${esc(paginaAtual.titulo)}
       </div>
+      <h1>${paginaAtual.icone || '📄'} ${esc(paginaAtual.titulo)}</h1>
+      ${paginaAtual.descricao ? `<p class="desc">${esc(paginaAtual.descricao)}</p>` : ''}
+    </div>
+  `;
+
+  // ============================
+  // PÁGINA ORIENTAÇÕES → FLUXOGRAMA ESPECIAL
+  // ============================
+  if(slugDesejado === 'orientacoes'){
+    const etapas = [
+      { cor:'azul',     emoji:'📝', titulo:'Pré-inscrição pelo formulário', texto:'O participante já realizou a pré-inscrição por meio do formulário disponibilizado pelo professor responsável.' },
+      { cor:'roxo',     emoji:'📢', titulo:'Orientações do professor', texto:'O professor entrará em contato com as orientações necessárias sobre cadastro e inscrição no SIGAA.' },
+      { cor:'azul',     emoji:'🆔', titulo:'Cadastro no SIGAA', texto:'Quem ainda não tem cadastro deve acessar o SIGAA – Módulo Extensão, clicar em <strong>"Ainda não possuo cadastro!"</strong> e preencher os dados.' },
+      { cor:'roxo',     emoji:'✅', titulo:'Inscrição no curso pelo SIGAA', texto:'Após o cadastro, o participante deve seguir as orientações do professor para efetivar a inscrição na atividade de extensão.' },
+      { cor:'verde',    emoji:'🚀', titulo:'Início das atividades', texto:'Com a inscrição confirmada, o participante está apto a iniciar o curso, acompanhando o cronograma e as aulas.' },
+      { cor:'verde',    emoji:'🏫', titulo:'Aulas presenciais', texto:'Encontros presenciais aos sábados, das 15h às 17h30, com carga de 2h30 cada.' },
+      { cor:'roxo',     emoji:'💻', titulo:'Atividades assíncronas + Google Meet', texto:'Três encontros em formato assíncrono com apoio pelo Meet: <strong>31/10</strong>, <strong>28/11</strong> e <strong>26/12</strong>. O aluno não precisa ficar conectado o tempo todo.' },
+      { cor:'laranja',  emoji:'📊', titulo:'Avaliações e acompanhamento', texto:'Ao longo do curso, o professor aplicará atividades avaliativas e acompanhará o desenvolvimento de cada participante.' },
+      { cor:'laranja',  emoji:'🎯', titulo:'Cumprimento dos requisitos', texto:'Frequência mínima de 75%, atividades realizadas, média 7,0 e carga horária de 40h cumprida.' },
+      { cor:'vermelho', emoji:'🎓', titulo:'Conclusão do curso', texto:'Todas as etapas concluídas com sucesso e requisitos cumpridos.' },
+      { cor:'amarelo',  emoji:'🏆', titulo:'Certificação', texto:'Emissão do certificado de 40 horas pela PROEXC/UFAL, por meio do Módulo Extensão do SIGAA.' }
+    ];
+
+    const etapasHtml = etapas.map((e, i) => `
+      <div class="flow-etapa" data-cor="${e.cor}">
+        <div class="flow-num">
+          <div class="bola">${i+1}</div>
+          <div class="linha"></div>
+        </div>
+        <div class="flow-card">
+          <div class="titulo">
+            <span class="emoji">${e.emoji}</span>
+            ${e.titulo}
+          </div>
+          <div class="texto">${e.texto}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const conteudo = `
+      <div class="aviso-box">
+        <div class="icon">⚠️</div>
+        <div>
+          <strong>Documento destinado apenas aos pré-inscritos</strong>
+          <p>Estas orientações são exclusivas para quem já realizou a pré-inscrição. <strong>Não é necessário preencher o formulário novamente.</strong></p>
+        </div>
+      </div>
+
+      <h2 style="font-size:1.1rem;font-weight:800;color:#0F172A;margin:32px 0 24px;padding-bottom:12px;border-bottom:2px solid #F97316;display:flex;align-items:center;gap:10px;">
+        🗺️ Fluxo do participante
+      </h2>
+
+      <div class="flow-wrap">${etapasHtml}</div>
+
+      <div class="info-section">
+        <h3>📋 Informações do curso</h3>
+        <table class="info-table">
+          <tr><td>Curso</td><td>Curso de Libras – Nível Básico I</td></tr>
+          <tr><td>Projeto</td><td>Libras nas Comunidades</td></tr>
+          <tr><td>Início</td><td>17 de outubro de 2026</td></tr>
+          <tr><td>Término</td><td>23 de janeiro de 2027</td></tr>
+          <tr><td>Carga horária</td><td><strong>40 horas</strong></td></tr>
+          <tr><td>Modalidade principal</td><td>Presencial</td></tr>
+          <tr><td>Atividades complementares</td><td>Assíncronas, com apoio pelo Google Meet</td></tr>
+          <tr><td>Dia dos encontros</td><td>Sábados</td></tr>
+          <tr><td>Horário presencial</td><td>15h às 17h30</td></tr>
+        </table>
+      </div>
+
+      <div class="info-section">
+        <h3>🎓 Requisitos para certificação</h3>
+        <ul class="checklist">
+          <li><span class="check">✓</span> Frequência mínima de <strong>75%</strong> da carga horária</li>
+          <li><span class="check">✓</span> Participação nas <strong>atividades presenciais</strong></li>
+          <li><span class="check">✓</span> Realização das <strong>atividades assíncronas</strong></li>
+          <li><span class="check">✓</span> Participação nas atividades pelo <strong>Google Meet</strong></li>
+          <li><span class="check">✓</span> Realização das <strong>atividades avaliativas</strong></li>
+          <li><span class="check">✓</span> Média final mínima de <strong>7,0</strong></li>
+          <li><span class="check">✓</span> Cumprimento das <strong>40 horas totais</strong></li>
+        </ul>
+      </div>
+
+      <div class="info-section" style="background:linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%);text-align:center;">
+        <h3 style="justify-content:center;border-bottom:none;padding-bottom:0;margin-bottom:12px;">🔗 Cadastro no SIGAA/UFAL</h3>
+        <p style="font-size:0.85rem;color:#475569;margin-bottom:18px;line-height:1.6;">
+          Acesse o Módulo Extensão para realizar seu cadastro e efetivar a inscrição no curso.
+        </p>
+        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-link">
+          🔗 Acessar SIGAA – Extensão
+        </a>
+        <a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener" class="btn-link vermelho">
+          🎥 Ver tutorial em vídeo
+        </a>
+      </div>
+
+      <div class="aviso-box" style="background:linear-gradient(135deg, #FEE2E2 0%, #FEF2F2 100%);border-left-color:#DC2626;">
+        <div class="icon">📌</div>
+        <div>
+          <strong style="color:#991B1B;">Fique atento!</strong>
+          <p style="color:#7F1D1D;">As orientações posteriores serão comunicadas pelo professor por meio dos canais oficiais de comunicação da turma. Acompanhe sempre os comunicados.</p>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('app').innerHTML = heroHtml + `<div class="page-content">${conteudo}</div>`;
+    return;
+  }
+
+  // ============================
+  // OUTRAS PÁGINAS → RENDER NORMAL
+  // ============================
+  document.getElementById('app').innerHTML = heroHtml + `
+    <div class="page-content">
       <div class="conteudo-html">
         ${paginaAtual.html || '<p>Sem conteúdo cadastrado.</p>'}
       </div>
