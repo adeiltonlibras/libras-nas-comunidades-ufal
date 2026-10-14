@@ -1,518 +1,294 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102a56">
-  <meta name="description" content="Portal de apoio ao Projeto Libras nas Comunidades. Informações sobre o curso de Libras, calendário e atividades.">
-  <meta name="color-scheme" content="light">
-
+  <meta name="description" content="Portal de apoio ao Projeto Libras nas Comunidades, curso de extensão em Libras da UFAL.">
   <title>Libras nas Comunidades | Portal do Curso</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="estilo.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <div id="topNotice" class="notice-bar" hidden></div>
 
-  <div id="avisoTopo" class="aviso-topo" role="status" hidden></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="Libras nas Comunidades, página inicial">
+        <span class="brand-symbol" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none"><path d="M12 25V12a3 3 0 0 1 6 0v10-14a3 3 0 0 1 6 0v14-11a3 3 0 0 1 6 0v13-7a3 3 0 0 1 6 0v14c0 8-5 13-13 13h-2c-5 0-8-3-11-8l-5-8a3 3 0 0 1 5-3l4 5" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="brand-text">
+          <strong>Libras nas<br class="brand-break"> Comunidades</strong>
+          <small>UFAL · FALE · PROEXC</small>
+        </span>
+      </a>
 
-  <header class="app-header">
-    <a href="index.html" class="app-brand" aria-label="Página inicial">
-      <span class="brand-mark" aria-hidden="true">L</span>
-      <span class="brand-copy">
-        <span class="app-title">Libras nas Comunidades</span>
-        <span class="app-subtitle">Projeto de extensão · UFAL / FALE</span>
-      </span>
-    </a>
+      <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
 
-    <button class="menu-toggle" id="menuToggle"
-            type="button" aria-expanded="false"
-            aria-controls="menu" aria-label="Abrir menu">
-      <span></span><span></span><span></span>
-    </button>
-
-    <nav class="app-nav" id="menu" aria-label="Menu principal">
-      <a href="index.html" aria-current="page">Início</a>
-      <a href="calendario.html">Calendário</a>
-    </nav>
+      <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
+        <a class="nav-home" href="index.html" aria-current="page">Início</a>
+        <a href="pagina.html?slug=sobre">Sobre o curso</a>
+        <a href="#modulos">Módulos</a>
+        <a href="calendario.html">Calendário</a>
+        <a class="nav-enroll" id="navEnroll" href="pagina.html?slug=inscricoes">Inscrições <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
   </header>
 
-  <main id="conteudo" class="wrapper">
-    <section class="hero">
-      <div class="hero-content">
-        <span class="eyebrow">
-          <span class="status-dot"></span>
-          EDUCAÇÃO · INCLUSÃO · ACESSIBILIDADE
-        </span>
-
-        <h1>
-          A comunicação aproxima.
-          <span>A Libras conecta.</span>
-        </h1>
-
-        <p class="hero-description">
-          Um espaço de aprendizagem, troca de experiências e valorização
-          da Língua Brasileira de Sinais e da comunidade surda.
-        </p>
-
-        <div class="hero-actions" id="heroActions">
-          <a class="button button-primary" href="calendario.html">
-            Consultar calendário <span aria-hidden="true">→</span>
-          </a>
-          <a class="button button-secondary" href="#modulos">
-            Explorar o portal
-          </a>
+  <main id="main">
+    <section class="hero-section">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> PROJETO DE EXTENSÃO UNIVERSITÁRIA</div>
+          <h1>Mais inclusão.<br><span>Mais comunicação.</span><br>Mais possibilidades.</h1>
+          <p class="hero-lead" id="heroDescription">
+            Aprenda Libras, conheça a cultura surda e contribua para uma comunidade mais acessível e acolhedora.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" id="heroPrimary" href="pagina.html?slug=inscricoes">Informações de inscrição <span aria-hidden="true">→</span></a>
+            <a class="button button-quiet" href="pagina.html?slug=sobre">Conheça o projeto</a>
+          </div>
+          <div class="hero-meta"><span class="meta-icon" aria-hidden="true">⌖</span><span id="heroLocation">Benedito Bentes 3 · Maceió, Alagoas</span></div>
         </div>
 
-        <p class="hero-note">
-          <span aria-hidden="true">📍</span>
-          Benedito Bentes 3 · Maceió, Alagoas
-        </p>
-      </div>
-
-      <div class="hero-visual">
-        <div class="hero-image-frame" id="heroImageFrame">
-          <img
-            id="heroImage"
-            src="arte-formulario.png"
-            alt="Arte de divulgação do Projeto Libras nas Comunidades"
-          >
-          <div class="image-fallback" id="imageFallback" hidden>
-            <span class="fallback-symbol" aria-hidden="true">🤟</span>
+        <div class="hero-art" aria-label="Apresentação visual do projeto">
+          <div class="art-orbit orbit-one"></div>
+          <div class="art-orbit orbit-two"></div>
+          <div class="art-label art-label-top"><span class="label-star">✳</span> Comunicação que aproxima</div>
+          <img id="heroImage" src="arte-formulario.png" alt="Arte de divulgação do curso Libras nas Comunidades">
+          <div class="art-fallback" id="artFallback" hidden>
+            <span class="fallback-hands" aria-hidden="true">🤟</span>
             <strong>Libras nas Comunidades</strong>
             <span>Aprender · Comunicar · Incluir</span>
           </div>
-        </div>
-
-        <div class="floating-note">
-          <span class="floating-icon" aria-hidden="true">✦</span>
-          <span>
-            <strong>Conhecimento que aproxima</strong>
-            <small>Aprendizagem e acessibilidade</small>
-          </span>
+          <div class="art-label art-label-bottom"><span class="label-check">✓</span> Aprendizagem com propósito</div>
         </div>
       </div>
     </section>
 
-    <section class="course-overview" aria-labelledby="courseHeading">
+    <section class="course-strip" aria-label="Resumo do curso">
+      <div class="course-strip-inner">
+        <div class="strip-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M4 9.5h16M8 13h3M8 16.5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </div>
+        <div class="strip-copy">
+          <span class="strip-kicker" id="eventKicker">PROGRAMAÇÃO DO CURSO</span>
+          <strong id="eventTitle">Curso de Libras — Básico I</strong>
+          <p id="eventDescription">Aulas aos sábados · Consulte o calendário completo</p>
+        </div>
+        <a class="strip-link" href="calendario.html">Ver calendário <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="content-section modules-section" id="modulos">
       <div class="section-heading">
-        <span class="section-kicker">FORMAÇÃO</span>
-        <h2 id="courseHeading">Conheça o curso</h2>
-        <p>Informações para acompanhar sua jornada de aprendizagem.</p>
+        <div>
+          <span class="section-kicker">EXPLORE O PORTAL</span>
+          <h2>O que você procura?</h2>
+          <p>Informações do curso organizadas para você encontrar tudo com facilidade.</p>
+        </div>
+        <a class="heading-link" href="pagina.html?slug=sobre">Conhecer o projeto <span aria-hidden="true">↗</span></a>
       </div>
-
-      <div class="info-grid">
-        <article class="info-card">
-          <span class="info-icon" aria-hidden="true">📚</span>
-          <span class="info-label">Curso</span>
-          <strong id="cursoNome">Libras — Básico I</strong>
-          <small>Introdução à Língua Brasileira de Sinais</small>
-        </article>
-
-        <article class="info-card">
-          <span class="info-icon" aria-hidden="true">🗓️</span>
-          <span class="info-label">Período previsto</span>
-          <strong id="cursoPeriodo">17/10/2026 a 23/01/2027</strong>
-          <small>Confira as datas no calendário</small>
-        </article>
-
-        <article class="info-card">
-          <span class="info-icon" aria-hidden="true">⏱️</span>
-          <span class="info-label">Carga horária</span>
-          <strong id="cursoCarga">40 horas</strong>
-          <small>Conforme o planejamento do curso</small>
-        </article>
-
-        <article class="info-card">
-          <span class="info-icon" aria-hidden="true">📍</span>
-          <span class="info-label">Local das aulas</span>
-          <strong id="cursoLocal">Benedito Bentes 3</strong>
-          <small>Conjunto Frei Damião · Maceió/AL</small>
-        </article>
+      <div class="module-grid" id="moduleGrid">
+        <a class="module-card" href="pagina.html?slug=sobre"><span class="module-icon icon-blue">01</span><span class="module-card-body"><strong>Sobre o curso</strong><small>Objetivos, metodologia e proposta formativa.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
+        <a class="module-card" href="calendario.html"><span class="module-icon icon-teal">02</span><span class="module-card-body"><strong>Calendário</strong><small>Datas, encontros e atividades previstas.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
+        <a class="module-card" href="pagina.html?slug=orientacoes"><span class="module-icon icon-violet">03</span><span class="module-card-body"><strong>Orientações</strong><small>Informações importantes para participantes.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
+        <a class="module-card" href="pagina.html?slug=inscricoes"><span class="module-icon icon-amber">04</span><span class="module-card-body"><strong>Inscrições</strong><small>Veja como consultar o SIGAA/UFAL.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
+        <a class="module-card" href="pagina.html?slug=equipe"><span class="module-icon icon-rose">05</span><span class="module-card-body"><strong>Equipe do projeto</strong><small>Conheça as pessoas envolvidas na iniciativa.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
       </div>
     </section>
 
-    <section id="proximoEncontro" class="next-event"
-             aria-live="polite" hidden>
-      <div class="event-icon" aria-hidden="true">📅</div>
-      <div class="event-copy">
-        <span class="section-kicker">ACOMPANHE A PROGRAMAÇÃO</span>
-        <h2 id="eventoTitulo">Próximo encontro</h2>
-        <p id="eventoDescricao"></p>
+    <section class="about-band">
+      <div class="about-main">
+        <span class="section-kicker light-kicker">SOBRE A INICIATIVA</span>
+        <h2>Uma língua abre caminhos.<br>Uma comunidade faz a diferença.</h2>
+        <p id="aboutDescription">O Libras nas Comunidades promove o contato com a Língua Brasileira de Sinais e a cultura surda, incentivando a comunicação, o respeito linguístico e a acessibilidade no cotidiano.</p>
+        <a class="about-link" href="pagina.html?slug=sobre">Saiba mais sobre o projeto <span aria-hidden="true">→</span></a>
       </div>
-      <a class="text-link" href="calendario.html">
-        Ver calendário <span aria-hidden="true">→</span>
-      </a>
-    </section>
-
-    <section class="modules-section" id="modulos"
-             aria-labelledby="modulesHeading">
-      <div class="section-heading">
-        <span class="section-kicker">PORTAL DO PARTICIPANTE</span>
-        <h2 id="modulesHeading">Explore o portal</h2>
-        <p>Encontre as principais informações e orientações do curso.</p>
-      </div>
-
-      <div class="modules-grid" id="modulesGrid">
-        <a href="calendario.html" class="module-card">
-          <span class="module-icon" aria-hidden="true">🗓️</span>
-          <h3>Calendário</h3>
-          <p>Consulte as datas das aulas e atividades programadas.</p>
-          <span class="card-footer">Ver calendário →</span>
-        </a>
+      <div class="about-facts">
+        <div class="fact-item"><span class="fact-number">01</span><span><strong>Aprendizagem</strong><small>Conhecimentos introdutórios de Libras</small></span></div>
+        <div class="fact-item"><span class="fact-number">02</span><span><strong>Comunidade</strong><small>Encontro, diálogo e participação</small></span></div>
+        <div class="fact-item"><span class="fact-number">03</span><span><strong>Acessibilidade</strong><small>Comunicação mais inclusiva</small></span></div>
       </div>
     </section>
 
-    <section class="registration-panel" id="inscricoes">
-      <div class="registration-content">
-        <span class="section-kicker">INFORMAÇÕES OFICIAIS</span>
-        <h2>Inscrições e informações acadêmicas</h2>
-        <p id="inscricaoTexto">
-          Consulte os canais responsáveis para obter informações sobre
-          inscrições, editais e atividades de extensão.
-        </p>
-        <p class="registration-note">
-          A disponibilidade de inscrições depende dos períodos divulgados
-          pelos responsáveis pelo curso.
-        </p>
+    <section class="institution-section">
+      <div class="institution-copy">
+        <span class="section-kicker">PARCERIA E EXTENSÃO</span>
+        <h2>Universidade e comunidade, lado a lado.</h2>
+        <p>Uma iniciativa vinculada ao contexto de extensão universitária, com participação da Faculdade de Letras e apoio institucional da UFAL.</p>
       </div>
-
-      <a
-        id="sigaaLink"
-        class="button button-light"
-        href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
-        target="_blank"
-        rel="noopener noreferrer">
-        Acessar SIGAA/UFAL <span aria-hidden="true">↗</span>
-      </a>
+      <div class="institution-tags" aria-label="Instituições relacionadas ao projeto">
+        <span class="institution-tag"><strong>UFAL</strong><small>Universidade Federal de Alagoas</small></span>
+        <span class="institution-tag"><strong>FALE</strong><small>Faculdade de Letras</small></span>
+        <span class="institution-tag"><strong>PROEXC</strong><small>Extensão e Cultura</small></span>
+      </div>
     </section>
 
-    <div id="statusCarregamento" class="status-message"
-         role="status" aria-live="polite">
-      Carregando informações do projeto…
-    </div>
+    <section class="final-cta">
+      <div>
+        <span class="section-kicker">COMECE POR AQUI</span>
+        <h2>Conhecimento que aproxima pessoas.</h2>
+        <p>Consulte as informações do curso, acompanhe o cronograma e confira os canais responsáveis.</p>
+      </div>
+      <a class="button button-primary" href="pagina.html?slug=sobre">Explorar o curso <span aria-hidden="true">→</span></a>
+    </section>
   </main>
 
-  <footer class="app-footer">
-    <a href="index.html" class="footer-brand">
-      Libras nas Comunidades
-    </a>
-
-    <p>Educação, comunicação e acessibilidade.</p>
-
-    <p class="institutional-note">
-      Portal de apoio ao projeto. Este site não substitui os canais oficiais
-      da Universidade Federal de Alagoas.
-    </p>
-
-    <p class="copyright">
-      Desenvolvido por Adeilton Wachill · © <span id="anoAtual">2026</span>
-    </p>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="index.html">Libras nas Comunidades <span>UFAL · FALE · PROEXC</span></a>
+      <div class="footer-middle"><p>Portal de apoio ao curso e às atividades do projeto.</p><small>Este site não substitui os canais oficiais da UFAL.</small></div>
+      <div class="footer-credit"><small>Desenvolvido por</small><strong>Adeilton Wachill</strong><small>© <span id="currentYear">2026</span></small></div>
+    </div>
   </footer>
 
   <script>
   (() => {
     "use strict";
-
     const $ = id => document.getElementById(id);
+    const SIGAA_DEFAULT = "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf";
 
-    const SIGAA_PADRAO =
-      "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf";
-
-    const escapeHTML = valor =>
-      String(valor ?? "").replace(/[&<>"']/g, caractere => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[caractere]);
-
-    function dataLocalISO() {
-      const agora = new Date();
-      const ano = agora.getFullYear();
-      const mes = String(agora.getMonth() + 1).padStart(2, "0");
-      const dia = String(agora.getDate()).padStart(2, "0");
-      return `${ano}-${mes}-${dia}`;
+    function safeDate(iso) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ""));
+      if (!m) return "";
+      const d = new Date(+m[1], +m[2] - 1, +m[3]);
+      if (d.getFullYear() !== +m[1] || d.getMonth() !== +m[2] - 1 || d.getDate() !== +m[3]) return "";
+      return `${m[3]}/${m[2]}/${m[1]}`;
     }
-
-    function formatarData(data) {
-      const resultado = /^(\d{4})-(\d{2})-(\d{2})$/.exec(
-        String(data || "")
-      );
-
-      if (!resultado) return "";
-
-      const ano = Number(resultado[1]);
-      const mes = Number(resultado[2]);
-      const dia = Number(resultado[3]);
-      const dataObj = new Date(ano, mes - 1, dia);
-
-      if (
-        dataObj.getFullYear() !== ano ||
-        dataObj.getMonth() !== mes - 1 ||
-        dataObj.getDate() !== dia
-      ) return "";
-
-      return `${resultado[3]}/${resultado[2]}/${resultado[1]}`;
+    function todayISO() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     }
-
-    function definirLinkSeguro(elemento, url, padrao) {
-      try {
-        const destino = new URL(url || padrao, location.href);
-
-        if (
-          destino.protocol !== "https:" &&
-          destino.protocol !== "http:"
-        ) throw new Error("Protocolo não permitido");
-
-        elemento.href = destino.href;
-      } catch {
-        elemento.href = padrao;
-      }
-    }
-
-    function criarLinkPagina(pagina) {
-      if (pagina.tipo === "calendario" || pagina.slug === "calendario") {
-        return "calendario.html";
-      }
-
-      return "pagina.html?slug=" + encodeURIComponent(pagina.slug || "");
-    }
-
-    function criarCard(pagina) {
-      const link = criarLinkPagina(pagina);
+    function makeCard(page, index) {
+      const href = page.tipo === "calendario" || page.slug === "calendario"
+        ? "calendario.html"
+        : `pagina.html?slug=${encodeURIComponent(page.slug || "")}`;
       const card = document.createElement("a");
-
       card.className = "module-card";
-      card.href = link;
-
-      const icone = document.createElement("span");
-      icone.className = "module-icon";
-      icone.setAttribute("aria-hidden", "true");
-      icone.textContent = pagina.icone || "📂";
-
-      const titulo = document.createElement("h3");
-      titulo.textContent = pagina.titulo || "Informações";
-
-      const descricao = document.createElement("p");
-      descricao.textContent = pagina.descricao || "Consulte esta seção do portal.";
-
-      const rodape = document.createElement("span");
-      rodape.className = "card-footer";
-      rodape.textContent = "Acessar seção →";
-
-      card.append(icone, titulo, descricao, rodape);
+      card.href = href;
+      const number = document.createElement("span");
+      number.className = "module-icon " + ["icon-blue","icon-teal","icon-violet","icon-amber","icon-rose"][index % 5];
+      number.textContent = String(index + 1).padStart(2,"0");
+      const body = document.createElement("span");
+      body.className = "module-card-body";
+      const title = document.createElement("strong");
+      title.textContent = page.titulo || "Informações";
+      const desc = document.createElement("small");
+      desc.textContent = page.descricao || "Consulte as informações desta seção.";
+      body.append(title, desc);
+      const arrow = document.createElement("span");
+      arrow.className = "module-arrow";
+      arrow.setAttribute("aria-hidden", "true");
+      arrow.textContent = "↗";
+      card.append(number, body, arrow);
       return card;
     }
-
-    function mostrarErro(mensagem) {
-      $("statusCarregamento").textContent = mensagem;
-      $("statusCarregamento").classList.add("status-error");
-      $("statusCarregamento").hidden = false;
+    function setSafeSigaa(url) {
+      try {
+        const parsed = new URL(url || SIGAA_DEFAULT);
+        if (parsed.protocol === "https:" && parsed.hostname === "sigaa.sig.ufal.br") {
+          $("navEnroll").href = parsed.href;
+          $("navEnroll").target = "_blank";
+          $("navEnroll").rel = "noopener noreferrer";
+          $("heroPrimary").href = parsed.href;
+          $("heroPrimary").target = "_blank";
+          $("heroPrimary").rel = "noopener noreferrer";
+        }
+      } catch (_) {}
     }
+    function render(data) {
+      const site = data.site || {};
+      const config = data.configuracoes || {};
+      const heroConfig = config.hero || {};
+      const menuConfig = config.menu || {};
+      const homeConfig = config.home || {};
+      const pages = Array.isArray(data.paginas) ? data.paginas.filter(p => p && p.publicada !== false).sort((a,b) => (a.ordem || 99) - (b.ordem || 99)) : [];
 
-    function renderizar(dados) {
-      const site = dados.site || {};
-      const cfg = dados.configuracoes || {};
-      const cfgAviso = cfg.avisoTopo || {};
-      const cfgHero = cfg.hero || {};
-      const cfgMenu = cfg.menu || {};
-      const cfgHome = cfg.home || {};
+      if (data.home && data.home.descricao) {
+        $("heroDescription").textContent = data.home.descricao;
+        $("aboutDescription").textContent = data.home.descricao;
+      }
+      if (site.local) $("heroLocation").textContent = site.local;
+      setSafeSigaa(site.linkCadastro);
 
-      const paginas = Array.isArray(dados.paginas)
-        ? dados.paginas.filter(p => p && p.publicada !== false)
-        : [];
-
-      const paginasOrdenadas = [...paginas].sort(
-        (a, b) => (a.ordem || 99) - (b.ordem || 99)
-      );
-
-      $("cursoNome").textContent =
-        site.curso || "Libras — Básico I";
-
-      $("cursoPeriodo").textContent =
-        site.periodo || "Consulte o calendário";
-
-      $("cursoCarga").textContent =
-        site.carga ? `${site.carga} horas` : "Consulte as orientações";
-
-      $("cursoLocal").textContent =
-        site.local || "Benedito Bentes 3";
-
-      $("inscricaoTexto").textContent =
-        site.inscTexto ||
-        "Consulte os canais responsáveis para obter informações sobre inscrições e atividades de extensão.";
-
-      definirLinkSeguro($("sigaaLink"), site.linkCadastro, SIGAA_PADRAO);
-
-      // Aviso superior: respeita a configuração existente.
-      if (cfgAviso.ativo === true && String(cfgAviso.texto || "").trim()) {
-        const aviso = $("avisoTopo");
-        aviso.hidden = false;
-        aviso.className = "aviso-topo " + (
-          ["amarelo", "azul", "verde"].includes(cfgAviso.cor)
-            ? cfgAviso.cor
-            : "azul"
-        );
-
-        aviso.textContent = "📢 " + cfgAviso.texto;
+      if (config.avisoTopo && config.avisoTopo.ativo && config.avisoTopo.texto) {
+        $("topNotice").hidden = false;
+        $("topNotice").textContent = config.avisoTopo.texto;
+        $("topNotice").classList.add(["amarelo","azul","verde"].includes(config.avisoTopo.cor) ? config.avisoTopo.cor : "azul");
       }
 
-      // Banner: preserva a opção de exibição do painel.
-      if (cfgHero.mostrarBanner === false) {
-        $("heroImageFrame").hidden = true;
-      }
-
+      if (heroConfig.mostrarBanner === false) $("heroImage").hidden = true;
       $("heroImage").addEventListener("error", () => {
         $("heroImage").hidden = true;
-        $("imageFallback").hidden = false;
+        $("artFallback").hidden = false;
       }, { once: true });
 
-      // Botões da apresentação.
-      const botoes = $("heroActions");
+      if (heroConfig.mostrarBotao1 === false) $("heroPrimary").hidden = true;
+      if (heroConfig.mostrarBotao2 === false) document.querySelector(".button-quiet").hidden = true;
 
-      if (cfgHero.mostrarBotao1 === false && botoes.children[0]) {
-        botoes.children[0].hidden = true;
+      if (menuConfig.mostrarInscricoes === false) $("navEnroll").hidden = true;
+      const grid = $("moduleGrid");
+      const cardPages = pages.filter(p => !(p.slug === "inscricoes" && menuConfig.mostrarInscricoes === false));
+      if (homeConfig.mostrarModulos !== false && cardPages.length) {
+        grid.replaceChildren(...cardPages.map(makeCard));
       }
+      if (homeConfig.mostrarModulos === false) $("modulos").hidden = true;
 
-      if (cfgHero.mostrarBotao2 === false && botoes.children[1]) {
-        botoes.children[1].hidden = true;
-      }
-
-      // Menu dinâmico baseado nas páginas publicadas.
-      const menu = $("menu");
-      const listaMenu = document.createElement("div");
-      listaMenu.className = "nav-links";
-
-      const inicio = document.createElement("a");
-      inicio.href = "index.html";
-      inicio.textContent = "Início";
-      inicio.setAttribute("aria-current", "page");
-      listaMenu.append(inicio);
-
-      paginasOrdenadas.forEach(pagina => {
-        if (pagina.slug === "inscricoes" && cfgMenu.mostrarInscricoes === false) {
-          return;
+      if (homeConfig.mostrarAlerta !== false && Array.isArray(data.eventos)) {
+        const next = data.eventos.filter(e => e && e.data && e.data >= todayISO() && safeDate(e.data)).sort((a,b) => a.data.localeCompare(b.data))[0];
+        if (next) {
+          $("eventKicker").textContent = "PRÓXIMO ENCONTRO";
+          $("eventTitle").textContent = `${safeDate(next.data)}${next.horario ? " · " + next.horario : ""}`;
+          $("eventDescription").textContent = next.descricao || next.rotulo || "Consulte o calendário para detalhes.";
+        } else {
+          $("eventKicker").textContent = "INFORMAÇÕES DO CURSO";
+          $("eventTitle").textContent = site.curso || "Curso de Libras — Básico I";
+          $("eventDescription").textContent = `${site.periodo || "Consulte o período do curso"}${site.aulas ? " · " + site.aulas : ""}`;
         }
-
-        const link = document.createElement("a");
-        link.href = criarLinkPagina(pagina);
-        link.textContent = `${pagina.icone ? pagina.icone + " " : ""}${pagina.titulo || pagina.slug || "Página"}`;
-        listaMenu.append(link);
-      });
-
-      if (cfgMenu.mostrarSigaa !== false) {
-        const sigaa = document.createElement("a");
-        sigaa.href = SIGAA_PADRAO;
-        sigaa.target = "_blank";
-        sigaa.rel = "noopener noreferrer";
-        sigaa.textContent = "SIGAA/UFAL ↗";
-        listaMenu.append(sigaa);
+      } else {
+        $("eventKicker").textContent = "INFORMAÇÕES DO CURSO";
+        $("eventTitle").textContent = site.curso || "Curso de Libras — Básico I";
+        $("eventDescription").textContent = `${site.periodo || "Consulte o período do curso"}${site.aulas ? " · " + site.aulas : ""}`;
       }
 
-      menu.replaceChildren(listaMenu);
-
-      // Módulos: usa apenas páginas publicadas.
-      const grade = $("modulesGrid");
-      grade.replaceChildren();
-
-      const paginasCards = paginasOrdenadas.filter(
-        p => !(p.slug === "inscricoes" && cfgMenu.mostrarInscricoes === false)
-      );
-
-      if (cfgHome.mostrarModulos !== false) {
-        paginasCards.forEach(pagina => grade.append(criarCard(pagina)));
-      }
-
-      if (!grade.children.length) {
-        const card = document.createElement("a");
-        card.className = "module-card";
-        card.href = "calendario.html";
-        card.innerHTML =
-          '<span class="module-icon" aria-hidden="true">🗓️</span>' +
-          '<h3>Calendário</h3>' +
-          '<p>Consulte as datas e atividades do curso.</p>' +
-          '<span class="card-footer">Ver calendário →</span>';
-        grade.append(card);
-      }
-
-      if (cfgHome.mostrarModulos === false) {
-        $("modulos").hidden = true;
-      }
-
-      // Próximo evento. A data é calculada no horário local.
-      if (cfgHome.mostrarAlerta !== false && Array.isArray(dados.eventos)) {
-        const eventos = dados.eventos
-          .filter(e => e && /^\d{4}-\d{2}-\d{2}$/.test(e.data || ""))
-          .filter(e => e.data >= dataLocalISO())
-          .sort((a, b) => a.data.localeCompare(b.data));
-
-        if (eventos.length) {
-          const evento = eventos[0];
-          const data = formatarData(evento.data);
-
-          $("eventoTitulo").textContent =
-            evento.titulo || "Próximo encontro";
-
-          $("eventoDescricao").textContent =
-            `${data}${evento.horario ? " · " + evento.horario : ""} — ${evento.descricao || evento.titulo || "Consulte o calendário para mais informações."}`;
-
-          $("proximoEncontro").hidden = false;
-        }
-      }
-
-      $("anoAtual").textContent = new Date().getFullYear();
-      $("statusCarregamento").hidden = true;
+      $("currentYear").textContent = new Date().getFullYear();
     }
 
-    // Menu adaptado para celular.
-    $("menuToggle").addEventListener("click", () => {
-      const aberto = $("menuToggle").getAttribute("aria-expanded") === "true";
-
-      $("menuToggle").setAttribute("aria-expanded", String(!aberto));
-      $("menuToggle").setAttribute(
-        "aria-label",
-        aberto ? "Abrir menu" : "Fechar menu"
-      );
-
-      $("menu").classList.toggle("menu-open", !aberto);
+    const menuButton = $("menuButton");
+    const nav = $("primaryNav");
+    menuButton.addEventListener("click", () => {
+      const open = menuButton.getAttribute("aria-expanded") !== "true";
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
+      nav.classList.toggle("nav-open", open);
     });
-
-    $("menu").addEventListener("click", evento => {
-      if (evento.target.closest("a")) {
-        $("menu").classList.remove("menu-open");
-        $("menuToggle").setAttribute("aria-expanded", "false");
-        $("menuToggle").setAttribute("aria-label", "Abrir menu");
+    nav.addEventListener("click", e => {
+      if (e.target.closest("a")) {
+        nav.classList.remove("nav-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Abrir menu");
       }
     });
+    $("currentYear").textContent = new Date().getFullYear();
 
-    $("anoAtual").textContent = new Date().getFullYear();
-
-    // Carregamento seguro dos dados.
     fetch("dados.json?v=" + Date.now(), { cache: "no-store" })
-      .then(resposta => {
-        if (!resposta.ok) {
-          throw new Error("Não foi possível acessar dados.json (HTTP " + resposta.status + ").");
-        }
-        return resposta.json();
+      .then(response => {
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        return response.json();
       })
-      .then(dados => {
-        if (!dados || typeof dados !== "object") {
-          throw new Error("O arquivo de dados não contém um objeto JSON válido.");
-        }
-        renderizar(dados);
-      })
-      .catch(erro => {
-        console.error("Erro ao carregar o portal:", erro);
-        mostrarErro(
-          "Não foi possível atualizar os dados do portal. Você ainda pode acessar o calendário e as informações disponíveis. Atualize a página ou tente novamente mais tarde."
-        );
+      .then(render)
+      .catch(error => {
+        console.error("Não foi possível carregar dados.json:", error);
+        $("eventKicker").textContent = "PORTAL DO CURSO";
+        $("eventTitle").textContent = "Libras nas Comunidades";
+        $("eventDescription").textContent = "Consulte as páginas do portal para encontrar as informações disponíveis.";
       });
   })();
   </script>
