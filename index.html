@@ -1,296 +1,286 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102a56">
-  <meta name="description" content="Portal de apoio ao Projeto Libras nas Comunidades, curso de extensão em Libras da UFAL.">
-  <title>Libras nas Comunidades | Portal do Curso</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="home.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b4e">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>Em manutenção | Libras nas Comunidades</title>
+
+  <meta name="description" content="O site do Projeto Libras nas Comunidades está passando por melhorias. Em breve, novidades.">
+
+  <style>
+    :root {
+      --navy: #102b4e;
+      --blue: #2463a6;
+      --light-blue: #eaf4ff;
+      --white: #ffffff;
+      --text: #26384b;
+      --muted: #68798b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(145deg, #eaf4ff 0%, #ffffff 55%, #dcecff 100%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 24px 7%;
+      border-bottom: 1px solid rgba(16, 43, 78, 0.1);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background: var(--navy);
+      font-weight: bold;
+      font-size: 17px;
+      letter-spacing: 1px;
+    }
+
+    .brand h2 {
+      color: var(--navy);
+      font-size: 17px;
+      line-height: 1.4;
+    }
+
+    .brand p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 55px 20px;
+    }
+
+    .maintenance {
+      width: 100%;
+      max-width: 680px;
+      background: var(--white);
+      border: 1px solid #e0e9f2;
+      border-radius: 28px;
+      padding: 48px 35px;
+      text-align: center;
+      box-shadow: 0 22px 65px rgba(16, 43, 78, 0.09);
+    }
+
+    .illustration {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 27px;
+      border-radius: 28px;
+      background: var(--light-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .illustration svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--blue);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 13px;
+      border-radius: 30px;
+      background: var(--light-blue);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: clamp(30px, 5vw, 43px);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+
+    .description {
+      max-width: 510px;
+      margin: 0 auto;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .divider {
+      width: 55px;
+      height: 4px;
+      border-radius: 5px;
+      background: var(--blue);
+      margin: 28px auto;
+    }
+
+    .message {
+      padding: 18px;
+      background: #f6f9fc;
+      border-radius: 15px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .message strong {
+      color: var(--navy);
+    }
+
+    .contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 25px;
+      padding: 13px 20px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .contact:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      padding: 23px 20px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    footer strong {
+      color: var(--navy);
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 18px 20px;
+      }
+
+      .maintenance {
+        padding: 35px 22px;
+        border-radius: 22px;
+      }
+
+      .description {
+        font-size: 15px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <div id="topNotice" class="notice-bar" hidden></div>
 
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="index.html" aria-label="Libras nas Comunidades, página inicial">
-        <span class="brand-symbol" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none"><path d="M12 25V12a3 3 0 0 1 6 0v10-14a3 3 0 0 1 6 0v14-11a3 3 0 0 1 6 0v13-7a3 3 0 0 1 6 0v14c0 8-5 13-13 13h-2c-5 0-8-3-11-8l-5-8a3 3 0 0 1 5-3l4 5" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
-        <span class="brand-text">
-          <strong>Libras nas<br class="brand-break"> Comunidades</strong>
-          <small>UFAL · FALE · PROEXC</small>
-        </span>
-      </a>
-
-      <button class="menu-button" id="menuButton" type="button" aria-expanded="false" aria-controls="primaryNav" aria-label="Abrir menu">
-        <span></span><span></span><span></span>
-      </button>
-
-      <nav class="primary-nav" id="primaryNav" aria-label="Navegação principal">
-        <a class="nav-home" href="index.html" aria-current="page">Início</a>
-        <a href="pagina.html?slug=sobre">Sobre o curso</a>
-        <a href="#modulos">Módulos</a>
-        <a href="calendario.html">Calendário</a>
-        <a class="nav-enroll" id="navEnroll" href="pagina.html?slug=inscricoes">Inscrições <span aria-hidden="true">↗</span></a>
-      </nav>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true">LC</div>
+      <div>
+        <h2>Libras nas Comunidades</h2>
+        <p>Projeto de extensão · UFAL</p>
+      </div>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero-section">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <div class="eyebrow"><span class="eyebrow-dot"></span> PROJETO DE EXTENSÃO UNIVERSITÁRIA</div>
-          <h1>Mais inclusão.<br><span>Mais comunicação.</span><br>Mais possibilidades.</h1>
-          <p class="hero-lead" id="heroDescription">
-            Aprenda Libras, conheça a cultura surda e contribua para uma comunidade mais acessível e acolhedora.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-primary" id="heroPrimary" href="pagina.html?slug=inscricoes">Informações de inscrição <span aria-hidden="true">→</span></a>
-            <a class="button button-quiet" href="pagina.html?slug=sobre">Conheça o projeto</a>
-          </div>
-          <div class="hero-meta"><span class="meta-icon" aria-hidden="true">⌖</span><span id="heroLocation">Benedito Bentes 3 · Maceió, Alagoas</span></div>
-        </div>
+  <main>
+    <section class="maintenance" aria-labelledby="titulo">
 
-        <div class="hero-art" aria-label="Apresentação visual do projeto">
-          <div class="art-orbit orbit-one"></div>
-          <div class="art-orbit orbit-two"></div>
-          <div class="art-label art-label-top"><span class="label-star">✳</span> Comunicação que aproxima</div>
-          <img id="heroImage" src="arte-formulario.png" alt="Arte de divulgação do curso Libras nas Comunidades">
-          <div class="art-fallback" id="artFallback" hidden>
-            <span class="fallback-hands" aria-hidden="true">🤟</span>
-            <strong>Libras nas Comunidades</strong>
-            <span>Aprender · Comunicar · Incluir</span>
-          </div>
-          <div class="art-label art-label-bottom"><span class="label-check">✓</span> Aprendizagem com propósito</div>
-        </div>
+      <div class="illustration" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"
+          stroke-width="1.6" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 3v3"/>
+          <path d="M12 18v3"/>
+          <path d="M3 12h3"/>
+          <path d="M18 12h3"/>
+          <path d="m5.64 5.64 2.12 2.12"/>
+          <path d="m16.24 16.24 2.12 2.12"/>
+          <path d="m5.64 18.36 2.12-2.12"/>
+          <path d="m16.24 7.76 2.12-2.12"/>
+          <circle cx="12" cy="12" r="5"/>
+        </svg>
       </div>
-    </section>
 
-    <section class="course-strip" aria-label="Resumo do curso">
-      <div class="course-strip-inner">
-        <div class="strip-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="16" rx="2.5" stroke="currentColor" stroke-width="1.7"/><path d="M7.5 3v4M16.5 3v4M4 9.5h16M8 13h3M8 16.5h7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        </div>
-        <div class="strip-copy">
-          <span class="strip-kicker" id="eventKicker">PROGRAMAÇÃO DO CURSO</span>
-          <strong id="eventTitle">Curso de Libras — Básico I</strong>
-          <p id="eventDescription">Aulas aos sábados · Consulte o calendário completo</p>
-        </div>
-        <a class="strip-link" href="calendario.html">Ver calendário <span aria-hidden="true">→</span></a>
-      </div>
-    </section>
+      <span class="tag">Estamos melhorando</span>
 
-    <section class="content-section modules-section" id="modulos">
-      <div class="section-heading">
-        <div>
-          <span class="section-kicker">EXPLORE O PORTAL</span>
-          <h2>O que você procura?</h2>
-          <p>Informações do curso organizadas para você encontrar tudo com facilidade.</p>
-        </div>
-        <a class="heading-link" href="pagina.html?slug=sobre">Conhecer o projeto <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="module-grid" id="moduleGrid">
-        <a class="module-card" href="pagina.html?slug=sobre"><span class="module-icon icon-blue">01</span><span class="module-card-body"><strong>Sobre o curso</strong><small>Objetivos, metodologia e proposta formativa.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
-        <a class="module-card" href="calendario.html"><span class="module-icon icon-teal">02</span><span class="module-card-body"><strong>Calendário</strong><small>Datas, encontros e atividades previstas.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
-        <a class="module-card" href="pagina.html?slug=orientacoes"><span class="module-icon icon-violet">03</span><span class="module-card-body"><strong>Orientações</strong><small>Informações importantes para participantes.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
-        <a class="module-card" href="pagina.html?slug=inscricoes"><span class="module-icon icon-amber">04</span><span class="module-card-body"><strong>Inscrições</strong><small>Veja como consultar o SIGAA/UFAL.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
-        <a class="module-card" href="pagina.html?slug=equipe"><span class="module-icon icon-rose">05</span><span class="module-card-body"><strong>Equipe do projeto</strong><small>Conheça as pessoas envolvidas na iniciativa.</small></span><span class="module-arrow" aria-hidden="true">↗</span></a>
-      </div>
-    </section>
+      <h1 id="titulo">Voltaremos em breve</h1>
 
-    <section class="about-band">
-      <div class="about-main">
-        <span class="section-kicker light-kicker">SOBRE A INICIATIVA</span>
-        <h2>Uma língua abre caminhos.<br>Uma comunidade faz a diferença.</h2>
-        <p id="aboutDescription">O Libras nas Comunidades promove o contato com a Língua Brasileira de Sinais e a cultura surda, incentivando a comunicação, o respeito linguístico e a acessibilidade no cotidiano.</p>
-        <a class="about-link" href="pagina.html?slug=sobre">Saiba mais sobre o projeto <span aria-hidden="true">→</span></a>
-      </div>
-      <div class="about-facts">
-        <div class="fact-item"><span class="fact-number">01</span><span><strong>Aprendizagem</strong><small>Conhecimentos introdutórios de Libras</small></span></div>
-        <div class="fact-item"><span class="fact-number">02</span><span><strong>Comunidade</strong><small>Encontro, diálogo e participação</small></span></div>
-        <div class="fact-item"><span class="fact-number">03</span><span><strong>Acessibilidade</strong><small>Comunicação mais inclusiva</small></span></div>
-      </div>
-    </section>
+      <p class="description">
+        Nosso site está passando por uma manutenção para oferecer
+        uma experiência melhor, com informações mais organizadas
+        sobre o Projeto Libras nas Comunidades.
+      </p>
 
-    <section class="institution-section">
-      <div class="institution-copy">
-        <span class="section-kicker">PARCERIA E EXTENSÃO</span>
-        <h2>Universidade e comunidade, lado a lado.</h2>
-        <p>Uma iniciativa vinculada ao contexto de extensão universitária, com participação da Faculdade de Letras e apoio institucional da UFAL.</p>
-      </div>
-      <div class="institution-tags" aria-label="Instituições relacionadas ao projeto">
-        <span class="institution-tag"><strong>UFAL</strong><small>Universidade Federal de Alagoas</small></span>
-        <span class="institution-tag"><strong>FALE</strong><small>Faculdade de Letras</small></span>
-        <span class="institution-tag"><strong>PROEXC</strong><small>Extensão e Cultura</small></span>
-      </div>
-    </section>
+      <div class="divider"></div>
 
-    <section class="final-cta">
-      <div>
-        <span class="section-kicker">COMECE POR AQUI</span>
-        <h2>Conhecimento que aproxima pessoas.</h2>
-        <p>Consulte as informações do curso, acompanhe o cronograma e confira os canais responsáveis.</p>
+      <div class="message">
+        <strong>O que estamos fazendo?</strong><br>
+        Estamos realizando ajustes no site e preparando melhorias
+        para facilitar o acesso às informações do curso, ao calendário
+        de aulas e às orientações para os participantes.
       </div>
-      <a class="button button-primary" href="pagina.html?slug=sobre">Explorar o curso <span aria-hidden="true">→</span></a>
+
+      <!-- Insira um link oficial de contato, se desejar. -->
+      <!-- Exemplo:
+      <a class="contact"
+         href="https://wa.me/55DDDNUMERO"
+         target="_blank"
+         rel="noopener noreferrer">
+        Falar com a equipe
+      </a>
+      -->
+
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <a class="footer-brand" href="index.html">Libras nas Comunidades <span>UFAL · FALE · PROEXC</span></a>
-      <div class="footer-middle"><p>Portal de apoio ao curso e às atividades do projeto.</p><small>Este site não substitui os canais oficiais da UFAL.</small></div>
-      <div class="footer-credit"><small>Desenvolvido por</small><strong>Adeilton Wachill</strong><small>© <span id="currentYear">2026</span></small></div>
-    </div>
+  <footer>
+    <strong>Projeto Libras nas Comunidades</strong><br>
+    Universidade Federal de Alagoas · UFAL<br>
+    <span>Site temporariamente em manutenção.</span>
   </footer>
 
-  <script>
-  (() => {
-    "use strict";
-    const $ = id => document.getElementById(id);
-    const SIGAA_DEFAULT = "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf";
-
-    function safeDate(iso) {
-      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ""));
-      if (!m) return "";
-      const d = new Date(+m[1], +m[2] - 1, +m[3]);
-      if (d.getFullYear() !== +m[1] || d.getMonth() !== +m[2] - 1 || d.getDate() !== +m[3]) return "";
-      return `${m[3]}/${m[2]}/${m[1]}`;
-    }
-    function todayISO() {
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-    }
-    function makeCard(page, index) {
-      const href = page.tipo === "calendario" || page.slug === "calendario"
-        ? "calendario.html"
-        : `pagina.html?slug=${encodeURIComponent(page.slug || "")}`;
-      const card = document.createElement("a");
-      card.className = "module-card";
-      card.href = href;
-      const number = document.createElement("span");
-      number.className = "module-icon " + ["icon-blue","icon-teal","icon-violet","icon-amber","icon-rose"][index % 5];
-      number.textContent = String(index + 1).padStart(2,"0");
-      const body = document.createElement("span");
-      body.className = "module-card-body";
-      const title = document.createElement("strong");
-      title.textContent = page.titulo || "Informações";
-      const desc = document.createElement("small");
-      desc.textContent = page.descricao || "Consulte as informações desta seção.";
-      body.append(title, desc);
-      const arrow = document.createElement("span");
-      arrow.className = "module-arrow";
-      arrow.setAttribute("aria-hidden", "true");
-      arrow.textContent = "↗";
-      card.append(number, body, arrow);
-      return card;
-    }
-    function setSafeSigaa(url) {
-      try {
-        const parsed = new URL(url || SIGAA_DEFAULT);
-        if (parsed.protocol === "https:" && parsed.hostname === "sigaa.sig.ufal.br") {
-          $("navEnroll").href = parsed.href;
-          $("navEnroll").target = "_blank";
-          $("navEnroll").rel = "noopener noreferrer";
-          $("heroPrimary").href = parsed.href;
-          $("heroPrimary").target = "_blank";
-          $("heroPrimary").rel = "noopener noreferrer";
-        }
-      } catch (_) {}
-    }
-    function render(data) {
-      const site = data.site || {};
-      const config = data.configuracoes || {};
-      const heroConfig = config.hero || {};
-      const menuConfig = config.menu || {};
-      const homeConfig = config.home || {};
-      const pages = Array.isArray(data.paginas) ? data.paginas.filter(p => p && p.publicada !== false).sort((a,b) => (a.ordem || 99) - (b.ordem || 99)) : [];
-
-      if (data.home && data.home.descricao) {
-        $("heroDescription").textContent = data.home.descricao;
-        $("aboutDescription").textContent = data.home.descricao;
-      }
-      if (site.local) $("heroLocation").textContent = site.local;
-      setSafeSigaa(site.linkCadastro);
-
-      if (config.avisoTopo && config.avisoTopo.ativo && config.avisoTopo.texto) {
-        $("topNotice").hidden = false;
-        $("topNotice").textContent = config.avisoTopo.texto;
-        $("topNotice").classList.add(["amarelo","azul","verde"].includes(config.avisoTopo.cor) ? config.avisoTopo.cor : "azul");
-      }
-
-      if (heroConfig.mostrarBanner === false) $("heroImage").hidden = true;
-      $("heroImage").addEventListener("error", () => {
-        $("heroImage").hidden = true;
-        $("artFallback").hidden = false;
-      }, { once: true });
-
-      if (heroConfig.mostrarBotao1 === false) $("heroPrimary").hidden = true;
-      if (heroConfig.mostrarBotao2 === false) document.querySelector(".button-quiet").hidden = true;
-
-      if (menuConfig.mostrarInscricoes === false) $("navEnroll").hidden = true;
-      const grid = $("moduleGrid");
-      const cardPages = pages.filter(p => !(p.slug === "inscricoes" && menuConfig.mostrarInscricoes === false));
-      if (homeConfig.mostrarModulos !== false && cardPages.length) {
-        grid.replaceChildren(...cardPages.map(makeCard));
-      }
-      if (homeConfig.mostrarModulos === false) $("modulos").hidden = true;
-
-      if (homeConfig.mostrarAlerta !== false && Array.isArray(data.eventos)) {
-        const next = data.eventos.filter(e => e && e.data && e.data >= todayISO() && safeDate(e.data)).sort((a,b) => a.data.localeCompare(b.data))[0];
-        if (next) {
-          $("eventKicker").textContent = "PRÓXIMO ENCONTRO";
-          $("eventTitle").textContent = `${safeDate(next.data)}${next.horario ? " · " + next.horario : ""}`;
-          $("eventDescription").textContent = next.descricao || next.rotulo || "Consulte o calendário para detalhes.";
-        } else {
-          $("eventKicker").textContent = "INFORMAÇÕES DO CURSO";
-          $("eventTitle").textContent = site.curso || "Curso de Libras — Básico I";
-          $("eventDescription").textContent = `${site.periodo || "Consulte o período do curso"}${site.aulas ? " · " + site.aulas : ""}`;
-        }
-      } else {
-        $("eventKicker").textContent = "INFORMAÇÕES DO CURSO";
-        $("eventTitle").textContent = site.curso || "Curso de Libras — Básico I";
-        $("eventDescription").textContent = `${site.periodo || "Consulte o período do curso"}${site.aulas ? " · " + site.aulas : ""}`;
-      }
-
-      $("currentYear").textContent = new Date().getFullYear();
-    }
-
-    const menuButton = $("menuButton");
-    const nav = $("primaryNav");
-    menuButton.addEventListener("click", () => {
-      const open = menuButton.getAttribute("aria-expanded") !== "true";
-      menuButton.setAttribute("aria-expanded", String(open));
-      menuButton.setAttribute("aria-label", open ? "Fechar menu" : "Abrir menu");
-      nav.classList.toggle("nav-open", open);
-    });
-    nav.addEventListener("click", e => {
-      if (e.target.closest("a")) {
-        nav.classList.remove("nav-open");
-        menuButton.setAttribute("aria-expanded", "false");
-        menuButton.setAttribute("aria-label", "Abrir menu");
-      }
-    });
-    $("currentYear").textContent = new Date().getFullYear();
-
-    fetch("dados.json?v=" + Date.now(), { cache: "no-store" })
-      .then(response => {
-        if (!response.ok) throw new Error("HTTP " + response.status);
-        return response.json();
-      })
-      .then(render)
-      .catch(error => {
-        console.error("Não foi possível carregar dados.json:", error);
-        $("eventKicker").textContent = "PORTAL DO CURSO";
-        $("eventTitle").textContent = "Libras nas Comunidades";
-        $("eventDescription").textContent = "Consulte as páginas do portal para encontrar as informações disponíveis.";
-      });
-  })();
-  </script>
 </body>
 </html>
+```
