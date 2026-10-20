@@ -1,0 +1,22 @@
+{
+  "cursos": [
+    {
+      "id": "1",
+      "nome": "Curso Básico de Libras",
+      "nivel": "Básico I",
+      "cargaHoraria": 40
+    }
+  ],
+  "turmas": [
+    {
+      "id": "1712345678",
+      "cursoId": "1",
+      "nome": "Turma 2026.1 (Benedito Bentes)",
+      "dataInicio": "2026-10-17",
+      "dataFim": "2027-01-23",
+      "vagas": 30,
+      "status": "Inscrições Abertas",
+      "linkFormulario": "https://forms.gle/SEU_LINK_AQUI"
+    }
+  ]
+}
