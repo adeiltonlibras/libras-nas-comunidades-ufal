@@ -3,237 +3,1001 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Página — Libras nas Comunidades</title>
-  <link rel="stylesheet" href="estilo.css">
+  <meta name="description" content="Projeto de Extensão Libras nas Comunidades — Universidade Federal de Alagoas. Curso Básico de Libras — Nível I, gratuito, na comunidade do Benedito Bentes, Maceió.">
+  <title>Libras nas Comunidades — Projeto de Extensão · UFAL</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       LIBRAS NAS COMUNIDADES — DESIGN EDITORIAL ACADÊMICO
+       ============================================================ */
+    :root {
+      --ink: #0F2B4C;
+      --ink-soft: #1A3E64;
+      --blue: #1E4E8C;
+      --gold: #A88552;
+      --gold-light: #C9A876;
+      --paper: #FBFAF6;
+      --white: #FFFFFF;
+      --line: #E4E0D5;
+      --line-strong: #C8C2B0;
+      --muted: #6B6E7A;
+      --text: #1F2937;
+      --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --max: 1140px;
+      --gutter: 32px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { color: var(--ink); }
+    img { max-width: 100%; display: block; }
+    ::selection { background: var(--gold-light); color: var(--ink); }
+
+    /* Acessibilidade */
+    .skip-link {
+      position: absolute; top: -100px; left: 16px; z-index: 9999;
+      padding: 10px 18px; background: var(--ink); color: var(--white);
+      text-decoration: none; font-weight: 600; font-size: .85rem;
+      transition: top .2s;
+    }
+    .skip-link:focus { top: 16px; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* ============================================================
+       TOPBAR INSTITUCIONAL
+       ============================================================ */
+    .topbar {
+      background: var(--ink);
+      color: #B8C4D4;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 10px 0;
+    }
+    .topbar-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .topbar-sep { color: var(--gold); font-weight: 700; }
+
+    /* ============================================================
+       HEADER + NAV
+       ============================================================ */
+    .header {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: saturate(150%) blur(8px);
+      background-color: rgba(251, 250, 246, 0.94);
+    }
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { text-decoration: none; display: block; }
+    .brand-name {
+      display: block;
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+    .brand-tag {
+      display: block;
+      font-size: 0.64rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-top: 5px;
+    }
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--line-strong);
+      padding: 8px 14px;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .nav-toggle:hover { background: var(--white); }
+    .nav ul {
+      list-style: none;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .nav a {
+      display: block;
+      padding: 8px 12px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border-bottom: 1px solid transparent;
+      transition: border-color .15s, color .15s;
+    }
+    .nav a:hover { color: var(--ink); border-bottom-color: var(--gold); }
+    .nav a.active {
+      color: var(--ink);
+      border-bottom-color: var(--gold);
+      font-weight: 700;
+    }
+    .nav a.nav-cta {
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      margin-left: 8px;
+      padding: 7px 14px;
+    }
+    .nav a.nav-cta:hover { background: var(--gold); color: var(--white); border-bottom-color: var(--gold); }
+
+    /* ============================================================
+       HERO EDITORIAL
+       ============================================================ */
+    .hero {
+      position: relative;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 96px 0 80px;
+      overflow: hidden;
+    }
+    .hero-pattern {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 42%;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 47px,
+        var(--line) 47px,
+        var(--line) 48px
+      );
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-content {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hero-eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+      display: inline-block;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 6.2vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 36px;
+      max-width: 16ch;
+    }
+    .hero-rule {
+      width: 72px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 36px;
+    }
+    .hero-lede {
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 1.5vw, 1.22rem);
+      line-height: 1.7;
+      color: var(--ink-soft);
+      max-width: 60ch;
+      margin-bottom: 64px;
+      font-style: italic;
+    }
+    .hero-facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line-strong);
+      max-width: 100%;
+      margin: 0;
+    }
+    .hero-facts > div {
+      padding: 26px 24px 26px 0;
+      border-right: 1px solid var(--line);
+    }
+    .hero-facts > div:last-child { border-right: none; padding-right: 0; }
+    .hero-facts > div:not(:first-child) { padding-left: 26px; }
+    .hero-facts dt {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .hero-facts dd {
+      font-family: var(--serif);
+      font-size: 1.02rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0;
+      line-height: 1.35;
+    }
+
+    /* ============================================================
+       SEÇÕES GERAIS
+       ============================================================ */
+    .section {
+      padding: 88px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .section-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .section-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.95rem;
+      letter-spacing: 0;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(1.65rem, 3vw, 2.35rem);
+      line-height: 1.18;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      margin-bottom: 32px;
+      max-width: 24ch;
+    }
+    .section-lede {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      max-width: 60ch;
+      margin-bottom: 56px;
+      font-style: italic;
+    }
+
+    /* ============================================================
+       SEÇÃO SOBRE
+       ============================================================ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.7fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-text .section-title { margin-bottom: 28px; }
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 20px;
+      max-width: 62ch;
+    }
+    .about-text p strong { color: var(--ink); font-weight: 600; }
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: 3px;
+      transition: gap .15s, border-color .15s;
+      margin-top: 12px;
+    }
+    .text-link:hover { gap: 14px; border-bottom-color: var(--ink); color: var(--ink); }
+
+    .aside-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-top: 3px solid var(--gold);
+      padding: 32px 28px;
+    }
+    .aside-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .aside-dl dt {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+      margin-top: 16px;
+    }
+    .aside-dl dt:first-child { margin-top: 0; }
+    .aside-dl dd {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+      margin: 0 0 4px;
+    }
+
+    /* ============================================================
+       SEÇÃO CURSO — FATOS
+       ============================================================ */
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line-strong);
+      margin-bottom: 40px;
+    }
+    .fact {
+      padding: 32px 24px 32px 0;
+      border-right: 1px solid var(--line);
+    }
+    .fact:last-child { border-right: none; padding-right: 0; }
+    .fact:not(:first-child) { padding-left: 24px; }
+    .fact-num {
+      font-family: var(--serif);
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+    .fact-label {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .fact p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin: 0;
+    }
+    .course-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      padding-top: 8px;
+    }
+
+    /* ============================================================
+       CITAÇÃO INSTITUCIONAL
+       ============================================================ */
+    .quote {
+      background: var(--ink);
+      color: var(--white);
+      padding: 96px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .quote-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      text-align: center;
+    }
+    .quote blockquote {
+      margin: 0;
+      position: relative;
+    }
+    .quote blockquote::before {
+      content: "\201C";
+      font-family: var(--serif);
+      font-size: 6rem;
+      line-height: 1;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .quote p {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+      line-height: 1.5;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      font-weight: 400;
+    }
+
+    /* ============================================================
+       ACESSO RÁPIDO — LISTA EDITORIAL
+       ============================================================ */
+    .access-list {
+      border-top: 1px solid var(--line-strong);
+    }
+    .access-item {
+      display: grid;
+      grid-template-columns: 60px 1fr 40px;
+      align-items: center;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--ink);
+      transition: padding-left .2s, background .15s;
+    }
+    .access-item:hover {
+      padding-left: 12px;
+      color: var(--ink);
+    }
+    .access-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+    .access-content { display: flex; flex-direction: column; gap: 4px; }
+    .access-title {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+      line-height: 1.2;
+    }
+    .access-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .access-arrow {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      color: var(--gold);
+      justify-self: end;
+      transition: transform .2s;
+    }
+    .access-item:hover .access-arrow { transform: translateX(6px); }
+
+    /* ============================================================
+       NOTA INSTITUCIONAL
+       ============================================================ */
+    .notice {
+      padding: 48px 0;
+      background: #F4F1EA;
+    }
+    .notice-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .notice-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding-top: 2px;
+    }
+    .notice p {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      max-width: 68ch;
+    }
+    .notice strong { color: var(--ink); font-weight: 600; }
+
+    /* ============================================================
+       RODAPÉ
+       ============================================================ */
+    .footer {
+      background: var(--ink);
+      color: #B8C4D4;
+      padding: 72px 0 0;
+    }
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter) 56px;
+      display: grid;
+      grid-template-columns: 1.7fr 1fr 1fr;
+      gap: 64px;
+    }
+    .footer h4 {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 20px;
+      letter-spacing: -0.005em;
+    }
+    .footer-brand-name {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .footer p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #94A3B8;
+      margin-bottom: 8px;
+      max-width: 44ch;
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { margin-bottom: 8px; }
+    .footer a {
+      color: #B8C4D4;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color .15s;
+    }
+    .footer a:hover { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+    .footer-base {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 24px 0;
+    }
+    .footer-base-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+      color: #6B7B8F;
+    }
+    .footer-base strong { color: #B8C4D4; font-weight: 600; }
+
+    /* ============================================================
+       RESPONSIVO
+       ============================================================ */
+    @media (max-width: 960px) {
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .facts-grid { grid-template-columns: repeat(2, 1fr); }
+      .fact:nth-child(2) { border-right: none; }
+      .fact:nth-child(3) { border-right: 1px solid var(--line); padding-left: 0; padding-top: 32px; border-top: 1px solid var(--line); }
+      .fact:nth-child(4) { padding-top: 32px; border-top: 1px solid var(--line); }
+      .hero-facts { grid-template-columns: repeat(2, 1fr); }
+      .hero-facts > div:nth-child(2) { border-right: none; }
+      .hero-facts > div:nth-child(3),
+      .hero-facts > div:nth-child(4) { border-top: 1px solid var(--line); }
+      .hero-facts > div:nth-child(3) { padding-left: 0; }
+      .notice-inner { grid-template-columns: 1fr; gap: 16px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .footer-inner > div:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 720px) {
+      :root { --gutter: 20px; }
+      .header-inner { padding: 14px var(--gutter); flex-wrap: wrap; }
+      .nav-toggle { display: block; margin-left: auto; }
+      .nav { width: 100%; }
+      .nav ul {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding-top: 12px;
+        margin-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+      .nav ul.open { display: flex; }
+      .nav a { padding: 12px 4px; border-bottom: 1px solid var(--line); }
+      .nav a.active { border-bottom-color: var(--gold); }
+      .nav a.nav-cta { margin: 8px 0 0; text-align: center; }
+
+      .hero { padding: 56px 0 48px; }
+      .hero-pattern { width: 55%; opacity: 0.5; }
+      .hero-title { margin-bottom: 28px; }
+      .hero-lede { margin-bottom: 44px; }
+      .hero-facts { grid-template-columns: 1fr; }
+      .hero-facts > div {
+        border-right: none !important;
+        border-bottom: 1px solid var(--line);
+        padding: 20px 0 !important;
+      }
+      .hero-facts > div:last-child { border-bottom: none; }
+
+      .section { padding: 64px 0; }
+      .quote { padding: 72px 0; }
+      .quote blockquote::before { font-size: 4.5rem; }
+
+      .facts-grid { grid-template-columns: 1fr; }
+      .fact {
+        padding: 24px 0 !important;
+        border-right: none !important;
+        border-top: 1px solid var(--line);
+      }
+      .fact:first-child { border-top: none; }
+      .fact-num { font-size: 2.6rem; }
+
+      .access-item { grid-template-columns: 40px 1fr 24px; gap: 16px; padding: 22px 0; }
+      .access-title { font-size: 1.15rem; }
+      .access-arrow { font-size: 1.1rem; }
+      .access-num { font-size: 1.15rem; }
+
+      .footer-inner { grid-template-columns: 1fr; gap: 40px; padding-bottom: 40px; }
+      .footer-base-inner { flex-direction: column; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+    @media print {
+      .header, .topbar, .nav-toggle, .nav, .footer, .quote { display: none !important; }
+      body { background: #FFF; color: #000; }
+      .section { padding: 24px 0; border-color: #999; }
+      .hero-pattern { display: none; }
+      a { color: #000 !important; text-decoration: underline; }
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#app">Pular para o conteúdo principal</a>
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
 
-  <header class="app-header">
-    <div class="app-header-inner">
-      <a href="index.html" class="app-brand" aria-label="Libras nas Comunidades — Página inicial">
-        <span class="brand-mark" aria-hidden="true">LnC</span>
-        <span>
-          <span class="app-title">Libras nas Comunidades</span>
-          <span class="app-subtitle">Projeto de Extensão · UFAL</span>
-        </span>
+  <!-- ============================================================
+       TOPBAR INSTITUCIONAL
+       ============================================================ -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span>Universidade Federal de Alagoas</span>
+      <span class="topbar-sep" aria-hidden="true">·</span>
+      <span>Pró-Reitoria de Extensão e Cultura</span>
+      <span class="topbar-sep" aria-hidden="true">·</span>
+      <span>Faculdade de Letras</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="Libras nas Comunidades — Página inicial">
+        <span class="brand-name">Libras nas Comunidades</span>
+        <span class="brand-tag">Projeto de Extensão</span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">Menu</button>
-      <nav class="app-nav" aria-label="Navegação principal">
-        <ul id="menu"></ul>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav" aria-label="Navegação principal">
+        <ul>
+          <li><a href="index.html" class="active" aria-current="page">Início</a></li>
+          <li><a href="pagina.html?slug=sobre">O Projeto</a></li>
+          <li><a href="pagina.html?slug=curso">O Curso</a></li>
+          <li><a href="calendario.html">Cronograma</a></li>
+          <li><a href="pagina.html?slug=orientacoes">Orientações</a></li>
+          <li><a href="pagina.html?slug=equipe">Equipe</a></li>
+          <li><a href="pagina.html?slug=contato">Contato</a></li>
+          <li><a href="inscricoes.html" class="nav-cta">Inscrições</a></li>
+        </ul>
       </nav>
     </div>
   </header>
 
-  <main class="wrapper" id="app">
-    <div class="loading-box">
-      <div class="spinner"></div>
-      <p>Carregando conteúdo…</p>
-    </div>
+  <main id="main">
+    <!-- ============================================================
+         HERO EDITORIAL
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero-pattern" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Projeto de Extensão Universitária · UFAL · 2026</div>
+        <h1 class="hero-title">Libras nas<br>Comunidades</h1>
+        <div class="hero-rule" aria-hidden="true"></div>
+        <p class="hero-lede">
+          Uma iniciativa da Universidade Federal de Alagoas para difundir a Língua
+          Brasileira de Sinais em comunidades de Maceió, unindo formação acadêmica,
+          extensão universitária e compromisso com a acessibilidade.
+        </p>
+        <dl class="hero-facts">
+          <div>
+            <dt>Período</dt>
+            <dd>17 out 2026 — 23 jan 2027</dd>
+          </div>
+          <div>
+            <dt>Carga horária</dt>
+            <dd>40 horas</dd>
+          </div>
+          <div>
+            <dt>Encontros</dt>
+            <dd>Sábados · 15h–17h30</dd>
+          </div>
+          <div>
+            <dt>Local</dt>
+            <dd>Benedito Bentes 3 · Maceió</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SOBRE O PROJETO
+         ============================================================ -->
+    <section class="section about">
+      <div class="section-inner">
+        <div class="about-grid">
+          <div class="about-text">
+            <div class="section-label"><span class="section-num">I.</span> Sobre o projeto</div>
+            <h2 class="section-title">Uma ação de extensão que atravessa a universidade e alcança a comunidade.</h2>
+            <p>O <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária da Universidade Federal de Alagoas, vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC). Seu propósito é difundir a Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social, comunicação acessível e formação cidadã.</p>
+            <p>A iniciativa articula ensino, pesquisa e extensão: ao mesmo tempo em que forma ouvintes para a comunicação com a comunidade surda, contribui para a formação prática de licenciandos do curso de Letras Libras da UFAL.</p>
+            <a href="pagina.html?slug=sobre" class="text-link">Conhecer a história e os objetivos do projeto <span aria-hidden="true">→</span></a>
+          </div>
+          <aside class="about-aside">
+            <div class="aside-card">
+              <div class="aside-label">Ficha institucional</div>
+              <dl class="aside-dl">
+                <dt>Instituição</dt>
+                <dd>Universidade Federal de Alagoas</dd>
+                <dt>Unidade acadêmica</dt>
+                <dd>Faculdade de Letras — FALE</dd>
+                <dt>Vínculo institucional</dt>
+                <dd>Pró-Reitoria de Extensão e Cultura — PROEXC</dd>
+                <dt>Coordenação</dt>
+                <dd>Profa. Dra. Edineide dos Santos Silva</dd>
+                <dt>Professor ministrante</dt>
+                <dd>Adeilton Wachill dos Santos Olimpio</dd>
+              </dl>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CURSO EM FATOS
+         ============================================================ -->
+    <section class="section course">
+      <div class="section-inner">
+        <div class="section-label"><span class="section-num">II.</span> O curso</div>
+        <h2 class="section-title">Curso Básico de Libras — Nível I</h2>
+        <p class="section-lede">Uma formação introdutória, gratuita e aberta à comunidade, voltada à comunicação com a comunidade surda.</p>
+
+        <div class="facts-grid">
+          <div class="fact">
+            <div class="fact-num">40</div>
+            <div class="fact-label">Horas totais</div>
+            <p>Aulas presenciais aos sábados, com atividades assíncronas de apoio.</p>
+          </div>
+          <div class="fact">
+            <div class="fact-num">15</div>
+            <div class="fact-label">Encontros</div>
+            <p>De outubro de 2026 a janeiro de 2027, em cronograma contínuo.</p>
+          </div>
+          <div class="fact">
+            <div class="fact-num">2h30</div>
+            <div class="fact-label">Por encontro</div>
+            <p>Aulas presenciais das 15h às 17h30, sempre aos sábados.</p>
+          </div>
+          <div class="fact">
+            <div class="fact-num">100%</div>
+            <div class="fact-label">Gratuito</div>
+            <p>Sem exigência de conhecimento prévio em Libras.</p>
+          </div>
+        </div>
+
+        <div class="course-links">
+          <a href="pagina.html?slug=curso" class="text-link">Ver informações completas do curso <span aria-hidden="true">→</span></a>
+          <a href="calendario.html" class="text-link">Consultar o cronograma <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CITAÇÃO
+         ============================================================ -->
+    <section class="quote">
+      <div class="quote-inner">
+        <blockquote>
+          <p>Promover a Libras é promover cidadania. Este projeto nasce do compromisso da universidade pública com a acessibilidade e com a comunidade surda.</p>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ACESSO RÁPIDO — ÍNDICE EDITORIAL
+         ============================================================ -->
+    <section class="section access">
+      <div class="section-inner">
+        <div class="section-label"><span class="section-num">III.</span> Navegação</div>
+        <h2 class="section-title">Explore o projeto</h2>
+
+        <div class="access-list">
+          <a href="pagina.html?slug=sobre" class="access-item">
+            <span class="access-num">i.</span>
+            <span class="access-content">
+              <span class="access-title">O Projeto</span>
+              <span class="access-desc">Origem, objetivos e relação com a comunidade.</span>
+            </span>
+            <span class="access-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="pagina.html?slug=curso" class="access-item">
+            <span class="access-num">ii.</span>
+            <span class="access-content">
+              <span class="access-title">O Curso</span>
+              <span class="access-desc">Estrutura, metodologia e conteúdos introdutórios.</span>
+            </span>
+            <span class="access-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="calendario.html" class="access-item">
+            <span class="access-num">iii.</span>
+            <span class="access-content">
+              <span class="access-title">Cronograma</span>
+              <span class="access-desc">Datas, horários e atividades previstas.</span>
+            </span>
+            <span class="access-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="pagina.html?slug=orientacoes" class="access-item">
+            <span class="access-num">iv.</span>
+            <span class="access-content">
+              <span class="access-title">Orientações</span>
+              <span class="access-desc">Fluxo de participação e requisitos para certificação.</span>
+            </span>
+            <span class="access-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="inscricoes.html" class="access-item">
+            <span class="access-num">v.</span>
+            <span class="access-content">
+              <span class="access-title">Inscrições</span>
+              <span class="access-desc">Situação atual e passo a passo pelo SIGAA/UFAL.</span>
+            </span>
+            <span class="access-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="pagina.html?slug=equipe" class="access-item">
+            <span class="access-num">vi.</span>
+            <span class="access-content">
+              <span class="access-title">Equipe</span>
+              <span class="access-desc">Coordenação, professor ministrante e apoio institucional.</span>
+            </span>
+            <span class="access-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         NOTA INSTITUCIONAL
+         ============================================================ -->
+    <section class="notice">
+      <div class="notice-inner">
+        <div class="notice-label">Nota institucional</div>
+        <p>Este site é um canal informativo de apoio ao projeto <strong>Libras nas Comunidades</strong>. Não constitui portal oficial da Universidade Federal de Alagoas e não substitui os canais institucionais da UFAL. As informações estão sujeitas a atualização pela equipe responsável.</p>
+      </div>
+    </section>
   </main>
 
-  <footer class="app-footer">
-    <div class="app-footer-inner">
+  <!-- ============================================================
+       RODAPÉ
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer-inner">
       <div>
-        <h4>Libras nas Comunidades</h4>
-        <p>Projeto de Extensão da Universidade Federal de Alagoas (UFAL), vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+        <div class="footer-brand-name">Libras nas Comunidades</div>
+        <p>Projeto de Extensão da Universidade Federal de Alagoas, vinculado à Faculdade de Letras e à Pró-Reitoria de Extensão e Cultura.</p>
       </div>
       <div>
         <h4>Navegação</h4>
-        <a href="index.html">Início</a>
-        <a href="pagina.html?slug=sobre">O Projeto</a>
-        <a href="pagina.html?slug=curso">O Curso</a>
-        <a href="calendario.html">Cronograma</a>
-        <a href="pagina.html?slug=orientacoes">Orientações</a>
-        <a href="inscricoes.html">Inscrições</a>
+        <ul>
+          <li><a href="pagina.html?slug=sobre">O Projeto</a></li>
+          <li><a href="pagina.html?slug=curso">O Curso</a></li>
+          <li><a href="calendario.html">Cronograma</a></li>
+          <li><a href="pagina.html?slug=orientacoes">Orientações</a></li>
+          <li><a href="inscricoes.html">Inscrições</a></li>
+        </ul>
       </div>
       <div>
         <h4>Institucional</h4>
-        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">SIGAA/UFAL — Extensão</a>
-        <a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a>
-        <a href="pagina.html?slug=equipe">Equipe</a>
-        <a href="pagina.html?slug=contato">Contato</a>
+        <ul>
+          <li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">SIGAA/UFAL — Extensão</a></li>
+          <li><a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a></li>
+          <li><a href="pagina.html?slug=equipe">Equipe</a></li>
+          <li><a href="pagina.html?slug=contato">Contato</a></li>
+        </ul>
       </div>
     </div>
-    <div class="app-footer-base">
-      <p>Desenvolvido por <strong>Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</p>
-      <p style="margin-top:6px;font-size:.7rem;">Este site não é uma página oficial da UFAL.</p>
+    <div class="footer-base">
+      <div class="footer-base-inner">
+        <span>Desenvolvido por <strong>Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</span>
+        <span>Site informativo — não é página oficial da UFAL</span>
+      </div>
     </div>
   </footer>
 
   <script>
-  (async function () {
-    function urlPagina(p) {
-      if (p.tipo === 'index') return 'index.html';
-      if (p.tipo === 'calendario') return 'calendario.html';
-      if (p.tipo === 'externo') return p.arquivo;
-      return `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-    }
-
-    const esc = s => String(s ?? '')
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-
-    const toggle = document.querySelector('.nav-toggle');
-    const menu = document.getElementById('menu');
-    toggle.addEventListener('click', function () {
-      const aberto = menu.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(aberto));
-    });
-
-    let D;
-    try {
-      const r = await fetch('dados.json?t=' + Date.now());
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      D = await r.json();
-    } catch (e) {
-      document.getElementById('app').innerHTML = `
-        <div class="page-content" style="text-align:center;padding:60px 20px;">
-          <h2 style="font-family:var(--font-serif);color:var(--azul-marinho);font-size:1.25rem;margin-bottom:12px;">Não foi possível carregar o conteúdo</h2>
-          <p style="color:var(--cinza-texto);margin-bottom:20px;">Verifique sua conexão e tente novamente.</p>
-          <a class="btn-link" href="index.html">Voltar à página inicial</a>
-        </div>
-      `;
-      return;
-    }
-
-    const paginas = (D.paginas || [])
-      .filter(p => p.publicada !== false)
-      .sort((a, b) => (a.ordem || 99) - (b.ordem || 99));
-
-    const slug = new URLSearchParams(location.search).get('slug') || 'sobre';
-    const atual = paginas.find(p => p.slug === slug) || paginas[0];
-
-    // Páginas que vivem em arquivo próprio → redireciona
-    if (atual.tipo === 'externo' && atual.arquivo) {
-      window.location.replace(atual.arquivo);
-      return;
-    }
-    if (atual.tipo === 'calendario') {
-      window.location.replace('calendario.html');
-      return;
-    }
-    if (atual.tipo === 'index') {
-      window.location.replace('index.html');
-      return;
-    }
-
-    menu.innerHTML = paginas.map(p => {
-      const link = urlPagina(p);
-      const active = p.slug === atual.slug ? 'active' : '';
-      const current = p.slug === atual.slug ? ' aria-current="page"' : '';
-      const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
-      return `<li><a href="${link}" class="${active} ${cta}"${current}>${esc(p.titulo)}</a></li>`;
-    }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">SIGAA/UFAL</a></li>`;
-
-    document.title = `${atual.titulo} — Libras nas Comunidades | UFAL`;
-    document.getElementById('page-title').textContent = document.title;
-
-    const heroHtml = `
-      <section class="page-hero">
-        <div class="breadcrumb">
-          <a href="index.html">Início</a><span>/</span>${esc(atual.titulo)}
-        </div>
-        <h1>${esc(atual.titulo)}</h1>
-        ${atual.descricao ? `<p class="desc">${esc(atual.descricao)}</p>` : ''}
-      </section>
-    `;
-
-    // ---- Página de Orientações (fluxograma) ----
-    if (atual.tipo === 'orientacoes') {
-      const etapasHtml = (atual.etapas || []).map((e, i) => `
-        <div class="flow-etapa" data-cor="${e.cor || 'azul'}">
-          <div class="flow-num">
-            <div class="bola" aria-hidden="true">${i + 1}</div>
-            <div class="linha" aria-hidden="true"></div>
-          </div>
-          <div class="flow-card">
-            <div class="titulo"><span class="etapa-emoji" aria-hidden="true">${e.emoji || '•'}</span>${esc(e.titulo)}</div>
-            <div class="texto">${e.texto}</div>
-          </div>
-        </div>
-      `).join('');
-
-      const infoRows = (atual.infoCurso || []).map(([k, v]) =>
-        `<tr><td>${esc(k)}</td><td>${v}</td></tr>`
-      ).join('');
-
-      const requisitosHtml = (atual.requisitos || []).map(r =>
-        `<li><span class="check" aria-hidden="true">✓</span> ${r}</li>`
-      ).join('');
-
-      const avisoHtml = atual.aviso ? `
-        <div class="aviso-box">
-          <div class="icon" aria-hidden="true">i</div>
-          <div>
-            <strong>${esc(atual.aviso.titulo)}</strong>
-            <p>${atual.aviso.texto}</p>
-          </div>
-        </div>
-      ` : '';
-
-      document.getElementById('app').innerHTML = heroHtml + `
-        <section class="page-content">
-          ${avisoHtml}
-          <h2 style="font-family:var(--font-serif);font-size:1.15rem;color:var(--azul-marinho);margin:8px 0 24px;padding-bottom:12px;border-bottom:1px solid var(--cinza-borda);">Fluxo do participante</h2>
-          <div class="flow-wrap">${etapasHtml}</div>
-
-          <div class="info-section">
-            <h3>Informações do curso</h3>
-            <table class="info-table">${infoRows}</table>
-          </div>
-
-          <div class="info-section">
-            <h3>Requisitos para certificação</h3>
-            <ul class="checklist">${requisitosHtml}</ul>
-          </div>
-
-          <div class="info-section" style="background:var(--cinza-fundo);text-align:center;">
-            <h3 style="text-align:center;">Cadastro no SIGAA/UFAL</h3>
-            <p style="font-size:.88rem;color:var(--cinza-medio);margin-bottom:20px;line-height:1.6;">Acesse o Módulo Extensão para realizar seu cadastro e efetivar a inscrição no curso.</p>
-            <a class="btn-link" href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">Acessar SIGAA — Extensão</a>
-            <a class="btn-link secundario" href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a>
-          </div>
-
-          <div class="aviso-box vermelho">
-            <div class="icon" aria-hidden="true">!</div>
-            <div>
-              <strong>Atenção</strong>
-              <p>As orientações posteriores serão comunicadas pelo professor pelos canais oficiais da turma. Acompanhe os comunicados.</p>
-            </div>
-          </div>
-        </section>
-      ` + renderNavEntrePaginas(paginas, atual);
-      return;
-    }
-
-    // ---- Páginas de conteúdo ----
-    document.getElementById('app').innerHTML = heroHtml + `
-      <section class="page-content">
-        <div class="conteudo-html">${atual.html || '<p>Sem conteúdo cadastrado.</p>'}</div>
-      </section>
-    ` + renderNavEntrePaginas(paginas, atual);
-
-    function renderNavEntrePaginas(paginas, atual) {
-      const idx = paginas.findIndex(p => p.slug === atual.slug);
-      const prev = idx > 0 ? paginas[idx - 1] : null;
-      const next = idx < paginas.length - 1 ? paginas[idx + 1] : null;
-
-      return `
-        <nav class="nav-paginas" aria-label="Navegação entre páginas">
-          ${prev
-            ? `<a href="${urlPagina(prev)}"><span class="np-label">← Anterior</span><span class="np-titulo">${esc(prev.titulo)}</span></a>`
-            : `<span class="np-empty"></span>`}
-          ${next
-            ? `<a href="${urlPagina(next)}" class="np-next"><span class="np-label">Próxima →</span><span class="np-titulo">${esc(next.titulo)}</span></a>`
-            : `<span class="np-empty"></span>`}
-        </nav>
-      `;
-    }
-  })();
+    (function () {
+      const toggle = document.getElementById('navToggle');
+      const nav = document.getElementById('nav');
+      if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+          const ul = nav.querySelector('ul');
+          const aberto = ul.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', String(aberto));
+        });
+      }
+    })();
   </script>
 </body>
 </html>
