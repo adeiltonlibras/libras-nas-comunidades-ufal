@@ -43,6 +43,7 @@
 
     /* Components */
     .btn { padding: 10px 18px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-sm { padding: 6px 12px; font-size: 0.7rem; }
     .btn-primary { background: var(--ink); color: var(--white); }
     .btn-primary:hover { background: var(--ink-soft); }
     .btn-gold { background: var(--gold); color: var(--white); }
@@ -64,9 +65,9 @@
     /* Forms */
     .form-group { margin-bottom: 18px; }
     .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-    .form-group input[type="text"], .form-group input[type="url"], .form-group input[type="password"], .form-group input[type="date"], .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; font-family: var(--sans); font-size: 0.9rem; color: var(--text); background: var(--paper); }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--ink); background: var(--white); }
-    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; font-family: var(--sans); font-size: 0.9rem; color: var(--text); background: var(--paper); }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--ink); background: var(--white); }
+    .form-group textarea { min-height: 80px; resize: vertical; }
     .form-group small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
     
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -78,6 +79,12 @@
     .item-info p { font-size: 0.8rem; color: var(--muted); }
     .item-actions { display: flex; gap: 8px; }
     
+    /* Materiais List (Dentro do Modal) */
+    .material-row { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; margin-bottom: 10px; align-items: center; background: var(--paper); padding: 10px; border: 1px solid var(--line); border-radius: 4px; }
+    .material-row input { margin: 0; }
+    .btn-remove-mat { background: #FEF2F2; color: var(--danger); border: 1px solid var(--danger); width: 36px; height: 36px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .btn-remove-mat:hover { background: var(--danger); color: var(--white); }
+
     /* Login Modal */
     .login-overlay { position: fixed; inset: 0; background: var(--ink); display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .login-box { background: var(--white); padding: 40px; border-radius: 8px; width: 100%; max-width: 480px; border-top: 4px solid var(--gold); }
@@ -92,25 +99,24 @@
     @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
     
     /* Badges */
-    .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; margin-top: 6px; }
     .badge.ok { background: #ECFDF5; color: var(--success); }
     .badge.draft { background: #FEF3C7; color: #92400E; }
-    .badge.danger { background: #FEF2F2; color: var(--danger); }
 
-    /* Modal de Confirmação */
+    /* Modal de Edição */
     .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--white); padding: 32px; border-radius: 8px; max-width: 400px; width: 90%; }
-    .modal-box h3 { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); margin-bottom: 12px; }
-    .modal-box p { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; }
+    .modal-box { background: var(--white); padding: 32px; border-radius: 8px; max-width: 750px; width: 90%; max-height: 90vh; display: flex; flex-direction: column; }
+    .modal-box h3 { font-family: var(--serif); font-size: 1.3rem; color: var(--ink); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+    .modal-body { overflow-y: auto; padding-right: 10px; flex: 1; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
 
     @media (max-width: 768px) {
       .sidebar { position: fixed; transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .grid-2 { grid-template-columns: 1fr; }
-      .topbar-actions .btn span { display: none; }
-      .topbar-actions .btn svg { margin: 0; }
+      .material-row { grid-template-columns: 1fr; }
+      .btn-remove-mat { width: 100%; height: 30px; }
     }
   </style>
 </head>
@@ -161,7 +167,7 @@
       </a>
       <a class="nav-item" data-view="lessons">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-        Aulas e Vídeos
+        Aulas e Materiais
       </a>
       <a class="nav-item" data-view="publish">
         <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
@@ -178,9 +184,9 @@
     <header class="topbar">
       <div class="topbar-title" id="current-view-title">Visão Geral</div>
       <div class="topbar-actions">
-        <button class="btn btn-outline" id="btn-export"><span>Backup JSON</span></button>
-        <button class="btn btn-primary" id="btn-publish-header"><span>Publicar Alterações</span></button>
-        <button class="btn btn-outline" id="btn-logout" style="color:var(--danger); border-color:var(--danger);"><span>Sair</span></button>
+        <button class="btn btn-outline" id="btn-export">Backup JSON</button>
+        <button class="btn btn-primary" id="btn-publish-header">Publicar Alterações</button>
+        <button class="btn btn-outline" id="btn-logout" style="color:var(--danger); border-color:var(--danger);">Sair</button>
       </div>
     </header>
 
@@ -251,7 +257,7 @@
       <section class="view-section" id="view-lessons">
         <div class="card">
           <div class="card-header">
-            Gerenciamento de Aulas
+            Gerenciamento de Aulas e Materiais
             <button class="btn btn-gold btn-sm" onclick="addLesson()">+ Nova Aula</button>
           </div>
           <div class="item-list" id="list-lessons"></div>
@@ -279,12 +285,12 @@
     </div>
   </main>
 
-  <!-- MODAL DE EDIÇÃO (Oculto por padrão) -->
+  <!-- MODAL DE EDIÇÃO -->
   <div class="modal-overlay" id="edit-modal">
-    <div class="modal-box" style="max-width: 700px;">
+    <div class="modal-box">
       <h3 id="modal-title">Editar Item</h3>
-      <div id="modal-form-content" style="margin-top: 20px; max-height: 60vh; overflow-y: auto; padding-right: 10px;"></div>
-      <div class="modal-actions" style="margin-top: 24px;">
+      <div class="modal-body" id="modal-form-content"></div>
+      <div class="modal-actions">
         <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
         <button class="btn btn-gold" id="btn-save-modal">Salvar Alterações</button>
       </div>
@@ -431,7 +437,7 @@
             <p>Slug: ${p.slug} | Tipo: ${p.tipo}</p>
           </div>
           <div class="item-actions">
-            <button class="btn btn-outline" onclick="editPage(${i})">Editar</button>
+            <button class="btn btn-outline btn-sm" onclick="editPage(${i})">Editar</button>
           </div>
         </div>
       `).join('');
@@ -482,8 +488,8 @@
             <p>${formatDate(e.data)} às ${e.horario} | ${e.tipo}</p>
           </div>
           <div class="item-actions">
-            <button class="btn btn-outline" onclick="editEvent(${i})">Editar</button>
-            <button class="btn btn-danger" onclick="removeEvent(${i})">Excluir</button>
+            <button class="btn btn-outline btn-sm" onclick="editEvent(${i})">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="removeEvent(${i})">Excluir</button>
           </div>
         </div>
       `).join('');
@@ -567,23 +573,26 @@
       }
     }
 
-    // AULAS
+    // AULAS E MATERIAIS
     function renderLessons() {
-      $('list-lessons').innerHTML = state.aulasDados.aulas.map((a, i) => `
+      $('list-lessons').innerHTML = state.aulasDados.aulas.map((a, i) => {
+        const qtdMat = a.materiais ? a.materiais.length : 0;
+        return `
         <div class="item-row">
           <div class="item-info">
             <h4>${String(i+1).padStart(2, '0')}. ${a.titulo}</h4>
             <p>${a.modulo} | ${formatDate(a.data)}</p>
-            <p style="margin-top: 4px;">
-              ${a.video ? '<span class="badge ok">Com Vídeo</span>' : '<span class="badge draft">Aguardando Vídeo</span>'}
+            <p style="margin-top: 6px; display: flex; gap: 8px;">
+              ${a.video ? '<span class="badge ok">Vídeo OK</span>' : '<span class="badge draft">Sem Vídeo</span>'}
+              ${qtdMat > 0 ? `<span class="badge ok" style="background:#E0E7FF; color:#3730A3;">${qtdMat} Materiais</span>` : ''}
             </p>
           </div>
           <div class="item-actions">
-            <button class="btn btn-outline" onclick="editLesson(${i})">Editar</button>
-            <button class="btn btn-danger" onclick="removeLesson(${i})">Excluir</button>
+            <button class="btn btn-outline btn-sm" onclick="editLesson(${i})">Editar</button>
+            <button class="btn btn-danger btn-sm" onclick="removeLesson(${i})">Excluir</button>
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     function addLesson() {
@@ -595,11 +604,24 @@
       editLesson(state.aulasDados.aulas.length - 1);
     }
 
+    // FUNÇÕES PARA OS MATERIAIS
+    function addMaterialRow(title = '', url = '') {
+      const container = $('ls-materials-container');
+      const row = document.createElement('div');
+      row.className = 'material-row';
+      row.innerHTML = `
+        <input type="text" class="mat-title" placeholder="Ex: Slides da Aula" value="${title}">
+        <input type="url" class="mat-url" placeholder="https://drive.google.com/..." value="${url}">
+        <button type="button" class="btn-remove-mat" title="Remover Material" onclick="this.parentElement.remove()">X</button>
+      `;
+      container.appendChild(row);
+    }
+
     function editLesson(index) {
       const aula = state.aulasDados.aulas[index];
       state.editingContext = { type: 'lesson', index };
 
-      $('modal-title').textContent = 'Editar Aula';
+      $('modal-title').textContent = 'Editar Aula e Materiais';
       $('modal-form-content').innerHTML = `
         <div class="grid-2">
           <div class="form-group">
@@ -619,11 +641,27 @@
           <label>Descrição</label>
           <textarea id="ls-desc">${aula.descricao}</textarea>
         </div>
-        <div class="form-group">
-          <label>Link do Vídeo (YouTube)</label>
+        <div class="form-group" style="background: #F8FAFC; padding: 16px; border-radius: 4px; border: 1px solid var(--line);">
+          <label style="color: var(--blue);">Link do Vídeo (YouTube)</label>
           <input type="url" id="ls-video" value="${aula.video || ''}" placeholder="https://youtube.com/watch?v=...">
+          <small>Deixe em branco se a gravação ainda não estiver pronta.</small>
+        </div>
+
+        <div class="form-group" style="margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <label style="margin: 0; font-size: 0.9rem;">Materiais Didáticos (PDFs, Slides, Links)</label>
+            <button type="button" class="btn btn-outline btn-sm" onclick="addMaterialRow()">+ Adicionar Material</button>
+          </div>
+          <div id="ls-materials-container">
+            <!-- Os materiais serão inseridos aqui -->
+          </div>
         </div>
       `;
+
+      // Popula os materiais existentes
+      if (aula.materiais && aula.materiais.length > 0) {
+        aula.materiais.forEach(mat => addMaterialRow(mat.titulo, mat.url));
+      }
 
       $('btn-save-modal').onclick = () => {
         aula.modulo = $('ls-mod').value;
@@ -631,6 +669,7 @@
         aula.titulo = $('ls-title').value;
         aula.descricao = $('ls-desc').value;
         
+        // Processa Vídeo
         let vidUrl = $('ls-video').value.trim();
         if (vidUrl && !vidUrl.includes('/embed/')) {
           const vId = vidUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/);
@@ -638,10 +677,19 @@
         }
         aula.video = vidUrl || null;
 
+        // Processa Materiais
+        const newMateriais = [];
+        document.querySelectorAll('.material-row').forEach(row => {
+          const t = row.querySelector('.mat-title').value.trim();
+          const u = row.querySelector('.mat-url').value.trim();
+          if (t && u) newMateriais.push({ titulo: t, url: u });
+        });
+        aula.materiais = newMateriais;
+
         renderLessons();
         closeModal();
         markDirty();
-        showToast('Aula atualizada.', 'success');
+        showToast('Aula e materiais atualizados.', 'success');
       };
 
       $('edit-modal').classList.add('active');
@@ -660,8 +708,8 @@
 
     function renderPublishStatus() {
       $('publish-status').innerHTML = `
-        <p><strong>dados.json:</strong> ${state.shaDados ? 'Carregado' : 'Não encontrado no repositório'}</p>
-        <p><strong>aulas-dados.json:</strong> ${state.shaAulas ? 'Carregado' : 'Não encontrado no repositório'}</p>
+        <p><strong>dados.json:</strong> ${state.shaDados ? 'Carregado' : 'Não encontrado'}</p>
+        <p><strong>aulas-dados.json:</strong> ${state.shaAulas ? 'Carregado' : 'Não encontrado'}</p>
         <p style="margin-top: 12px; color: ${state.isDirty ? 'var(--danger)' : 'var(--success)'}; font-weight: bold;">
           Status: ${state.isDirty ? 'Alterações pendentes para envio.' : 'Tudo sincronizado.'}
         </p>
@@ -679,12 +727,10 @@
       btn.textContent = 'Publicando...'; btn.disabled = true;
 
       try {
-        // Commit dados.json
         const resDados = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza conteúdos e cronograma');
         state.shaDados = resDados.content.sha;
 
-        // Commit aulas-dados.json
-        const resAulas = await apiCommit('aulas-dados.json', state.aulasDados, state.shaAulas, 'CMS: Atualiza aulas e vídeos');
+        const resAulas = await apiCommit('aulas-dados.json', state.aulasDados, state.shaAulas, 'CMS: Atualiza aulas e materiais didáticos');
         state.shaAulas = resAulas.content.sha;
 
         state.isDirty = false;
@@ -722,14 +768,12 @@
       showToast('Backups baixados.', 'success');
     }
 
-    // AVISO DE SAÍDA
     window.addEventListener('beforeunload', (e) => {
       if (state.isDirty) {
         e.preventDefault();
         e.returnValue = '';
       }
     });
-
   </script>
 </body>
 </html>
