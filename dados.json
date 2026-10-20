@@ -1,105 +1,141 @@
 {
-  "configuracoes": {
-    "avisoTopo": { "ativo": false, "texto": "", "cor": "amarelo" },
-    "hero": {
-      "mostrarBanner": true,
-      "mostrarBotao1": true,
-      "botao1Texto": "📅 Ver Cronograma",
-      "botao1Link": "calendario.html",
-      "mostrarBotao2": true,
-      "botao2Texto": "📝 Fazer Inscrição",
-      "botao2Link": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
-    },
-    "menu": { "mostrarInscricoes": true, "mostrarSigaa": true },
-    "home": { "mostrarAlerta": true, "mostrarModulos": true }
+  "projeto": {
+    "nome": "Libras nas Comunidades",
+    "subtitulo": "UFAL · FALE · PROEXC",
+    "atualizadoEm": "2026-10-20"
   },
-  "site": {
-    "projeto": "Libras nas Comunidades",
-    "curso": "Curso Básico de Libras – Nível I",
-    "subtitulo": "Projeto de Extensão Universitária",
-    "local": "Maceió/AL",
-    "periodo": "17/10/2026 a 23/01/2027",
-    "aulas": "aos sábados",
-    "horario": "15h às 17h30",
-    "carga": 40,
-    "inscTitulo": "Cadastro no SIGAA/UFAL",
-    "inscTexto": "Para participar do curso Libras nas Comunidades, realize seu cadastro no SIGAA/UFAL – Extensão.",
-    "linkCadastro": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf",
-    "linkVideo": "https://youtu.be/WtgErX91gs0",
-    "linkFormulario": ""
-  },
-  "home": {
-    "titulo": "Libras nas Comunidades",
-    "subtitulo": "Portal de apoio ao curso básico de Libras",
-    "descricao": "O projeto Libras nas Comunidades tem como objetivo difundir a Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social e capacitando ouvintes para a comunicação com a comunidade surda."
-  },
-  "conteudo": "Vocabulário básico e usual do cotidiano\nAlfabeto manual\nNúmeros\nDatilologia\nCumprimentos\nVerbos\nCalendário\nSemana\nMeses\nAno\nHoras\nCores\nSinais do contexto escolar\nSinais do contexto familiar\nIntrodução aos 5 parâmetros da LIBRAS\nExpressões faciais e sentimentos\nAdjetivos\nAntônimos\nPronomes pessoais\nPronomes possessivos\nPronomes demonstrativos",
-  "eventos": [
-    {"data":"2026-10-17","tipo":"inicio","rotulo":"Início","descricao":"Aula 01 · Introdução à Libras, língua, comunidade e cultura surda","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-10-24","tipo":"aula","rotulo":"Aula","descricao":"Aula 02 · Alfabeto manual e datilologia","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-10-31","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
-    {"data":"2026-11-07","tipo":"aula","rotulo":"Aula","descricao":"Aula 03 · Números, idade, datas e horários","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-11-14","tipo":"aula","rotulo":"Aula","descricao":"Aula 04 · Saudações e apresentação pessoal","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-11-21","tipo":"aula","rotulo":"Aula","descricao":"Aula 05 · Família, pessoas e relações sociais","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-11-28","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
-    {"data":"2026-12-05","tipo":"aula","rotulo":"Aula","descricao":"Aula 06 · Cores, objetos, lugares e vocabulário básico","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-12-12","tipo":"aula","rotulo":"Aula","descricao":"Aula 07 · Verbos e frases básicas","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-12-19","tipo":"aula","rotulo":"Aula","descricao":"Aula 08 · Perguntas, respostas e comunicação cotidiana","horario":"15h às 17h30","carga":2.5},
-    {"data":"2026-12-26","tipo":"meet","rotulo":"Meet","descricao":"Atividade assíncrona + Google Meet","horario":"A definir","carga":2.5},
-    {"data":"2027-01-02","tipo":"aula","rotulo":"Aula","descricao":"Aula 09 · Estrutura básica das frases em Libras","horario":"15h às 17h30","carga":2.5},
-    {"data":"2027-01-09","tipo":"aula","rotulo":"Aula","descricao":"Aula 10 · Expressões não manuais e uso do espaço","horario":"15h às 17h30","carga":2.5},
-    {"data":"2027-01-16","tipo":"aula","rotulo":"Aula","descricao":"Aula 11 · Situações comunicativas do cotidiano","horario":"15h às 17h30","carga":2.5},
-    {"data":"2027-01-23","tipo":"fim","rotulo":"Encerramento","descricao":"Aula 12 · Prática integrada e avaliação final","horario":"15h às 17h30","carga":2.5}
-  ],
   "paginas": [
     {
-      "slug": "sobre",
-      "titulo": "Sobre o Curso",
-      "icone": "📖",
-      "descricao": "Apresentação, objetivos e metodologia do projeto",
-      "tipo": "html",
+      "slug": "inicio",
+      "titulo": "Início",
+      "icone": "🏠",
+      "tipo": "index",
       "ordem": 1,
+      "publicada": true
+    },
+    {
+      "slug": "sobre",
+      "titulo": "O Projeto",
+      "icone": "📖",
+      "descricao": "Conheça a origem, os objetivos e a finalidade educativa do projeto de extensão.",
+      "ordem": 2,
+      "tipo": "conteudo",
       "publicada": true,
-      "html": "<h2>Sobre o Curso</h2><p>O curso <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária dedicado ao ensino da Língua Brasileira de Sinais (Libras) para ouvintes, com o objetivo de promover a inclusão social e a comunicação com a comunidade surda.</p><h3>Objetivo geral</h3><p>Difundir a Língua Brasileira de Sinais em comunidades, promovendo o acesso à comunicação e à cultura surda.</p><h3>Objetivos específicos</h3><ul><li>Estimular a prática docente dos licenciandos em Letras Libras;</li><li>Capacitar a comunidade sobre a Educação dos Surdos;</li><li>Promover o ensino, a pesquisa e a extensão universitária;</li><li>Reduzir o preconceito linguístico e promover a inclusão.</li></ul><h3>Metodologia</h3><p>As aulas priorizam o aspecto visual, com atividades práticas, jogos, teatros, mímicas e imagens que facilitam a compreensão e a expressão em Libras.</p><h3>Perfil do participante</h3><p>Não é necessário conhecimento prévio em Libras. O curso é destinado a jovens e adultos ouvintes que desejam aprender a se comunicar com a comunidade surda.</p>"
+      "html": "<p>O <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária da Universidade Federal de Alagoas (UFAL), vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC). A iniciativa surgiu da necessidade de ampliar o acesso à Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social e comunicação com a comunidade surda.</p><h2>Objetivo geral</h2><p>Difundir a Língua Brasileira de Sinais em comunidades, promovendo o acesso à comunicação e à cultura surda.</p><h2>Objetivos específicos</h2><ul><li>Estimular a prática docente dos licenciandos em Letras Libras;</li><li>Capacitar a comunidade sobre a Educação dos Surdos;</li><li>Promover o ensino, a pesquisa e a extensão universitária;</li><li>Reduzir o preconceito linguístico e promover a inclusão.</li></ul><h2>Finalidade educativa e extensionista</h2><p>O projeto articula ensino, pesquisa e extensão, proporcionando formação inicial e continuada para ouvintes interessados em aprender Libras, ao mesmo tempo em que contribui para a formação prática de licenciandos do curso de Letras Libras da UFAL.</p><h2>Relação com a comunidade</h2><p>A ação é realizada em parceria com a Igreja Assembleia de Deus Benedito Bentes 3, no Conjunto Frei Damião, em Maceió–AL. Essa parceria viabiliza o acesso da comunidade local ao aprendizado da Libras e fortalece os vínculos entre a universidade e o território.</p><h2>Contribuições para a sociedade</h2><p>Ao ensinar Libras para ouvintes, o projeto amplia o número de pessoas capazes de se comunicar com surdos, reduzindo barreiras comunicacionais em espaços públicos, serviços e relações cotidianas. A iniciativa contribui para uma sociedade mais acessível e para a valorização da diversidade linguística e cultural.</p><h2>Público-alvo</h2><p>O curso é destinado a jovens e adultos ouvintes que desejam aprender a se comunicar com a comunidade surda. Não é necessário conhecimento prévio em Libras.</p>"
+    },
+    {
+      "slug": "curso",
+      "titulo": "O Curso",
+      "icone": "📚",
+      "descricao": "Informações completas sobre o Curso Básico de Libras — Nível I.",
+      "ordem": 3,
+      "tipo": "conteudo",
+      "publicada": true,
+      "html": "<p>O curso é uma ação formativa gratuita do projeto Libras nas Comunidades, oferecida à comunidade de Maceió.</p><h2>Informações gerais</h2><table><tr><th>Item</th><th>Detalhe</th></tr><tr><td>Nome completo</td><td>Curso Básico de Libras — Nível I</td></tr><tr><td>Nível</td><td>Básico I</td></tr><tr><td>Carga horária</td><td><strong>40 horas</strong></td></tr><tr><td>Período previsto</td><td>17/10/2026 a 23/01/2027</td></tr><tr><td>Encontros regulares</td><td>Sábados</td></tr><tr><td>Horário presencial</td><td>15h às 17h30</td></tr><tr><td>Local</td><td>Igreja Assembleia de Deus Benedito Bentes 3, Conjunto Frei Damião, Maceió–AL</td></tr><tr><td>Modalidade</td><td>Presencial, com atividades assíncronas de apoio</td></tr></table><h2>Objetivos formativos</h2><ul><li>Estimular a prática docente dos licenciandos em Letras Libras;</li><li>Capacitar a comunidade sobre a Educação dos Surdos;</li><li>Promover o ensino, a pesquisa e a extensão universitária;</li><li>Reduzir o preconceito linguístico e promover a inclusão.</li></ul><h2>Metodologia</h2><p>As aulas priorizam o aspecto visual, com atividades práticas, jogos, teatros, mímicas e imagens que facilitam a compreensão e a expressão em Libras.</p><h2>Conteúdos introdutórios</h2><ul><li>Vocabulário básico e usual do cotidiano;</li><li>Alfabeto manual, números e datilologia;</li><li>Cumprimentos, verbos e calendário;</li><li>Semana, meses, ano e horas;</li><li>Cores, sinais do contexto escolar e familiar;</li><li>Introdução aos cinco parâmetros da Libras;</li><li>Expressões faciais e sentimentos;</li><li>Adjetivos e antônimos;</li><li>Pronomes pessoais, possessivos e demonstrativos.</li></ul><h2>Frequência e certificação</h2><p>Para obter o certificado de 40 horas, o participante deve cumprir os requisitos estabelecidos pela coordenação: frequência mínima de 75%, realização das atividades avaliativas, média final mínima de 7,0 e cumprimento da carga horária total. A certificação é emitida pela PROEXC/UFAL por meio do SIGAA.</p>"
+    },
+    {
+      "slug": "calendario",
+      "titulo": "Cronograma",
+      "icone": "📅",
+      "descricao": "Confira todas as datas, horários e atividades do curso.",
+      "ordem": 4,
+      "tipo": "calendario",
+      "publicada": true
     },
     {
       "slug": "orientacoes",
       "titulo": "Orientações",
-      "icone": "📘",
-      "descricao": "Documento oficial com etapas, cronograma e requisitos",
+      "icone": "🧭",
+      "descricao": "Passo a passo para inscrição, participação e certificação.",
+      "ordem": 5,
       "tipo": "orientacoes",
-      "ordem": 2,
       "publicada": true,
-      "html": ""
-    },
-    {
-      "slug": "calendario",
-      "titulo": "Calendário",
-      "icone": "📅",
-      "descricao": "Cronograma completo de aulas e eventos",
-      "tipo": "calendario",
-      "ordem": 3,
-      "publicada": true
+      "aviso": {
+        "titulo": "Documento destinado apenas aos pré-inscritos",
+        "texto": "Estas orientações são exclusivas para quem já realizou a pré-inscrição. <strong>Não é necessário preencher o formulário novamente.</strong>"
+      },
+      "etapas": [
+        { "cor": "azul",     "emoji": "📝", "titulo": "Pré-inscrição pelo formulário", "texto": "O participante já realizou a pré-inscrição por meio do formulário disponibilizado pelo professor responsável." },
+        { "cor": "roxo",     "emoji": "📢", "titulo": "Orientações do professor", "texto": "O professor entrará em contato com as orientações necessárias sobre cadastro e inscrição no SIGAA." },
+        { "cor": "azul",     "emoji": "🆔", "titulo": "Cadastro no SIGAA", "texto": "Quem ainda não tem cadastro deve acessar o SIGAA – Módulo Extensão, clicar em <strong>\"Ainda não possuo cadastro!\"</strong> e preencher os dados." },
+        { "cor": "roxo",     "emoji": "✅", "titulo": "Inscrição no curso pelo SIGAA", "texto": "Após o cadastro, o participante deve seguir as orientações do professor para efetivar a inscrição na atividade de extensão." },
+        { "cor": "verde",    "emoji": "🚀", "titulo": "Início das atividades", "texto": "Com a inscrição confirmada, o participante está apto a iniciar o curso, acompanhando o cronograma e as aulas." },
+        { "cor": "verde",    "emoji": "🏫", "titulo": "Aulas presenciais", "texto": "Encontros presenciais aos sábados, das 15h às 17h30, com carga de 2h30 cada." },
+        { "cor": "roxo",     "emoji": "💻", "titulo": "Atividades assíncronas + Google Meet", "texto": "Três encontros em formato assíncrono com apoio pelo Meet: <strong>31/10</strong>, <strong>28/11</strong> e <strong>26/12</strong>. O aluno não precisa ficar conectado o tempo todo." },
+        { "cor": "laranja",  "emoji": "📊", "titulo": "Avaliações e acompanhamento", "texto": "Ao longo do curso, o professor aplicará atividades avaliativas e acompanhará o desenvolvimento de cada participante." },
+        { "cor": "laranja",  "emoji": "🎯", "titulo": "Cumprimento dos requisitos", "texto": "Frequência mínima de 75%, atividades realizadas, média 7,0 e carga horária de 40h cumprida." },
+        { "cor": "vermelho", "emoji": "🎓", "titulo": "Conclusão do curso", "texto": "Todas as etapas concluídas com sucesso e requisitos cumpridos." },
+        { "cor": "amarelo",  "emoji": "🏆", "titulo": "Certificação", "texto": "Emissão do certificado de 40 horas pela PROEXC/UFAL, por meio do Módulo Extensão do SIGAA." }
+      ],
+      "infoCurso": [
+        ["Curso", "Curso de Libras – Nível Básico I"],
+        ["Projeto", "Libras nas Comunidades"],
+        ["Início", "17 de outubro de 2026"],
+        ["Término", "23 de janeiro de 2027"],
+        ["Carga horária", "40 horas"],
+        ["Modalidade principal", "Presencial"],
+        ["Atividades complementares", "Assíncronas, com apoio pelo Google Meet"],
+        ["Dia dos encontros", "Sábados"],
+        ["Horário presencial", "15h às 17h30"]
+      ],
+      "requisitos": [
+        "Frequência mínima de <strong>75%</strong> da carga horária",
+        "Participação nas <strong>atividades presenciais</strong>",
+        "Realização das <strong>atividades assíncronas</strong>",
+        "Participação nas atividades pelo <strong>Google Meet</strong>",
+        "Realização das <strong>atividades avaliativas</strong>",
+        "Média final mínima de <strong>7,0</strong>",
+        "Cumprimento das <strong>40 horas totais</strong>"
+      ]
     },
     {
       "slug": "inscricoes",
       "titulo": "Inscrições",
       "icone": "📝",
-      "descricao": "Como se inscrever pelo SIGAA/UFAL",
-      "tipo": "html",
-      "ordem": 4,
+      "descricao": "Passo a passo para realizar sua inscrição no curso.",
+      "ordem": 6,
+      "tipo": "conteudo",
       "publicada": true,
-      "html": "<h2>Inscrições</h2><p>As inscrições são realizadas pelo <strong>SIGAA/UFAL – Módulo Extensão</strong>.</p><h3>Passo a passo</h3><ol><li>Acesse o link do SIGAA/UFAL – Extensão</li><li>Clique em <strong>Cadastre-se</strong></li><li>Preencha seus dados pessoais</li><li>Crie seu usuário e senha</li><li>Confirme o cadastro</li><li>Acesse o SIGAA com seu login</li><li>Procure pelo curso <strong>Libras nas Comunidades</strong> e realize a inscrição</li></ol><p style='text-align:center;margin-top:24px;'><a href='https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf' target='_blank' style='display:inline-block;background:#F97316;color:#FFF;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:800;'>🔗 Acessar SIGAA/UFAL</a></p>"
+      "html": "<p>As inscrições são realizadas pelo <strong>SIGAA/UFAL — Módulo Extensão</strong>.</p><div class=\"aviso-box\"><div class=\"icon\">⚠️</div><div><strong>Importante</strong><p>O período oficial de inscrições será divulgado nos canais do projeto. Acompanhe as atualizações.</p></div></div><h2>Requisitos de participação</h2><ul><li>Ser jovem ou adulto ouvinte;</li><li>Não é necessário conhecimento prévio em Libras.</li></ul><h2>Passo a passo para inscrição</h2><ol><li>Acesse o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a>.</li><li>Clique em \"Cadastre-se\" ou \"Ainda não possuo cadastro\".</li><li>Preencha seus dados pessoais.</li><li>Crie seu usuário e senha.</li><li>Confirme o cadastro.</li><li>Acesse o SIGAA com seu login.</li><li>Procure pelo curso \"Libras nas Comunidades\" e realize a inscrição.</li></ol><p><a href=\"https://youtu.be/WtgErX91gs0\" target=\"_blank\" rel=\"noopener\">🎥 Assista ao vídeo com o passo a passo da inscrição.</a></p><h2>Proteção de dados</h2><p>Os dados informados no ato da inscrição são utilizados exclusivamente para fins de organização do curso e emissão de certificados, em conformidade com a LGPD. Para participantes menores de 18 anos, é recomendável que a inscrição seja acompanhada por um responsável legal.</p>"
     },
     {
       "slug": "equipe",
       "titulo": "Equipe",
       "icone": "👥",
-      "descricao": "Coordenação e equipe do projeto",
-      "tipo": "html",
-      "ordem": 5,
+      "descricao": "Conheça a equipe responsável pelo projeto.",
+      "ordem": 7,
+      "tipo": "conteudo",
       "publicada": true,
-      "html": "<h2>Equipe do Projeto</h2><h3>Coordenação</h3><p><strong>Profa. Dra. Edineide dos Santos Silva</strong><br>Faculdade de Letras (FALE) — UFAL</p><h3>Instrutor</h3><p><strong>Adeilton Wachill dos Santos Olimpio</strong><br>Discente de Letras Libras — UFAL</p><h3>Apoio institucional</h3><p>Pró-Reitoria de Extensão e Cultura (PROEXC)<br>Faculdade de Letras (FALE)<br>Assembleia de Deus em Benedito Bentes 3</p>"
+      "html": "<h2>Coordenação geral</h2><p><strong>Profa. Dra. Edineide dos Santos Silva</strong><br>Faculdade de Letras (FALE) — UFAL</p><h2>Professor ministrante</h2><p><strong>Adeilton Wachill dos Santos Olimpio</strong><br>Discente do Curso de Letras Libras — UFAL</p><h2>Apoio institucional</h2><ul><li>Pró-Reitoria de Extensão e Cultura (PROEXC);</li><li>Faculdade de Letras (FALE);</li><li>Igreja Assembleia de Deus Benedito Bentes 3.</li></ul><p><em>Esta página será atualizada caso haja inclusão de novos membros na equipe.</em></p>"
+    },
+    {
+      "slug": "contato",
+      "titulo": "Contato",
+      "icone": "✉️",
+      "descricao": "Canais oficiais para comunicação com o projeto.",
+      "ordem": 8,
+      "tipo": "conteudo",
+      "publicada": true,
+      "html": "<p>Os canais de contato oficiais do projeto serão divulgados em breve.</p><p>Enquanto isso, para informações sobre inscrições e funcionamento do curso, consulte o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a> ou assista ao <a href=\"https://youtu.be/WtgErX91gs0\" target=\"_blank\" rel=\"noopener\">vídeo passo a passo</a>.</p><h2>Outros canais</h2><ul><li>Coordenação do projeto: Faculdade de Letras (FALE) — UFAL;</li><li>Pró-Reitoria de Extensão e Cultura (PROEXC) — UFAL;</li><li>Local dos encontros: Igreja Assembleia de Deus Benedito Bentes 3, Conjunto Frei Damião, Maceió–AL.</li></ul><div class=\"aviso-box\"><div class=\"icon\">📌</div><div><strong>Em atualização</strong><p>Esta página será atualizada assim que os dados de contato (e-mail, telefone ou redes sociais) forem oficialmente definidos para publicação.</p></div></div>"
     }
-  ]
+  ],
+  "calendario": {
+    "eventos": [
+      { "data": "2026-10-17", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Aula inaugural", "obs": "Início do curso", "badge": "marco" },
+      { "data": "2026-10-24", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Introdução à Libras e alfabeto manual", "obs": "—", "badge": "presencial" },
+      { "data": "2026-10-31", "horario": "Atividade assíncrona", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
+      { "data": "2026-11-07", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Números e datilologia", "obs": "—", "badge": "presencial" },
+      { "data": "2026-11-14", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Cumprimentos e apresentações", "obs": "—", "badge": "presencial" },
+      { "data": "2026-11-21", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Verbos e pronomes pessoais", "obs": "—", "badge": "presencial" },
+      { "data": "2026-11-28", "horario": "Atividade assíncrona", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
+      { "data": "2026-12-05", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Calendário: dias, semanas e meses", "obs": "—", "badge": "presencial" },
+      { "data": "2026-12-12", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Cores e expressões faciais", "obs": "—", "badge": "presencial" },
+      { "data": "2026-12-19", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Sinais do contexto escolar e familiar", "obs": "—", "badge": "presencial" },
+      { "data": "2026-12-26", "horario": "Atividade assíncrona", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
+      { "data": "2027-01-02", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Os cinco parâmetros da Libras", "obs": "—", "badge": "presencial" },
+      { "data": "2027-01-09", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Adjetivos e antônimos", "obs": "—", "badge": "presencial" },
+      { "data": "2027-01-16", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Revisão geral", "obs": "—", "badge": "presencial" },
+      { "data": "2027-01-23", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Avaliação final e encerramento", "obs": "Fim do curso", "badge": "encerramento" }
+    ]
+  }
 }
