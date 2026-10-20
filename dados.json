@@ -4,9 +4,11 @@
     "subtitulo": "Projeto de Extensão · UFAL",
     "atualizadoEm": "2026-10-20"
   },
+  "home": {
+    "heroTitulo": "Libras nas<br>Comunidades",
+    "heroSubtitulo": "Uma iniciativa da UFAL para difundir a Língua Brasileira de Sinais em comunidades de Maceió."
+  },
   "configInscricoes": {
-    "googleScriptUrl": "https://script.google.com/macros/s/AKfycbxqgSnmQD41R40pd2J97JGYSG1sRnbZDV0nP8XGwOgKdq2YUoc9kxTHhbdDfnO_vSLv7A/exec",
-    "googleScriptSenha": "LIBRAS_UFAL_2026",
     "linkSigaa": "https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf",
     "msgEncerrado": "As inscrições estão encerradas no momento. Acompanhe as redes do projeto para novas turmas."
   },
@@ -21,34 +23,23 @@
     {
       "slug": "sobre",
       "titulo": "O Projeto",
-      "descricao": "Origem, objetivos e finalidade educativa do projeto de extensão.",
+      "descricao": "Origem, objetivos e finalidade educativa.",
       "ordem": 2,
       "tipo": "conteudo",
       "publicada": true,
-      "html": "<p>O <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária da Universidade Federal de Alagoas (UFAL), vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC). A iniciativa surgiu da necessidade de ampliar o acesso à Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social e comunicação com a comunidade surda.</p><h2>Objetivo geral</h2><p>Difundir a Língua Brasileira de Sinais em comunidades, promovendo o acesso à comunicação e à cultura surda.</p><h2>Objetivos específicos</h2><ul><li>Estimular a prática docente dos licenciandos em Letras Libras;</li><li>Capacitar a comunidade sobre a Educação dos Surdos;</li><li>Promover o ensino, a pesquisa e a extensão universitária;</li><li>Reduzir o preconceito linguístico e promover a inclusão.</li></ul>"
-    },
-    {
-      "slug": "curso",
-      "titulo": "O Curso",
-      "descricao": "Informações completas sobre os cursos oferecidos.",
-      "ordem": 3,
-      "tipo": "conteudo",
-      "publicada": true,
-      "html": "<p>O projeto oferece cursos de Libras em diferentes níveis, com o objetivo de capacitar a comunidade para a comunicação com pessoas surdas.</p><h2>Metodologia</h2><p>As aulas priorizam o aspecto visual, com atividades práticas, jogos, teatros, mímicas e imagens que facilitam a compreensão e a expressão em Libras.</p>"
+      "html": "<p>O <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária da UFAL.</p>"
     },
     {
       "slug": "calendario",
       "titulo": "Cronograma",
-      "descricao": "Datas, horários e atividades previstas.",
-      "ordem": 4,
+      "ordem": 3,
       "tipo": "calendario",
       "publicada": true
     },
     {
       "slug": "aulas",
       "titulo": "Aulas",
-      "descricao": "Acervo de aulas em vídeo e materiais de apoio.",
-      "ordem": 5,
+      "ordem": 4,
       "tipo": "externo",
       "arquivo": "aulas.html",
       "publicada": true
@@ -56,36 +47,15 @@
     {
       "slug": "inscricoes",
       "titulo": "Inscrições",
-      "descricao": "Informações e passo a passo para inscrição nos cursos.",
-      "ordem": 6,
+      "ordem": 5,
       "tipo": "externo",
       "arquivo": "inscricoes.html",
       "publicada": true
-    },
-    {
-      "slug": "equipe",
-      "titulo": "Equipe",
-      "descricao": "Equipe responsável pelo projeto.",
-      "ordem": 7,
-      "tipo": "conteudo",
-      "publicada": true,
-      "html": "<h2>Coordenação geral</h2><p><strong>Profa. Dra. Edineide dos Santos Silva</strong><br>Faculdade de Letras (FALE) — UFAL</p><h2>Professor ministrante</h2><p><strong>Adeilton Wachill dos Santos Olimpio</strong><br>Discente do Curso de Letras Libras — UFAL</p>"
-    },
-    {
-      "slug": "contato",
-      "titulo": "Contato",
-      "descricao": "Canais oficiais para comunicação com o projeto.",
-      "ordem": 8,
-      "tipo": "conteudo",
-      "publicada": true,
-      "html": "<p>Os canais de contato oficiais do projeto serão divulgados em breve.</p><p>Enquanto isso, consulte o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a>.</p>"
     }
   ],
   "calendario": {
     "eventos": [
-      { "data": "2026-10-17", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Aula inaugural", "obs": "Início do curso", "badge": "marco" },
-      { "data": "2026-10-24", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Introdução à Libras e alfabeto manual", "obs": "—", "badge": "presencial" },
-      { "data": "2026-11-07", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Números e datilologia", "obs": "—", "badge": "presencial" }
+      { "data": "2026-10-17", "horario": "15h", "tipo": "presencial", "titulo": "Aula inaugural", "obs": "Início", "badge": "marco" }
     ]
   }
 }
