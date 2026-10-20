@@ -1,13 +1,15 @@
 {
-  "atualizadoEm": "2026-10-20T19:33:05.539Z",
   "aulas": [
     {
-      "modulo": "Material complementar",
-      "titulo": "Vídeo de referência complementar",
+      "id": 1710000001,
+      "modulo": "Módulo I — Introdução",
+      "titulo": "Boas-vindas e introdução à Libras",
       "data": "2026-10-17",
-      "descricao": "Este vídeo é disponibilizado como material de referência complementar para ampliar os conhecimentos dos participantes sobre o tema estudado. Não corresponde a uma aula oficial do curso e sua visualização é opcional.",
-      "video": "https://www.youtube.com/embed/Bcq6GPyMfPo",
-      "materiais": []
+      "descricao": "Apresentação do curso, da equipe e dos objetivos de aprendizagem.",
+      "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "materiais": [
+        { "titulo": "Slides da Aula 01", "url": "https://drive.google.com/file/d/exemplo/view" }
+      ]
     }
   ]
 }
