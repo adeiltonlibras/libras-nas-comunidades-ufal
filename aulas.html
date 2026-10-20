@@ -3,221 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Aulas em vídeo do Curso Básico de Libras — Nível I. Material didático complementar do projeto Libras nas Comunidades (UFAL).">
   <title>Aulas — Libras nas Comunidades | UFAL</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
-
-  <div class="topbar">
-    <div class="topbar-inner">
-      <span>Universidade Federal de Alagoas</span>
-      <span class="topbar-sep" aria-hidden="true">·</span>
-      <span>Pró-Reitoria de Extensão e Cultura</span>
-      <span class="topbar-sep" aria-hidden="true">·</span>
-      <span>Faculdade de Letras</span>
-    </div>
-  </div>
-
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="brand" aria-label="Libras nas Comunidades — Página inicial">
-        <span class="brand-name">Libras nas Comunidades</span>
-        <span class="brand-tag">Projeto de Extensão</span>
-      </a>
-      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="nav">Menu</button>
-      <nav class="nav" id="nav" aria-label="Navegação principal">
-        <ul id="menu"></ul>
-      </nav>
-    </div>
-  </header>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <div class="topbar"><div class="topbar-inner"><span>Universidade Federal de Alagoas</span><span class="topbar-sep">·</span><span>FALE</span><span class="topbar-sep">·</span><span>PROEXC</span></div></div>
+  <header class="header"><div class="header-inner"><a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a><button class="nav-toggle" id="navToggle">Menu</button><nav class="nav" id="nav"><ul id="menu"></ul></nav></div></header>
 
   <main id="main">
     <section class="hero hero--compact">
-      <div class="hero-pattern" aria-hidden="true"></div>
+      <div class="hero-pattern"></div>
       <div class="hero-content">
         <div class="breadcrumb"><a href="index.html">Início</a><span>/</span>Aulas</div>
         <div class="hero-eyebrow">Material didático complementar</div>
-        <h1 class="hero-title">Aulas em vídeo</h1>
-        <div class="hero-rule" aria-hidden="true"></div>
-        <p class="hero-lede">
-          Registro audiovisual das aulas do Curso Básico de Libras — Nível I.
-          Este acervo é disponibilizado pela equipe do projeto como apoio aos
-          participantes, enquanto a plataforma oficial de MOOC se encontra em manutenção.
-        </p>
+        <h1 class="hero-title">Aulas e Atividades</h1>
+        <div class="hero-rule"></div>
+        <p class="hero-lede">Assista às aulas gravadas e acesse os materiais de apoio disponibilizados pela equipe do projeto.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="section-inner">
-        <div class="aviso-box">
-          <div class="icon" aria-hidden="true">i</div>
-          <div>
-            <strong>Nota da equipe</strong>
-            <p>Esta página é um repositório complementar de aulas gravadas, mantido pela equipe do projeto em caráter temporário. A plataforma oficial de MOOC do curso encontra-se em processo de manutenção e será retomada como canal principal de videoaulas.</p>
-            <p>O conteúdo aqui publicado destina-se exclusivamente aos participantes inscritos e à comunidade acadêmica do projeto.</p>
-          </div>
-        </div>
-
-        <div class="aulas-summary">
-          <h2>Acervo de aulas</h2>
-          <span class="aulas-count" id="aulas-count"></span>
-        </div>
-
         <div id="aulas-list"></div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <div>
-        <div class="footer-brand-name">Libras nas Comunidades</div>
-        <p>Projeto de Extensão da Universidade Federal de Alagoas, vinculado à Faculdade de Letras e à Pró-Reitoria de Extensão e Cultura.</p>
-      </div>
-      <div>
-        <h4>Navegação</h4>
-        <ul>
-          <li><a href="pagina.html?slug=sobre">O Projeto</a></li>
-          <li><a href="pagina.html?slug=curso">O Curso</a></li>
-          <li><a href="calendario.html">Cronograma</a></li>
-          <li><a href="aulas.html">Aulas</a></li>
-          <li><a href="pagina.html?slug=orientacoes">Orientações</a></li>
-          <li><a href="inscricoes.html">Inscrições</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Institucional</h4>
-        <ul>
-          <li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">SIGAA/UFAL — Extensão</a></li>
-          <li><a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a></li>
-          <li><a href="pagina.html?slug=equipe">Equipe</a></li>
-          <li><a href="pagina.html?slug=contato">Contato</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-base">
-      <div class="footer-base-inner">
-        <span>Desenvolvido por <strong>Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</span>
-        <span>Site informativo — não é página oficial da UFAL</span>
-      </div>
-    </div>
-  </footer>
+  <footer class="footer"><div class="footer-inner"><div><div class="footer-brand-name">Libras nas Comunidades</div><p>Projeto de Extensão da UFAL.</p></div></div><div class="footer-base"><div class="footer-base-inner"><span>Desenvolvido por Adeilton Olimpio</span><span>© 2026 UFAL</span></div></div></footer>
 
-   <script>
-  (async function () {
-    function urlPagina(p) {
-      if (p.tipo === 'index') return 'index.html';
-      if (p.tipo === 'calendario') return 'calendario.html';
-      if (p.tipo === 'externo') return p.arquivo;
-      return `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-    }
-    const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  <script>
+    (async function () {
+      const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      function urlPagina(p) { if (p.tipo === 'index') return 'index.html'; if (p.tipo === 'calendario') return 'calendario.html'; if (p.tipo === 'externo') return p.arquivo; return `pagina.html?slug=${encodeURIComponent(p.slug)}`; }
+      
+      document.getElementById('navToggle').onclick = () => document.getElementById('nav').querySelector('ul').classList.toggle('open');
 
-    const toggle = document.getElementById('navToggle');
-    const nav = document.getElementById('nav');
-    toggle.addEventListener('click', function () {
-      const ul = nav.querySelector('ul');
-      const aberto = ul.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', String(aberto));
-    });
+      try {
+        const rD = await fetch('dados.json?t=' + Date.now());
+        if(rD.ok) {
+          const D = await rD.json();
+          document.getElementById('menu').innerHTML = D.paginas.sort((a,b)=>a.ordem-b.ordem).map(p => {
+            const link = urlPagina(p); const active = p.slug === 'aulas' ? 'active' : '';
+            return `<li><a href="${link}" class="${active}">${esc(p.titulo)}</a></li>`;
+          }).join('');
+        }
 
-    // Carrega menu
-    try {
-      const r = await fetch('dados.json?t=' + Date.now());
-      if (r.ok) {
-        const D = await r.json();
-        const paginas = (D.paginas || []).filter(p => p.publicada !== false)
-          .sort((a, b) => (a.ordem || 99) - (b.ordem || 99));
-        document.getElementById('menu').innerHTML = paginas.map(p => {
-          const link = urlPagina(p);
-          const active = p.slug === 'aulas' ? 'active' : '';
-          const current = p.slug === 'aulas' ? ' aria-current="page"' : '';
-          const cta = p.slug === 'inscricoes' ? 'nav-cta' : '';
-          return `<li><a href="${link}" class="${active} ${cta}"${current}>${esc(p.titulo)}</a></li>`;
+        const rA = await fetch('aulas-dados.json?t=' + Date.now());
+        const A = rA.ok ? await rA.json() : { aulas: [] };
+        
+        if (!A.aulas || A.aulas.length === 0) {
+          document.getElementById('aulas-list').innerHTML = '<p style="text-align:center; font-style:italic; color:var(--muted);">Nenhuma aula publicada no momento.</p>';
+          return;
+        }
+        
+        document.getElementById('aulas-list').innerHTML = A.aulas.map((a, i) => {
+          const num = String(i + 1).padStart(2, '0');
+          
+          const videoHtml = a.video 
+            ? `<div class="aula-video" style="margin-top:20px; margin-bottom:20px;"><iframe src="${a.video}" allowfullscreen></iframe></div>` 
+            : '';
+
+          const materiaisHtml = (a.materiais && a.materiais.length) 
+            ? `<div class="aula-materiais" style="border-top:1px solid var(--line); padding-top:16px; margin-top:16px;">
+                <div class="aula-materiais-label" style="margin-bottom:12px;">Materiais Complementares</div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                  ${a.materiais.map(m => `<a class="btn-link btn-link--ghost" href="${m.url}" target="_blank" style="margin:0;">📄 ${esc(m.titulo)}</a>`).join('')}
+                </div>
+               </div>` 
+            : '';
+
+          return `
+            <article class="aula">
+              <div class="aula-side">
+                <div class="aula-num">${num}</div>
+                <div class="aula-modulo">${esc(a.modulo)}</div>
+                <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">${a.data ? a.data.split('-').reverse().join('/') : ''}</div>
+              </div>
+              <div class="aula-main">
+                <h3 class="aula-titulo">${esc(a.titulo)}</h3>
+                <p class="aula-descricao">${esc(a.descricao)}</p>
+                ${videoHtml}
+                ${materiaisHtml}
+              </div>
+            </article>
+          `;
         }).join('');
+        
+      } catch (e) { 
+        document.getElementById('aulas-list').innerHTML = '<p style="text-align:center;">Erro ao carregar as aulas.</p>'; 
       }
-    } catch (e) {
-      document.getElementById('menu').innerHTML = '<li><a href="index.html">Início</a></li>';
-    }
-
-    // ============================================================
-    // CARREGA AULAS DO ARQUIVO aulas-dados.json
-    // ============================================================
-    const MESES = ['janeiro','fevereiro','março','abril','maio','junho',
-                   'julho','agosto','setembro','outubro','novembro','dezembro'];
-    function formatarData(iso) {
-      if (!iso) return '';
-      const [a, m, d] = iso.split('-').map(Number);
-      return `${String(d).padStart(2,'0')} ${MESES[m-1].slice(0,3)} ${a}`;
-    }
-
-    let AULAS = [];
-    try {
-      const r = await fetch('aulas-dados.json?t=' + Date.now());
-      if (r.ok) {
-        const D = await r.json();
-        AULAS = D.aulas || [];
-      }
-    } catch (e) {
-      AULAS = [];
-    }
-
-    function renderizarAulas() {
-      const list = document.getElementById('aulas-list');
-      const count = document.getElementById('aulas-count');
-      if (!AULAS || AULAS.length === 0) {
-        count.textContent = '';
-        list.innerHTML = `
-          <div class="aulas-empty">
-            <span class="empty-icon" aria-hidden="true">—</span>
-            <p>Nenhuma aula publicada no momento. As primeiras videoaulas serão disponibilizadas em breve.</p>
-          </div>`;
-        return;
-      }
-      count.textContent = `${AULAS.length} ${AULAS.length === 1 ? 'aula' : 'aulas'}`;
-      list.innerHTML = AULAS.map(aula => {
-        const num = String(aula.id).padStart(2, '0');
-        const videoHtml = aula.video
-          ? `<div class="aula-video">
-               <iframe src="${esc(aula.video)}" title="Aula ${num}: ${esc(aula.titulo)}"
-                 loading="lazy"
-                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                 allowfullscreen></iframe>
-             </div>`
-          : `<div class="aula-video-placeholder" role="img" aria-label="Vídeo em preparação">
-               <span class="ph-icon" aria-hidden="true">▷</span>
-               <span class="ph-text">Vídeo em preparação</span>
-             </div>`;
-        const materiaisHtml = (aula.materiais && aula.materiais.length)
-          ? `<div class="aula-materiais">
-               <div class="aula-materiais-label">Materiais complementares</div>
-               <ul>${aula.materiais.map(m =>
-                 `<li><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.titulo)}</a></li>`).join('')}
-               </ul></div>` : '';
-        return `
-          <article class="aula">
-            <div class="aula-side">
-              <div class="aula-num" aria-hidden="true">${num}</div>
-              <div class="aula-modulo">${esc(aula.modulo)}</div>
-              <div class="aula-data">${esc(formatarData(aula.data))}</div>
-            </div>
-            <div class="aula-main">
-              <h3 class="aula-titulo">${esc(aula.titulo)}</h3>
-              <p class="aula-descricao">${esc(aula.descricao)}</p>
-              ${videoHtml}
-              ${materiaisHtml}
-            </div>
-          </article>`;
-      }).join('');
-    }
-    renderizarAulas();
-  })();
+    })();
   </script>
 </body>
 </html>
