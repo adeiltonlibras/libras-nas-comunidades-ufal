@@ -1,5 +1,5 @@
 {
-  "atualizadoEm": "2026-10-20T00:00:00Z",
+  "atualizadoEm": "2026-10-20T19:20:00.437Z",
   "aulas": [
     {
       "id": 1,
@@ -16,7 +16,7 @@
       "titulo": "Alfabeto manual e números",
       "data": "2026-10-24",
       "descricao": "Estudo do alfabeto manual em Libras, dos números cardinais e ordinais e das primeiras práticas de datilologia.",
-      "video": null,
+      "video": "https://www.youtube.com/embed/4He1bn2L2DY",
       "materiais": []
     },
     {
