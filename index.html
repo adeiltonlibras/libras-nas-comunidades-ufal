@@ -3,283 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#102b4e">
-  <meta name="robots" content="noindex, nofollow">
-
-  <title>Em manutenção | Libras nas Comunidades</title>
-
-  <meta name="description" content="O site do Projeto Libras nas Comunidades está passando por melhorias. Em breve, novidades.">
-
-  <style>
-    :root {
-      --navy: #102b4e;
-      --blue: #2463a6;
-      --light-blue: #eaf4ff;
-      --white: #ffffff;
-      --text: #26384b;
-      --muted: #68798b;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(145deg, #eaf4ff 0%, #ffffff 55%, #dcecff 100%);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      padding: 24px 7%;
-      border-bottom: 1px solid rgba(16, 43, 78, 0.1);
-      background: rgba(255, 255, 255, 0.8);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      background: var(--navy);
-      font-weight: bold;
-      font-size: 17px;
-      letter-spacing: 1px;
-    }
-
-    .brand h2 {
-      color: var(--navy);
-      font-size: 17px;
-      line-height: 1.4;
-    }
-
-    .brand p {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-
-    main {
-      flex: 1;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 55px 20px;
-    }
-
-    .maintenance {
-      width: 100%;
-      max-width: 680px;
-      background: var(--white);
-      border: 1px solid #e0e9f2;
-      border-radius: 28px;
-      padding: 48px 35px;
-      text-align: center;
-      box-shadow: 0 22px 65px rgba(16, 43, 78, 0.09);
-    }
-
-    .illustration {
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 27px;
-      border-radius: 28px;
-      background: var(--light-blue);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .illustration svg {
-      width: 48px;
-      height: 48px;
-      stroke: var(--blue);
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 7px 13px;
-      border-radius: 30px;
-      background: var(--light-blue);
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      color: var(--navy);
-      font-size: clamp(30px, 5vw, 43px);
-      line-height: 1.15;
-      letter-spacing: -1px;
-      margin-bottom: 18px;
-    }
-
-    .description {
-      max-width: 510px;
-      margin: 0 auto;
-      font-size: 16px;
-      line-height: 1.8;
-      color: var(--muted);
-    }
-
-    .divider {
-      width: 55px;
-      height: 4px;
-      border-radius: 5px;
-      background: var(--blue);
-      margin: 28px auto;
-    }
-
-    .message {
-      padding: 18px;
-      background: #f6f9fc;
-      border-radius: 15px;
-      font-size: 14px;
-      line-height: 1.8;
-      color: var(--text);
-    }
-
-    .message strong {
-      color: var(--navy);
-    }
-
-    .contact {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 25px;
-      padding: 13px 20px;
-      border-radius: 12px;
-      background: var(--navy);
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: bold;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .contact:hover {
-      background: var(--blue);
-      transform: translateY(-2px);
-    }
-
-    footer {
-      padding: 23px 20px;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.8;
-      color: var(--muted);
-    }
-
-    footer strong {
-      color: var(--navy);
-    }
-
-    @media (max-width: 480px) {
-      header {
-        padding: 18px 20px;
-      }
-
-      .maintenance {
-        padding: 35px 22px;
-        border-radius: 22px;
-      }
-
-      .description {
-        font-size: 15px;
-      }
-    }
-  </style>
+  <meta name="description" content="Projeto de extensão da UFAL que difunde a Língua Brasileira de Sinais em comunidades de Maceió. Curso Básico de Libras — Nível I gratuito.">
+  <title>Início — Libras nas Comunidades</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
+  <a class="skip-link" href="#app">Pular para o conteúdo principal</a>
 
-  <header>
-    <div class="brand">
-      <div class="logo" aria-hidden="true">LC</div>
-      <div>
-        <h2>Libras nas Comunidades</h2>
-        <p>Projeto de extensão · UFAL</p>
-      </div>
+  <header class="app-header">
+    <div class="app-header-inner">
+      <a href="index.html" class="app-brand">
+        <div class="logo">LnC</div>
+        <div>
+          <div class="app-title">Libras nas Comunidades</div>
+          <div class="app-subtitle">UFAL · FALE · PROEXC</div>
+        </div>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">☰ Menu</button>
+      <nav class="app-nav" aria-label="Navegação principal">
+        <ul id="menu"></ul>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <section class="maintenance" aria-labelledby="titulo">
+  <main class="wrapper" id="app">
+    <div class="page-hero">
+      <div class="breadcrumb">Início</div>
+      <h1>🏠 Libras nas Comunidades</h1>
+      <p class="desc">Projeto de extensão da Universidade Federal de Alagoas que difunde a Língua Brasileira de Sinais em comunidades de Maceió.</p>
+    </div>
 
-      <div class="illustration" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"
-          stroke-width="1.6" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M12 3v3"/>
-          <path d="M12 18v3"/>
-          <path d="M3 12h3"/>
-          <path d="M18 12h3"/>
-          <path d="m5.64 5.64 2.12 2.12"/>
-          <path d="m16.24 16.24 2.12 2.12"/>
-          <path d="m5.64 18.36 2.12-2.12"/>
-          <path d="m16.24 7.76 2.12-2.12"/>
-          <circle cx="12" cy="12" r="5"/>
-        </svg>
+    <div id="proximo-encontro"></div>
+
+    <div class="page-content">
+      <div class="conteudo-html">
+        <p>O projeto <strong>Libras nas Comunidades</strong> é uma ação de extensão universitária da Universidade Federal de Alagoas (UFAL), vinculada à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC). Seu propósito é difundir a Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social, comunicação acessível e formação cidadã.</p>
+
+        <h2>🎓 Curso Básico de Libras — Nível I</h2>
+        <p>Oferecemos gratuitamente o Curso Básico de Libras — Nível I, destinado a jovens e adultos ouvintes que desejam aprender a se comunicar com a comunidade surda. Não é necessário conhecimento prévio.</p>
+
+        <div class="cards-grid">
+          <div class="info-card">
+            <span class="card-icon">📅</span>
+            <h3>Período</h3>
+            <p>17 de outubro de 2026<br>a 23 de janeiro de 2027</p>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">⏱️</span>
+            <h3>Carga horária</h3>
+            <p>40 horas totais<br>Encontros aos sábados</p>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">🕒</span>
+            <h3>Horário</h3>
+            <p>15h às 17h30<br>(encontros presenciais)</p>
+          </div>
+          <div class="info-card">
+            <span class="card-icon">📍</span>
+            <h3>Local</h3>
+            <p>Igreja Assembleia de Deus Benedito Bentes 3, Conjunto Frei Damião, Maceió–AL</p>
+          </div>
+        </div>
+
+        <h2>🚀 Acesso rápido</h2>
+        <p>
+          <a class="btn-link" href="pagina.html?slug=curso">📚 Conhecer o curso</a>
+          <a class="btn-link azul" href="calendario.html">📅 Ver cronograma</a>
+          <a class="btn-link verde" href="pagina.html?slug=orientacoes">🧭 Orientações</a>
+        </p>
+
+        <h2>💡 A importância da Libras</h2>
+        <p>A Língua Brasileira de Sinais é um instrumento fundamental de comunicação e expressão para a comunidade surda. Aprender Libras contribui para a construção de uma sociedade mais acessível, reduz barreiras comunicacionais e fortalece a inclusão social. Ao capacitar ouvintes para a comunicação em Libras, o projeto amplia o acesso a direitos e promove a valorização da diversidade linguística.</p>
+
+        <div class="aviso-box">
+          <div class="icon">📌</div>
+          <div>
+            <strong>Site informativo</strong>
+            <p>Este site é um canal de apoio ao projeto e não deve ser considerado um portal oficial da UFAL. Informações sujeitas a atualização pela equipe responsável.</p>
+          </div>
+        </div>
       </div>
-
-      <span class="tag">Estamos melhorando</span>
-
-      <h1 id="titulo">Voltaremos em breve</h1>
-
-      <p class="description">
-        Nosso site está passando por uma manutenção para oferecer
-        uma experiência melhor, com informações mais organizadas
-        sobre o Projeto Libras nas Comunidades.
-      </p>
-
-      <div class="divider"></div>
-
-      <div class="message">
-        <strong>O que estamos fazendo?</strong><br>
-        Estamos realizando ajustes no site e preparando melhorias
-        para facilitar o acesso às informações do curso, ao calendário
-        de aulas e às orientações para os participantes.
-      </div>
-
-      <!-- Insira um link oficial de contato, se desejar. -->
-      <!-- Exemplo:
-      <a class="contact"
-         href="https://wa.me/55DDDNUMERO"
-         target="_blank"
-         rel="noopener noreferrer">
-        Falar com a equipe
-      </a>
-      -->
-
-    </section>
+    </div>
   </main>
 
-  <footer>
-    <strong>Projeto Libras nas Comunidades</strong><br>
-    Universidade Federal de Alagoas · UFAL<br>
-    <span>Site temporariamente em manutenção.</span>
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <div>
+        <h4>Libras nas Comunidades</h4>
+        <p>Projeto de Extensão da Universidade Federal de Alagoas (UFAL), vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <a href="index.html">Início</a>
+        <a href="pagina.html?slug=sobre">O Projeto</a>
+        <a href="pagina.html?slug=curso">O Curso</a>
+        <a href="calendario.html">Cronograma</a>
+        <a href="pagina.html?slug=orientacoes">Orientações</a>
+        <a href="pagina.html?slug=inscricoes">Inscrições</a>
+      </div>
+      <div>
+        <h4>Institucional</h4>
+        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">SIGAA/UFAL — Extensão</a>
+        <a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a>
+        <a href="pagina.html?slug=equipe">Equipe</a>
+        <a href="pagina.html?slug=contato">Contato</a>
+      </div>
+    </div>
+    <div class="app-footer-base">
+      <p>💻 Desenvolvido por <strong style="color:#FFF;">Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</p>
+      <p style="margin-top:6px;font-size:.68rem;">Este site não é uma página oficial da UFAL.</p>
+    </div>
   </footer>
 
+  <script>
+  (function () {
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('menu');
+
+    toggle.addEventListener('click', function () {
+      const aberto = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(aberto));
+    });
+
+    fetch('dados.json?t=' + Date.now())
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(D => {
+        const paginas = (D.paginas || [])
+          .filter(p => p.publicada !== false)
+          .sort((a, b) => (a.ordem || 99) - (b.ordem || 99));
+
+        menu.innerHTML = paginas.map(p => {
+          const link = p.tipo === 'index' ? 'index.html'
+                     : p.tipo === 'calendario' ? 'calendario.html'
+                     : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+          const active = p.slug === 'inicio' ? 'active' : '';
+          const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
+          return `<li><a href="${link}" class="${active} ${cta}">${p.icone || ''} ${p.titulo}</a></li>`;
+        }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA</a></li>`;
+
+        renderizarProximoEncontro(D.calendario?.eventos || []);
+      })
+      .catch(() => {
+        menu.innerHTML = '<li><a href="index.html" class="active">🏠 Início</a></li>';
+      });
+
+    function renderizarProximoEncontro(eventos) {
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
+      const proximo = eventos.find(e => {
+        const [a, m, d] = e.data.split('-').map(Number);
+        return new Date(a, m - 1, d) >= hoje;
+      });
+      if (!proximo) return;
+
+      const [a, m, d] = proximo.data.split('-').map(Number);
+      const data = new Date(a, m - 1, d);
+      const meses = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+      const container = document.getElementById('proximo-encontro');
+      const tipo = proximo.tipo === 'assincrona' ? 'Atividade assíncrona' : 'Encontro presencial';
+      container.innerHTML = `
+        <div class="proximo-encontro">
+          <div class="pe-data">
+            <div class="dia">${String(d).padStart(2, '0')}</div>
+            <div class="mes">${meses[m - 1]}</div>
+          </div>
+          <div class="pe-info">
+            <h3>Próximo encontro · ${tipo}</h3>
+            <p><strong>${proximo.titulo}</strong><br>${proximo.horario}${proximo.obs ? ' · ' + proximo.obs : ''}</p>
+          </div>
+        </div>
+      `;
+    }
+  })();
+  </script>
 </body>
 </html>
-```
