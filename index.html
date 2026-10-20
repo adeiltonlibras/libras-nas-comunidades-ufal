@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Projeto de Extensão Libras nas Comunidades — UFAL. Curso Básico de Libras — Nível I gratuito, voltado à comunidade de Maceió.">
-  <title>Início — Libras nas Comunidades | UFAL</title>
+  <title id="page-title">Página — Libras nas Comunidades</title>
   <link rel="stylesheet" href="estilo.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,63 +29,10 @@
   </header>
 
   <main class="wrapper" id="app">
-    <section class="page-hero">
-      <div class="breadcrumb">Início</div>
-      <h1>Libras nas Comunidades</h1>
-      <p class="desc">Projeto de extensão universitária da Universidade Federal de Alagoas (UFAL), vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
-    </section>
-
-    <div id="proximo-encontro" aria-live="polite"></div>
-
-    <section class="page-content">
-      <div class="conteudo-html">
-        <p>O projeto <strong>Libras nas Comunidades</strong> é uma ação de extensão universitária da Universidade Federal de Alagoas (UFAL), vinculada à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC). Seu propósito é difundir a Língua Brasileira de Sinais em comunidades de Maceió, promovendo inclusão social, comunicação acessível e formação cidadã.</p>
-
-        <h2>Sobre o curso</h2>
-        <p>O projeto oferece gratuitamente o <strong>Curso Básico de Libras — Nível I</strong>, destinado a jovens e adultos ouvintes que desejam aprender a se comunicar com a comunidade surda. Não é necessário conhecimento prévio em Libras.</p>
-
-        <div class="cards-grid">
-          <div class="info-card">
-            <div class="card-label">Período</div>
-            <h3>17/10/2026 a 23/01/2027</h3>
-            <p>Período previsto de realização do curso.</p>
-          </div>
-          <div class="info-card">
-            <div class="card-label">Carga horária</div>
-            <h3>40 horas</h3>
-            <p>Encontros presenciais aos sábados, com atividades complementares.</p>
-          </div>
-          <div class="info-card">
-            <div class="card-label">Horário</div>
-            <h3>15h às 17h30</h3>
-            <p>Horário previsto para os encontros presenciais.</p>
-          </div>
-          <div class="info-card">
-            <div class="card-label">Local</div>
-            <h3>Benedito Bentes 3</h3>
-            <p>Igreja Assembleia de Deus Benedito Bentes 3, Conjunto Frei Damião, Maceió–AL.</p>
-          </div>
-        </div>
-
-        <h2>Acesso rápido</h2>
-        <p>
-          <a class="btn-link azul" href="pagina.html?slug=curso">Informações completas do curso</a>
-          <a class="btn-link secundario" href="calendario.html">Cronograma de encontros</a>
-          <a class="btn-link secundario" href="pagina.html?slug=orientacoes">Orientações aos participantes</a>
-        </p>
-
-        <h2>A importância da Libras</h2>
-        <p>A Língua Brasileira de Sinais é um instrumento fundamental de comunicação e expressão para a comunidade surda. Aprender Libras contribui para a construção de uma sociedade mais acessível, reduz barreiras comunicacionais e fortalece a inclusão social. Ao capacitar ouvintes para a comunicação em Libras, o projeto amplia o acesso a direitos e promove a valorização da diversidade linguística.</p>
-
-        <div class="aviso-box">
-          <div class="icon" aria-hidden="true">i</div>
-          <div>
-            <strong>Natureza deste site</strong>
-            <p>Este é um canal informativo de apoio ao projeto. Não constitui portal oficial da Universidade Federal de Alagoas e não substitui os canais institucionais da UFAL. Informações sujeitas a atualização pela equipe responsável.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <p>Carregando conteúdo…</p>
+    </div>
   </main>
 
   <footer class="app-footer">
@@ -102,7 +48,7 @@
         <a href="pagina.html?slug=curso">O Curso</a>
         <a href="calendario.html">Cronograma</a>
         <a href="pagina.html?slug=orientacoes">Orientações</a>
-        <a href="pagina.html?slug=inscricoes">Inscrições</a>
+        <a href="inscricoes.html">Inscrições</a>
       </div>
       <div>
         <h4>Institucional</h4>
@@ -119,60 +65,172 @@
   </footer>
 
   <script>
-  (function () {
+  (async function () {
+    function urlPagina(p) {
+      if (p.tipo === 'index') return 'index.html';
+      if (p.tipo === 'calendario') return 'calendario.html';
+      if (p.tipo === 'externo') return p.arquivo;
+      return `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    }
+
+    const esc = s => String(s ?? '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
     const toggle = document.querySelector('.nav-toggle');
     const menu = document.getElementById('menu');
-
     toggle.addEventListener('click', function () {
       const aberto = menu.classList.toggle('open');
       toggle.setAttribute('aria-expanded', String(aberto));
     });
 
-    fetch('dados.json?t=' + Date.now())
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(D => {
-        const paginas = (D.paginas || [])
-          .filter(p => p.publicada !== false)
-          .sort((a, b) => (a.ordem || 99) - (b.ordem || 99));
+    let D;
+    try {
+      const r = await fetch('dados.json?t=' + Date.now());
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      D = await r.json();
+    } catch (e) {
+      document.getElementById('app').innerHTML = `
+        <div class="page-content" style="text-align:center;padding:60px 20px;">
+          <h2 style="font-family:var(--font-serif);color:var(--azul-marinho);font-size:1.25rem;margin-bottom:12px;">Não foi possível carregar o conteúdo</h2>
+          <p style="color:var(--cinza-texto);margin-bottom:20px;">Verifique sua conexão e tente novamente.</p>
+          <a class="btn-link" href="index.html">Voltar à página inicial</a>
+        </div>
+      `;
+      return;
+    }
 
-        menu.innerHTML = paginas.map(p => {
-          const link = p.tipo === 'index' ? 'index.html'
-                     : p.tipo === 'calendario' ? 'calendario.html'
-                     : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
-          const active = p.slug === 'inicio' ? 'active' : '';
-          const current = p.slug === 'inicio' ? ' aria-current="page"' : '';
-          const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
-          return `<li><a href="${link}" class="${active} ${cta}"${current}>${p.titulo}</a></li>`;
-        }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">SIGAA/UFAL</a></li>`;
+    const paginas = (D.paginas || [])
+      .filter(p => p.publicada !== false)
+      .sort((a, b) => (a.ordem || 99) - (b.ordem || 99));
 
-        renderizarProximoEncontro(D.calendario?.eventos || []);
-      })
-      .catch(() => {
-        menu.innerHTML = '<li><a href="index.html" class="active" aria-current="page">Início</a></li>';
-      });
+    const slug = new URLSearchParams(location.search).get('slug') || 'sobre';
+    const atual = paginas.find(p => p.slug === slug) || paginas[0];
 
-    function renderizarProximoEncontro(eventos) {
-      const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
-      const proximo = eventos.find(e => {
-        const [a, m, d] = e.data.split('-').map(Number);
-        return new Date(a, m - 1, d) >= hoje;
-      });
-      if (!proximo) return;
+    // Páginas que vivem em arquivo próprio → redireciona
+    if (atual.tipo === 'externo' && atual.arquivo) {
+      window.location.replace(atual.arquivo);
+      return;
+    }
+    if (atual.tipo === 'calendario') {
+      window.location.replace('calendario.html');
+      return;
+    }
+    if (atual.tipo === 'index') {
+      window.location.replace('index.html');
+      return;
+    }
 
-      const [a, m, d] = proximo.data.split('-').map(Number);
-      const meses = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-      const tipo = proximo.tipo === 'assincrona' ? 'Atividade assíncrona' : 'Encontro presencial';
-      document.getElementById('proximo-encontro').innerHTML = `
-        <div class="proximo-encontro">
-          <div class="pe-data">
-            <div class="dia">${String(d).padStart(2, '0')}</div>
-            <div class="mes">${meses[m - 1]}</div>
+    menu.innerHTML = paginas.map(p => {
+      const link = urlPagina(p);
+      const active = p.slug === atual.slug ? 'active' : '';
+      const current = p.slug === atual.slug ? ' aria-current="page"' : '';
+      const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
+      return `<li><a href="${link}" class="${active} ${cta}"${current}>${esc(p.titulo)}</a></li>`;
+    }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">SIGAA/UFAL</a></li>`;
+
+    document.title = `${atual.titulo} — Libras nas Comunidades | UFAL`;
+    document.getElementById('page-title').textContent = document.title;
+
+    const heroHtml = `
+      <section class="page-hero">
+        <div class="breadcrumb">
+          <a href="index.html">Início</a><span>/</span>${esc(atual.titulo)}
+        </div>
+        <h1>${esc(atual.titulo)}</h1>
+        ${atual.descricao ? `<p class="desc">${esc(atual.descricao)}</p>` : ''}
+      </section>
+    `;
+
+    // ---- Página de Orientações (fluxograma) ----
+    if (atual.tipo === 'orientacoes') {
+      const etapasHtml = (atual.etapas || []).map((e, i) => `
+        <div class="flow-etapa" data-cor="${e.cor || 'azul'}">
+          <div class="flow-num">
+            <div class="bola" aria-hidden="true">${i + 1}</div>
+            <div class="linha" aria-hidden="true"></div>
           </div>
-          <div class="pe-info">
-            <h3>Próximo encontro · ${tipo}</h3>
-            <p><strong>${proximo.titulo}</strong><br>${proximo.horario}${proximo.obs ? ' · ' + proximo.obs : ''}</p>
+          <div class="flow-card">
+            <div class="titulo"><span class="etapa-emoji" aria-hidden="true">${e.emoji || '•'}</span>${esc(e.titulo)}</div>
+            <div class="texto">${e.texto}</div>
           </div>
         </div>
+      `).join('');
+
+      const infoRows = (atual.infoCurso || []).map(([k, v]) =>
+        `<tr><td>${esc(k)}</td><td>${v}</td></tr>`
+      ).join('');
+
+      const requisitosHtml = (atual.requisitos || []).map(r =>
+        `<li><span class="check" aria-hidden="true">✓</span> ${r}</li>`
+      ).join('');
+
+      const avisoHtml = atual.aviso ? `
+        <div class="aviso-box">
+          <div class="icon" aria-hidden="true">i</div>
+          <div>
+            <strong>${esc(atual.aviso.titulo)}</strong>
+            <p>${atual.aviso.texto}</p>
+          </div>
+        </div>
+      ` : '';
+
+      document.getElementById('app').innerHTML = heroHtml + `
+        <section class="page-content">
+          ${avisoHtml}
+          <h2 style="font-family:var(--font-serif);font-size:1.15rem;color:var(--azul-marinho);margin:8px 0 24px;padding-bottom:12px;border-bottom:1px solid var(--cinza-borda);">Fluxo do participante</h2>
+          <div class="flow-wrap">${etapasHtml}</div>
+
+          <div class="info-section">
+            <h3>Informações do curso</h3>
+            <table class="info-table">${infoRows}</table>
+          </div>
+
+          <div class="info-section">
+            <h3>Requisitos para certificação</h3>
+            <ul class="checklist">${requisitosHtml}</ul>
+          </div>
+
+          <div class="info-section" style="background:var(--cinza-fundo);text-align:center;">
+            <h3 style="text-align:center;">Cadastro no SIGAA/UFAL</h3>
+            <p style="font-size:.88rem;color:var(--cinza-medio);margin-bottom:20px;line-height:1.6;">Acesse o Módulo Extensão para realizar seu cadastro e efetivar a inscrição no curso.</p>
+            <a class="btn-link" href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">Acessar SIGAA — Extensão</a>
+            <a class="btn-link secundario" href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a>
+          </div>
+
+          <div class="aviso-box vermelho">
+            <div class="icon" aria-hidden="true">!</div>
+            <div>
+              <strong>Atenção</strong>
+              <p>As orientações posteriores serão comunicadas pelo professor pelos canais oficiais da turma. Acompanhe os comunicados.</p>
+            </div>
+          </div>
+        </section>
+      ` + renderNavEntrePaginas(paginas, atual);
+      return;
+    }
+
+    // ---- Páginas de conteúdo ----
+    document.getElementById('app').innerHTML = heroHtml + `
+      <section class="page-content">
+        <div class="conteudo-html">${atual.html || '<p>Sem conteúdo cadastrado.</p>'}</div>
+      </section>
+    ` + renderNavEntrePaginas(paginas, atual);
+
+    function renderNavEntrePaginas(paginas, atual) {
+      const idx = paginas.findIndex(p => p.slug === atual.slug);
+      const prev = idx > 0 ? paginas[idx - 1] : null;
+      const next = idx < paginas.length - 1 ? paginas[idx + 1] : null;
+
+      return `
+        <nav class="nav-paginas" aria-label="Navegação entre páginas">
+          ${prev
+            ? `<a href="${urlPagina(prev)}"><span class="np-label">← Anterior</span><span class="np-titulo">${esc(prev.titulo)}</span></a>`
+            : `<span class="np-empty"></span>`}
+          ${next
+            ? `<a href="${urlPagina(next)}" class="np-next"><span class="np-label">Próxima →</span><span class="np-titulo">${esc(next.titulo)}</span></a>`
+            : `<span class="np-empty"></span>`}
+        </nav>
       `;
     }
   })();
