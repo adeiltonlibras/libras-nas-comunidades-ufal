@@ -7,1044 +7,729 @@
   <title>Painel Administrativo — Libras nas Comunidades</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ---- Admin — tela de login ---- */
-    .admin-login {
-      max-width: 520px;
-      margin: 72px auto;
-      padding: 0 20px;
+    :root {
+      --ink: #0F2B4C; --ink-soft: #1A3E64; --gold: #A88552; --gold-light: #C9A876;
+      --paper: #FBFAF6; --white: #FFFFFF; --line: #E4E0D5; --line-strong: #C8C2B0;
+      --muted: #6B6E7A; --text: #1F2937; --danger: #7A2E2E; --success: #3B6B3B;
+      --serif: 'Playfair Display', Georgia, serif; --sans: 'Inter', system-ui, sans-serif;
     }
-    .admin-login h1 {
-      font-family: var(--serif);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 8px;
-      letter-spacing: -0.02em;
-    }
-    .admin-login .subtitle {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 32px;
-      line-height: 1.6;
-    }
-    .admin-panel {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-top: 3px solid var(--gold);
-      padding: 32px;
-    }
-    .field { margin-bottom: 20px; }
-    .field label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-    .field input[type="text"],
-    .field input[type="password"],
-    .field input[type="date"],
-    .field textarea {
-      width: 100%;
-      padding: 11px 14px;
-      font-family: var(--sans);
-      font-size: 0.92rem;
-      color: var(--text);
-      background: var(--paper);
-      border: 1px solid var(--line-strong);
-      border-radius: 0;
-      transition: border-color .15s;
-    }
-    .field input:focus,
-    .field textarea:focus {
-      outline: none;
-      border-color: var(--ink);
-      background: var(--white);
-    }
-    .field textarea { resize: vertical; min-height: 80px; }
-    .field .help {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 6px;
-      line-height: 1.55;
-    }
-    .field .help code {
-      background: var(--paper);
-      padding: 1px 6px;
-      border: 1px solid var(--line);
-      font-size: 0.72rem;
-      color: var(--ink);
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: #F0F2F5; color: var(--text); height: 100vh; overflow: hidden; display: flex; }
+    
+    /* Sidebar */
+    .sidebar { width: 260px; background: var(--ink); color: var(--white); display: flex; flex-direction: column; height: 100%; transition: transform 0.3s; z-index: 10; }
+    .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar-header h1 { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--white); }
+    .sidebar-header span { font-size: 0.7rem; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.1em; }
+    .nav-menu { flex: 1; overflow-y: auto; padding: 20px 0; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: #B8C4D4; text-decoration: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: var(--white); border-left-color: var(--gold); }
+    .nav-item svg { width: 18px; height: 18px; fill: currentColor; }
+    .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: #6B7B8F; }
+    
+    /* Main Content */
+    .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .topbar { background: var(--white); height: 64px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
+    .topbar-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--ink); }
+    .topbar-actions { display: flex; gap: 12px; align-items: center; }
+    
+    /* Views Container */
+    .view-container { flex: 1; overflow-y: auto; padding: 24px; }
+    .view-section { display: none; animation: fadeIn 0.3s; }
+    .view-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ---- Admin — header ---- */
-    .admin-header {
-      background: var(--ink);
-      color: var(--white);
-      padding: 16px var(--gutter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .admin-header .ah-title {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
-    .admin-header .ah-title span {
-      color: var(--gold-light);
-      font-style: italic;
-      font-size: 0.8rem;
-      margin-left: 8px;
-      font-weight: 500;
-    }
-    .admin-header .ah-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .admin-header .ah-actions .info {
-      font-size: 0.72rem;
-      color: #B8C4D4;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
+    /* Components */
+    .btn { padding: 10px 18px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary { background: var(--ink); color: var(--white); }
+    .btn-primary:hover { background: var(--ink-soft); }
+    .btn-gold { background: var(--gold); color: var(--white); }
+    .btn-gold:hover { background: #8f6f3f; }
+    .btn-outline { background: transparent; border-color: var(--line-strong); color: var(--ink); }
+    .btn-outline:hover { border-color: var(--ink); background: var(--paper); }
+    .btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+    .btn-danger:hover { background: #FEF2F2; }
+    
+    .card { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+    .card-header { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    
+    /* Dashboard Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px; }
+    .stat-card { background: var(--white); padding: 24px; border-radius: 8px; border: 1px solid var(--line); border-top: 4px solid var(--gold); }
+    .stat-card h3 { font-size: 0.75rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 8px; }
+    .stat-card .value { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--ink); line-height: 1; }
+    
+    /* Forms */
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .form-group input[type="text"], .form-group input[type="url"], .form-group input[type="password"], .form-group input[type="date"], .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; font-family: var(--sans); font-size: 0.9rem; color: var(--text); background: var(--paper); }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--ink); background: var(--white); }
+    .form-group textarea { min-height: 100px; resize: vertical; }
+    .form-group small { display: block; font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    
+    /* Lists */
+    .item-list { display: flex; flex-direction: column; gap: 12px; }
+    .item-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); }
+    .item-info h4 { font-family: var(--serif); font-size: 1rem; color: var(--ink); margin-bottom: 4px; }
+    .item-info p { font-size: 0.8rem; color: var(--muted); }
+    .item-actions { display: flex; gap: 8px; }
+    
+    /* Login Modal */
+    .login-overlay { position: fixed; inset: 0; background: var(--ink); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .login-box { background: var(--white); padding: 40px; border-radius: 8px; width: 100%; max-width: 480px; border-top: 4px solid var(--gold); }
+    .login-box h2 { font-family: var(--serif); font-size: 1.8rem; color: var(--ink); margin-bottom: 8px; }
+    .login-box p { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+    
+    /* Toast */
+    #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--ink); color: var(--white); padding: 12px 20px; border-radius: 4px; font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--gold); animation: slideIn 0.3s; }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.success { border-left-color: var(--success); }
+    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    
+    /* Badges */
+    .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge.ok { background: #ECFDF5; color: var(--success); }
+    .badge.draft { background: #FEF3C7; color: #92400E; }
+    .badge.danger { background: #FEF2F2; color: var(--danger); }
 
-    .admin-body {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px 80px;
-    }
-    .admin-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .admin-bar h2 {
-      font-family: var(--serif);
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: -0.01em;
-    }
-    .admin-bar .count {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
+    /* Modal de Confirmação */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: var(--white); padding: 32px; border-radius: 8px; max-width: 400px; width: 90%; }
+    .modal-box h3 { font-family: var(--serif); font-size: 1.2rem; color: var(--ink); margin-bottom: 12px; }
+    .modal-box p { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; }
 
-    /* ---- Lista de aulas ---- */
-    .admin-aula {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--gold);
-      padding: 22px 24px;
-      margin-bottom: 14px;
-      display: grid;
-      grid-template-columns: 40px 1fr auto;
-      gap: 18px;
-      align-items: start;
-    }
-    .admin-aula .ordem {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .admin-aula .ordem button {
-      width: 28px;
-      height: 24px;
-      border: 1px solid var(--line-strong);
-      background: var(--white);
-      color: var(--ink);
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: background .15s;
-    }
-    .admin-aula .ordem button:hover:not(:disabled) { background: var(--paper); }
-    .admin-aula .ordem button:disabled { opacity: 0.35; cursor: not-allowed; }
-    .admin-aula .info { min-width: 0; }
-    .admin-aula .info .meta {
-      font-size: 0.66rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-    .admin-aula .info .titulo {
-      font-family: var(--serif);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 4px;
-      letter-spacing: -0.01em;
-      line-height: 1.35;
-    }
-    .admin-aula .info .data {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .admin-aula .info .status {
-      display: inline-block;
-      font-size: 0.66rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 2px 8px;
-      border: 1px solid;
-    }
-    .admin-aula .info .status.ok { color: #3B6B3B; border-color: #3B6B3B; }
-    .admin-aula .info .status.pendente { color: var(--muted); border-color: var(--line-strong); }
-    .admin-aula .info .desc {
-      font-size: 0.85rem;
-      color: var(--ink-soft);
-      margin-top: 8px;
-      line-height: 1.55;
-    }
-    .admin-aula .actions {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .admin-aula .actions button {
-      padding: 6px 12px;
-      font-family: var(--sans);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border: 1px solid var(--line-strong);
-      background: var(--white);
-      color: var(--ink);
-      cursor: pointer;
-      transition: background .15s;
-      white-space: nowrap;
-    }
-    .admin-aula .actions button:hover { background: var(--paper); }
-    .admin-aula .actions button.danger { color: #7A2E2E; border-color: #7A2E2E; }
-    .admin-aula .actions button.danger:hover { background: #F4EAEA; }
-
-    /* ---- Editor inline ---- */
-    .admin-editor {
-      background: var(--paper);
-      border: 1px solid var(--gold);
-      border-left: 3px solid var(--gold);
-      padding: 24px 24px;
-      margin-bottom: 20px;
-    }
-    .admin-editor h3 {
-      font-family: var(--serif);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 18px;
-    }
-    .admin-editor .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .admin-editor .preview {
-      margin-top: 8px;
-      aspect-ratio: 16/9;
-      background: #000;
-      border: 1px solid var(--line-strong);
-    }
-    .admin-editor .preview iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-    .admin-editor .editor-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    /* ---- Botões ---- */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      font-family: var(--sans);
-      font-size: 0.74rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      border: 1px solid var(--ink);
-      background: var(--ink);
-      color: var(--white);
-      cursor: pointer;
-      transition: background .15s;
-      text-decoration: none;
-    }
-    .btn:hover { background: var(--ink-soft); color: var(--white); }
-    .btn.gold { background: var(--gold); border-color: var(--gold); }
-    .btn.gold:hover { background: var(--ink); border-color: var(--ink); }
-    .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
-    .btn.ghost:hover { background: var(--white); border-color: var(--ink); }
-    .btn.danger { background: transparent; color: #7A2E2E; border-color: #7A2E2E; }
-    .btn.danger:hover { background: #F4EAEA; color: #7A2E2E; }
-    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .btn.small { padding: 6px 12px; font-size: 0.68rem; }
-
-    /* ---- Log ---- */
-    .admin-log {
-      background: #1F2937;
-      color: #D1D5DB;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 0.75rem;
-      line-height: 1.65;
-      padding: 16px 20px;
-      max-height: 200px;
-      overflow-y: auto;
-      margin-bottom: 24px;
-      border-left: 3px solid var(--gold);
-      display: none;
-    }
-    .admin-log.show { display: block; }
-    .admin-log .ok { color: #86EFAC; }
-    .admin-log .err { color: #FCA5A5; }
-    .admin-log .info { color: #93C5FD; }
-    .admin-log .line { margin-bottom: 4px; }
-
-    /* ---- Estado vazio ---- */
-    .admin-empty {
-      background: var(--white);
-      border: 1px dashed var(--line-strong);
-      padding: 56px 24px;
-      text-align: center;
-    }
-    .admin-empty p {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 44ch;
-      margin: 0 auto 20px;
-      line-height: 1.6;
-    }
-
-    /* ---- Alerta de segurança ---- */
-    .warning {
-      background: #FCF8EF;
-      border-left: 3px solid var(--gold);
-      padding: 18px 22px;
-      margin-bottom: 24px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 16px;
-    }
-    .warning .icon {
-      font-family: var(--serif);
-      font-style: italic;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--gold);
-      line-height: 1.3;
-    }
-    .warning strong {
-      display: block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-    .warning p {
-      font-size: 0.85rem;
-      line-height: 1.65;
-      color: var(--ink-soft);
-      margin: 0;
-    }
-    .warning p + p { margin-top: 6px; }
-    .warning a { color: var(--ink); font-weight: 600; }
-
-    /* ---- Spinner ---- */
-    .spin {
-      display: inline-block;
-      width: 12px;
-      height: 12px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin-right: 6px;
-      vertical-align: middle;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ---- Link "Site" ---- */
-    .site-link {
-      color: var(--ink);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border-bottom: 1px solid var(--gold);
-      padding-bottom: 2px;
-    }
-    .site-link:hover { color: var(--gold); }
-
-    @media (max-width: 720px) {
-      .admin-aula { grid-template-columns: 1fr; gap: 12px; }
-      .admin-aula .ordem { flex-direction: row; }
-      .admin-aula .actions { flex-direction: row; flex-wrap: wrap; }
-      .admin-editor .grid-2 { grid-template-columns: 1fr; }
-      .admin-header .ah-title { font-size: 0.95rem; }
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .grid-2 { grid-template-columns: 1fr; }
+      .topbar-actions .btn span { display: none; }
+      .topbar-actions .btn svg { margin: 0; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       TELA DE LOGIN / CONEXÃO
-       ============================================================ -->
-  <div id="view-login">
-    <div class="admin-login">
-      <h1>Painel administrativo</h1>
-      <p class="subtitle">Gerencie as aulas em vídeo do projeto <strong>Libras nas Comunidades</strong> sem editar código. As alterações são publicadas diretamente no repositório do site.</p>
+  <!-- TELA DE LOGIN -->
+  <div class="login-overlay" id="login-screen">
+    <div class="login-box">
+      <h2>Painel Administrativo</h2>
+      <p>Conecte-se ao GitHub para gerenciar o site.</p>
+      
+      <div class="form-group">
+        <label>Repositório</label>
+        <input type="text" id="inp-repo" value="adeiltonlibras/libras-nas-comunidades-ufal">
+      </div>
+      <div class="form-group">
+        <label>Branch</label>
+        <input type="text" id="inp-branch" value="main">
+      </div>
+      <div class="form-group">
+        <label>Token de Acesso (Fine-grained)</label>
+        <input type="password" id="inp-token" placeholder="github_pat_...">
+        <small>O token não é salvo. Ele permanece apenas na memória desta aba.</small>
+      </div>
+      
+      <button class="btn btn-gold" style="width: 100%; justify-content: center;" id="btn-login">Conectar e Carregar</button>
+    </div>
+  </div>
 
-      <div class="admin-panel">
-        <div class="field">
-          <label for="inp-repo">Repositório (GitHub)</label>
-          <input type="text" id="inp-repo" placeholder="adeiltonlibras/libras-nas-comunidades-ufal" autocomplete="off">
-          <div class="help">Formato: <code>usuario/repositorio</code></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>Libras nas Comunidades</h1>
+      <span>Sistema de Gestão</span>
+    </div>
+    <nav class="nav-menu">
+      <a class="nav-item active" data-view="dashboard">
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Visão Geral
+      </a>
+      <a class="nav-item" data-view="pages">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Páginas e Textos
+      </a>
+      <a class="nav-item" data-view="calendar">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+        Cronograma
+      </a>
+      <a class="nav-item" data-view="lessons">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        Aulas e Vídeos
+      </a>
+      <a class="nav-item" data-view="publish">
+        <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+        Publicar Site
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      © 2026 · UFAL
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-title" id="current-view-title">Visão Geral</div>
+      <div class="topbar-actions">
+        <button class="btn btn-outline" id="btn-export"><span>Backup JSON</span></button>
+        <button class="btn btn-primary" id="btn-publish-header"><span>Publicar Alterações</span></button>
+        <button class="btn btn-outline" id="btn-logout" style="color:var(--danger); border-color:var(--danger);"><span>Sair</span></button>
+      </div>
+    </header>
+
+    <div class="view-container">
+      
+      <!-- VISÃO GERAL -->
+      <section class="view-section active" id="view-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Páginas do Site</h3>
+            <div class="value" id="stat-pages">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Eventos no Cronograma</h3>
+            <div class="value" id="stat-events">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Aulas Publicadas</h3>
+            <div class="value" id="stat-lessons">0</div>
+          </div>
+          <div class="stat-card" style="border-top-color: var(--danger);">
+            <h3>Status das Alterações</h3>
+            <div class="value" id="stat-status" style="font-size: 1.2rem; padding-top: 10px;">Sincronizado</div>
+          </div>
         </div>
-
-        <div class="field">
-          <label for="inp-branch">Branch</label>
-          <input type="text" id="inp-branch" value="main" autocomplete="off">
-          <div class="help">Normalmente <code>main</code> ou <code>gh-pages</code>.</div>
+        <div class="card">
+          <div class="card-header">Bem-vindo ao Painel</div>
+          <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.6;">
+            Use o menu lateral para navegar pelas seções do site. Todas as alterações feitas aqui são salvas em memória enquanto você edita. Para aplicar as mudanças no site público, vá para a aba <strong>Publicar Site</strong>.
+          </p>
         </div>
+      </section>
 
-        <div class="field">
-          <label for="inp-token">Token de acesso pessoal (GitHub)</label>
-          <input type="password" id="inp-token" placeholder="ghp_..." autocomplete="off">
-          <div class="help">
-            Token do tipo <strong>Fine-grained</strong> com permissão <code>Contents: Read and write</code> apenas neste repositório.
-            <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">Criar token</a>.
+      <!-- PÁGINAS -->
+      <section class="view-section" id="view-pages">
+        <div class="card">
+          <div class="card-header">Configurações Gerais do Projeto</div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Nome do Projeto</label>
+              <input type="text" id="cfg-nome">
+            </div>
+            <div class="form-group">
+              <label>Subtítulo</label>
+              <input type="text" id="cfg-subtitulo">
+            </div>
           </div>
         </div>
 
-        <div id="login-msg"></div>
-
-        <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;">
-          <button class="btn gold" id="btn-conectar">Conectar e carregar aulas</button>
-          <button class="btn ghost" id="btn-manual">Modo offline (baixar JSON)</button>
+        <div class="card">
+          <div class="card-header">Páginas e Conteúdos Editoriais</div>
+          <div class="item-list" id="list-pages"></div>
         </div>
+      </section>
 
-        <div class="warning" style="margin-top:24px;">
-          <div class="icon">i</div>
-          <div>
-            <strong>Sobre segurança</strong>
-            <p>O token é armazenado apenas na memória desta aba (<code>sessionStorage</code>) e é apagado ao fechar o navegador. Ele nunca é enviado a outro servidor — a conexão é feita diretamente com a API do GitHub.</p>
-            <p>Use um token restrito a este repositório. Se desconfiar de vazamento, revogue-o imediatamente em <a href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a>.</p>
+      <!-- CRONOGRAMA -->
+      <section class="view-section" id="view-calendar">
+        <div class="card">
+          <div class="card-header">
+            Eventos do Cronograma
+            <button class="btn btn-gold btn-sm" onclick="addEvent()">+ Novo Evento</button>
+          </div>
+          <div class="item-list" id="list-events"></div>
+        </div>
+      </section>
+
+      <!-- AULAS -->
+      <section class="view-section" id="view-lessons">
+        <div class="card">
+          <div class="card-header">
+            Gerenciamento de Aulas
+            <button class="btn btn-gold btn-sm" onclick="addLesson()">+ Nova Aula</button>
+          </div>
+          <div class="item-list" id="list-lessons"></div>
+        </div>
+      </section>
+
+      <!-- PUBLICAR -->
+      <section class="view-section" id="view-publish">
+        <div class="card">
+          <div class="card-header">Publicação no GitHub</div>
+          <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 24px;">
+            Verifique as alterações pendentes e faça o envio dos arquivos <code>dados.json</code> e <code>aulas-dados.json</code> diretamente para o repositório.
+          </p>
+          <div style="background: var(--paper); padding: 20px; border: 1px solid var(--line); border-radius: 4px; margin-bottom: 24px;">
+            <h4 style="margin-bottom: 12px; font-size: 0.9rem; color: var(--ink);">Status dos arquivos:</h4>
+            <div id="publish-status" style="font-size: 0.9rem; line-height: 1.8;"></div>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-primary" id="btn-confirm-publish">Publicar no GitHub Agora</button>
+            <button class="btn btn-outline" onclick="downloadBackups()">Baixar Cópia Local (JSON)</button>
           </div>
         </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- MODAL DE EDIÇÃO (Oculto por padrão) -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal-box" style="max-width: 700px;">
+      <h3 id="modal-title">Editar Item</h3>
+      <div id="modal-form-content" style="margin-top: 20px; max-height: 60vh; overflow-y: auto; padding-right: 10px;"></div>
+      <div class="modal-actions" style="margin-top: 24px;">
+        <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+        <button class="btn btn-gold" id="btn-save-modal">Salvar Alterações</button>
       </div>
     </div>
   </div>
 
-  <!-- ============================================================
-       PAINEL PRINCIPAL (após conectar)
-       ============================================================ -->
-  <div id="view-admin" style="display:none;">
-    <div class="admin-header">
-      <div class="ah-title">
-        Painel administrativo
-        <span id="repo-label"></span>
-      </div>
-      <div class="ah-actions">
-        <a class="site-link" href="aulas.html" target="_blank" rel="noopener" style="color:#B8C4D4;border-bottom-color:var(--gold);">Ver página de aulas ↗</a>
-        <button class="btn small ghost" id="btn-recarregar" style="color:#FFF;border-color:rgba(255,255,255,0.3);">Recarregar</button>
-        <button class="btn small ghost" id="btn-sair" style="color:#FFF;border-color:rgba(255,255,255,0.3);">Sair</button>
-      </div>
-    </div>
-
-    <div class="admin-body">
-      <div class="admin-log" id="log"></div>
-
-      <div class="admin-bar">
-        <h2>Aulas publicadas</h2>
-        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-          <span class="count" id="contador"></span>
-          <button class="btn gold" id="btn-nova">+ Nova aula</button>
-        </div>
-      </div>
-
-      <div id="editor-container"></div>
-      <div id="lista-aulas"></div>
-
-      <div id="acoes-finais" style="display:none;margin-top:32px;padding-top:24px;border-top:2px solid var(--ink);">
-        <div style="display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
-          <div>
-            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Atenção</div>
-            <div style="font-size:0.88rem;color:var(--ink-soft);">Você tem alterações não publicadas.</div>
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn ghost" id="btn-download">Baixar JSON</button>
-            <button class="btn gold" id="btn-publicar">Publicar no GitHub</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="toast-container"></div>
 
   <script>
-  // ============================================================
-  // ESTADO GLOBAL
-  // ============================================================
-  const state = {
-    token: sessionStorage.getItem('gh_token') || '',
-    repo: localStorage.getItem('gh_repo') || 'adeiltonlibras/libras-nas-comunidades-ufal',
-    branch: localStorage.getItem('gh_branch') || 'main',
-    aulas: [],
-    dirty: false,
-    editingIndex: null,
-    sha: null,
-    conectado: false
-  };
-
-  const $ = id => document.getElementById(id);
-
-  // ============================================================
-  // LOG
-  // ============================================================
-  function log(msg, tipo = 'info') {
-    const el = $('log');
-    if (!el) return;
-    el.classList.add('show');
-    const line = document.createElement('div');
-    line.className = 'line';
-    const time = new Date().toLocaleTimeString('pt-BR');
-    line.innerHTML = `<span style="color:#6B7280;">[${time}]</span> <span class="${tipo}">${msg}</span>`;
-    el.appendChild(line);
-    el.scrollTop = el.scrollHeight;
-  }
-
-  // ============================================================
-  // TELA / VIEWS
-  // ============================================================
-  function mostrarAdmin() {
-    $('view-login').style.display = 'none';
-    $('view-admin').style.display = 'block';
-    $('repo-label').textContent = `· ${state.repo} · ${state.branch}`;
-    renderizar();
-  }
-
-  function voltarLogin() {
-    $('view-admin').style.display = 'none';
-    $('view-login').style.display = 'block';
-  }
-
-  // ============================================================
-  // GITHUB API
-  // ============================================================
-  const GITHUB_API = 'https://api.github.com';
-
-  async function ghGetFile(path) {
-    const url = `${GITHUB_API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`;
-    const r = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${state.token}`,
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      }
-    });
-    if (r.status === 404) return null;
-    if (r.status === 401) throw new Error('Token inválido ou expirado.');
-    if (r.status === 403) throw new Error('Token sem permissão para acessar este repositório.');
-    if (!r.ok) throw new Error(`Erro HTTP ${r.status} ao buscar ${path}`);
-    const data = await r.json();
-    const conteudo = decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))));
-    return { sha: data.sha, conteudo };
-  }
-
-  async function ghPutFile(path, conteudo, sha, mensagem) {
-    const body = {
-      message: mensagem,
-      content: btoa(unescape(encodeURIComponent(conteudo))),
-      branch: state.branch
+    // ESTADO GLOBAL
+    const state = {
+      token: '', repo: '', branch: '',
+      dados: { projeto: {}, paginas: [], calendario: { eventos: [] } },
+      aulasDados: { aulas: [] },
+      shaDados: null, shaAulas: null,
+      isDirty: false, editingContext: null
     };
-    if (sha) body.sha = sha;
-    const url = `${GITHUB_API}/repos/${state.repo}/contents/${path}`;
-    const r = await fetch(url, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${state.token}`,
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
+
+    const API_URL = 'https://api.github.com';
+
+    // UTILS
+    const $ = id => document.getElementById(id);
+    const showToast = (msg, type = 'info') => {
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.innerHTML = `<span>${msg}</span>`;
+      $('toast-container').appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    };
+
+    // NAVEGAÇÃO
+    document.querySelectorAll('.nav-item').forEach(link => {
+      link.addEventListener('click', (e) => {
+        document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        
+        e.currentTarget.classList.add('active');
+        const view = e.currentTarget.dataset.view;
+        $(`view-${view}`).classList.add('active');
+        $('current-view-title').textContent = e.currentTarget.textContent.trim();
+
+        if (view === 'publish') renderPublishStatus();
+      });
     });
-    if (r.status === 401) throw new Error('Token inválido ou expirado.');
-    if (r.status === 403) throw new Error('Token sem permissão de escrita neste repositório.');
-    if (r.status === 409) throw new Error('Conflito: o arquivo foi alterado por outro processo. Recarregue e tente novamente.');
-    if (!r.ok) {
-      const erro = await r.json().catch(() => ({}));
-      throw new Error(`Erro ao salvar: ${erro.message || r.status}`);
-    }
-    return await r.json();
-  }
 
-  // ============================================================
-  // CONECTAR
-  // ============================================================
-  async function conectar() {
-    const repo = $('inp-repo').value.trim();
-    const branch = $('inp-branch').value.trim() || 'main';
-    const token = $('inp-token').value.trim();
-
-    if (!repo || !token) {
-      $('login-msg').innerHTML = '<div class="warning" style="margin-top:0;"><div class="icon">!</div><div><strong>Campos obrigatórios</strong><p>Preencha repositório e token.</p></div></div>';
-      return;
-    }
-    if (!repo.includes('/')) {
-      $('login-msg').innerHTML = '<div class="warning" style="margin-top:0;"><div class="icon">!</div><div><strong>Formato inválido</strong><p>O repositório deve estar no formato <code>usuario/repositorio</code>.</p></div></div>';
-      return;
+    // LOGIN E GITHUB API
+    async function apiFetch(path) {
+      const res = await fetch(`${API_URL}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, {
+        headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' }
+      });
+      if (res.status === 404) return null;
+      if (!res.ok) throw new Error(`Erro HTTP ${res.status} ao buscar ${path}`);
+      const data = await res.json();
+      return { sha: data.sha, content: JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))))) };
     }
 
-    state.repo = repo;
-    state.branch = branch;
-    state.token = token;
-
-    const btn = $('btn-conectar');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spin"></span>Conectando…';
-
-    try {
-      log(`Conectando a ${repo} (${branch})…`);
-      const resultado = await ghGetFile('aulas-dados.json');
-
-      if (resultado) {
-        state.sha = resultado.sha;
-        try {
-          const D = JSON.parse(resultado.conteudo);
-          state.aulas = D.aulas || [];
-          log(`✓ aulas-dados.json carregado (${state.aulas.length} aulas).`, 'ok');
-        } catch (e) {
-          throw new Error('O arquivo aulas-dados.json está com JSON inválido.');
-        }
-      } else {
-        log('Arquivo aulas-dados.json não encontrado. Será criado ao publicar.', 'info');
-        state.aulas = [];
-        state.sha = null;
-      }
-
-      sessionStorage.setItem('gh_token', token);
-      localStorage.setItem('gh_repo', repo);
-      localStorage.setItem('gh_branch', branch);
-      state.conectado = true;
-
-      mostrarAdmin();
-      log('✓ Conectado com sucesso.', 'ok');
-    } catch (e) {
-      $('login-msg').innerHTML = `<div class="warning" style="margin-top:0;background:#F4EAEA;border-left-color:#7A2E2E;"><div class="icon" style="color:#7A2E2E;">!</div><div><strong style="color:#7A2E2E;">Erro de conexão</strong><p style="color:#5C1F1F;">${e.message}</p></div></div>`;
-      log(`✗ ${e.message}`, 'err');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Conectar e carregar aulas';
-    }
-  }
-
-  // ============================================================
-  // CARREGAR (recarregar)
-  // ============================================================
-  async function recarregar() {
-    if (state.dirty && !confirm('Há alterações não publicadas. Descartar e recarregar do GitHub?')) return;
-    try {
-      log('Recarregando do GitHub…');
-      const resultado = await ghGetFile('aulas-dados.json');
-      if (resultado) {
-        state.sha = resultado.sha;
-        const D = JSON.parse(resultado.conteudo);
-        state.aulas = D.aulas || [];
-        state.dirty = false;
-        state.editingIndex = null;
-        renderizar();
-        log(`✓ Recarregado (${state.aulas.length} aulas).`, 'ok');
-      } else {
-        log('Arquivo não encontrado no repositório.', 'info');
-      }
-    } catch (e) {
-      log(`✗ ${e.message}`, 'err');
-      alert('Erro ao recarregar: ' + e.message);
-    }
-  }
-
-  // ============================================================
-  // PUBLISH (salvar no GitHub)
-  // ============================================================
-  async function publicar() {
-    if (state.aulas.length === 0 && !confirm('Não há aulas na lista. Publicar mesmo assim?')) return;
-    const btn = $('btn-publicar');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spin"></span>Publicando…';
-
-    try {
-      const novoJson = {
-        atualizadoEm: new Date().toISOString(),
-        aulas: state.aulas
+    async function apiCommit(path, contentObj, sha, message) {
+      const body = {
+        message, branch: state.branch,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(contentObj, null, 2))))
       };
-      const conteudo = JSON.stringify(novoJson, null, 2);
-      const mensagem = `admin: atualiza aulas (${state.aulas.length} ${state.aulas.length === 1 ? 'aula' : 'aulas'})`;
-
-      log('Publicando no GitHub…');
-      const resultado = await ghPutFile('aulas-dados.json', conteudo, state.sha, mensagem);
-      state.sha = resultado.content.sha;
-      state.dirty = false;
-      log(`✓ Publicado com sucesso (commit ${resultado.commit.sha.slice(0, 7)}).`, 'ok');
-      log(`  Visualize em: aulas.html`, 'info');
-
-      $('acoes-finais').style.display = 'none';
-      alert('Publicado com sucesso!\n\nO site já está atualizado. Aguarde alguns instantes e recarregue a página de aulas.');
-    } catch (e) {
-      log(`✗ ${e.message}`, 'err');
-      alert('Erro ao publicar: ' + e.message);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Publicar no GitHub';
-    }
-  }
-
-  // ============================================================
-  // RENDER
-  // ============================================================
-  function renderizar() {
-    const contador = $('contador');
-    contador.textContent = `${state.aulas.length} ${state.aulas.length === 1 ? 'aula' : 'aulas'}`;
-
-    // Lista
-    const lista = $('lista-aulas');
-    if (state.aulas.length === 0) {
-      lista.innerHTML = `
-        <div class="admin-empty">
-          <p>Nenhuma aula cadastrada ainda. Clique em "Nova aula" para começar.</p>
-          <button class="btn gold" onclick="abrirEditorNova()">+ Adicionar primeira aula</button>
-        </div>`;
-    } else {
-      lista.innerHTML = state.aulas.map((a, i) => {
-        const temVideo = !!a.video;
-        const statusClass = temVideo ? 'ok' : 'pendente';
-        const statusText = temVideo ? 'Com vídeo' : 'Aguardando vídeo';
-        return `
-          <div class="admin-aula">
-            <div class="ordem">
-              <button onclick="mover(${i}, -1)" ${i === 0 ? 'disabled' : ''} title="Mover para cima">↑</button>
-              <button onclick="mover(${i}, 1)" ${i === state.aulas.length - 1 ? 'disabled' : ''} title="Mover para baixo">↓</button>
-            </div>
-            <div class="info">
-              <div class="meta">${esc(a.modulo || 'Sem módulo')}</div>
-              <div class="titulo">${esc(a.titulo)}</div>
-              <div class="data">${formatarData(a.data)} · Aula ${String(a.id).padStart(2,'0')}</div>
-              <span class="status ${statusClass}">${statusText}</span>
-              ${a.descricao ? `<div class="desc">${esc(a.descricao)}</div>` : ''}
-            </div>
-            <div class="actions">
-              <button onclick="abrirEditor(${i})">Editar</button>
-              <button class="danger" onclick="remover(${i})">Remover</button>
-            </div>
-          </div>`;
-      }).join('');
+      if (sha) body.sha = sha;
+      
+      const res = await fetch(`${API_URL}/repos/${state.repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || 'Erro no commit');
+      }
+      return await res.json();
     }
 
-    // Ações finais
-    $('acoes-finais').style.display = state.dirty ? 'block' : 'none';
-  }
+    $('btn-login').addEventListener('click', async () => {
+      state.repo = $('inp-repo').value.trim();
+      state.branch = $('inp-branch').value.trim();
+      state.token = $('inp-token').value.trim();
+      
+      const btn = $('btn-login');
+      btn.textContent = 'Conectando...'; btn.disabled = true;
 
-  function formatarData(iso) {
-    if (!iso) return '—';
-    const [a, m, d] = iso.split('-');
-    return `${d}/${m}/${a}`;
-  }
+      try {
+        const [dados, aulas] = await Promise.all([
+          apiFetch('dados.json'),
+          apiFetch('aulas-dados.json')
+        ]);
 
-  function esc(s) {
-    return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+        if (dados) { state.dados = dados.content; state.shaDados = dados.sha; }
+        if (aulas) { state.aulasDados = aulas.content; state.shaAulas = aulas.sha; }
 
-  // ============================================================
-  // EDIÇÃO
-  // ============================================================
-  function abrirEditorNova() {
-    state.editingIndex = -1; // -1 = nova
-    const proximoId = state.aulas.length > 0 ? Math.max(...state.aulas.map(a => a.id || 0)) + 1 : 1;
-    const vazio = {
-      id: proximoId,
-      modulo: '',
-      titulo: '',
-      data: new Date().toISOString().slice(0, 10),
-      descricao: '',
-      video: null,
-      materiais: []
-    };
-    renderizarEditor(vazio);
-  }
+        $('login-screen').style.display = 'none';
+        showToast('Conectado com sucesso!', 'success');
+        renderDashboard();
+        renderPages();
+        renderCalendar();
+        renderLessons();
+      } catch (e) {
+        showToast(e.message, 'error');
+      } finally {
+        btn.textContent = 'Conectar e Carregar'; btn.disabled = false;
+      }
+    });
 
-  function abrirEditor(index) {
-    state.editingIndex = index;
-    renderizarEditor(state.aulas[index]);
-  }
+    $('btn-logout').addEventListener('click', () => location.reload());
 
-  function renderizarEditor(aula) {
-    const cont = $('editor-container');
-    const materiaisStr = (aula.materiais || []).map(m => `${m.titulo} | ${m.url}`).join('\n');
-    const videoEmbed = extrairEmbed(aula.video) || '';
+    // DASHBOARD
+    function renderDashboard() {
+      $('stat-pages').textContent = state.dados.paginas.length;
+      $('stat-events').textContent = state.dados.calendario.eventos.length;
+      $('stat-lessons').textContent = state.aulasDados.aulas.length;
+      
+      const statusEl = $('stat-status');
+      if (state.isDirty) {
+        statusEl.textContent = 'Alterações Pendentes';
+        statusEl.style.color = 'var(--danger)';
+      } else {
+        statusEl.textContent = 'Sincronizado';
+        statusEl.style.color = 'var(--success)';
+      }
+    }
 
-    cont.innerHTML = `
-      <div class="admin-editor" id="editor-form">
-        <h3>${state.editingIndex === -1 ? 'Nova aula' : 'Editar aula'}</h3>
+    function markDirty() {
+      state.isDirty = true;
+      renderDashboard();
+      renderPublishStatus();
+    }
+
+    // PÁGINAS E CONFIGURAÇÕES
+    function renderPages() {
+      if (state.dados.projeto) {
+        $('cfg-nome').value = state.dados.projeto.nome || '';
+        $('cfg-subtitulo').value = state.dados.projeto.subtitulo || '';
+      }
+
+      $('cfg-nome').onchange = (e) => { state.dados.projeto.nome = e.target.value; markDirty(); };
+      $('cfg-subtitulo').onchange = (e) => { state.dados.projeto.subtitulo = e.target.value; markDirty(); };
+
+      $('list-pages').innerHTML = state.dados.paginas.map((p, i) => `
+        <div class="item-row">
+          <div class="item-info">
+            <h4>${p.titulo}</h4>
+            <p>Slug: ${p.slug} | Tipo: ${p.tipo}</p>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-outline" onclick="editPage(${i})">Editar</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function editPage(index) {
+      const page = state.dados.paginas[index];
+      state.editingContext = { type: 'page', index };
+      
+      $('modal-title').textContent = `Editar Página: ${page.titulo}`;
+      $('modal-form-content').innerHTML = `
+        <div class="form-group">
+          <label>Título da Página</label>
+          <input type="text" id="edit-page-title" value="${page.titulo}">
+        </div>
+        <div class="form-group">
+          <label>Descrição (SEO / Cabeçalho)</label>
+          <textarea id="edit-page-desc">${page.descricao || ''}</textarea>
+        </div>
+        ${page.html !== undefined ? `
+        <div class="form-group">
+          <label>Conteúdo HTML</label>
+          <textarea id="edit-page-html" style="font-family: monospace; min-height: 200px;">${page.html}</textarea>
+          <small>Atenção: tags HTML básicas são permitidas (&lt;p&gt;, &lt;h2&gt;, &lt;ul&gt;, &lt;strong&gt;).</small>
+        </div>` : ''}
+      `;
+
+      $('btn-save-modal').onclick = () => {
+        page.titulo = $('edit-page-title').value;
+        page.descricao = $('edit-page-desc').value;
+        if (page.html !== undefined) page.html = $('edit-page-html').value;
+        
+        renderPages();
+        closeModal();
+        markDirty();
+        showToast('Página atualizada em memória.', 'success');
+      };
+      
+      $('edit-modal').classList.add('active');
+    }
+
+    // CRONOGRAMA
+    function renderCalendar() {
+      $('list-events').innerHTML = state.dados.calendario.eventos.map((e, i) => `
+        <div class="item-row">
+          <div class="item-info">
+            <h4>${e.titulo}</h4>
+            <p>${formatDate(e.data)} às ${e.horario} | ${e.tipo}</p>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-outline" onclick="editEvent(${i})">Editar</button>
+            <button class="btn btn-danger" onclick="removeEvent(${i})">Excluir</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const [a, m, d] = iso.split('-');
+      return `${d}/${m}/${a}`;
+    }
+
+    function addEvent() {
+      state.dados.calendario.eventos.push({
+        data: new Date().toISOString().slice(0, 10),
+        horario: '15h–17h30',
+        tipo: 'presencial',
+        titulo: 'Novo Evento',
+        obs: '',
+        badge: 'presencial'
+      });
+      editEvent(state.dados.calendario.eventos.length - 1);
+    }
+
+    function editEvent(index) {
+      const ev = state.dados.calendario.eventos[index];
+      state.editingContext = { type: 'event', index };
+
+      $('modal-title').textContent = 'Editar Evento';
+      $('modal-form-content').innerHTML = `
         <div class="grid-2">
-          <div class="field">
-            <label for="ed-modulo">Módulo</label>
-            <input type="text" id="ed-modulo" value="${esc(aula.modulo)}" placeholder="Ex: Módulo I — Introdução">
+          <div class="form-group">
+            <label>Data</label>
+            <input type="date" id="ev-date" value="${ev.data}">
           </div>
-          <div class="field">
-            <label for="ed-data">Data</label>
-            <input type="date" id="ed-data" value="${aula.data || ''}">
+          <div class="form-group">
+            <label>Horário</label>
+            <input type="text" id="ev-time" value="${ev.horario}">
           </div>
         </div>
-        <div class="field">
-          <label for="ed-titulo">Título da aula</label>
-          <input type="text" id="ed-titulo" value="${esc(aula.titulo)}" placeholder="Ex: Alfabeto manual e números">
+        <div class="form-group">
+          <label>Título do Evento</label>
+          <input type="text" id="ev-title" value="${ev.titulo}">
         </div>
-        <div class="field">
-          <label for="ed-descricao">Descrição</label>
-          <textarea id="ed-descricao" rows="3" placeholder="Breve resumo do conteúdo da aula...">${esc(aula.descricao)}</textarea>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="ev-type">
+            <option value="presencial" ${ev.tipo==='presencial'?'selected':''}>Presencial</option>
+            <option value="assincrona" ${ev.tipo==='assincrona'?'selected':''}>Assíncrona</option>
+          </select>
         </div>
-        <div class="field">
-          <label for="ed-video">URL do vídeo (YouTube)</label>
-          <input type="text" id="ed-video" value="${esc(aula.video || '')}" placeholder="https://www.youtube.com/watch?v=... ou https://youtu.be/... ou https://www.youtube.com/embed/...">
-          <div class="help">Cole qualquer formato de link do YouTube. O painel converte automaticamente. Deixe em branco para publicar sem vídeo.</div>
+        <div class="form-group">
+          <label>Observações</label>
+          <input type="text" id="ev-obs" value="${ev.obs || ''}">
         </div>
-        <div class="field" id="preview-field" style="${videoEmbed ? '' : 'display:none;'}">
-          <label>Pré-visualização</label>
-          <div class="preview" id="preview-video">${videoEmbed ? `<iframe src="${videoEmbed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` : ''}</div>
-        </div>
-        <div class="field">
-          <label for="ed-materiais">Materiais complementares (um por linha, no formato <code>título | url</code>)</label>
-          <textarea id="ed-materiais" rows="3" placeholder="Slides da aula | https://drive.google.com/...
-Lista de sinais | https://...">${esc(materiaisStr)}</textarea>
-          <div class="help">Opcional. Cada material deve estar em uma linha separada no formato <code>título | url</code>.</div>
-        </div>
-        <div class="editor-actions">
-          <button class="btn gold" onclick="salvarEditor()">${state.editingIndex === -1 ? 'Adicionar aula' : 'Salvar alterações'}</button>
-          <button class="btn ghost" onclick="cancelarEditor()">Cancelar</button>
-        </div>
-      </div>
-    `;
+      `;
 
-    // Preview ao digitar
-    const inp = $('ed-video');
-    if (inp) {
-      inp.addEventListener('input', function () {
-        const embed = extrairEmbed(this.value);
-        const preview = $('preview-video');
-        const field = $('preview-field');
-        if (embed) {
-          preview.innerHTML = `<iframe src="${embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-          field.style.display = 'block';
-        } else {
-          preview.innerHTML = '';
-          field.style.display = 'none';
-        }
-      });
-    }
+      $('btn-save-modal').onclick = () => {
+        ev.data = $('ev-date').value;
+        ev.horario = $('ev-time').value;
+        ev.titulo = $('ev-title').value;
+        ev.tipo = $('ev-type').value;
+        ev.badge = ev.tipo === 'assincrona' ? 'assincrona' : (ev.titulo.includes('Aula inaugural') ? 'marco' : 'presencial');
+        ev.obs = $('ev-obs').value;
 
-    cont.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function salvarEditor() {
-    const modulo = $('ed-modulo').value.trim();
-    const titulo = $('ed-titulo').value.trim();
-    const data = $('ed-data').value;
-    const descricao = $('ed-descricao').value.trim();
-    const video = extrairEmbed($('ed-video').value.trim());
-    const materiaisTxt = $('ed-materiais').value.trim();
-
-    if (!titulo) {
-      alert('O título é obrigatório.');
-      $('ed-titulo').focus();
-      return;
-    }
-    if (!data) {
-      alert('A data é obrigatória.');
-      $('ed-data').focus();
-      return;
-    }
-
-    const materiais = materiaisTxt
-      .split('\n')
-      .map(l => l.trim())
-      .filter(Boolean)
-      .map(l => {
-        const [titulo, ...resto] = l.split('|');
-        return { titulo: (titulo || '').trim(), url: resto.join('|').trim() };
-      })
-      .filter(m => m.titulo && m.url);
-
-    if (state.editingIndex === -1) {
-      const proximoId = state.aulas.length > 0 ? Math.max(...state.aulas.map(a => a.id || 0)) + 1 : 1;
-      state.aulas.push({
-        id: proximoId,
-        modulo, titulo, data, descricao,
-        video: video || null,
-        materiais
-      });
-    } else {
-      const original = state.aulas[state.editingIndex];
-      state.aulas[state.editingIndex] = {
-        ...original,
-        modulo, titulo, data, descricao,
-        video: video || null,
-        materiais
+        state.dados.calendario.eventos.sort((a,b) => a.data.localeCompare(b.data));
+        
+        renderCalendar();
+        closeModal();
+        markDirty();
+        showToast('Evento atualizado.', 'success');
       };
+
+      $('edit-modal').classList.add('active');
     }
 
-    state.dirty = true;
-    state.editingIndex = null;
-    $('editor-container').innerHTML = '';
-    renderizar();
-    log('Aula salva em memória. Clique em "Publicar no GitHub" para enviar.', 'info');
-  }
-
-  function cancelarEditor() {
-    state.editingIndex = null;
-    $('editor-container').innerHTML = '';
-  }
-
-  function remover(index) {
-    if (!confirm(`Remover a aula "${state.aulas[index].titulo}"?`)) return;
-    state.aulas.splice(index, 1);
-    // Renumerar ids
-    state.aulas.forEach((a, i) => a.id = i + 1);
-    state.dirty = true;
-    renderizar();
-    log('Aula removida (em memória).', 'info');
-  }
-
-  function mover(index, delta) {
-    const novo = index + delta;
-    if (novo < 0 || novo >= state.aulas.length) return;
-    [state.aulas[index], state.aulas[novo]] = [state.aulas[novo], state.aulas[index]];
-    state.aulas.forEach((a, i) => a.id = i + 1);
-    state.dirty = true;
-    renderizar();
-  }
-
-  // ============================================================
-  // EXTRAIR EMBED DO YOUTUBE
-  // ============================================================
-  function extrairEmbed(url) {
-    if (!url) return null;
-    // Já é embed?
-    let m = url.match(/youtube\.com\/embed\/([\w-]+)/);
-    if (m) return `https://www.youtube.com/embed/${m[1]}`;
-    // youtu.be
-    m = url.match(/youtu\.be\/([\w-]+)/);
-    if (m) return `https://www.youtube.com/embed/${m[1]}`;
-    // youtube.com/watch?v=
-    m = url.match(/[?&]v=([\w-]+)/);
-    if (m) return `https://www.youtube.com/embed/${m[1]}`;
-    // youtube.com/shorts/
-    m = url.match(/youtube\.com\/shorts\/([\w-]+)/);
-    if (m) return `https://www.youtube.com/embed/${m[1]}`;
-    // Apenas o código?
-    if (/^[\w-]{11}$/.test(url)) return `https://www.youtube.com/embed/${url}`;
-    return null;
-  }
-
-  // ============================================================
-  // DOWNLOAD (fallback offline)
-  // ============================================================
-  function baixarJson() {
-    const novoJson = {
-      atualizadoEm: new Date().toISOString(),
-      aulas: state.aulas
-    };
-    const blob = new Blob([JSON.stringify(novoJson, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'aulas-dados.json';
-    a.click();
-    URL.revokeObjectURL(url);
-    log('JSON baixado. Faça upload manual no repositório se preferir.', 'info');
-  }
-
-  // ============================================================
-  // INICIALIZAÇÃO
-  // ============================================================
-  document.addEventListener('DOMContentLoaded', function () {
-    // Preenche campos
-    if (state.repo) $('inp-repo').value = state.repo;
-    if (state.branch) $('inp-branch').value = state.branch;
-
-    // Botão conectar
-    $('btn-conectar').addEventListener('click', conectar);
-    $('inp-token').addEventListener('keydown', e => { if (e.key === 'Enter') conectar(); });
-
-    // Modo offline
-    $('btn-manual').addEventListener('click', function () {
-      state.repo = $('inp-repo').value.trim() || state.repo;
-      state.branch = $('inp-branch').value.trim() || 'main';
-      state.aulas = [];
-      state.sha = null;
-      state.conectado = true;
-      mostrarAdmin();
-      log('Modo offline. Você pode adicionar aulas e baixar o JSON manualmente.', 'info');
-    });
-
-    // Botões do painel
-    $('btn-recarregar').addEventListener('click', recarregar);
-    $('btn-sair').addEventListener('click', function () {
-      if (state.dirty && !confirm('Há alterações não publicadas. Sair mesmo assim?')) return;
-      sessionStorage.removeItem('gh_token');
-      state.token = '';
-      state.aulas = [];
-      state.dirty = false;
-      state.sha = null;
-      $('inp-token').value = '';
-      voltarLogin();
-    });
-    $('btn-nova').addEventListener('click', abrirEditorNova);
-    $('btn-publicar').addEventListener('click', publicar);
-    $('btn-download').addEventListener('click', baixarJson);
-
-    // Se já tem token na sessão, tenta reconectar
-    if (state.token) {
-      $('inp-token').value = state.token;
+    function removeEvent(index) {
+      if(confirm('Excluir este evento do cronograma?')) {
+        state.dados.calendario.eventos.splice(index, 1);
+        renderCalendar();
+        markDirty();
+      }
     }
-  });
 
-  // Expor funções usadas em onclick inline
-  window.abrirEditor = abrirEditor;
-  window.abrirEditorNova = abrirEditorNova;
-  window.salvarEditor = salvarEditor;
-  window.cancelarEditor = cancelarEditor;
-  window.remover = remover;
-  window.mover = mover;
+    // AULAS
+    function renderLessons() {
+      $('list-lessons').innerHTML = state.aulasDados.aulas.map((a, i) => `
+        <div class="item-row">
+          <div class="item-info">
+            <h4>${String(i+1).padStart(2, '0')}. ${a.titulo}</h4>
+            <p>${a.modulo} | ${formatDate(a.data)}</p>
+            <p style="margin-top: 4px;">
+              ${a.video ? '<span class="badge ok">Com Vídeo</span>' : '<span class="badge draft">Aguardando Vídeo</span>'}
+            </p>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-outline" onclick="editLesson(${i})">Editar</button>
+            <button class="btn btn-danger" onclick="removeLesson(${i})">Excluir</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addLesson() {
+      const nextId = state.aulasDados.aulas.length > 0 ? Math.max(...state.aulasDados.aulas.map(a=>a.id)) + 1 : 1;
+      state.aulasDados.aulas.push({
+        id: nextId, modulo: 'Novo Módulo', titulo: 'Nova Aula', data: new Date().toISOString().slice(0,10),
+        descricao: '', video: null, materiais: []
+      });
+      editLesson(state.aulasDados.aulas.length - 1);
+    }
+
+    function editLesson(index) {
+      const aula = state.aulasDados.aulas[index];
+      state.editingContext = { type: 'lesson', index };
+
+      $('modal-title').textContent = 'Editar Aula';
+      $('modal-form-content').innerHTML = `
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Módulo</label>
+            <input type="text" id="ls-mod" value="${aula.modulo}">
+          </div>
+          <div class="form-group">
+            <label>Data</label>
+            <input type="date" id="ls-date" value="${aula.data}">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Título da Aula</label>
+          <input type="text" id="ls-title" value="${aula.titulo}">
+        </div>
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="ls-desc">${aula.descricao}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Link do Vídeo (YouTube)</label>
+          <input type="url" id="ls-video" value="${aula.video || ''}" placeholder="https://youtube.com/watch?v=...">
+        </div>
+      `;
+
+      $('btn-save-modal').onclick = () => {
+        aula.modulo = $('ls-mod').value;
+        aula.data = $('ls-date').value;
+        aula.titulo = $('ls-title').value;
+        aula.descricao = $('ls-desc').value;
+        
+        let vidUrl = $('ls-video').value.trim();
+        if (vidUrl && !vidUrl.includes('/embed/')) {
+          const vId = vidUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/);
+          if (vId) vidUrl = `https://www.youtube.com/embed/${vId[1]}`;
+        }
+        aula.video = vidUrl || null;
+
+        renderLessons();
+        closeModal();
+        markDirty();
+        showToast('Aula atualizada.', 'success');
+      };
+
+      $('edit-modal').classList.add('active');
+    }
+
+    function removeLesson(index) {
+      if(confirm('Excluir esta aula permanentemente?')) {
+        state.aulasDados.aulas.splice(index, 1);
+        renderLessons();
+        markDirty();
+      }
+    }
+
+    // MODAL E PUBLICAÇÃO
+    function closeModal() { $('edit-modal').classList.remove('active'); state.editingContext = null; }
+
+    function renderPublishStatus() {
+      $('publish-status').innerHTML = `
+        <p><strong>dados.json:</strong> ${state.shaDados ? 'Carregado' : 'Não encontrado no repositório'}</p>
+        <p><strong>aulas-dados.json:</strong> ${state.shaAulas ? 'Carregado' : 'Não encontrado no repositório'}</p>
+        <p style="margin-top: 12px; color: ${state.isDirty ? 'var(--danger)' : 'var(--success)'}; font-weight: bold;">
+          Status: ${state.isDirty ? 'Alterações pendentes para envio.' : 'Tudo sincronizado.'}
+        </p>
+      `;
+    }
+
+    $('btn-publish-header').addEventListener('click', () => {
+      document.querySelector('.nav-item[data-view="publish"]').click();
+    });
+
+    $('btn-confirm-publish').addEventListener('click', async () => {
+      if (!state.isDirty) return showToast('Nenhuma alteração pendente.', 'info');
+      
+      const btn = $('btn-confirm-publish');
+      btn.textContent = 'Publicando...'; btn.disabled = true;
+
+      try {
+        // Commit dados.json
+        const resDados = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza conteúdos e cronograma');
+        state.shaDados = resDados.content.sha;
+
+        // Commit aulas-dados.json
+        const resAulas = await apiCommit('aulas-dados.json', state.aulasDados, state.shaAulas, 'CMS: Atualiza aulas e vídeos');
+        state.shaAulas = resAulas.content.sha;
+
+        state.isDirty = false;
+        renderDashboard();
+        renderPublishStatus();
+        showToast('Site publicado com sucesso no GitHub!', 'success');
+      } catch (e) {
+        showToast(e.message, 'error');
+      } finally {
+        btn.textContent = 'Publicar no GitHub Agora'; btn.disabled = false;
+      }
+    });
+
+    $('btn-export').addEventListener('click', () => {
+      downloadBackups();
+    });
+
+    function downloadBackups() {
+      const d = JSON.stringify(state.dados, null, 2);
+      const a = JSON.stringify(state.aulasDados, null, 2);
+      
+      const blob1 = new Blob([d], {type: 'application/json'});
+      const url1 = URL.createObjectURL(blob1);
+      const link1 = document.createElement('a');
+      link1.href = url1; link1.download = 'dados.json'; link1.click();
+
+      setTimeout(() => {
+        const blob2 = new Blob([a], {type: 'application/json'});
+        const url2 = URL.createObjectURL(blob2);
+        const link2 = document.createElement('a');
+        link2.href = url2; link2.download = 'aulas-dados.json'; link2.click();
+        URL.revokeObjectURL(url2);
+      }, 500);
+      
+      showToast('Backups baixados.', 'success');
+    }
+
+    // AVISO DE SAÍDA
+    window.addEventListener('beforeunload', (e) => {
+      if (state.isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
   </script>
 </body>
 </html>
