@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Cronograma completo do Curso Básico de Libras — Nível I, com datas, horários e atividades.">
-  <title>Cronograma — Libras nas Comunidades</title>
+  <meta name="description" content="Cronograma do Curso Básico de Libras — Nível I do projeto Libras nas Comunidades (UFAL).">
+  <title>Cronograma — Libras nas Comunidades | UFAL</title>
   <link rel="stylesheet" href="estilo.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <a class="skip-link" href="#app">Pular para o conteúdo principal</a>
 
   <header class="app-header">
     <div class="app-header-inner">
-      <a href="index.html" class="app-brand">
-        <div class="logo">LnC</div>
-        <div>
-          <div class="app-title">Libras nas Comunidades</div>
-          <div class="app-subtitle">UFAL · FALE · PROEXC</div>
-        </div>
+      <a href="index.html" class="app-brand" aria-label="Libras nas Comunidades — Página inicial">
+        <span class="brand-mark" aria-hidden="true">LnC</span>
+        <span>
+          <span class="app-title">Libras nas Comunidades</span>
+          <span class="app-subtitle">Projeto de Extensão · UFAL</span>
+        </span>
       </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">☰ Menu</button>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">Menu</button>
       <nav class="app-nav" aria-label="Navegação principal">
         <ul id="menu"></ul>
       </nav>
@@ -28,27 +30,27 @@
   </header>
 
   <main class="wrapper" id="app">
-    <div class="page-hero">
+    <section class="page-hero">
       <div class="breadcrumb"><a href="index.html">Início</a><span>/</span>Cronograma</div>
-      <h1>📅 Cronograma do Curso</h1>
-      <p class="desc">Todas as datas, horários e atividades do Curso Básico de Libras — Nível I.</p>
-    </div>
+      <h1>Cronograma do Curso</h1>
+      <p class="desc">Datas, horários e atividades previstas para o Curso Básico de Libras — Nível I.</p>
+    </section>
 
-    <div id="proximo-encontro"></div>
+    <div id="proximo-encontro" aria-live="polite"></div>
 
-    <div class="page-content">
-      <h2 style="font-size:1.1rem;font-weight:800;color:var(--azul-900);margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid var(--laranja-500);">🎓 Encontros do curso</h2>
+    <section class="page-content">
+      <h2 style="font-family:var(--font-serif);font-size:1.15rem;color:var(--azul-marinho);margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--cinza-borda);">Encontros do curso</h2>
 
-      <div class="legend">
-        <span><span class="dot azul"></span> Presencial</span>
-        <span><span class="dot roxo"></span> Atividade assíncrona</span>
-        <span><span class="dot laranja"></span> Marco</span>
-        <span><span class="dot vermelho"></span> Encerramento</span>
+      <div class="legend" aria-label="Legenda do cronograma">
+        <span><span class="dot presencial"></span> Aula presencial</span>
+        <span><span class="dot assincrona"></span> Atividade assíncrona</span>
+        <span><span class="dot marco"></span> Marco do curso</span>
+        <span><span class="dot encerramento"></span> Encerramento</span>
       </div>
 
       <div class="cal-table-wrap">
         <table class="cal-table">
-          <caption class="sr-only" style="position:absolute;left:-9999px;">Cronograma do Curso Básico de Libras — Nível I</caption>
+          <caption class="sr-only">Cronograma do Curso Básico de Libras — Nível I</caption>
           <thead>
             <tr>
               <th scope="col">Data</th>
@@ -59,19 +61,19 @@
             </tr>
           </thead>
           <tbody id="cal-tbody">
-            <tr><td colspan="5" style="text-align:center;color:var(--cinza-500);padding:40px;">Carregando…</td></tr>
+            <tr><td colspan="5" style="text-align:center;color:var(--cinza-texto);padding:40px;">Carregando…</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="aviso-box">
-        <div class="icon">📌</div>
+        <div class="icon" aria-hidden="true">i</div>
         <div>
           <strong>Cronograma sujeito a alterações</strong>
           <p>Recomenda-se consultar esta página periodicamente e acompanhar os comunicados oficiais da coordenação do projeto.</p>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer class="app-footer">
@@ -98,8 +100,8 @@
       </div>
     </div>
     <div class="app-footer-base">
-      <p>💻 Desenvolvido por <strong style="color:#FFF;">Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</p>
-      <p style="margin-top:6px;font-size:.68rem;">Este site não é uma página oficial da UFAL.</p>
+      <p>Desenvolvido por <strong>Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</p>
+      <p style="margin-top:6px;font-size:.7rem;">Este site não é uma página oficial da UFAL.</p>
     </div>
   </footer>
 
@@ -123,7 +125,7 @@
       D = await r.json();
     } catch (e) {
       document.getElementById('cal-tbody').innerHTML =
-        '<tr><td colspan="5" style="text-align:center;color:var(--vermelho-600);padding:40px;">⚠️ Não foi possível carregar o cronograma. Tente novamente mais tarde.</td></tr>';
+        '<tr><td colspan="5" style="text-align:center;color:#7A2E2E;padding:40px;">Não foi possível carregar o cronograma. Tente novamente mais tarde.</td></tr>';
       return;
     }
 
@@ -136,39 +138,42 @@
                  : p.tipo === 'calendario' ? 'calendario.html'
                  : `pagina.html?slug=${encodeURIComponent(p.slug)}`;
       const active = p.slug === 'calendario' ? 'active' : '';
-      const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
       const current = p.slug === 'calendario' ? ' aria-current="page"' : '';
-      return `<li><a href="${link}" class="${active} ${cta}"${current}>${p.icone || ''} ${esc(p.titulo)}</a></li>`;
-    }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">📋 SIGAA</a></li>`;
+      const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
+      return `<li><a href="${link}" class="${active} ${cta}"${current}>${esc(p.titulo)}</a></li>`;
+    }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">SIGAA/UFAL</a></li>`;
 
     const eventos = (D.calendario?.eventos || []).slice().sort((a, b) => a.data.localeCompare(b.data));
-
     const tbody = document.getElementById('cal-tbody');
+
     if (!eventos.length) {
       tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">Nenhum evento cadastrado.</td></tr>';
       return;
     }
 
     const meses = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
-    const hoje = new Date(); hoje.setHours(0,0,0,0);
+    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
 
     tbody.innerHTML = eventos.map(e => {
       const [a, m, d] = e.data.split('-').map(Number);
       const dataObj = new Date(a, m - 1, d);
       const passado = dataObj < hoje;
-      const rowClass = e.tipo === 'assincrona' ? 'cal-row-marco' : '';
+      const rowClass = e.badge === 'marco' ? 'cal-row-marco' : '';
+      const label = e.badge === 'assincrona' ? 'Assíncrona'
+                  : e.badge === 'marco' ? 'Marco'
+                  : e.badge === 'encerramento' ? 'Encerramento'
+                  : 'Presencial';
       return `
         <tr class="${rowClass}" ${passado ? 'style="opacity:.6;"' : ''}>
           <td class="data-cell">${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${a}</td>
           <td>${esc(e.horario)}</td>
           <td>${esc(e.titulo)}</td>
-          <td><span class="badge ${e.badge || 'presencial'}">${e.tipo === 'assincrona' ? 'Assíncrona' : e.badge === 'marco' ? 'Marco' : e.badge === 'encerramento' ? 'Encerramento' : 'Presencial'}</span></td>
+          <td><span class="badge ${e.badge || 'presencial'}">${label}</span></td>
           <td>${esc(e.obs)}</td>
         </tr>
       `;
     }).join('');
 
-    // Próximo encontro
     const proximo = eventos.find(e => {
       const [a, m, d] = e.data.split('-').map(Number);
       return new Date(a, m - 1, d) >= hoje;
