@@ -8,7 +8,10 @@
       "descricao": "Apresentação do curso, da equipe e dos objetivos de aprendizagem.",
       "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
       "materiais": [
-        { "titulo": "Slides da Aula 01", "url": "https://drive.google.com/file/d/exemplo/view" }
+        {
+          "titulo": "Slides da Aula 01",
+          "url": "https://drive.google.com/file/d/exemplo/view"
+        }
       ]
     }
   ]
