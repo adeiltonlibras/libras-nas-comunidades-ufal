@@ -30,16 +30,25 @@
       "html": "<p>O <strong>Libras nas Comunidades</strong> é um projeto de extensão universitária da UFAL.</p>"
     },
     {
+      "slug": "curso",
+      "titulo": "O Curso",
+      "descricao": "Informações completas sobre os cursos oferecidos.",
+      "ordem": 3,
+      "tipo": "conteudo",
+      "publicada": true,
+      "html": "<p>O projeto oferece cursos de Libras em diferentes níveis.</p>"
+    },
+    {
       "slug": "calendario",
       "titulo": "Cronograma",
-      "ordem": 3,
+      "ordem": 4,
       "tipo": "calendario",
       "publicada": true
     },
     {
       "slug": "aulas",
       "titulo": "Aulas",
-      "ordem": 4,
+      "ordem": 5,
       "tipo": "externo",
       "arquivo": "aulas.html",
       "publicada": true
@@ -47,27 +56,23 @@
     {
       "slug": "inscricoes",
       "titulo": "Inscrições",
-      "ordem": 5,
+      "ordem": 6,
       "tipo": "externo",
       "arquivo": "inscricoes.html",
       "publicada": true
+    },
+    {
+      "slug": "equipe",
+      "titulo": "Equipe",
+      "ordem": 7,
+      "tipo": "conteudo",
+      "publicada": true,
+      "html": "<h2>Coordenação</h2><p>Profa. Dra. Edineide dos Santos Silva</p>"
     }
   ],
   "calendario": {
     "eventos": [
-      {
-        "data": "2026-10-17",
-        "horario": "15h",
-        "tipo": "presencial",
-        "titulo": "Aula inaugural",
-        "obs": "Início",
-        "badge": "marco"
-      },
-      {
-        "data": "2026-10-24",
-        "titulo": "aula",
-        "tipo": "presencial"
-      }
+      { "data": "2026-10-17", "horario": "15h", "tipo": "presencial", "titulo": "Aula inaugural", "obs": "Início", "badge": "marco" }
     ]
   }
 }
