@@ -59,7 +59,8 @@
     #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
     .toast { background: var(--ink); color: var(--white); padding: 12px 20px; border-radius: 4px; font-size: 0.85rem; border-left: 4px solid var(--gold); animation: slideIn 0.3s; }
     @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-    @media (max-width: 768px) { .sidebar { position: fixed; transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .grid-2 { grid-template-columns: 1fr; } }
+    .material-row { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; margin-bottom: 10px; align-items: center; }
+    @media (max-width: 768px) { .sidebar { position: fixed; transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .grid-2 { grid-template-columns: 1fr; } .material-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -73,7 +74,6 @@
       <h3 style="font-family:var(--serif); font-size: 1rem; margin-bottom: 12px; color: var(--ink);">Integração Google Drive</h3>
       <div class="form-group"><label>URL do Apps Script</label><input type="url" id="inp-google-url" placeholder="https://script.google.com/macros/s/.../exec"></div>
       <div class="form-group"><label>Senha do Script</label><input type="password" id="inp-google-senha" placeholder="Sua senha secreta"></div>
-      <p style="font-size:0.7rem; color:var(--muted); margin-top:5px;">Salvo apenas na memória deste navegador.</p>
     </div>
   </div>
 
@@ -154,7 +154,7 @@
       <section class="view-section" id="view-lessons">
         <div class="card">
           <div class="card-header">Aulas e Materiais <button class="btn btn-gold btn-sm" onclick="editLesson()">+ Nova Aula</button></div>
-          <div class="table-responsive"><table id="table-lessons"><thead><tr><th>Aula</th><th>Módulo</th><th>Vídeo</th><th>Ações</th></tr></thead><tbody></tbody></table></div>
+          <div class="table-responsive"><table id="table-lessons"><thead><tr><th>Aula</th><th>Módulo</th><th>Vídeo</th><th>Materiais</th><th>Ações</th></tr></thead><tbody></tbody></table></div>
         </div>
       </section>
 
@@ -190,9 +190,6 @@
     const $ = id => document.getElementById(id);
     const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     const toast = (msg, type='info') => { const t = document.createElement('div'); t.className = `toast ${type}`; t.innerHTML = `<span>${msg}</span>`; $('toast-container').appendChild(t); setTimeout(() => t.remove(), 4000); };
-    
-    // Sanitização simples de HTML para evitar injeção de scripts
-    const sanitizeHTML = html => html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '').replace(/ on\w+="[^"]*"/g, '');
 
     document.querySelectorAll('.nav-item').forEach(link => {
       link.addEventListener('click', (e) => {
@@ -219,8 +216,6 @@
     $('btn-login').addEventListener('click', async () => {
       state.token = $('inp-token').value.trim();
       if(!state.token) return toast('Insira o token do GitHub', 'error');
-      
-      // Salva credenciais do Google no navegador (não no JSON público)
       if($('inp-google-url').value) localStorage.setItem('g_url', $('inp-google-url').value);
       if($('inp-google-senha').value) localStorage.setItem('g_senha', $('inp-google-senha').value);
 
@@ -228,7 +223,7 @@
       try {
         const [d, a, ac] = await Promise.all([ apiFetch('dados.json'), apiFetch('aulas-dados.json'), apiFetch('academico-dados.json') ]);
         if (d) { state.dados = d.content; state.shaDados = d.sha; } if (a) { state.aulas = a.content; state.shaAulas = a.sha; } if (ac) { state.academico = ac.content; state.shaAcademico = ac.sha; }
-        if (!state.dados.configInscricoes) state.dados.configInscricoes = {}; if (!state.academico.cursos) state.academico.cursos = []; if (!state.academico.turmas) state.academico.turmas = [];
+        if (!state.dados.configInscricoes) state.dados.configInscricoes = {}; if (!state.academico.cursos) state.academico.cursos = []; if (!state.academico.turmas) state.academico.turmas = []; if (!state.aulas.aulas) state.aulas.aulas = [];
         $('login-screen').style.display = 'none'; toast('Conectado!', 'success'); renderAll();
       } catch (e) { toast(e.message, 'error'); } finally { btn.textContent = 'Conectar Sistema'; btn.disabled = false; }
     });
@@ -237,99 +232,76 @@
     function renderAll() { renderDashboard(); renderCursos(); renderTurmas(); renderPages(); renderLessons(); renderCalendar(); }
     function renderDashboard() { $('stat-cursos').textContent = state.academico.cursos.length; $('stat-turmas').textContent = state.academico.turmas.length; const statusEl = $('stat-status'); if (state.isDirty) { statusEl.textContent = 'Alterações Pendentes'; statusEl.style.color = 'var(--danger)'; } else { statusEl.textContent = 'Sincronizado'; statusEl.style.color = 'var(--success)'; } }
 
-    // CURSOS
-    function renderCursos() { $('table-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map(c => `<tr><td>${esc(c.nome)}</td><td>${esc(c.nivel)}</td><td>${c.cargaHoraria}h</td><td><button class="btn btn-outline btn-sm" onclick="editCurso('${c.id}')">Editar</button> <button class="btn btn-danger btn-sm" onclick="removeCurso('${c.id}')">X</button></td></tr>`).join(''); }
-    
-    function removeCurso(id) {
-      const temTurma = state.academico.turmas.some(t => t.cursoId === id);
-      if (temTurma) return toast('Não é possível excluir: existem turmas vinculadas a este curso.', 'error');
-      if (confirm('Excluir este curso permanentemente?')) {
-        state.academico.cursos = state.academico.cursos.filter(c => c.id !== id);
-        renderCursos(); renderDashboard(); markDirty();
-      }
-    }
-
+    function renderCursos() { $('table-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map(c => `<tr><td>${esc(c.nome)}</td><td>${esc(c.nivel)}</td><td>${c.cargaHoraria}h</td><td><button class="btn btn-outline btn-sm" onclick="editCurso('${c.id}')">Editar</button></td></tr>`).join(''); }
     function editCurso(id) { const isNew = !id; const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos.find(x => x.id === id); $('modal-title').textContent = isNew ? 'Novo Curso' : 'Editar Curso'; $('modal-form-content').innerHTML = `<div class="form-group"><label>Nome do Curso</label><input type="text" id="c-nome" value="${esc(c.nome)}"></div><div class="grid-2"><div class="form-group"><label>Nível</label><input type="text" id="c-nivel" value="${esc(c.nivel)}"></div><div class="form-group"><label>Carga Horária (h)</label><input type="number" id="c-carga" value="${c.cargaHoraria}"></div></div>`; $('btn-save-modal').onclick = () => { c.nome = $('c-nome').value; c.nivel = $('c-nivel').value; c.cargaHoraria = $('c-carga').value; if (isNew) state.academico.cursos.push(c); closeModal(); renderCursos(); renderTurmas(); markDirty(); }; $('edit-modal').classList.add('active'); }
 
-    // TURMAS
     function renderTurmas() { $('table-turmas').querySelector('tbody').innerHTML = state.academico.turmas.map(t => { const curso = state.academico.cursos.find(c => c.id === t.cursoId) || { nome: 'N/A' }; return `<tr><td>${esc(t.nome)}</td><td>${esc(curso.nome)}</td><td>${t.dataInicio} a ${t.dataFim}</td><td>${t.vagas}</td><td><span class="badge success">${t.status}</span></td><td><button class="btn btn-outline btn-sm" onclick="editTurma('${t.id}')">Editar</button></td></tr>`; }).join(''); }
     function editTurma(id) { if (state.academico.cursos.length === 0) return toast('Cadastre um curso primeiro.', 'error'); const isNew = !id; const t = isNew ? { id: Date.now().toString(), cursoId: '', nome: '', dataInicio: '', dataFim: '', vagas: 30, status: 'Inscrições Abertas', linkFormulario: '' } : state.academico.turmas.find(x => x.id === id); const options = state.academico.cursos.map(c => `<option value="${c.id}" ${c.id === t.cursoId ? 'selected' : ''}>${esc(c.nome)}</option>`).join(''); $('modal-title').textContent = isNew ? 'Nova Turma' : 'Editar Turma'; $('modal-form-content').innerHTML = `<div class="form-group"><label>Curso Vinculado</label><select id="t-curso">${options}</select></div><div class="form-group"><label>Nome da Turma</label><input type="text" id="t-nome" value="${esc(t.nome)}"></div><div class="grid-2"><div class="form-group"><label>Data Início</label><input type="date" id="t-inicio" value="${t.dataInicio}"></div><div class="form-group"><label>Data Fim</label><input type="date" id="t-fim" value="${t.dataFim}"></div></div><div class="grid-2"><div class="form-group"><label>Vagas</label><input type="number" id="t-vagas" value="${t.vagas}"></div><div class="form-group"><label>Status</label><select id="t-status"><option value="Inscrições Abertas" ${t.status==='Inscrições Abertas'?'selected':''}>Inscrições Abertas</option><option value="Inscrições Encerradas" ${t.status==='Inscrições Encerradas'?'selected':''}>Inscrições Encerradas</option></select></div></div><div class="form-group"><label>Link do Google Forms</label><input type="url" id="t-link" value="${t.linkFormulario || ''}"></div>`; $('btn-save-modal').onclick = () => { t.cursoId = $('t-curso').value; t.nome = $('t-nome').value; t.dataInicio = $('t-inicio').value; t.dataFim = $('t-fim').value; t.vagas = parseInt($('t-vagas').value); t.status = $('t-status').value; t.linkFormulario = $('t-link').value; if (isNew) state.academico.turmas.push(t); closeModal(); renderTurmas(); markDirty(); }; $('edit-modal').classList.add('active'); }
 
-    // ALUNOS (GOOGLE)
-    async function sincronizarAlunos() { 
-      const url = localStorage.getItem('g_url'); 
-      const senha = localStorage.getItem('g_senha'); 
-      if (!url || !senha) return toast('Faça login novamente fornecendo a URL e Senha do Google Script.', 'error'); 
-      
-      $('sync-status').textContent = "Buscando dados no Google Drive..."; 
-      try { 
-        const res = await fetch(`${url}?senha=${encodeURIComponent(senha)}`); 
-        if (!res.ok) throw new Error('Erro na API'); 
-        const data = await res.json(); 
-        if (data.erro) throw new Error(data.erro); 
-        state.alunosDrive = data; 
-        $('sync-status').textContent = `Sincronizado em: ${new Date().toLocaleString('pt-BR')} | Total: ${data.length} alunos`; 
-        renderTabelaAlunos(); 
-        toast('Planilha sincronizada!', 'success'); 
-      } catch (e) { 
-        $('sync-status').textContent = "Falha na sincronização."; 
-        toast(e.message, 'error'); 
-      } 
-    }
-    function renderTabelaAlunos(filtro = "") { const tbody = $('table-students').querySelector('tbody'); const filtrados = state.alunosDrive.filter(a => JSON.stringify(a).toLowerCase().includes(filtro.toLowerCase())); if (filtrados.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum aluno encontrado.</td></tr>'; return; } tbody.innerHTML = filtrados.map(a => { const nome = a['Nome'] || a['Name'] || a['nome'] || '-'; const email = a['E-mail'] || a['Email'] || a['email'] || '-'; const turma = a['Turma'] || a['Curso'] || a['turma'] || '-'; const data = a['Timestamp'] || a['Data'] || '-'; return `<tr><td>${esc(nome)}</td><td>${esc(email)}</td><td><span class="badge" style="background:#E0E7FF; color:#3730A3;">${esc(turma)}</span></td><td>${esc(data)}</td></tr>`; }).join(''); }
+    async function sincronizarAlunos() { const url = localStorage.getItem('g_url'); const senha = localStorage.getItem('g_senha'); if (!url || !senha) return toast('Faça login novamente fornecendo a URL e Senha do Google Script.', 'error'); $('sync-status').textContent = "Buscando dados no Google Drive..."; try { const res = await fetch(`${url}?senha=${encodeURIComponent(senha)}`); if (!res.ok) throw new Error('Erro na API'); const data = await res.json(); if (data.erro) throw new Error(data.erro); state.alunosDrive = data; $('sync-status').textContent = `Sincronizado em: ${new Date().toLocaleString('pt-BR')} | Total: ${data.length} alunos`; renderTabelaAlunos(); toast('Planilha sincronizada!', 'success'); } catch (e) { $('sync-status').textContent = "Falha na sincronização."; toast(e.message, 'error'); } }
+    function renderTabelaAlunos(filtro = "") { const tbody = $('table-students').querySelector('tbody'); const filtrados = state.alunosDrive.filter(a => JSON.stringify(a).toLowerCase().includes(filtro.toLowerCase())); if (filtrados.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum aluno encontrado.</td></tr>'; return; } tbody.innerHTML = filtrados.map(a => { const nome = a['Nome'] || a['nome'] || '-'; const email = a['Email'] || a['E-mail'] || a['email'] || '-'; const turma = a['Turma'] || a['Curso'] || '-'; const data = a['Data'] || a['Timestamp'] || '-'; return `<tr><td>${esc(nome)}</td><td>${esc(email)}</td><td><span class="badge" style="background:#E0E7FF; color:#3730A3;">${esc(turma)}</span></td><td>${esc(data)}</td></tr>`; }).join(''); }
     function filtrarAlunos() { renderTabelaAlunos($('search-aluno').value); }
     function exportarAlunosCSV() { if (state.alunosDrive.length === 0) return toast('Nenhum dado para exportar.', 'error'); const keys = Object.keys(state.alunosDrive[0]); let csv = keys.join(';') + '\n'; state.alunosDrive.forEach(obj => { csv += keys.map(k => `"${String(obj[k]).replace(/"/g, '""')}"`).join(';') + '\n'; }); const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `alunos_${new Date().toISOString().slice(0,10)}.csv`; link.click(); toast('CSV exportado.', 'success'); }
 
-    // PÁGINAS E CONTEÚDO
     function renderPages() { if (state.dados.projeto) { $('cfg-nome').value = state.dados.projeto.nome || ''; $('cfg-subtitulo').value = state.dados.projeto.subtitulo || ''; } $('cfg-nome').onchange = (e) => { state.dados.projeto.nome = e.target.value; markDirty(); }; $('table-pages').querySelector('tbody').innerHTML = state.dados.paginas.map(p => `<tr><td>${esc(p.titulo)}</td><td>${esc(p.slug)}</td><td><button class="btn btn-outline btn-sm" onclick="editPage('${p.slug}')">Editar</button></td></tr>`).join(''); }
-    function editPage(slug) { const p = state.dados.paginas.find(x => x.slug === slug); $('modal-title').textContent = `Editar: ${p.titulo}`; $('modal-form-content').innerHTML = `<div class="form-group"><label>Título</label><input type="text" id="p-title" value="${esc(p.titulo)}"></div><div class="form-group"><label>Conteúdo (HTML)</label><textarea id="p-html" style="min-height:200px; font-family:monospace;">${esc(p.html)}</textarea></div>`; $('btn-save-modal').onclick = () => { p.titulo = $('p-title').value; p.html = sanitizeHTML($('p-html').value); closeModal(); renderPages(); markDirty(); }; $('edit-modal').classList.add('active'); }
+    function editPage(slug) { const p = state.dados.paginas.find(x => x.slug === slug); $('modal-title').textContent = `Editar: ${p.titulo}`; $('modal-form-content').innerHTML = `<div class="form-group"><label>Título</label><input type="text" id="p-title" value="${esc(p.titulo)}"></div><div class="form-group"><label>Conteúdo (HTML)</label><textarea id="p-html" style="min-height:200px; font-family:monospace;">${esc(p.html)}</textarea></div>`; $('btn-save-modal').onclick = () => { p.titulo = $('p-title').value; p.html = $('p-html').value; closeModal(); renderPages(); markDirty(); }; $('edit-modal').classList.add('active'); }
 
-    // AULAS
-    function renderLessons() { $('table-lessons').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `<tr><td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td><button class="btn btn-outline btn-sm" onclick="editLesson(${i})">Editar</button></td></tr>`).join(''); }
-    function editLesson(index) { const isNew = index === undefined; const a = isNew ? { id: Date.now(), modulo: '', titulo: '', data: '', video: '', materiais: [] } : state.aulas.aulas[index]; $('modal-title').textContent = isNew ? 'Nova Aula' : 'Editar Aula'; $('modal-form-content').innerHTML = `<div class="grid-2"><div class="form-group"><label>Módulo</label><input type="text" id="a-mod" value="${esc(a.modulo)}"></div><div class="form-group"><label>Data</label><input type="date" id="a-data" value="${a.data}"></div></div><div class="form-group"><label>Título</label><input type="text" id="a-titulo" value="${esc(a.titulo)}"></div><div class="form-group"><label>Vídeo (YouTube)</label><input type="url" id="a-video" value="${a.video || ''}"></div>`; $('btn-save-modal').onclick = () => { a.modulo = $('a-mod').value; a.data = $('a-data').value; a.titulo = $('a-titulo').value; let v = $('a-video').value; if(v && !v.includes('/embed/')) { const id = v.match(/(?:youtu\.be\/|v=)([^&]+)/); if(id) v = `https://www.youtube.com/embed/${id[1]}`; } a.video = v; if (isNew) state.aulas.aulas.push(a); closeModal(); renderLessons(); markDirty(); }; $('edit-modal').classList.add('active'); }
+    function renderLessons() { $('table-lessons').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `<tr><td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais ? a.materiais.length : 0}</td><td><button class="btn btn-outline btn-sm" onclick="editLesson(${i})">Editar</button></td></tr>`).join(''); }
+    
+    function editLesson(index) {
+      const isNew = index === undefined;
+      const a = isNew ? { id: Date.now(), modulo: '', titulo: '', data: '', descricao: '', video: '', materiais: [] } : state.aulas.aulas[index];
+      $('modal-title').textContent = isNew ? 'Nova Aula/Atividade' : 'Editar Aula/Atividade';
+      $('modal-form-content').innerHTML = `
+        <div class="grid-2">
+          <div class="form-group"><label>Módulo</label><input type="text" id="a-mod" value="${esc(a.modulo)}"></div>
+          <div class="form-group"><label>Data</label><input type="date" id="a-data" value="${a.data}"></div>
+        </div>
+        <div class="form-group"><label>Título da Aula</label><input type="text" id="a-titulo" value="${esc(a.titulo)}"></div>
+        <div class="form-group"><label>Descrição da Atividade</label><textarea id="a-desc">${esc(a.descricao)}</textarea></div>
+        <div class="form-group" style="background: #F8FAFC; padding: 16px; border-radius: 4px; border: 1px solid var(--line);">
+          <label style="color: var(--blue);">Link do Vídeo (YouTube) - Opcional</label>
+          <input type="url" id="a-video" value="${a.video || ''}" placeholder="https://youtube.com/watch?v=...">
+        </div>
+        <div class="form-group" style="margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <label style="margin: 0; font-size: 0.9rem;">Materiais Complementares (PDFs, Slides)</label>
+            <button type="button" class="btn btn-outline btn-sm" onclick="addMaterialRow()">+ Adicionar Material</button>
+          </div>
+          <div id="ls-materials-container"></div>
+        </div>
+      `;
+      if (a.materiais && a.materiais.length > 0) { a.materiais.forEach(mat => addMaterialRow(mat.titulo, mat.url)); }
+      
+      $('btn-save-modal').onclick = () => {
+        a.modulo = $('a-mod').value; a.data = $('a-data').value; a.titulo = $('a-titulo').value; a.descricao = $('a-desc').value;
+        let v = $('a-video').value.trim(); if(v && !v.includes('/embed/')) { const id = v.match(/(?:youtu\.be\/|v=)([^&]+)/); if(id) v = `https://www.youtube.com/embed/${id[1]}`; } a.video = v || null;
+        const newMateriais = []; document.querySelectorAll('.material-row').forEach(row => { const t = row.querySelector('.mat-title').value.trim(); const u = row.querySelector('.mat-url').value.trim(); if (t && u) newMateriais.push({ titulo: t, url: u }); }); a.materiais = newMateriais;
+        if (isNew) state.aulas.aulas.push(a);
+        closeModal(); renderLessons(); markDirty();
+      };
+      $('edit-modal').classList.add('active');
+    }
 
-    // CALENDÁRIO
+    function addMaterialRow(title = '', url = '') {
+      const container = $('ls-materials-container');
+      const row = document.createElement('div'); row.className = 'material-row';
+      row.innerHTML = `<input type="text" class="mat-title" placeholder="Ex: Slides da Aula" value="${title}"><input type="url" class="mat-url" placeholder="https://drive.google.com/..." value="${url}"><button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">X</button>`;
+      container.appendChild(row);
+    }
+
     function renderCalendar() { $('table-events').querySelector('tbody').innerHTML = state.dados.calendario.eventos.map((e, i) => `<tr><td>${e.data}</td><td>${esc(e.titulo)}</td><td>${esc(e.tipo)}</td><td><button class="btn btn-outline btn-sm" onclick="editEvent(${i})">Editar</button></td></tr>`).join(''); }
     function editEvent(index) { const isNew = index === undefined; const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index]; $('modal-title').textContent = isNew ? 'Novo Evento' : 'Editar Evento'; $('modal-form-content').innerHTML = `<div class="grid-2"><div class="form-group"><label>Data</label><input type="date" id="e-data" value="${e.data}"></div><div class="form-group"><label>Tipo</label><select id="e-tipo"><option value="presencial">Presencial</option><option value="assincrona">Assíncrona</option></select></div></div><div class="form-group"><label>Título</label><input type="text" id="e-titulo" value="${esc(e.titulo)}"></div>`; $('btn-save-modal').onclick = () => { e.data = $('e-data').value; e.tipo = $('e-tipo').value; e.titulo = $('e-titulo').value; if (isNew) state.dados.calendario.eventos.push(e); state.dados.calendario.eventos.sort((a,b)=>a.data.localeCompare(b.data)); closeModal(); renderCalendar(); markDirty(); }; $('edit-modal').classList.add('active'); }
 
-    // PUBLICAÇÃO REAL
     function renderPublish() { $('publish-status').innerHTML = `<p><strong>dados.json:</strong> ${state.shaDados ? 'Pronto' : 'Não encontrado'}</p><p><strong>aulas-dados.json:</strong> ${state.shaAulas ? 'Pronto' : 'Não encontrado'}</p><p><strong>academico-dados.json:</strong> ${state.shaAcademico ? 'Pronto' : 'Não encontrado'}</p><p style="margin-top:12px; font-weight:bold; color:${state.isDirty?'var(--danger)':'var(--success)'}">${state.isDirty ? 'Existem alterações pendentes.' : 'Tudo sincronizado.'}</p>`; }
     $('btn-publish-header').addEventListener('click', () => document.querySelector('.nav-item[data-view="publish"]').click());
-    
-    $('btn-confirm-publish').addEventListener('click', async () => { 
-      if (!state.isDirty) return toast('Nada para publicar.', 'info'); 
-      const btn = $('btn-confirm-publish'); 
-      btn.textContent = 'Publicando...'; btn.disabled = true; 
-      
-      try { 
-        const r1 = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza dados gerais'); 
-        state.shaDados = r1.content.sha; 
-        const r2 = await apiCommit('aulas-dados.json', state.aulas, state.shaAulas, 'CMS: Atualiza aulas'); 
-        state.shaAulas = r2.content.sha; 
-        const r3 = await apiCommit('academico-dados.json', state.academico, state.shaAcademico, 'CMS: Atualiza cursos e turmas'); 
-        state.shaAcademico = r3.content.sha; 
-        
-        state.isDirty = false; 
-        renderPublish(); renderDashboard(); 
-        toast('Todos os arquivos foram publicados no GitHub com sucesso!', 'success'); 
-      } catch (e) { 
-        toast('Erro ao publicar: ' + e.message, 'error'); 
-      } finally { 
-        btn.textContent = 'Publicar no GitHub Agora'; btn.disabled = false; 
-      } 
-    });
+    $('btn-confirm-publish').addEventListener('click', async () => { if (!state.isDirty) return toast('Nada para publicar.', 'info'); const btn = $('btn-confirm-publish'); btn.textContent = 'Publicando...'; btn.disabled = true; try { const r1 = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza dados gerais'); state.shaDados = r1.content.sha; const r2 = await apiCommit('aulas-dados.json', state.aulas, state.shaAulas, 'CMS: Atualiza aulas'); state.shaAulas = r2.content.sha; const r3 = await apiCommit('academico-dados.json', state.academico, state.shaAcademico, 'CMS: Atualiza cursos e turmas'); state.shaAcademico = r3.content.sha; state.isDirty = false; renderPublish(); renderDashboard(); toast('Publicado com sucesso!', 'success'); } catch (e) { toast(e.message, 'error'); } finally { btn.textContent = 'Publicar no GitHub Agora'; btn.disabled = false; } });
 
     $('btn-export').addEventListener('click', () => {
       const d = JSON.stringify(state.dados, null, 2);
       const a = JSON.stringify(state.aulas, null, 2);
       const ac = JSON.stringify(state.academico, null, 2);
-      
-      const download = (content, name) => {
-        const blob = new Blob([content], {type:'application/json'});
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a'); link.href = url; link.download = name; link.click();
-      };
-      
+      const download = (content, name) => { const blob = new Blob([content], {type:'application/json'}); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = name; link.click(); };
       download(d, 'dados.json'); download(a, 'aulas-dados.json'); download(ac, 'academico-dados.json');
       toast('Backups baixados.', 'success');
     });
