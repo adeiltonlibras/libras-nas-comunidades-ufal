@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Informações e passo a passo para inscrição no Curso Básico de Libras — Nível I do projeto Libras nas Comunidades (UFAL).">
+  <title>Inscrições — Libras nas Comunidades | UFAL</title>
+  <link rel="stylesheet" href="estilo.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Bloco de status — estilos locais apenas desta página */
+    .status-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      border-radius: 4px;
+      margin-bottom: 28px;
+      border-left: 5px solid;
+    }
+    .status-box .status-icon {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .status-box .status-body { flex: 1; }
+    .status-box .status-label {
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 4px;
+    }
+    .status-box .status-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .status-box .status-desc {
+      font-size: .88rem;
+      line-height: 1.55;
+      margin: 0;
+    }
+    /* Status: EM BREVE (padrão) */
+    .status-box.status-breve {
+      background: #FEF9EC;
+      border-left-color: #B8860B;
+    }
+    .status-box.status-breve .status-icon { background: #B8860B; color: #FFF; }
+    .status-box.status-breve .status-label { color: #8A6B2E; }
+    .status-box.status-breve .status-title { color: #713F12; }
+    .status-box.status-breve .status-desc { color: #854D0E; }
+    /* Status: ABERTAS */
+    .status-box.status-abertas {
+      background: #ECFDF5;
+      border-left-color: #1F6F43;
+    }
+    .status-box.status-abertas .status-icon { background: #1F6F43; color: #FFF; }
+    .status-box.status-abertas .status-label { color: #1F6F43; }
+    .status-box.status-abertas .status-title { color: #14532D; }
+    .status-box.status-abertas .status-desc { color: #166534; }
+    /* Status: ENCERRADAS */
+    .status-box.status-encerradas {
+      background: #FEF2F2;
+      border-left-color: #7A2E2E;
+    }
+    .status-box.status-encerradas .status-icon { background: #7A2E2E; color: #FFF; }
+    .status-box.status-encerradas .status-label { color: #7A2E2E; }
+    .status-box.status-encerradas .status-title { color: #7A2E2E; }
+    .status-box.status-encerradas .status-desc { color: #7F1D1D; }
+
+    .cta-inscricao {
+      background: var(--cinza-fundo);
+      border: 1px solid var(--cinza-borda);
+      border-left: 4px solid var(--azul-institucional);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin: 28px 0;
+      text-align: center;
+    }
+    .cta-inscricao p {
+      font-size: .9rem;
+      color: var(--cinza-medio);
+      margin-bottom: 16px;
+      max-width: none;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#app">Pular para o conteúdo principal</a>
+
+  <header class="app-header">
+    <div class="app-header-inner">
+      <a href="index.html" class="app-brand" aria-label="Libras nas Comunidades — Página inicial">
+        <span class="brand-mark" aria-hidden="true">LnC</span>
+        <span>
+          <span class="app-title">Libras nas Comunidades</span>
+          <span class="app-subtitle">Projeto de Extensão · UFAL</span>
+        </span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">Menu</button>
+      <nav class="app-nav" aria-label="Navegação principal">
+        <ul id="menu"></ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrapper" id="app">
+
+    <!-- ============================================================
+         ÁREA DE EDIÇÃO RÁPIDA — ALTERAR APENAS OS 3 CAMPOS ABAIXO
+         ============================================================
+         1) STATUS: escolha uma das classes —
+              "status-abertas"  →  inscrições abertas
+              "status-breve"    →  em breve (padrão)
+              "status-encerradas" → encerradas
+         2) PERÍODO: texto exibido abaixo do título
+         3) LINK: href do botão principal (formulário / SIGAA)
+         ============================================================ -->
+
+    <section class="page-hero">
+      <div class="breadcrumb"><a href="index.html">Início</a><span>/</span>Inscrições</div>
+      <h1>Inscrições</h1>
+      <p class="desc">Informações sobre o processo de inscrição no Curso Básico de Libras — Nível I.</p>
+    </section>
+
+    <section class="page-content">
+
+      <!-- ▼▼▼ STATUS (editar aqui) ▼▼▼ -->
+      <div class="status-box status-breve" role="status" aria-live="polite">
+        <span class="status-icon" aria-hidden="true">i</span>
+        <div class="status-body">
+          <div class="status-label">Situação das inscrições</div>
+          <div class="status-title">Em breve</div>
+          <p class="status-desc">O período oficial de inscrições será divulgado nos canais do projeto. Acompanhe as atualizações.</p>
+        </div>
+      </div>
+      <!-- ▲▲▲ STATUS (editar aqui) ▲▲▲ -->
+
+      <div class="conteudo-html">
+        <p>As inscrições são realizadas pelo <strong>SIGAA/UFAL — Módulo Extensão</strong>, sistema oficial da Universidade Federal de Alagoas. O cadastro no sistema é gratuito.</p>
+
+        <h2>Requisitos de participação</h2>
+        <ul>
+          <li>Ser jovem ou adulto ouvinte;</li>
+          <li>Não é necessário conhecimento prévio em Libras.</li>
+        </ul>
+
+        <h2>Passo a passo para inscrição</h2>
+        <ol>
+          <li>Acesse o <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">SIGAA/UFAL — Extensão</a>.</li>
+          <li>Clique em "Cadastre-se" ou "Ainda não possuo cadastro".</li>
+          <li>Preencha seus dados pessoais.</li>
+          <li>Crie seu usuário e senha.</li>
+          <li>Confirme o cadastro.</li>
+          <li>Acesse o SIGAA com seu login.</li>
+          <li>Procure pelo curso <strong>Libras nas Comunidades</strong> e realize a inscrição.</li>
+        </ol>
+
+        <p><a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Assista ao tutorial em vídeo com o passo a passo da inscrição.</a></p>
+      </div>
+
+      <!-- ▼▼▼ CTA — LINK PRINCIPAL (editar aqui) ▼▼▼ -->
+      <div class="cta-inscricao">
+        <p>O cadastro e a inscrição são realizados diretamente no SIGAA/UFAL — Módulo Extensão.</p>
+        <a class="btn-link azul"
+           href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf"
+           target="_blank" rel="noopener">
+          Acessar SIGAA/UFAL — Extensão
+        </a>
+        <a class="btn-link secundario"
+           href="https://youtu.be/WtgErX91gs0"
+           target="_blank" rel="noopener">
+          Tutorial em vídeo
+        </a>
+      </div>
+      <!-- ▲▲▲ CTA — LINK PRINCIPAL (editar aqui) ▲▲▲ -->
+
+      <div class="conteudo-html">
+        <h2>Proteção de dados</h2>
+        <p>Os dados informados no ato da inscrição são utilizados exclusivamente para fins de organização do curso e emissão de certificados, em conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>
+
+        <h2>Participantes menores de 18 anos</h2>
+        <p>Para participantes menores de idade, é recomendável que a inscrição seja acompanhada por um responsável legal. Em caso de dúvidas, consulte a coordenação do projeto.</p>
+
+        <div class="aviso-box">
+          <div class="icon" aria-hidden="true">i</div>
+          <div>
+            <strong>Dúvidas sobre a inscrição?</strong>
+            <p>Consulte a página de <a href="pagina.html?slug=orientacoes">Orientações</a> ou entre em contato pelos canais oficiais do projeto.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="app-footer-inner">
+      <div>
+        <h4>Libras nas Comunidades</h4>
+        <p>Projeto de Extensão da Universidade Federal de Alagoas (UFAL), vinculado à Faculdade de Letras (FALE) e à Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+      </div>
+      <div>
+        <h4>Navegação</h4>
+        <a href="index.html">Início</a>
+        <a href="pagina.html?slug=sobre">O Projeto</a>
+        <a href="pagina.html?slug=curso">O Curso</a>
+        <a href="calendario.html">Cronograma</a>
+        <a href="pagina.html?slug=orientacoes">Orientações</a>
+        <a href="inscricoes.html">Inscrições</a>
+      </div>
+      <div>
+        <h4>Institucional</h4>
+        <a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener">SIGAA/UFAL — Extensão</a>
+        <a href="https://youtu.be/WtgErX91gs0" target="_blank" rel="noopener">Tutorial em vídeo</a>
+        <a href="pagina.html?slug=equipe">Equipe</a>
+        <a href="pagina.html?slug=contato">Contato</a>
+      </div>
+    </div>
+    <div class="app-footer-base">
+      <p>Desenvolvido por <strong>Adeilton Olimpio</strong> · © 2026 UFAL · PROEXC · FALE</p>
+      <p style="margin-top:6px;font-size:.7rem;">Este site não é uma página oficial da UFAL.</p>
+    </div>
+  </footer>
+
+  <script>
+  (async function () {
+    const esc = s => String(s ?? '')
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    const toggle = document.querySelector('.nav-toggle');
+    const menu = document.getElementById('menu');
+    toggle.addEventListener('click', function () {
+      const aberto = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(aberto));
+    });
+
+    try {
+      const r = await fetch('dados.json?t=' + Date.now());
+      if (!r.ok) throw new Error();
+      const D = await r.json();
+      const paginas = (D.paginas || [])
+        .filter(p => p.publicada !== false)
+        .sort((a, b) => (a.ordem || 99) - (b.ordem || 99));
+
+      menu.innerHTML = paginas.map(p => {
+        const link = urlPagina(p);
+        const active = p.slug === 'inscricoes' ? 'active' : '';
+        const current = p.slug === 'inscricoes' ? ' aria-current="page"' : '';
+        const cta = p.slug === 'inscricoes' ? 'btn-inscricao' : '';
+        return `<li><a href="${link}" class="${active} ${cta}"${current}>${esc(p.titulo)}</a></li>`;
+      }).join('') + `<li><a href="https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf" target="_blank" rel="noopener" class="btn-inscricao">SIGAA/UFAL</a></li>`;
+    } catch (e) {
+      menu.innerHTML = '<li><a href="index.html">Início</a></li>';
+    }
+
+    function urlPagina(p) {
+      if (p.tipo === 'index') return 'index.html';
+      if (p.tipo === 'calendario') return 'calendario.html';
+      if (p.tipo === 'externo') return p.arquivo;
+      return `pagina.html?slug=${encodeURIComponent(p.slug)}`;
+    }
+  })();
+  </script>
+</body>
+</html>
