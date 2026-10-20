@@ -1,4 +1,13 @@
 {
-  "atualizadoEm": "2026-10-20T19:30:38.681Z",
-  "aulas": []
+  "atualizadoEm": "2026-10-20T19:33:05.539Z",
+  "aulas": [
+    {
+      "modulo": "Material complementar",
+      "titulo": "Vídeo de referência complementar",
+      "data": "2026-10-17",
+      "descricao": "Este vídeo é disponibilizado como material de referência complementar para ampliar os conhecimentos dos participantes sobre o tema estudado. Não corresponde a uma aula oficial do curso e sua visualização é opcional.",
+      "video": "https://www.youtube.com/embed/Bcq6GPyMfPo",
+      "materiais": []
+    }
+  ]
 }
