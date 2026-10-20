@@ -1,14 +1,13 @@
 {
   "projeto": {
     "nome": "Libras nas Comunidades",
-    "subtitulo": "UFAL · FALE · PROEXC",
+    "subtitulo": "Projeto de Extensão · UFAL",
     "atualizadoEm": "2026-10-20"
   },
   "paginas": [
     {
       "slug": "inicio",
       "titulo": "Início",
-      "icone": "🏠",
       "tipo": "index",
       "ordem": 1,
       "publicada": true
@@ -16,8 +15,7 @@
     {
       "slug": "sobre",
       "titulo": "O Projeto",
-      "icone": "📖",
-      "descricao": "Conheça a origem, os objetivos e a finalidade educativa do projeto de extensão.",
+      "descricao": "Origem, objetivos e finalidade educativa do projeto de extensão.",
       "ordem": 2,
       "tipo": "conteudo",
       "publicada": true,
@@ -26,7 +24,6 @@
     {
       "slug": "curso",
       "titulo": "O Curso",
-      "icone": "📚",
       "descricao": "Informações completas sobre o Curso Básico de Libras — Nível I.",
       "ordem": 3,
       "tipo": "conteudo",
@@ -36,8 +33,7 @@
     {
       "slug": "calendario",
       "titulo": "Cronograma",
-      "icone": "📅",
-      "descricao": "Confira todas as datas, horários e atividades do curso.",
+      "descricao": "Datas, horários e atividades previstas para o curso.",
       "ordem": 4,
       "tipo": "calendario",
       "publicada": true
@@ -45,30 +41,29 @@
     {
       "slug": "orientacoes",
       "titulo": "Orientações",
-      "icone": "🧭",
-      "descricao": "Passo a passo para inscrição, participação e certificação.",
+      "descricao": "Fluxo de participação, requisitos e informações sobre certificação.",
       "ordem": 5,
       "tipo": "orientacoes",
       "publicada": true,
       "aviso": {
-        "titulo": "Documento destinado apenas aos pré-inscritos",
-        "texto": "Estas orientações são exclusivas para quem já realizou a pré-inscrição. <strong>Não é necessário preencher o formulário novamente.</strong>"
+        "titulo": "Documento destinado aos pré-inscritos",
+        "texto": "Estas orientações são destinadas a quem já realizou a pré-inscrição. <strong>Não é necessário preencher o formulário novamente.</strong>"
       },
       "etapas": [
-        { "cor": "azul",     "emoji": "📝", "titulo": "Pré-inscrição pelo formulário", "texto": "O participante já realizou a pré-inscrição por meio do formulário disponibilizado pelo professor responsável." },
-        { "cor": "roxo",     "emoji": "📢", "titulo": "Orientações do professor", "texto": "O professor entrará em contato com as orientações necessárias sobre cadastro e inscrição no SIGAA." },
-        { "cor": "azul",     "emoji": "🆔", "titulo": "Cadastro no SIGAA", "texto": "Quem ainda não tem cadastro deve acessar o SIGAA – Módulo Extensão, clicar em <strong>\"Ainda não possuo cadastro!\"</strong> e preencher os dados." },
-        { "cor": "roxo",     "emoji": "✅", "titulo": "Inscrição no curso pelo SIGAA", "texto": "Após o cadastro, o participante deve seguir as orientações do professor para efetivar a inscrição na atividade de extensão." },
-        { "cor": "verde",    "emoji": "🚀", "titulo": "Início das atividades", "texto": "Com a inscrição confirmada, o participante está apto a iniciar o curso, acompanhando o cronograma e as aulas." },
-        { "cor": "verde",    "emoji": "🏫", "titulo": "Aulas presenciais", "texto": "Encontros presenciais aos sábados, das 15h às 17h30, com carga de 2h30 cada." },
-        { "cor": "roxo",     "emoji": "💻", "titulo": "Atividades assíncronas + Google Meet", "texto": "Três encontros em formato assíncrono com apoio pelo Meet: <strong>31/10</strong>, <strong>28/11</strong> e <strong>26/12</strong>. O aluno não precisa ficar conectado o tempo todo." },
-        { "cor": "laranja",  "emoji": "📊", "titulo": "Avaliações e acompanhamento", "texto": "Ao longo do curso, o professor aplicará atividades avaliativas e acompanhará o desenvolvimento de cada participante." },
-        { "cor": "laranja",  "emoji": "🎯", "titulo": "Cumprimento dos requisitos", "texto": "Frequência mínima de 75%, atividades realizadas, média 7,0 e carga horária de 40h cumprida." },
-        { "cor": "vermelho", "emoji": "🎓", "titulo": "Conclusão do curso", "texto": "Todas as etapas concluídas com sucesso e requisitos cumpridos." },
-        { "cor": "amarelo",  "emoji": "🏆", "titulo": "Certificação", "texto": "Emissão do certificado de 40 horas pela PROEXC/UFAL, por meio do Módulo Extensão do SIGAA." }
+        { "cor": "azul",     "emoji": "1", "titulo": "Pré-inscrição pelo formulário", "texto": "O participante já realizou a pré-inscrição por meio do formulário disponibilizado pelo professor responsável." },
+        { "cor": "azul",     "emoji": "2", "titulo": "Orientações do professor", "texto": "O professor entrará em contato com as orientações necessárias sobre cadastro e inscrição no SIGAA." },
+        { "cor": "azul",     "emoji": "3", "titulo": "Cadastro no SIGAA", "texto": "Quem ainda não tem cadastro deve acessar o SIGAA — Módulo Extensão, clicar em <strong>\"Ainda não possuo cadastro!\"</strong> e preencher os dados." },
+        { "cor": "roxo",     "emoji": "4", "titulo": "Inscrição no curso pelo SIGAA", "texto": "Após o cadastro, o participante deve seguir as orientações do professor para efetivar a inscrição na atividade de extensão." },
+        { "cor": "roxo",     "emoji": "5", "titulo": "Início das atividades", "texto": "Com a inscrição confirmada, o participante está apto a iniciar o curso, acompanhando o cronograma e as aulas." },
+        { "cor": "verde",    "emoji": "6", "titulo": "Aulas presenciais", "texto": "Encontros presenciais aos sábados, das 15h às 17h30, com carga de 2h30 cada." },
+        { "cor": "verde",    "emoji": "7", "titulo": "Atividades assíncronas", "texto": "Três encontros em formato assíncrono com apoio pelo Google Meet: <strong>31/10</strong>, <strong>28/11</strong> e <strong>26/12</strong>. Não é necessário permanecer conectado durante todo o período." },
+        { "cor": "laranja",  "emoji": "8", "titulo": "Avaliações e acompanhamento", "texto": "Ao longo do curso, o professor aplicará atividades avaliativas e acompanhará o desenvolvimento de cada participante." },
+        { "cor": "laranja",  "emoji": "9", "titulo": "Cumprimento dos requisitos", "texto": "Frequência mínima de 75%, atividades realizadas, média 7,0 e carga horária de 40h cumprida." },
+        { "cor": "amarelo",  "emoji": "10", "titulo": "Conclusão do curso", "texto": "Todas as etapas concluídas com sucesso e requisitos cumpridos." },
+        { "cor": "vermelho", "emoji": "11", "titulo": "Certificação", "texto": "Emissão do certificado de 40 horas pela PROEXC/UFAL, por meio do Módulo Extensão do SIGAA." }
       ],
       "infoCurso": [
-        ["Curso", "Curso de Libras – Nível Básico I"],
+        ["Curso", "Curso de Libras — Nível Básico I"],
         ["Projeto", "Libras nas Comunidades"],
         ["Início", "17 de outubro de 2026"],
         ["Término", "23 de janeiro de 2027"],
@@ -91,18 +86,16 @@
     {
       "slug": "inscricoes",
       "titulo": "Inscrições",
-      "icone": "📝",
       "descricao": "Passo a passo para realizar sua inscrição no curso.",
       "ordem": 6,
       "tipo": "conteudo",
       "publicada": true,
-      "html": "<p>As inscrições são realizadas pelo <strong>SIGAA/UFAL — Módulo Extensão</strong>.</p><div class=\"aviso-box\"><div class=\"icon\">⚠️</div><div><strong>Importante</strong><p>O período oficial de inscrições será divulgado nos canais do projeto. Acompanhe as atualizações.</p></div></div><h2>Requisitos de participação</h2><ul><li>Ser jovem ou adulto ouvinte;</li><li>Não é necessário conhecimento prévio em Libras.</li></ul><h2>Passo a passo para inscrição</h2><ol><li>Acesse o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a>.</li><li>Clique em \"Cadastre-se\" ou \"Ainda não possuo cadastro\".</li><li>Preencha seus dados pessoais.</li><li>Crie seu usuário e senha.</li><li>Confirme o cadastro.</li><li>Acesse o SIGAA com seu login.</li><li>Procure pelo curso \"Libras nas Comunidades\" e realize a inscrição.</li></ol><p><a href=\"https://youtu.be/WtgErX91gs0\" target=\"_blank\" rel=\"noopener\">🎥 Assista ao vídeo com o passo a passo da inscrição.</a></p><h2>Proteção de dados</h2><p>Os dados informados no ato da inscrição são utilizados exclusivamente para fins de organização do curso e emissão de certificados, em conformidade com a LGPD. Para participantes menores de 18 anos, é recomendável que a inscrição seja acompanhada por um responsável legal.</p>"
+      "html": "<p>As inscrições são realizadas pelo <strong>SIGAA/UFAL — Módulo Extensão</strong>.</p><div class=\"aviso-box\"><div class=\"icon\">i</div><div><strong>Período de inscrições</strong><p>O período oficial será divulgado nos canais do projeto. Acompanhe as atualizações.</p></div></div><h2>Requisitos de participação</h2><ul><li>Ser jovem ou adulto ouvinte;</li><li>Não é necessário conhecimento prévio em Libras.</li></ul><h2>Passo a passo para inscrição</h2><ol><li>Acesse o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a>.</li><li>Clique em \"Cadastre-se\" ou \"Ainda não possuo cadastro\".</li><li>Preencha seus dados pessoais.</li><li>Crie seu usuário e senha.</li><li>Confirme o cadastro.</li><li>Acesse o SIGAA com seu login.</li><li>Procure pelo curso \"Libras nas Comunidades\" e realize a inscrição.</li></ol><p><a href=\"https://youtu.be/WtgErX91gs0\" target=\"_blank\" rel=\"noopener\">Assista ao tutorial em vídeo com o passo a passo.</a></p><h2>Proteção de dados</h2><p>Os dados informados no ato da inscrição são utilizados exclusivamente para fins de organização do curso e emissão de certificados, em conformidade com a LGPD. Para participantes menores de 18 anos, é recomendável que a inscrição seja acompanhada por um responsável legal.</p>"
     },
     {
       "slug": "equipe",
       "titulo": "Equipe",
-      "icone": "👥",
-      "descricao": "Conheça a equipe responsável pelo projeto.",
+      "descricao": "Equipe responsável pelo projeto.",
       "ordem": 7,
       "tipo": "conteudo",
       "publicada": true,
@@ -111,27 +104,26 @@
     {
       "slug": "contato",
       "titulo": "Contato",
-      "icone": "✉️",
       "descricao": "Canais oficiais para comunicação com o projeto.",
       "ordem": 8,
       "tipo": "conteudo",
       "publicada": true,
-      "html": "<p>Os canais de contato oficiais do projeto serão divulgados em breve.</p><p>Enquanto isso, para informações sobre inscrições e funcionamento do curso, consulte o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a> ou assista ao <a href=\"https://youtu.be/WtgErX91gs0\" target=\"_blank\" rel=\"noopener\">vídeo passo a passo</a>.</p><h2>Outros canais</h2><ul><li>Coordenação do projeto: Faculdade de Letras (FALE) — UFAL;</li><li>Pró-Reitoria de Extensão e Cultura (PROEXC) — UFAL;</li><li>Local dos encontros: Igreja Assembleia de Deus Benedito Bentes 3, Conjunto Frei Damião, Maceió–AL.</li></ul><div class=\"aviso-box\"><div class=\"icon\">📌</div><div><strong>Em atualização</strong><p>Esta página será atualizada assim que os dados de contato (e-mail, telefone ou redes sociais) forem oficialmente definidos para publicação.</p></div></div>"
+      "html": "<p>Os canais de contato oficiais do projeto serão divulgados em breve.</p><p>Enquanto isso, para informações sobre inscrições e funcionamento do curso, consulte o <a href=\"https://sigaa.sig.ufal.br/sigaa/public/extensao/loginCursosEventosExtensao.jsf\" target=\"_blank\" rel=\"noopener\">SIGAA/UFAL — Extensão</a> ou assista ao <a href=\"https://youtu.be/WtgErX91gs0\" target=\"_blank\" rel=\"noopener\">tutorial em vídeo</a>.</p><h2>Outros canais</h2><ul><li>Coordenação do projeto: Faculdade de Letras (FALE) — UFAL;</li><li>Pró-Reitoria de Extensão e Cultura (PROEXC) — UFAL;</li><li>Local dos encontros: Igreja Assembleia de Deus Benedito Bentes 3, Conjunto Frei Damião, Maceió–AL.</li></ul><div class=\"aviso-box\"><div class=\"icon\">i</div><div><strong>Página em atualização</strong><p>Esta página será atualizada assim que os dados de contato (e-mail, telefone ou redes sociais) forem oficialmente definidos para publicação.</p></div></div>"
     }
   ],
   "calendario": {
     "eventos": [
       { "data": "2026-10-17", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Aula inaugural", "obs": "Início do curso", "badge": "marco" },
       { "data": "2026-10-24", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Introdução à Libras e alfabeto manual", "obs": "—", "badge": "presencial" },
-      { "data": "2026-10-31", "horario": "Atividade assíncrona", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
-      { "data": "2026-11-07", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Números e datilologia", "obs": "—", "badge": "presencial" },
+      { "data": "2026-10-31", "horario": "15h–17h30", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
+      { "data": "2026-11-07", "horario": "16h–17h30", "tipo": "presencial", "titulo": "Números e datilologia", "obs": "—", "badge": "presencial" },
       { "data": "2026-11-14", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Cumprimentos e apresentações", "obs": "—", "badge": "presencial" },
-      { "data": "2026-11-21", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Verbos e pronomes pessoais", "obs": "—", "badge": "presencial" },
-      { "data": "2026-11-28", "horario": "Atividade assíncrona", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
+      { "data": "2026-11-21", "horario": "16h–17h30", "tipo": "presencial", "titulo": "Verbos e pronomes pessoais", "obs": "—", "badge": "presencial" },
+      { "data": "2026-11-28", "horario": "15h–17h30", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
       { "data": "2026-12-05", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Calendário: dias, semanas e meses", "obs": "—", "badge": "presencial" },
       { "data": "2026-12-12", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Cores e expressões faciais", "obs": "—", "badge": "presencial" },
       { "data": "2026-12-19", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Sinais do contexto escolar e familiar", "obs": "—", "badge": "presencial" },
-      { "data": "2026-12-26", "horario": "Atividade assíncrona", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
+      { "data": "2026-12-26", "horario": "15h–17h30", "tipo": "assincrona", "titulo": "Atividade complementar (Google Meet)", "obs": "Sem necessidade de conexão contínua", "badge": "assincrona" },
       { "data": "2027-01-02", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Os cinco parâmetros da Libras", "obs": "—", "badge": "presencial" },
       { "data": "2027-01-09", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Adjetivos e antônimos", "obs": "—", "badge": "presencial" },
       { "data": "2027-01-16", "horario": "15h–17h30", "tipo": "presencial", "titulo": "Revisão geral", "obs": "—", "badge": "presencial" },
