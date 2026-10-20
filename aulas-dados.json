@@ -1,0 +1,32 @@
+{
+  "atualizadoEm": "2026-10-20T00:00:00Z",
+  "aulas": [
+    {
+      "id": 1,
+      "modulo": "Módulo I — Introdução",
+      "titulo": "Boas-vindas e introdução à Libras",
+      "data": "2026-10-17",
+      "descricao": "Apresentação do curso, da equipe e dos objetivos de aprendizagem. Primeiros contatos com a história da Língua Brasileira de Sinais e com a comunidade surda.",
+      "video": null,
+      "materiais": []
+    },
+    {
+      "id": 2,
+      "modulo": "Módulo I — Introdução",
+      "titulo": "Alfabeto manual e números",
+      "data": "2026-10-24",
+      "descricao": "Estudo do alfabeto manual em Libras, dos números cardinais e ordinais e das primeiras práticas de datilologia.",
+      "video": null,
+      "materiais": []
+    },
+    {
+      "id": 3,
+      "modulo": "Módulo II — Comunicação básica",
+      "titulo": "Cumprimentos e apresentações",
+      "data": "2026-10-31",
+      "descricao": "Sinais de cumprimento, apresentação pessoal e expressões de cortesia. Introdução às expressões faciais como parte da comunicação em Libras.",
+      "video": null,
+      "materiais": []
+    }
+  ]
+}
