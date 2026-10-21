@@ -21,12 +21,12 @@
     {
       "id": "1792579958276",
       "cursoId": "1",
-      "nome": "Turma 2027 (Benedito Bentes)",
-      "dataInicio": "2027-03-06",
-      "dataFim": "2027-06-05",
-      "vagas": 2,
+      "nome": "",
+      "dataInicio": "",
+      "dataFim": "",
+      "vagas": null,
       "status": "Inscrições Abertas",
-      "linkFormulario": ""
+      "linkFormulario": "https://forms.gle/SEU_LINK_AQUI"
     }
   ]
 }
