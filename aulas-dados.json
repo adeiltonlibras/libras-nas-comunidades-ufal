@@ -2,17 +2,12 @@
   "aulas": [
     {
       "id": 1710000001,
-      "modulo": "Módulo I — Introdução",
-      "titulo": "Boas-vindas e introdução à Libras",
+      "modulo": "Vídeo ",
+      "titulo": "A origem da Língua Brasileira de Sinais (LIBRAS)",
       "data": "2026-10-17",
-      "descricao": "Apresentação do curso, da equipe e dos objetivos de aprendizagem.",
-      "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      "materiais": [
-        {
-          "titulo": "Slides da Aula 01",
-          "url": "https://drive.google.com/file/d/exemplo/view"
-        }
-      ]
+      "descricao": "",
+      "video": "https://www.youtube.com/embed/y2b_IaicMqY",
+      "materiais": []
     }
   ]
 }
