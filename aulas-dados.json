@@ -9,10 +9,12 @@
       "video": "https://www.youtube.com/embed/y2b_IaicMqY",
       "materiais": [
         {
-          "titulo": "teste",
-          "url": "https://www.fira.edu.br/repositorio/wp-content/uploads/tainacan-items/5/9332/PEREIRA-TCC-FIRA-POS-LIBRAS-2018.pdf"
+          "titulo": "foto",
+          "url": "https://raw.githubusercontent.com/adeiltonlibras/libras-nas-comunidades-ufal/main/materiais/1792897674069_ChatGPTImage13dejun.de202604_33_10.png"
         }
-      ]
+      ],
+      "status": "normal",
+      "justificativa": ""
     },
     {
       "id": 1792580468311,
