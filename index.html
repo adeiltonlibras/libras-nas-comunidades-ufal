@@ -3,217 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Projeto de Extensão Libras nas Comunidades - UFAL. Aprenda Libras e promova a inclusão.">
+  <meta name="description" content="Projeto de Extensão Libras nas Comunidades - UFAL. Língua, inclusão e acessibilidade na comunidade.">
   <title>Início — Libras nas Comunidades | UFAL</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   
-  <!-- ESTILO EMBUTIDO PARA GARANTIR QUE FUNCIONE -->
+  <link rel="stylesheet" href="estilo.css">
+  
   <style>
-    :root {
-      --azul-marinho: #0F2B4C;
-      --azul-institucional: #1E4E8C;
-      --dourado: #A88552;
-      --dourado-hover: #8E6D3E;
-      --off-white: #FBFAF6;
-      --branco: #FFFFFF;
-      --cinza-texto: #475569;
-      --cinza-muted: #94A3B8;
-      --borda-suave: #E2E8F0;
-      --cor-ava: #1F6F43;
-      --cor-ava-hover: #154F2F;
-      --fonte-titulo: 'Playfair Display', Georgia, serif;
-      --fonte-corpo: 'Inter', system-ui, -apple-system, sans-serif;
-      --max-width: 1140px;
-      --espacamento: 24px;
-      --radius: 6px;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--fonte-corpo);
-      background-color: var(--off-white);
-      color: var(--cinza-texto);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: var(--fonte-titulo);
-      color: var(--azul-marinho);
-      line-height: 1.2;
-    }
-
-    a { text-decoration: none; color: var(--azul-institucional); transition: color 0.2s; }
-
-    /* TOPBAR */
-    .topbar {
-      background-color: var(--azul-marinho);
-      color: var(--cinza-muted);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-align: center;
-      padding: 8px 16px;
-      font-weight: 500;
-    }
-
-    /* HEADER */
-    .header {
-      background-color: var(--branco);
-      border-bottom: 1px solid var(--borda-suave);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 16px var(--espacamento);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .brand { display: flex; flex-direction: column; }
-    .brand-name { font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 700; color: var(--azul-marinho); line-height: 1; }
-    .brand-tag { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--dourado); font-weight: 600; margin-top: 4px; }
-
-    .nav-toggle {
-      display: block; background: none; border: 1px solid var(--borda-suave);
-      padding: 8px 12px; border-radius: var(--radius); color: var(--azul-marinho);
-      font-weight: 600; cursor: pointer; font-family: var(--fonte-corpo);
-    }
-
-    .nav-menu {
-      display: none; position: absolute; top: 100%; left: 0; right: 0;
-      background-color: var(--branco); border-bottom: 1px solid var(--borda-suave);
-      flex-direction: column; padding: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    }
-
-    .nav-menu.active { display: flex; }
-
-    .nav-menu a {
-      color: var(--cinza-texto); font-size: 0.9rem; font-weight: 500;
-      padding: 12px 0; border-bottom: 1px solid var(--borda-suave);
-      text-transform: uppercase; letter-spacing: 0.5px;
-    }
-
-    .nav-menu a:last-child { border-bottom: none; }
-    .nav-menu a:hover { color: var(--azul-marinho); }
-
-    /* BOTÕES */
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 12px 24px; font-size: 0.85rem; font-weight: 600;
-      border-radius: var(--radius); border: 1px solid transparent;
-      cursor: pointer; transition: all 0.2s; text-transform: uppercase;
-      letter-spacing: 0.5px; font-family: var(--fonte-corpo);
-    }
-
-    .btn-primario { background-color: var(--azul-marinho); color: var(--branco); }
-    .btn-primario:hover { background-color: var(--azul-institucional); }
-
-    .btn-ava {
-      background-color: var(--cor-ava); color: var(--branco);
-      box-shadow: 0 4px 12px rgba(31, 111, 67, 0.2);
-    }
-    .btn-ava:hover { background-color: var(--cor-ava-hover); transform: translateY(-2px); }
-
-    .btn-outline {
-      background: transparent; border: 1px solid var(--borda-suave); color: var(--azul-marinho);
-      padding: 8px 16px; font-size: 0.75rem;
-    }
-    .btn-outline:hover { background: var(--off-white); border-color: var(--azul-marinho); }
-
-    /* HERO */
-    .hero {
-      padding: 64px 16px; text-align: center;
-      background: linear-gradient(to bottom, var(--branco), var(--off-white));
-    }
-    .hero-content { max-width: 800px; margin: 0 auto; }
-    .hero-eyebrow {
-      display: inline-block; font-size: 0.75rem; font-weight: 700;
-      color: var(--dourado); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
-    }
-    .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 24px; }
-    .hero p { font-size: 1.1rem; color: var(--cinza-texto); margin-bottom: 32px; max-width: 600px; margin-inline: auto; }
+    /* Ajustes específicos para a Home */
+    .section-block { padding: 64px 24px; }
+    .section-block:nth-child(even) { background-color: var(--cor-superficie); border-top: 1px solid var(--cor-borda); border-bottom: 1px solid var(--cor-borda); }
+    .section-content { max-width: 800px; margin: 0 auto; text-align: center; }
+    .section-content p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; color: var(--cor-texto); }
     
-    .hero-actions { display: flex; flex-direction: column; gap: 12px; max-width: 300px; margin: 0 auto; }
-
-    /* CARDS */
-    .container { max-width: var(--max-width); margin: 0 auto; padding: 48px 16px; }
-    .grid-cards { display: grid; grid-template-columns: 1fr; gap: 24px; }
-    .card {
-      background-color: var(--branco); border: 1px solid var(--borda-suave);
-      border-radius: var(--radius); padding: 32px; text-align: left; transition: transform 0.2s;
-    }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1); }
-    .card-icon { font-size: 2rem; margin-bottom: 16px; color: var(--dourado); }
-    .card h3 { font-size: 1.25rem; margin-bottom: 12px; }
-    .card p { font-size: 0.95rem; margin-bottom: 20px; }
-
-    /* FOOTER */
-    .footer {
-      background-color: var(--azul-marinho); color: var(--branco);
-      padding: 48px 16px 24px; margin-top: 48px;
-    }
-    .footer-inner { max-width: var(--max-width); margin: 0 auto; display: flex; flex-direction: column; gap: 32px; text-align: center; }
-    .footer-brand h4 { color: var(--branco); font-size: 1.2rem; margin-bottom: 8px; }
-    .footer-brand p { color: var(--cinza-muted); font-size: 0.85rem; max-width: 600px; margin: 0 auto; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; margin-top: 24px;
-      font-size: 0.8rem; color: var(--cinza-muted); text-align: center;
-    }
-    .footer-bottom strong { color: var(--branco); }
-
-    /* RESPONSIVO (PC) */
-    @media (min-width: 768px) {
-      .nav-toggle { display: none; }
-      .nav-menu {
-        display: flex; position: static; flex-direction: row; background: none;
-        border: none; box-shadow: none; padding: 0; gap: 24px;
-      }
-      .nav-menu a { border: none; padding: 0; font-size: 0.8rem; }
-      .hero-actions { flex-direction: row; max-width: none; justify-content: center; }
-      .grid-cards { grid-template-columns: repeat(3, 1fr); }
-      .footer-inner { flex-direction: row; justify-content: space-between; text-align: left; }
-      .footer-brand p { margin: 0; }
-      .footer-bottom { text-align: left; }
+    /* Destaque para a Trajetória */
+    .trajetoria-img { width: 100%; max-width: 700px; border-radius: var(--borda-raio); margin: 32px auto; box-shadow: var(--sombra-leve); display: block; }
+    
+    /* Card da Nova Edição */
+    .nova-edicao-card { background-color: var(--cor-superficie); border: 2px solid var(--cor-destaque); border-radius: var(--borda-raio); padding: 40px; max-width: 800px; margin: 0 auto; text-align: left; }
+    .nova-edicao-card h2 { font-size: 2rem; margin-bottom: 16px; color: var(--cor-primaria); }
+    .info-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; margin-bottom: 32px; }
+    .info-item { border-bottom: 1px solid var(--cor-borda); padding-bottom: 12px; }
+    .info-item strong { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--cor-texto-leve); letter-spacing: 1px; margin-bottom: 4px; }
+    .info-item span { font-size: 1.05rem; font-weight: 500; color: var(--cor-primaria); }
+    
+    @media (min-width: 600px) {
+      .info-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
     }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    Universidade Federal de Alagoas · FALE · PROEXC
-  </div>
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
+
+  <div class="topbar">Universidade Federal de Alagoas · FALE · PROEXC</div>
 
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="brand">
+      <a href="index.html" class="brand" aria-label="Página Inicial">
         <span class="brand-name">Libras nas Comunidades</span>
         <span class="brand-tag">Projeto de Extensão</span>
       </a>
-      
-      <button class="nav-toggle" id="navToggle">Menu</button>
-      
-      <nav class="nav-menu" id="navMenu">
-        <!-- Links injetados via JS -->
-      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">Menu</button>
+      <nav class="nav-menu" id="navMenu" aria-label="Navegação Principal"></nav>
     </div>
   </header>
 
-  <main>
+  <main id="main">
+    <!-- Hero Section -->
     <section class="hero">
       <div class="hero-content">
-        <span class="hero-eyebrow">Projeto de Extensão · UFAL · 2026</span>
+        <span class="hero-eyebrow">Projeto de Extensão · UFAL</span>
         <h1 id="home-titulo">Libras nas<br>Comunidades</h1>
         <p id="home-subtitulo">
-          Promovendo a inclusão, o acesso e a difusão da Língua Brasileira de Sinais em comunidades de Maceió.
+          Língua, inclusão e acessibilidade na comunidade. Promovendo a difusão da Língua Brasileira de Sinais e a construção de espaços mais inclusivos.
         </p>
         
         <div class="hero-actions">
@@ -227,28 +72,47 @@
       </div>
     </section>
 
-    <section class="container">
-      <div class="grid-cards">
-        <article class="card">
-          <div class="card-icon">🎓</div>
-          <h3>O Curso</h3>
-          <p>Curso Básico de Libras — Nível I. Gratuito, focado na prática visual e aberto à comunidade.</p>
-          <a href="pagina.html?slug=curso" class="btn btn-outline">Saber Mais</a>
-        </article>
+    <!-- Seção 1: Apresentação -->
+    <section class="section-block">
+      <div class="section-content">
+        <h2 style="font-size: 2.2rem; margin-bottom: 24px;">Aprender Libras é construir pontes</h2>
+        <p>O projeto <strong>Libras nas Comunidades – UFAL</strong> promove a difusão da Língua Brasileira de Sinais (Libras), incentivando a comunicação acessível, o respeito à comunidade surda e a construção de espaços mais inclusivos.</p>
+        <p>Por meio de atividades formativas e ações junto à comunidade, o projeto busca ampliar o conhecimento sobre Libras, cultura surda e inclusão, contribuindo para reduzir barreiras de comunicação entre pessoas surdas e ouvintes.</p>
+      </div>
+    </section>
 
-        <article class="card">
-          <div class="card-icon">🎥</div>
-          <h3>Aulas e Materiais</h3>
-          <p>Acesse as videoaulas gravadas e baixe os PDFs com o conteúdo complementar do curso.</p>
-          <a href="aulas.html" class="btn btn-outline">Ver Aulas</a>
-        </article>
+    <!-- Seção 2: Trajetória -->
+    <section class="section-block">
+      <div class="section-content">
+        <h2 style="font-size: 2.2rem; margin-bottom: 24px;">Nossa trajetória</h2>
+        <p>O projeto já desenvolveu ações de formação em Libras na comunidade da Assembleia de Deus Gruta Alegre, em Maceió, ampliando o contato dos participantes com a língua e com aspectos da cultura surda.</p>
+        
+        <img src="https://img.dhost.cloud/FNk1FamQ-MW-UBQNT62cducp5uU=/fit-in/1920x1080/https://cdn.adalagoas.com.br/images/d6e66/f8950060c5c56bc558ca202303bb85f6b5f.jpeg" alt="Registro fotográfico da edição anterior na AD Gruta Alegre" class="trajetoria-img">
+        
+        <p>Essa experiência integra a trajetória do projeto e fortalece a continuidade de iniciativas voltadas à difusão da Libras em espaços comunitários.</p>
+        <a href="https://adalagoas.com.br/noticias/capital/2025/09/08/19859-projeto-de-libras-leva-inclusao-e-conhecimento-a-comunidade-da-ad-gruta-alegre" target="_blank" rel="noopener" class="btn btn-outline" style="margin-top: 16px;">Leia a notícia sobre a edição anterior</a>
+      </div>
+    </section>
 
-        <article class="card">
-          <div class="card-icon">📅</div>
-          <h3>Cronograma</h3>
-          <p>Confira as datas dos encontros presenciais, atividades assíncronas e avaliações.</p>
-          <a href="calendario.html" class="btn btn-outline">Ver Datas</a>
-        </article>
+    <!-- Seção 3: Nova Edição -->
+    <section class="section-block" style="background-color: var(--cor-fundo);">
+      <div class="nova-edicao-card">
+        <span class="hero-eyebrow">Nova Edição</span>
+        <h2>Libras Básico I</h2>
+        <p style="color: var(--cor-texto-leve); margin-bottom: 24px;">A nova edição do curso será realizada na Congregação da Assembleia de Deus Benedito Bentes 3, no Conjunto Frei Damião, em Maceió–AL.</p>
+        
+        <div class="info-grid">
+          <div class="info-item"><strong>Modalidade</strong><span>Presencial</span></div>
+          <div class="info-item"><strong>Carga Horária</strong><span>40 horas</span></div>
+          <div class="info-item"><strong>Período</strong><span>17 de outubro de 2026 a 23 de janeiro de 2027</span></div>
+          <div class="info-item"><strong>Encontros</strong><span>Sábados, das 15h às 17h</span></div>
+          <div class="info-item"><strong>Professor Ministrante</strong><span>Adeilton Wachill</span></div>
+          <div class="info-item"><strong>Coordenação</strong><span>Edineide dos Santos Silva</span></div>
+        </div>
+
+        <div style="text-align: center; border-top: 1px solid var(--cor-borda); padding-top: 24px;">
+          <a href="inscricoes.html" class="btn btn-primario" style="width: 100%; max-width: 300px;">Ver Status das Inscrições</a>
+        </div>
       </div>
     </section>
   </main>
@@ -256,8 +120,8 @@
   <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <h4>Libras nas Comunidades</h4>
-        <p>Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL), Faculdade de Letras (FALE) e Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+        <h4>Libras nas Comunidades – UFAL</h4>
+        <p>Conhecimento, comunicação e inclusão. Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL), Faculdade de Letras (FALE) e Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -270,12 +134,8 @@
     document.addEventListener('DOMContentLoaded', () => {
       const navToggle = document.getElementById('navToggle');
       const navMenu = document.getElementById('navMenu');
-      
-      navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-      });
+      navToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
 
-      // Carrega o menu
       fetch('dados.json?t=' + Date.now())
         .then(res => res.json())
         .then(D => {
@@ -289,13 +149,8 @@
                            `pagina.html?slug=${p.slug}`;
               return `<a href="${link}">${p.titulo}</a>`;
             }).join('');
-
-          if (D.home) {
-            if (D.home.heroTitulo) document.getElementById('home-titulo').innerHTML = D.home.heroTitulo;
-            if (D.home.heroSubtitulo) document.getElementById('home-subtitulo').innerText = D.home.heroSubtitulo;
-          }
         })
-        .catch(err => console.error("Erro ao carregar menu:", err));
+        .catch(err => console.warn("Aviso: O dados.json não foi carregado. O menu ficará padrão."));
     });
   </script>
 </body>
