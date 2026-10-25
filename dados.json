@@ -71,15 +71,6 @@
     }
   ],
   "calendario": {
-    "eventos": [
-      {
-        "data": "2026-10-17",
-        "horario": "15h",
-        "tipo": "presencial",
-        "titulo": "Aula inaugural",
-        "obs": "Início",
-        "badge": "marco"
-      }
-    ]
+    "eventos": []
   }
 }
