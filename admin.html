@@ -93,14 +93,20 @@
     .badge-vermelho { background: #FEE2E2; color: #991B1B; }
 
     /* ================= MODAL ================= */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.85); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--branco); padding: 32px; border-radius: var(--radius); max-width: 700px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .modal-box { background: var(--branco); padding: 32px; border-radius: var(--radius); max-width: 800px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--borda); }
     .modal-header h3 { font-family: var(--fonte-titulo); font-size: 1.5rem; color: var(--azul-marinho); }
     .modal-body { overflow-y: auto; flex: 1; padding-right: 10px; }
     .modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--borda); }
 
+    /* Listas Dinâmicas no Modal */
+    .dynamic-list { background: var(--off-white); padding: 16px; border-radius: var(--radius); border: 1px solid var(--borda); margin-bottom: 16px; }
+    .dynamic-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+    .dynamic-item input { flex: 1; margin-bottom: 0; }
+    .btn-remove-item { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; width: 42px; height: 42px; border-radius: var(--radius); cursor: pointer; display: flex; justify-content: center; align-items: center; font-weight: bold; flex-shrink: 0; }
+    
     /* ================= TOAST ================= */
     #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
     .toast { background: var(--azul-marinho); color: #FFF; padding: 16px 24px; border-radius: var(--radius); font-size: 0.9rem; border-left: 4px solid var(--dourado); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); animation: slideIn 0.3s ease; }
@@ -166,7 +172,7 @@
       
       <div class="nav-category">Conteúdo do Site</div>
       <a class="nav-item" onclick="mudarAba('paginas', this)">Páginas e Textos</a>
-      <a class="nav-item" onclick="mudarAba('aulas', this)">Aulas e Materiais</a>
+      <a class="nav-item" onclick="mudarAba('midia', this)">Biblioteca de Mídia</a>
       <a class="nav-item" onclick="mudarAba('calendario', this)">Cronograma</a>
       
       <div class="nav-category">Gestão Acadêmica</div>
@@ -220,16 +226,17 @@
         </div>
       </section>
 
-      <!-- AULAS -->
-      <section class="view-section" id="aba-aulas">
+      <!-- BIBLIOTECA DE MÍDIA (Aulas Soltas) -->
+      <section class="view-section" id="aba-midia">
         <div class="card">
           <div class="card-header">
-            Gerenciamento de Aulas
-            <button class="btn btn-dourado" onclick="editarAula()">+ Nova Aula</button>
+            Biblioteca de Vídeos e Materiais
+            <button class="btn btn-dourado" onclick="editarMidia()">+ Adicionar Mídia</button>
           </div>
+          <p style="font-size: 0.9rem; color: var(--cinza-leve); margin-bottom: 16px;">Cadastre vídeos e PDFs aqui para que você possa vinculá-los às aulas ou disponibilizá-los na página pública sem precisar criar uma aula inteira.</p>
           <div class="table-responsive">
-            <table id="tabela-aulas">
-              <thead><tr><th>Título</th><th>Módulo</th><th>Vídeo</th><th>Materiais</th><th>Ações</th></tr></thead>
+            <table id="tabela-midia">
+              <thead><tr><th>Título</th><th>Tipo</th><th>Link</th><th>Ações</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
@@ -327,13 +334,14 @@
     // --- ESTADO GLOBAL ---
     const state = {
       token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main',
-      dados: {}, aulas: {}, academico: {}, alunosDrive: [], googleUrl: '', googleSenha: '',
-      shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false, abaAtual: 'dashboard'
+      dados: {}, aulas: {}, academico: {}, midias: [], alunosDrive: [], googleUrl: '', googleSenha: '',
+      shaDados: null, shaAulas: null, shaAcademico: null, shaMidias: null, isDirty: false
     };
 
     const API = 'https://api.github.com';
     const $ = id => document.getElementById(id);
     $('btn-mobile-menu').addEventListener('click', () => $('sidebar').classList.toggle('open'));
+    
     const toast = (msg) => {
       const t = document.createElement('div');
       t.className = 'toast';
@@ -341,11 +349,12 @@
       $('toast-container').appendChild(t);
       setTimeout(() => t.remove(), 4000);
     };
+    
     const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[char]);
 
-    // --- LÓGICA DE LOGIN E API ---
+    // --- LOGIN E API ---
     $('btn-login').onclick = async () => {
       state.token = $('inp-token').value.trim();
       if(!state.token) return toast('O Token do GitHub é obrigatório.');
@@ -355,18 +364,24 @@
       const btn = $('btn-login'); btn.textContent = 'Conectando...'; btn.disabled = true;
 
       try {
-        const [d, a, ac] = await Promise.all([ apiFetch('dados.json'), apiFetch('aulas-dados.json'), apiFetch('academico-dados.json') ]);
+        const [d, a, ac, m] = await Promise.all([ 
+          apiFetch('dados.json'), 
+          apiFetch('aulas-dados.json'), 
+          apiFetch('academico-dados.json'),
+          apiFetch('midia-dados.json') // Nova base de mídias soltas
+        ]);
+        
         if (d) { state.dados = d.content; state.shaDados = d.sha; }
         if (a) { state.aulas = a.content; state.shaAulas = a.sha; }
         if (ac) { state.academico = ac.content; state.shaAcademico = ac.sha; }
+        if (m) { state.midias = m.content.midias || []; state.shaMidias = m.sha; }
+        else { state.midias = []; state.shaMidias = null; } // Se não existir midia-dados.json, cria vazio
 
+        // Garantir arrays
         if (!state.dados.paginas) state.dados.paginas = [];
         if (!state.aulas.aulas) state.aulas.aulas = [];
         if (!state.academico.cursos) state.academico.cursos = [];
         if (!Array.isArray(state.academico.turmas)) state.academico.turmas = [];
-        if (!Array.isArray(state.academico.cursos)) state.academico.cursos = [];
-        if (!Array.isArray(state.aulas.aulas)) state.aulas.aulas = [];
-        if (!Array.isArray(state.dados.paginas)) state.dados.paginas = [];
         if (!state.dados.calendario || typeof state.dados.calendario !== 'object') state.dados.calendario = { eventos: [] };
         if (!Array.isArray(state.dados.calendario.eventos)) state.dados.calendario.eventos = [];
 
@@ -382,7 +397,7 @@
 
     async function apiFetch(path) {
       const res = await fetch(`${API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, { headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' } });
-      if (res.status === 404) throw new Error(`O arquivo ${path} não foi encontrado no repositório. Nenhum dado foi inicializado ou substituído.`);
+      if (res.status === 404) return { content: {}, sha: null }; // Permite criar o arquivo
       if (!res.ok) throw new Error(`Erro ${res.status} ao buscar ${path}`);
       const data = await res.json();
       const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, '')))));
@@ -397,16 +412,13 @@
       return await res.json();
     }
 
-    // --- NAVEGAÇÃO E RENDERIZAÇÃO GERAL ---
+    // --- NAVEGAÇÃO ---
     function mudarAba(id, el) {
-      const section = $(`aba-${id}`);
-      if (!section) return;
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       if (el) el.classList.add('active');
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       $(`aba-${id}`).classList.add('active');
       $('view-title').textContent = el ? el.textContent.trim() : id;
-      state.abaAtual = id;
       if (window.matchMedia('(max-width: 768px)').matches) $('sidebar').classList.remove('open');
     }
 
@@ -423,26 +435,57 @@
 
       // Páginas
       $('tabela-paginas').querySelector('tbody').innerHTML = state.dados.paginas.map((p, i) => `
-        <tr><td>${esc(p.titulo)}</td><td>${esc(p.slug)}</td>
-        <td><button class="btn btn-outline" onclick="editarPagina(${i})">Editar</button></td></tr>
+        <tr>
+          <td>${esc(p.titulo)}</td><td>${esc(p.slug)}</td>
+          <td>
+            <button class="btn btn-outline" onclick="editarPagina(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerPagina(${i})">X</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Mídia
+      $('tabela-midia').querySelector('tbody').innerHTML = state.midias.map((m, i) => `
+        <tr>
+          <td>${esc(m.titulo)}</td><td>${esc(m.tipo)}</td><td><a href="${esc(m.url)}" target="_blank">Ver Link</a></td>
+          <td>
+            <button class="btn btn-outline" onclick="editarMidia(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerMidia(${i})">X</button>
+          </td>
+        </tr>
       `).join('');
 
       // Aulas
       $('tabela-aulas').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `
-        <tr><td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais?.length || 0}</td>
-        <td><button class="btn btn-outline" onclick="editarAula(${i})">Editar</button> <button class="btn btn-perigo" onclick="removerAula(${i})">X</button></td></tr>
+        <tr>
+          <td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais?.length || 0}</td>
+          <td>
+            <button class="btn btn-outline" onclick="editarAula(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerAula(${i})">X</button>
+          </td>
+        </tr>
       `).join('');
 
       // Eventos
       $('tabela-eventos').querySelector('tbody').innerHTML = state.dados.calendario.eventos.map((e, i) => `
-        <tr><td>${esc((e.data || '').split('-').reverse().join('/'))}</td><td>${esc(e.titulo)}</td><td>${esc(e.tipo)}</td>
-        <td><button class="btn btn-outline" onclick="editarEvento(${i})">Editar</button></td></tr>
+        <tr>
+          <td>${esc((e.data || '').split('-').reverse().join('/'))}</td><td>${esc(e.titulo)}</td><td>${esc(e.tipo)}</td>
+          <td>
+            <button class="btn btn-outline" onclick="editarEvento(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerEvento(${i})">X</button>
+          </td>
+        </tr>
       `).join('');
 
       // Cursos
       $('tabela-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map((c, i) => `
-        <tr><td>${esc(c.nome)}</td><td>${esc(c.nivel)}</td><td>${esc(c.cargaHoraria)}h</td>
-        <td><button class="btn btn-outline" onclick="editarCurso(${i})">Editar</button></td></tr>
+        <tr>
+          <td>${esc(c.nome)}</td><td>${esc(c.nivel)}</td><td>${esc(c.cargaHoraria)}h</td>
+          <td>
+            <button class="btn btn-outline" onclick="editarCurso(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerCurso(${i})">X</button>
+          </td>
+        </tr>
       `).join('');
 
       // Turmas
@@ -451,12 +494,15 @@
         return `<tr>
           <td>${esc(t.nome)}</td><td>${esc(curso.nome)}</td><td>${esc(t.dataInicio)} a ${esc(t.dataFim)}</td><td>${esc(t.vagas)}</td>
           <td><span class="badge ${t.status === 'Inscrições Abertas' ? 'badge-verde' : 'badge-vermelho'}">${esc(t.status)}</span></td>
-          <td><button class="btn btn-outline" onclick="editarTurma(${i})">Editar</button></td>
+          <td>
+            <button class="btn btn-outline" onclick="editarTurma(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerTurma(${i})">X</button>
+          </td>
         </tr>`;
       }).join('');
     }
 
-    // --- FUNÇÕES CRUD: MODAIS ---
+    // --- MODAIS E CRUD ---
     function abrirModal(titulo, html, callback) {
       $('modal-title').textContent = titulo;
       $('modal-body').innerHTML = html;
@@ -465,13 +511,28 @@
     }
     function fecharModal() { $('modal-edicao').classList.remove('active'); }
 
-    // 1. Páginas
+    window.removerPagina = (i) => { if (confirm('Excluir esta página?')) { state.dados.paginas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerAula = (i) => { if (confirm('Excluir esta aula?')) { state.aulas.aulas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerEvento = (i) => { if (confirm('Excluir este evento?')) { state.dados.calendario.eventos.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerCurso = (i) => {
+      const curso = state.academico.cursos[i];
+      if (state.academico.turmas.some(t => t.cursoId === curso.id)) return toast('Não é possível excluir: existem turmas vinculadas.');
+      if (confirm(`Excluir o curso "${curso.nome}"?`)) { state.academico.cursos.splice(i, 1); renderizarTudo(); marcarSujo(); }
+    };
+    window.removerTurma = (i) => { if (confirm('Excluir esta turma?')) { state.academico.turmas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerMidia = (i) => { if (confirm('Excluir esta mídia?')) { state.midias.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+
+    // --- EDITORES ---
     window.editarPagina = (index) => {
       const p = state.dados.paginas[index];
       abrirModal(`Editar: ${esc(p.titulo)}`, `
-        <div class="form-group"><label>Título</label><input type="text" id="edit-pg-titulo" value="${esc(p.titulo)}"></div>
-        <div class="form-group"><label>Descrição</label><input type="text" id="edit-pg-desc" value="${esc(p.descricao || '')}"></div>
-        <div class="form-group"><label>Conteúdo (HTML)</label><textarea id="edit-pg-html" style="min-height: 200px; font-family: monospace;">${esc(p.html || '')}</textarea></div>
+        <div class="form-group"><label>Título da Página</label><input type="text" id="edit-pg-titulo" value="${esc(p.titulo)}"></div>
+        <div class="form-group"><label>Descrição (Aparece no topo da página)</label><input type="text" id="edit-pg-desc" value="${esc(p.descricao || '')}"></div>
+        <div class="form-group">
+          <label>Conteúdo Principal (HTML)</label>
+          <textarea id="edit-pg-html" style="min-height: 300px; font-family: monospace; line-height: 1.5;">${esc(p.html || '')}</textarea>
+          <small style="color: var(--cinza-leve); display: block; margin-top: 8px;">Use tags como &lt;p&gt; para parágrafos, &lt;h2&gt; para títulos, &lt;strong&gt; para negrito.</small>
+        </div>
       `, () => {
         p.titulo = $('edit-pg-titulo').value;
         p.descricao = $('edit-pg-desc').value;
@@ -479,34 +540,101 @@
       });
     };
 
-    // 2. Aulas
+    // NOVA FUNÇÃO PARA MÍDIA SOLTA
+    window.editarMidia = (index = -1) => {
+      const isNew = index === -1;
+      const m = isNew ? { titulo: '', tipo: 'video', url: '' } : state.midias[index];
+      abrirModal(isNew ? 'Nova Mídia' : 'Editar Mídia', `
+        <div class="form-group"><label>Título da Mídia</label><input type="text" id="edit-m-tit" value="${esc(m.titulo)}" placeholder="Ex: Vídeo de Introdução"></div>
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="edit-m-tipo">
+            <option value="video" ${m.tipo === 'video' ? 'selected' : ''}>Vídeo (YouTube)</option>
+            <option value="pdf" ${m.tipo === 'pdf' ? 'selected' : ''}>Material (PDF/Link)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>URL Completa</label><input type="text" id="edit-m-url" value="${esc(m.url)}" placeholder="https://..."></div>
+      `, () => {
+        const media = { titulo: $('edit-m-tit').value, tipo: $('edit-m-tipo').value, url: $('edit-m-url').value };
+        if (isNew) state.midias.push(media); else state.midias[index] = media;
+      });
+    };
+
+    // AULA COM LISTAS DINÂMICAS
     window.editarAula = (index = -1) => {
       const isNew = index === -1;
       const a = isNew ? { id: Date.now(), modulo: '', titulo: '', video: '', descricao: '', materiais: [] } : state.aulas.aulas[index];
+      
+      let matsHtml = '';
+      if (a.materiais && a.materiais.length > 0) {
+        matsHtml = a.materiais.map(mat => `
+          <div class="dynamic-item">
+            <input type="text" class="mat-title" value="${esc(mat.titulo)}" placeholder="Nome do Material">
+            <input type="text" class="mat-url" value="${esc(mat.url)}" placeholder="URL do PDF/Slide">
+            <button type="button" class="btn-remove-item" onclick="this.parentElement.remove()">X</button>
+          </div>
+        `).join('');
+      }
+
       abrirModal(isNew ? 'Nova Aula' : 'Editar Aula', `
         <div class="grid-2">
           <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${esc(a.modulo)}"></div>
           <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-aula-data" value="${esc(a.data || '')}"></div>
         </div>
         <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${esc(a.titulo)}"></div>
-        <div class="form-group"><label>Link do Vídeo (YouTube Embed)</label><input type="text" id="edit-aula-vid" value="${esc(a.video || '')}"></div>
-        <div class="form-group"><label>Descrição</label><textarea id="edit-aula-desc">${esc(a.descricao || '')}</textarea></div>
+        
+        <div class="form-group" style="background: var(--off-white); padding: 16px; border-radius: 6px;">
+          <label style="color: var(--azul-marinho);">Link do Vídeo Principal (YouTube Embed)</label>
+          <input type="text" id="edit-aula-vid" value="${esc(a.video || '')}" placeholder="https://www.youtube.com/embed/...">
+        </div>
+
+        <div class="form-group"><label>Descrição / Instruções</label><textarea id="edit-aula-desc" style="min-height: 100px;">${esc(a.descricao || '')}</textarea></div>
+
+        <div style="border-top: 1px solid var(--borda); padding-top: 20px; margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <label style="margin: 0;">Materiais Complementares (PDFs)</label>
+            <button type="button" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.7rem;" onclick="addMaterialField()">+ Adicionar PDF</button>
+          </div>
+          <div id="lista-materiais">${matsHtml}</div>
+        </div>
       `, () => {
-        a.modulo = $('edit-aula-mod').value; a.data = $('edit-aula-data').value;
-        a.titulo = $('edit-aula-tit').value; a.video = $('edit-aula-vid').value; a.descricao = $('edit-aula-desc').value;
+        a.modulo = $('edit-aula-mod').value; a.data = $('edit-aula-data').value; a.titulo = $('edit-aula-tit').value;
+        let v = $('edit-aula-vid').value.trim(); 
+        if(v && !v.includes('/embed/')) { const id = v.match(/(?:youtu\.be\/|v=)([^&]+)/); if(id) v = `https://www.youtube.com/embed/${id[1]}`; } 
+        a.video = v || null;
+        a.descricao = $('edit-aula-desc').value;
+        
+        // Pega todos os materiais dinâmicos
+        const novosMateriais = [];
+        document.querySelectorAll('.dynamic-item').forEach(row => {
+          const t = row.querySelector('.mat-title').value.trim();
+          const u = row.querySelector('.mat-url').value.trim();
+          if (t && u) novosMateriais.push({ titulo: t, url: u });
+        });
+        a.materiais = novosMateriais;
+        
         if (isNew) state.aulas.aulas.push(a);
       });
     };
-    window.removerAula = (i) => { if(confirm('Excluir aula?')) { state.aulas.aulas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
 
-    // 3. Eventos
+    window.addMaterialField = () => {
+      const div = document.createElement('div');
+      div.className = 'dynamic-item';
+      div.innerHTML = `
+        <input type="text" class="mat-title" placeholder="Nome do Material">
+        <input type="text" class="mat-url" placeholder="URL do PDF/Slide">
+        <button type="button" class="btn-remove-item" onclick="this.parentElement.remove()">X</button>
+      `;
+      $('lista-materiais').appendChild(div);
+    };
+
     window.editarEvento = (index = -1) => {
       const isNew = index === -1;
       const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index];
       abrirModal(isNew ? 'Novo Evento' : 'Editar Evento', `
         <div class="grid-2">
           <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
-          <div class="form-group"><label>Tipo</label><input type="text" id="edit-ev-tipo" value="${esc(e.tipo)}"></div>
+          <div class="form-group"><label>Tipo</label><input type="text" id="edit-ev-tipo" value="${esc(e.tipo)}" placeholder="presencial ou assincrona"></div>
         </div>
         <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${esc(e.titulo)}"></div>
       `, () => {
@@ -515,7 +643,6 @@
       });
     };
 
-    // 4. Cursos
     window.editarCurso = (index = -1) => {
       const isNew = index === -1;
       const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos[index];
@@ -531,7 +658,6 @@
       });
     };
 
-    // 5. Turmas
     window.editarTurma = (index = -1) => {
       if (state.academico.cursos.length === 0) return toast('Cadastre um curso primeiro.');
       const isNew = index === -1;
@@ -602,6 +728,8 @@
         state.shaAulas = r2.content.sha;
         const r3 = await apiCommit('academico-dados.json', state.academico, state.shaAcademico, 'CMS: Atualiza acadêmico');
         state.shaAcademico = r3.content.sha;
+        const r4 = await apiCommit('midia-dados.json', { midias: state.midias }, state.shaMidias, 'CMS: Atualiza biblioteca de mídia');
+        state.shaMidias = r4.content.sha;
         
         state.isDirty = false;
         $('stat-status').textContent = 'Sincronizado';
@@ -619,6 +747,7 @@
       baixar(state.dados, 'dados.json');
       setTimeout(() => baixar(state.aulas, 'aulas-dados.json'), 300);
       setTimeout(() => baixar(state.academico, 'academico-dados.json'), 600);
+      setTimeout(() => baixar({ midias: state.midias }, 'midia-dados.json'), 900);
       toast('Backups baixados.');
     };
   </script>
