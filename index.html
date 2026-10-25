@@ -3,50 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Projeto de Extensão Libras nas Comunidades - UFAL. Aprenda Libras e promova a inclusão.">
   <title>Início — Libras nas Comunidades | UFAL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Global -->
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <div class="topbar"><div class="topbar-inner"><span>Universidade Federal de Alagoas</span><span class="topbar-sep">·</span><span>FALE</span><span class="topbar-sep">·</span><span>PROEXC</span></div></div>
-  <header class="header"><div class="header-inner"><a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a><button class="nav-toggle" id="navToggle">Menu</button><nav class="nav" id="nav"><ul id="menu"></ul></nav></div></header>
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
 
+  <!-- Topbar Institucional -->
+  <div class="topbar">
+    Universidade Federal de Alagoas · FALE · PROEXC
+  </div>
+
+  <!-- Header e Navegação -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="Página Inicial">
+        <span class="brand-name">Libras nas Comunidades</span>
+        <span class="brand-tag">Projeto de Extensão</span>
+      </a>
+      
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">Menu</button>
+      
+      <nav class="nav-menu" id="navMenu" aria-label="Navegação Principal">
+        <!-- Os links serão injetados aqui via JavaScript (lendo o dados.json) -->
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
   <main id="main">
+    <!-- Hero Section -->
     <section class="hero">
-      <div class="hero-pattern"></div>
       <div class="hero-content">
-        <div class="hero-eyebrow">Projeto de Extensão · UFAL · 2026</div>
-        <h1 class="hero-title" id="home-titulo">Libras nas<br>Comunidades</h1>
-        <div class="hero-rule"></div>
-        <p class="hero-lede" id="home-subtitulo">Carregando...</p>
+        <span class="hero-eyebrow">Projeto de Extensão · UFAL · 2026</span>
+        <h1 id="home-titulo">Libras nas<br>Comunidades</h1>
+        <p id="home-subtitulo">
+          Promovendo a inclusão, o acesso e a difusão da Língua Brasileira de Sinais em comunidades de Maceió.
+        </p>
+        
+        <div class="hero-actions">
+          <!-- Destaque Principal: AVA GESysLibras -->
+          <a href="https://gesyslibras.com" target="_blank" rel="noopener" class="btn btn-ava">
+            Acessar o Moodle (AVA)
+          </a>
+          <!-- Chamadas Secundárias -->
+          <a href="inscricoes.html" class="btn btn-primario">
+            Fazer Inscrição
+          </a>
+        </div>
       </div>
     </section>
-    <section class="section" style="text-align:center;">
-      <h2 class="section-title" style="margin:0 auto;">Conheça o projeto</h2>
-      <p style="margin-top:20px;">
-        <a href="pagina.html?slug=sobre" class="btn-link">Sobre o Projeto</a> 
-        <a href="inscricoes.html" class="btn-link btn-link--gold">Ver Inscrições</a>
-        <a href="aulas.html" class="btn-link btn-link--ghost">Aulas em Vídeo</a>
-      </p>
+
+    <!-- Seção de Destaques -->
+    <section class="container">
+      <div class="grid-cards">
+        <!-- Card 1 -->
+        <article class="card">
+          <div class="card-icon">🎓</div>
+          <h3>O Curso</h3>
+          <p>Curso Básico de Libras — Nível I. Gratuito, focado na prática visual e aberto à comunidade.</p>
+          <a href="pagina.html?slug=curso" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.75rem; border: 1px solid var(--borda-suave);">Saber Mais</a>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card">
+          <div class="card-icon">🎥</div>
+          <h3>Aulas e Materiais</h3>
+          <p>Acesse as videoaulas gravadas e baixe os PDFs com o conteúdo complementar do curso.</p>
+          <a href="aulas.html" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.75rem; border: 1px solid var(--borda-suave);">Ver Aulas</a>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card">
+          <div class="card-icon">📅</div>
+          <h3>Cronograma</h3>
+          <p>Confira as datas dos encontros presenciais, atividades assíncronas e avaliações.</p>
+          <a href="calendario.html" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.75rem; border: 1px solid var(--borda-suave);">Ver Datas</a>
+        </article>
+      </div>
     </section>
   </main>
 
-  <footer class="footer"><div class="footer-inner"><div><div class="footer-brand-name">Libras nas Comunidades</div><p>Projeto de Extensão da UFAL.</p></div></div><div class="footer-base"><div class="footer-base-inner"><span>Desenvolvido por Adeilton Olimpio</span><span>© 2026 UFAL</span></div></div></footer>
-  
-  <script>
-    document.getElementById('navToggle').onclick = () => document.getElementById('nav').querySelector('ul').classList.toggle('open');
-    
-    fetch('dados.json?t=' + Date.now()).then(r => r.json()).then(D => {
-      document.getElementById('menu').innerHTML = D.paginas.sort((a,b)=>a.ordem-b.ordem).map(p => {
-        const link = p.tipo==='index' ? 'index.html' : p.tipo==='externo' ? p.arquivo : p.tipo==='calendario' ? 'calendario.html' : `pagina.html?slug=${p.slug}`;
-        return `<li><a href="${link}">${p.titulo}</a></li>`;
-      }).join('');
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>Libras nas Comunidades</h4>
+        <p>Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL), Faculdade de Letras (FALE) e Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 UFAL · PROEXC · FALE. Todos os direitos reservados.</p>
+      <p style="margin-top: 8px;">Desenvolvido por <strong>Adeilton Olimpio</strong></p>
+    </div>
+  </footer>
 
-      if(D.home) {
-        if(D.home.heroTitulo) document.getElementById('home-titulo').innerHTML = D.home.heroTitulo;
-        if(D.home.heroSubtitulo) document.getElementById('home-subtitulo').innerText = D.home.heroSubtitulo;
-      }
+  <!-- Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Lógica do Menu Mobile
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      
+      navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+
+      // 2. Carregar Navegação Dinâmica (JSON)
+      fetch('dados.json?t=' + Date.now())
+        .then(res => res.json())
+        .then(D => {
+          // Montar o menu
+          navMenu.innerHTML = D.paginas
+            .filter(p => p.publicada !== false)
+            .sort((a, b) => a.ordem - b.ordem)
+            .map(p => {
+              const link = p.tipo === 'index' ? 'index.html' : 
+                           p.tipo === 'externo' ? p.arquivo : 
+                           p.tipo === 'calendario' ? 'calendario.html' : 
+                           `pagina.html?slug=${p.slug}`;
+              return `<a href="${link}">${p.titulo}</a>`;
+            }).join('');
+
+          // Atualizar Textos da Home (se existirem no JSON)
+          if (D.home) {
+            if (D.home.heroTitulo) document.getElementById('home-titulo').innerHTML = D.home.heroTitulo;
+            if (D.home.heroSubtitulo) document.getElementById('home-subtitulo').innerText = D.home.heroSubtitulo;
+          }
+        })
+        .catch(err => console.error("Erro ao carregar dados do menu:", err));
     });
   </script>
 </body>
