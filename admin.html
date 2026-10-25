@@ -5,308 +5,594 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Secretaria Digital — Libras nas Comunidades</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
   <style>
-    :root { --ink: #0F2B4C; --ink-soft: #1A3E64; --gold: #A88552; --gold-light: #C9A876; --paper: #FBFAF6; --white: #FFFFFF; --line: #E4E0D5; --line-strong: #C8C2B0; --muted: #6B6E7A; --text: #1F2937; --danger: #7A2E2E; --success: #3B6B3B; --serif: 'Playfair Display', serif; --sans: 'Inter', sans-serif; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--sans); background: #F0F2F5; color: var(--text); height: 100vh; overflow: hidden; display: flex; }
-    .sidebar { width: 280px; background: var(--ink); color: var(--white); display: flex; flex-direction: column; height: 100%; z-index: 10; }
+    :root {
+      --azul-marinho: #0F2B4C;
+      --azul-claro: #1E4E8C;
+      --dourado: #A88552;
+      --dourado-hover: #8E6D3E;
+      --off-white: #FBFAF6;
+      --branco: #FFFFFF;
+      --cinza-texto: #334155;
+      --cinza-leve: #64748B;
+      --borda: #E2E8F0;
+      --fonte-titulo: 'Playfair Display', Georgia, serif;
+      --fonte-corpo: 'Inter', system-ui, sans-serif;
+      --radius: 6px;
+      --sombra: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--fonte-corpo); background: #F1F5F9; color: var(--cinza-texto); height: 100vh; display: flex; overflow: hidden; }
+
+    /* ================= LOGIN ================= */
+    .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .login-box { background: var(--branco); padding: 40px; border-radius: var(--radius); width: 100%; max-width: 440px; border-top: 4px solid var(--dourado); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    .login-box h2 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 8px; font-size: 1.8rem; }
+    .login-box p { color: var(--cinza-leve); font-size: 0.9rem; margin-bottom: 24px; }
+    
+    /* ================= SIDEBAR ================= */
+    .sidebar { width: 280px; background: var(--azul-marinho); color: #FFF; display: flex; flex-direction: column; height: 100%; flex-shrink: 0; }
     .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .sidebar-header h1 { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--white); }
-    .sidebar-header span { font-size: 0.7rem; color: var(--gold-light); text-transform: uppercase; letter-spacing: 0.1em; }
-    .nav-menu { flex: 1; overflow-y: auto; padding: 10px 0; }
-    .nav-category { padding: 16px 24px 8px; font-size: 0.65rem; font-weight: 700; color: #6B7B8F; text-transform: uppercase; letter-spacing: 0.1em; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 24px; color: #B8C4D4; text-decoration: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.2s; border-left: 3px solid transparent; }
-    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: var(--white); border-left-color: var(--gold); }
+    .sidebar-header h1 { font-family: var(--fonte-titulo); font-size: 1.2rem; font-weight: 700; line-height: 1.2; }
+    .sidebar-header span { font-size: 0.65rem; color: var(--dourado); text-transform: uppercase; letter-spacing: 1px; }
+    .user-info { padding: 16px 20px; background: rgba(0,0,0,0.2); font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .nav-menu { flex: 1; overflow-y: auto; padding: 16px 0; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: #94A3B8; text-decoration: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; }
+    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #FFF; border-left-color: var(--dourado); }
+    .nav-category { padding: 20px 24px 8px; font-size: 0.65rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* ================= MAIN ================= */
     .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    .topbar { background: var(--white); height: 64px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
-    .topbar-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--ink); }
-    .topbar-actions { display: flex; gap: 12px; align-items: center; }
-    .view-container { flex: 1; overflow-y: auto; padding: 24px; }
-    .view-section { display: none; animation: fadeIn 0.3s; }
+    .topbar { background: var(--branco); height: 70px; border-bottom: 1px solid var(--borda); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; flex-shrink: 0; }
+    .topbar-title { font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 700; color: var(--azul-marinho); }
+    .topbar-actions { display: flex; gap: 12px; }
+    .view-container { flex: 1; overflow-y: auto; padding: 32px; }
+    .view-section { display: none; animation: fadeIn 0.3s ease; }
     .view-section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    .btn { padding: 10px 18px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-    .btn-sm { padding: 6px 12px; font-size: 0.7rem; }
-    .btn-primary { background: var(--ink); color: var(--white); }
-    .btn-gold { background: var(--gold); color: var(--white); }
-    .btn-outline { background: transparent; border-color: var(--line-strong); color: var(--ink); }
-    .btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
-    .card { background: var(--white); border: 1px solid var(--line); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
-    .card-header { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 24px; }
-    .stat-card { background: var(--white); padding: 24px; border-radius: 8px; border: 1px solid var(--line); border-top: 4px solid var(--gold); }
-    .stat-card h3 { font-size: 0.7rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 8px; }
-    .stat-card .value { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--ink); line-height: 1; }
-    .form-group { margin-bottom: 18px; }
-    .form-group label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
-    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: 4px; font-family: var(--sans); font-size: 0.9rem; color: var(--text); background: var(--paper); }
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--ink); background: var(--white); }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ================= COMPONENTES ================= */
+    .btn { padding: 10px 20px; border-radius: var(--radius); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-family: var(--fonte-corpo); }
+    .btn-primario { background: var(--azul-marinho); color: #FFF; }
+    .btn-primario:hover { background: var(--azul-claro); }
+    .btn-dourado { background: var(--dourado); color: #FFF; }
+    .btn-dourado:hover { background: var(--dourado-hover); }
+    .btn-outline { background: transparent; border-color: var(--borda); color: var(--azul-marinho); }
+    .btn-outline:hover { border-color: var(--azul-marinho); background: var(--off-white); }
+    .btn-perigo { background: #FEF2F2; color: #991B1B; border-color: #FECACA; }
+    .btn-perigo:hover { background: #FEE2E2; }
+    
+    .card { background: var(--branco); border: 1px solid var(--borda); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; box-shadow: var(--sombra); }
+    .card-header { font-family: var(--fonte-titulo); font-size: 1.2rem; font-weight: 700; color: var(--azul-marinho); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--borda); display: flex; justify-content: space-between; align-items: center; }
+    
+    .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 32px; }
+    .stat-card { background: var(--branco); padding: 24px; border-radius: var(--radius); border: 1px solid var(--borda); border-top: 4px solid var(--dourado); }
+    .stat-card h3 { font-size: 0.75rem; text-transform: uppercase; color: var(--cinza-leve); letter-spacing: 1px; margin-bottom: 8px; }
+    .stat-card .val { font-family: var(--fonte-titulo); font-size: 2.2rem; font-weight: 700; color: var(--azul-marinho); line-height: 1; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--azul-marinho); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: var(--radius); font-family: var(--fonte-corpo); font-size: 0.95rem; color: var(--text); background: var(--off-white); transition: 0.2s; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--azul-marinho); background: var(--branco); box-shadow: 0 0 0 3px rgba(15,43,76,0.1); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    
     .table-responsive { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--line); }
-    th { font-size: 0.7rem; font-weight: 700; color: var(--ink); text-transform: uppercase; background: var(--paper); }
-    .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
-    .badge.success { background: #ECFDF5; color: var(--success); }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--borda); }
+    th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza-leve); background: var(--off-white); font-weight: 600; }
+    tr:hover td { background: var(--off-white); }
+    
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .badge-verde { background: #DCFCE7; color: #166534; }
+    .badge-vermelho { background: #FEE2E2; color: #991B1B; }
+
+    /* ================= MODAL ================= */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.8); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--white); padding: 32px; border-radius: 8px; max-width: 650px; width: 90%; max-height: 90vh; display: flex; flex-direction: column; }
-    .modal-body { overflow-y: auto; padding-right: 10px; flex: 1; }
-    .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); }
-    .login-overlay { position: fixed; inset: 0; background: var(--ink); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .login-box { background: var(--white); padding: 40px; border-radius: 8px; width: 100%; max-width: 420px; border-top: 4px solid var(--gold); }
-    #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 10px; }
-    .toast { background: var(--ink); color: var(--white); padding: 12px 20px; border-radius: 4px; font-size: 0.85rem; border-left: 4px solid var(--gold); animation: slideIn 0.3s; }
-    @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
-    .material-row { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; margin-bottom: 10px; align-items: center; }
-    @media (max-width: 768px) { .sidebar { position: fixed; transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .grid-2 { grid-template-columns: 1fr; } .material-row { grid-template-columns: 1fr; } }
+    .modal-box { background: var(--branco); padding: 32px; border-radius: var(--radius); max-width: 700px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--borda); }
+    .modal-header h3 { font-family: var(--fonte-titulo); font-size: 1.5rem; color: var(--azul-marinho); }
+    .modal-body { overflow-y: auto; flex: 1; padding-right: 10px; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--borda); }
+
+    /* ================= TOAST ================= */
+    #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: var(--azul-marinho); color: #FFF; padding: 16px 24px; border-radius: var(--radius); font-size: 0.9rem; border-left: 4px solid var(--dourado); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); animation: slideIn 0.3s ease; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; transform: translateX(-100%); transition: transform 0.3s; z-index: 100; }
+      .sidebar.open { transform: translateX(0); }
+      .grid-2 { grid-template-columns: 1fr; }
+      .topbar { padding: 0 20px; }
+      .view-container { padding: 20px; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- TELA DE LOGIN -->
   <div class="login-overlay" id="login-screen">
     <div class="login-box">
-      <h2 style="font-family:var(--serif); color:var(--ink); margin-bottom:8px;">Acesso Restrito</h2>
-      <div class="form-group"><label>Token GitHub</label><input type="password" id="inp-token" placeholder="github_pat_..."></div>
-      <button class="btn btn-gold" style="width:100%; margin-bottom: 20px;" id="btn-login">Conectar Sistema</button>
+      <h2>Acesso Restrito</h2>
+      <p>Conecte-se para gerenciar o site.</p>
       
-      <hr style="border:0; border-top:1px solid var(--line); margin: 20px 0;">
-      <h3 style="font-family:var(--serif); font-size: 1rem; margin-bottom: 12px; color: var(--ink);">Integração Google Drive</h3>
-      <div class="form-group"><label>URL do Apps Script</label><input type="url" id="inp-google-url" placeholder="https://script.google.com/macros/s/.../exec"></div>
-      <div class="form-group"><label>Senha do Script</label><input type="password" id="inp-google-senha" placeholder="Sua senha secreta"></div>
+      <div class="form-group">
+        <label>Token de Acesso GitHub (Fine-grained)</label>
+        <input type="password" id="inp-token" placeholder="github_pat_...">
+      </div>
+      
+      <div style="border-top: 1px solid var(--borda); margin: 24px 0; padding-top: 24px;">
+        <h3 style="font-size: 0.9rem; color: var(--azul-marinho); margin-bottom: 12px;">Integração Google Drive</h3>
+        <div class="form-group">
+          <label>URL do Apps Script</label>
+          <input type="url" id="inp-google-url" placeholder="https://script.google.com/...">
+        </div>
+        <div class="form-group">
+          <label>Senha do Script</label>
+          <input type="password" id="inp-google-senha" placeholder="Sua senha secreta">
+        </div>
+      </div>
+
+      <button class="btn btn-dourado" style="width: 100%;" id="btn-login">Entrar no Sistema</button>
     </div>
   </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-header"><h1>Libras nas Comunidades</h1><span>Secretaria Digital</span></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1>Libras nas Comunidades</h1>
+      <span>Secretaria Digital</span>
+    </div>
     <nav class="nav-menu">
       <div class="nav-category">Painel</div>
-      <a class="nav-item active" data-view="dashboard">Visão Geral</a>
-      <div class="nav-category">Acadêmico</div>
-      <a class="nav-item" data-view="courses">Cursos e Níveis</a>
-      <a class="nav-item" data-view="classes">Turmas e Ofertas</a>
-      <div class="nav-category">Alunos e Inscrições</div>
-      <a class="nav-item" data-view="students">Alunos (Google Drive)</a>
+      <a class="nav-item active" onclick="mudarAba('dashboard', this)">Visão Geral</a>
+      
       <div class="nav-category">Conteúdo do Site</div>
-      <a class="nav-item" data-view="pages">Páginas e Textos</a>
-      <a class="nav-item" data-view="lessons">Aulas e Materiais</a>
-      <a class="nav-item" data-view="calendar">Cronograma</a>
-      <div class="nav-category">Sistema</div>
-      <a class="nav-item" data-view="publish">Publicar e Sincronizar</a>
+      <a class="nav-item" onclick="mudarAba('paginas', this)">Páginas e Textos</a>
+      <a class="nav-item" onclick="mudarAba('aulas', this)">Aulas e Materiais</a>
+      <a class="nav-item" onclick="mudarAba('calendario', this)">Cronograma</a>
+      
+      <div class="nav-category">Gestão Acadêmica</div>
+      <a class="nav-item" onclick="mudarAba('cursos', this)">Cursos e Níveis</a>
+      <a class="nav-item" onclick="mudarAba('turmas', this)">Turmas e Vagas</a>
+      
+      <div class="nav-category">Alunos</div>
+      <a class="nav-item" onclick="mudarAba('alunos', this)">Inscritos (Drive)</a>
     </nav>
   </aside>
 
+  <!-- MAIN CONTENT -->
   <main class="main-content">
     <header class="topbar">
-      <div class="topbar-title" id="current-view-title">Visão Geral</div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="btn btn-outline" style="display: none; padding: 8px;" id="btn-mobile-menu">☰</button>
+        <div class="topbar-title" id="view-title">Visão Geral</div>
+      </div>
       <div class="topbar-actions">
-        <button class="btn btn-outline" id="btn-export">Backup JSON</button>
-        <button class="btn btn-primary" id="btn-publish-header">Publicar Alterações</button>
-        <button class="btn btn-outline" style="color:var(--danger); border-color:var(--danger);" onclick="location.reload()">Sair</button>
+        <button class="btn btn-outline" onclick="exportarBackup()">Backup JSON</button>
+        <button class="btn btn-dourado" onclick="publicarNoGitHub()">Publicar Alterações</button>
       </div>
     </header>
 
     <div class="view-container">
-      <section class="view-section active" id="view-dashboard">
-        <div class="stats-grid">
-          <div class="stat-card"><h3>Cursos Cadastrados</h3><div class="value" id="stat-cursos">0</div></div>
-          <div class="stat-card"><h3>Turmas Ativas</h3><div class="value" id="stat-turmas">0</div></div>
-          <div class="stat-card" style="border-top-color: var(--danger);"><h3>Status do Sistema</h3><div class="value" id="stat-status" style="font-size:1.1rem; padding-top:10px;">Sincronizado</div></div>
+      
+      <!-- DASHBOARD -->
+      <section class="view-section active" id="aba-dashboard">
+        <div class="grid-stats">
+          <div class="stat-card"><h3>Cursos Ativos</h3><div class="val" id="stat-cursos">0</div></div>
+          <div class="stat-card"><h3>Turmas Cadastradas</h3><div class="val" id="stat-turmas">0</div></div>
+          <div class="stat-card"><h3>Aulas Publicadas</h3><div class="val" id="stat-aulas">0</div></div>
+          <div class="stat-card" style="border-top-color: #DC2626;"><h3>Status de Edição</h3><div class="val" id="stat-status" style="font-size: 1.2rem; padding-top: 8px; color: #166534;">Sincronizado</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header">Bem-vindo à Secretaria Digital</div>
+          <p style="color: var(--cinza-leve); line-height: 1.6;">Use o menu lateral para navegar pelas áreas de gerenciamento. Todas as alterações são salvas temporariamente no navegador e enviadas ao site público ao clicar em <strong>"Publicar Alterações"</strong>.</p>
         </div>
       </section>
 
-      <section class="view-section" id="view-courses">
+      <!-- PÁGINAS -->
+      <section class="view-section" id="aba-paginas">
         <div class="card">
-          <div class="card-header">Gerenciamento de Cursos <button class="btn btn-gold btn-sm" onclick="editCurso()">+ Novo Curso</button></div>
-          <div class="table-responsive"><table id="table-cursos"><thead><tr><th>Nome do Curso</th><th>Nível</th><th>Carga Horária</th><th>Ações</th></tr></thead><tbody></tbody></table></div>
-        </div>
-      </section>
-
-      <section class="view-section" id="view-classes">
-        <div class="card">
-          <div class="card-header">Gerenciamento de Turmas <button class="btn btn-gold btn-sm" onclick="editTurma()">+ Nova Turma</button></div>
-          <div class="table-responsive"><table id="table-turmas"><thead><tr><th>Turma</th><th>Curso</th><th>Período</th><th>Vagas</th><th>Status</th><th>Ações</th></tr></thead><tbody></tbody></table></div>
-        </div>
-      </section>
-
-      <section class="view-section" id="view-students">
-        <div class="card">
-          <div class="card-header">Alunos Inscritos (Google Drive) <div><button class="btn btn-outline btn-sm" onclick="exportarAlunosCSV()">Exportar CSV</button><button class="btn btn-gold btn-sm" onclick="sincronizarAlunos()">Sincronizar Planilha</button></div></div>
-          <div class="form-group" style="display:flex; gap:16px; align-items:flex-end;">
-            <div style="flex:1;"><label>Pesquisar Aluno</label><input type="text" id="search-aluno" placeholder="Nome ou e-mail..." onkeyup="filtrarAlunos()"></div>
-          </div>
-          <div id="sync-status" style="font-size:0.8rem; color:var(--muted); margin-bottom:16px;">Clique em "Sincronizar Planilha" para carregar.</div>
-          <div class="table-responsive"><table id="table-students"><thead><tr><th>Nome</th><th>E-mail</th><th>Turma</th><th>Data</th></tr></thead><tbody><tr><td colspan="4" style="text-align:center;">Nenhum dado carregado.</td></tr></tbody></table></div>
-        </div>
-      </section>
-
-      <section class="view-section" id="view-pages">
-        <div class="card">
-          <div class="card-header">Configurações Básicas do Site</div>
-          <div class="grid-2">
-            <div class="form-group"><label>Nome do Projeto</label><input type="text" id="cfg-nome"></div>
-            <div class="form-group"><label>Subtítulo</label><input type="text" id="cfg-subtitulo"></div>
+          <div class="card-header">Conteúdo das Páginas</div>
+          <div class="table-responsive">
+            <table id="tabela-paginas">
+              <thead><tr><th>Título da Página</th><th>Identificador (Slug)</th><th>Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
           </div>
         </div>
-        <div class="card"><div class="card-header">Páginas e Textos</div><div class="table-responsive"><table id="table-pages"><thead><tr><th>Página</th><th>Slug</th><th>Ações</th></tr></thead><tbody></tbody></table></div></div>
       </section>
 
-      <section class="view-section" id="view-lessons">
+      <!-- AULAS -->
+      <section class="view-section" id="aba-aulas">
         <div class="card">
-          <div class="card-header">Aulas e Materiais <button class="btn btn-gold btn-sm" onclick="editLesson()">+ Nova Aula</button></div>
-          <div class="table-responsive"><table id="table-lessons"><thead><tr><th>Aula</th><th>Módulo</th><th>Vídeo</th><th>Materiais</th><th>Ações</th></tr></thead><tbody></tbody></table></div>
+          <div class="card-header">
+            Gerenciamento de Aulas
+            <button class="btn btn-dourado" onclick="editarAula()">+ Nova Aula</button>
+          </div>
+          <div class="table-responsive">
+            <table id="tabela-aulas">
+              <thead><tr><th>Título</th><th>Módulo</th><th>Vídeo</th><th>Materiais</th><th>Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      <section class="view-section" id="view-calendar">
+      <!-- CALENDÁRIO -->
+      <section class="view-section" id="aba-calendario">
         <div class="card">
-          <div class="card-header">Cronograma e Eventos <button class="btn btn-gold btn-sm" onclick="editEvent()">+ Novo Evento</button></div>
-          <div class="table-responsive"><table id="table-events"><thead><tr><th>Data</th><th>Evento</th><th>Tipo</th><th>Ações</th></tr></thead><tbody></tbody></table></div>
+          <div class="card-header">
+            Cronograma de Eventos
+            <button class="btn btn-dourado" onclick="editarEvento()">+ Novo Evento</button>
+          </div>
+          <div class="table-responsive">
+            <table id="tabela-eventos">
+              <thead><tr><th>Data</th><th>Evento</th><th>Tipo</th><th>Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      <section class="view-section" id="view-publish">
+      <!-- CURSOS -->
+      <section class="view-section" id="aba-cursos">
         <div class="card">
-          <div class="card-header">Publicação no GitHub</div>
-          <div style="background:var(--paper); padding:20px; border:1px solid var(--line); margin-bottom:24px;"><div id="publish-status"></div></div>
-          <button class="btn btn-primary" id="btn-confirm-publish">Publicar no GitHub Agora</button>
+          <div class="card-header">
+            Cursos e Níveis
+            <button class="btn btn-dourado" onclick="editarCurso()">+ Novo Curso</button>
+          </div>
+          <div class="table-responsive">
+            <table id="tabela-cursos">
+              <thead><tr><th>Nome do Curso</th><th>Nível</th><th>Carga Horária</th><th>Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </section>
+
+      <!-- TURMAS -->
+      <section class="view-section" id="aba-turmas">
+        <div class="card">
+          <div class="card-header">
+            Turmas e Inscrições
+            <button class="btn btn-dourado" onclick="editarTurma()">+ Nova Turma</button>
+          </div>
+          <div class="table-responsive">
+            <table id="tabela-turmas">
+              <thead><tr><th>Turma</th><th>Curso</th><th>Período</th><th>Vagas</th><th>Status</th><th>Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALUNOS -->
+      <section class="view-section" id="aba-alunos">
+        <div class="card">
+          <div class="card-header">
+            Alunos Inscritos (Google Drive)
+            <button class="btn btn-primario" onclick="sincronizarAlunos()">Sincronizar Planilha</button>
+          </div>
+          <div class="form-group" style="margin-top: 20px;">
+            <input type="text" id="filtro-aluno" placeholder="Pesquisar aluno por nome..." onkeyup="filtrarAlunos()">
+          </div>
+          <div class="table-responsive">
+            <table id="tabela-alunos">
+              <thead><tr><th>Nome</th><th>E-mail</th><th>Turma</th><th>Data</th></tr></thead>
+              <tbody><tr><td colspan="4" style="text-align: center;">Clique em "Sincronizar Planilha" para carregar.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
-  <div class="modal-overlay" id="edit-modal">
+  <!-- MODAL DE EDIÇÃO -->
+  <div class="modal-overlay" id="modal-edicao">
     <div class="modal-box">
-      <h3 id="modal-title" style="font-family:var(--serif); margin-bottom:20px; border-bottom:1px solid var(--line); padding-bottom:10px;">Editar</h3>
-      <div class="modal-body" id="modal-form-content"></div>
-      <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal()">Cancelar</button><button class="btn btn-gold" id="btn-save-modal">Salvar</button></div>
+      <div class="modal-header">
+        <h3 id="modal-title">Editar</h3>
+        <button class="btn btn-outline" style="padding: 4px 8px;" onclick="fecharModal()">X</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
+        <button class="btn btn-dourado" id="btn-salvar-modal">Salvar</button>
+      </div>
     </div>
   </div>
+
   <div id="toast-container"></div>
 
   <script>
-    const state = { token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main', dados: {}, aulas: {}, academico: {}, alunosDrive: [], shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false };
+    // --- ESTADO GLOBAL ---
+    const state = {
+      token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main',
+      dados: {}, aulas: {}, academico: {}, alunosDrive: [],
+      shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false, abaAtual: 'dashboard'
+    };
+
     const API = 'https://api.github.com';
     const $ = id => document.getElementById(id);
-    const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    const toast = (msg, type='info') => { const t = document.createElement('div'); t.className = `toast ${type}`; t.innerHTML = `<span>${msg}</span>`; $('toast-container').appendChild(t); setTimeout(() => t.remove(), 4000); };
+    const toast = (msg) => { const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<span>${msg}</span>`; $('toast-container').appendChild(t); setTimeout(() => t.remove(), 4000); };
 
-    document.querySelectorAll('.nav-item').forEach(link => {
-      link.addEventListener('click', (e) => {
-        document.querySelectorAll('.nav-item').forEach(l => l.classList.remove('active'));
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-        e.currentTarget.classList.add('active'); const view = e.currentTarget.dataset.view; $(`view-${view}`).classList.add('active');
-        $('current-view-title').textContent = e.currentTarget.textContent.trim(); if (view === 'publish') renderPublish();
-      });
-    });
-
-    async function apiFetch(path) {
-      const res = await fetch(`${API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, { headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' } });
-      if (res.status === 404) return null; if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
-      const data = await res.json(); return { sha: data.sha, content: JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))))) };
-    }
-
-    async function apiCommit(path, contentObj, sha, msg) {
-      const body = { message: msg, branch: state.branch, content: btoa(unescape(encodeURIComponent(JSON.stringify(contentObj, null, 2)))) };
-      if (sha) body.sha = sha;
-      const res = await fetch(`${API}/repos/${state.repo}/contents/${path}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      if (!res.ok) throw new Error('Falha no commit'); return await res.json();
-    }
-
-    $('btn-login').addEventListener('click', async () => {
+    // --- LÓGICA DE LOGIN E API ---
+    $('btn-login').onclick = async () => {
       state.token = $('inp-token').value.trim();
-      if(!state.token) return toast('Insira o token do GitHub', 'error');
+      if(!state.token) return toast('O Token do GitHub é obrigatório.');
+      
       if($('inp-google-url').value) localStorage.setItem('g_url', $('inp-google-url').value);
       if($('inp-google-senha').value) localStorage.setItem('g_senha', $('inp-google-senha').value);
 
       const btn = $('btn-login'); btn.textContent = 'Conectando...'; btn.disabled = true;
+
       try {
         const [d, a, ac] = await Promise.all([ apiFetch('dados.json'), apiFetch('aulas-dados.json'), apiFetch('academico-dados.json') ]);
-        if (d) { state.dados = d.content; state.shaDados = d.sha; } if (a) { state.aulas = a.content; state.shaAulas = a.sha; } if (ac) { state.academico = ac.content; state.shaAcademico = ac.sha; }
-        if (!state.dados.configInscricoes) state.dados.configInscricoes = {}; if (!state.academico.cursos) state.academico.cursos = []; if (!state.academico.turmas) state.academico.turmas = []; if (!state.aulas.aulas) state.aulas.aulas = [];
-        $('login-screen').style.display = 'none'; toast('Conectado!', 'success'); renderAll();
-      } catch (e) { toast(e.message, 'error'); } finally { btn.textContent = 'Conectar Sistema'; btn.disabled = false; }
-    });
+        if (d) { state.dados = d.content; state.shaDados = d.sha; }
+        if (a) { state.aulas = a.content; state.shaAulas = a.sha; }
+        if (ac) { state.academico = ac.content; state.shaAcademico = ac.sha; }
 
-    function markDirty() { state.isDirty = true; $('stat-status').textContent = 'Alterações Pendentes'; $('stat-status').style.color = 'var(--danger)'; }
-    function renderAll() { renderDashboard(); renderCursos(); renderTurmas(); renderPages(); renderLessons(); renderCalendar(); }
-    function renderDashboard() { $('stat-cursos').textContent = state.academico.cursos.length; $('stat-turmas').textContent = state.academico.turmas.length; const statusEl = $('stat-status'); if (state.isDirty) { statusEl.textContent = 'Alterações Pendentes'; statusEl.style.color = 'var(--danger)'; } else { statusEl.textContent = 'Sincronizado'; statusEl.style.color = 'var(--success)'; } }
+        if (!state.dados.paginas) state.dados.paginas = [];
+        if (!state.aulas.aulas) state.aulas.aulas = [];
+        if (!state.academico.cursos) state.academico.cursos = [];
+        if (!state.academico.turmas) state.academico.turmas = [];
+        if (!state.dados.calendario) state.dados.calendario = { eventos: [] };
 
-    function renderCursos() { $('table-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map(c => `<tr><td>${esc(c.nome)}</td><td>${esc(c.nivel)}</td><td>${c.cargaHoraria}h</td><td><button class="btn btn-outline btn-sm" onclick="editCurso('${c.id}')">Editar</button></td></tr>`).join(''); }
-    function editCurso(id) { const isNew = !id; const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos.find(x => x.id === id); $('modal-title').textContent = isNew ? 'Novo Curso' : 'Editar Curso'; $('modal-form-content').innerHTML = `<div class="form-group"><label>Nome do Curso</label><input type="text" id="c-nome" value="${esc(c.nome)}"></div><div class="grid-2"><div class="form-group"><label>Nível</label><input type="text" id="c-nivel" value="${esc(c.nivel)}"></div><div class="form-group"><label>Carga Horária (h)</label><input type="number" id="c-carga" value="${c.cargaHoraria}"></div></div>`; $('btn-save-modal').onclick = () => { c.nome = $('c-nome').value; c.nivel = $('c-nivel').value; c.cargaHoraria = $('c-carga').value; if (isNew) state.academico.cursos.push(c); closeModal(); renderCursos(); renderTurmas(); markDirty(); }; $('edit-modal').classList.add('active'); }
+        $('login-screen').style.display = 'none';
+        toast('Conectado com sucesso!');
+        renderizarTudo();
+      } catch (e) {
+        toast('Erro ao conectar: ' + e.message);
+      } finally { btn.textContent = 'Entrar no Sistema'; btn.disabled = false; }
+    };
 
-    function renderTurmas() { $('table-turmas').querySelector('tbody').innerHTML = state.academico.turmas.map(t => { const curso = state.academico.cursos.find(c => c.id === t.cursoId) || { nome: 'N/A' }; return `<tr><td>${esc(t.nome)}</td><td>${esc(curso.nome)}</td><td>${t.dataInicio} a ${t.dataFim}</td><td>${t.vagas}</td><td><span class="badge success">${t.status}</span></td><td><button class="btn btn-outline btn-sm" onclick="editTurma('${t.id}')">Editar</button></td></tr>`; }).join(''); }
-    function editTurma(id) { if (state.academico.cursos.length === 0) return toast('Cadastre um curso primeiro.', 'error'); const isNew = !id; const t = isNew ? { id: Date.now().toString(), cursoId: '', nome: '', dataInicio: '', dataFim: '', vagas: 30, status: 'Inscrições Abertas', linkFormulario: '' } : state.academico.turmas.find(x => x.id === id); const options = state.academico.cursos.map(c => `<option value="${c.id}" ${c.id === t.cursoId ? 'selected' : ''}>${esc(c.nome)}</option>`).join(''); $('modal-title').textContent = isNew ? 'Nova Turma' : 'Editar Turma'; $('modal-form-content').innerHTML = `<div class="form-group"><label>Curso Vinculado</label><select id="t-curso">${options}</select></div><div class="form-group"><label>Nome da Turma</label><input type="text" id="t-nome" value="${esc(t.nome)}"></div><div class="grid-2"><div class="form-group"><label>Data Início</label><input type="date" id="t-inicio" value="${t.dataInicio}"></div><div class="form-group"><label>Data Fim</label><input type="date" id="t-fim" value="${t.dataFim}"></div></div><div class="grid-2"><div class="form-group"><label>Vagas</label><input type="number" id="t-vagas" value="${t.vagas}"></div><div class="form-group"><label>Status</label><select id="t-status"><option value="Inscrições Abertas" ${t.status==='Inscrições Abertas'?'selected':''}>Inscrições Abertas</option><option value="Inscrições Encerradas" ${t.status==='Inscrições Encerradas'?'selected':''}>Inscrições Encerradas</option></select></div></div><div class="form-group"><label>Link do Google Forms</label><input type="url" id="t-link" value="${t.linkFormulario || ''}"></div>`; $('btn-save-modal').onclick = () => { t.cursoId = $('t-curso').value; t.nome = $('t-nome').value; t.dataInicio = $('t-inicio').value; t.dataFim = $('t-fim').value; t.vagas = parseInt($('t-vagas').value); t.status = $('t-status').value; t.linkFormulario = $('t-link').value; if (isNew) state.academico.turmas.push(t); closeModal(); renderTurmas(); markDirty(); }; $('edit-modal').classList.add('active'); }
+    async function apiFetch(path) {
+      const res = await fetch(`${API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, { headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' } });
+      if (res.status === 404) return { content: {}, sha: null };
+      if (!res.ok) throw new Error(`Erro ${res.status} ao buscar ${path}`);
+      const data = await res.json();
+      const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, '')))));
+      return { sha: data.sha, content: content };
+    }
 
-    async function sincronizarAlunos() { const url = localStorage.getItem('g_url'); const senha = localStorage.getItem('g_senha'); if (!url || !senha) return toast('Faça login novamente fornecendo a URL e Senha do Google Script.', 'error'); $('sync-status').textContent = "Buscando dados no Google Drive..."; try { const res = await fetch(`${url}?senha=${encodeURIComponent(senha)}`); if (!res.ok) throw new Error('Erro na API'); const data = await res.json(); if (data.erro) throw new Error(data.erro); state.alunosDrive = data; $('sync-status').textContent = `Sincronizado em: ${new Date().toLocaleString('pt-BR')} | Total: ${data.length} alunos`; renderTabelaAlunos(); toast('Planilha sincronizada!', 'success'); } catch (e) { $('sync-status').textContent = "Falha na sincronização."; toast(e.message, 'error'); } }
-    function renderTabelaAlunos(filtro = "") { const tbody = $('table-students').querySelector('tbody'); const filtrados = state.alunosDrive.filter(a => JSON.stringify(a).toLowerCase().includes(filtro.toLowerCase())); if (filtrados.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum aluno encontrado.</td></tr>'; return; } tbody.innerHTML = filtrados.map(a => { const nome = a['Nome'] || a['nome'] || '-'; const email = a['Email'] || a['E-mail'] || a['email'] || '-'; const turma = a['Turma'] || a['Curso'] || '-'; const data = a['Data'] || a['Timestamp'] || '-'; return `<tr><td>${esc(nome)}</td><td>${esc(email)}</td><td><span class="badge" style="background:#E0E7FF; color:#3730A3;">${esc(turma)}</span></td><td>${esc(data)}</td></tr>`; }).join(''); }
-    function filtrarAlunos() { renderTabelaAlunos($('search-aluno').value); }
-    function exportarAlunosCSV() { if (state.alunosDrive.length === 0) return toast('Nenhum dado para exportar.', 'error'); const keys = Object.keys(state.alunosDrive[0]); let csv = keys.join(';') + '\n'; state.alunosDrive.forEach(obj => { csv += keys.map(k => `"${String(obj[k]).replace(/"/g, '""')}"`).join(';') + '\n'; }); const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = `alunos_${new Date().toISOString().slice(0,10)}.csv`; link.click(); toast('CSV exportado.', 'success'); }
+    async function apiCommit(path, obj, sha, msg) {
+      const body = { message: msg, branch: state.branch, content: btoa(unescape(encodeURIComponent(JSON.stringify(obj, null, 2)))) };
+      if (sha) body.sha = sha;
+      const res = await fetch(`${API}/repos/${state.repo}/contents/${path}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' }, body: JSON.stringify(body) });
+      if (!res.ok) throw new Error('Falha no commit');
+      return await res.json();
+    }
 
-    function renderPages() { if (state.dados.projeto) { $('cfg-nome').value = state.dados.projeto.nome || ''; $('cfg-subtitulo').value = state.dados.projeto.subtitulo || ''; } $('cfg-nome').onchange = (e) => { state.dados.projeto.nome = e.target.value; markDirty(); }; $('table-pages').querySelector('tbody').innerHTML = state.dados.paginas.map(p => `<tr><td>${esc(p.titulo)}</td><td>${esc(p.slug)}</td><td><button class="btn btn-outline btn-sm" onclick="editPage('${p.slug}')">Editar</button></td></tr>`).join(''); }
-    function editPage(slug) { const p = state.dados.paginas.find(x => x.slug === slug); $('modal-title').textContent = `Editar: ${p.titulo}`; $('modal-form-content').innerHTML = `<div class="form-group"><label>Título</label><input type="text" id="p-title" value="${esc(p.titulo)}"></div><div class="form-group"><label>Conteúdo (HTML)</label><textarea id="p-html" style="min-height:200px; font-family:monospace;">${esc(p.html)}</textarea></div>`; $('btn-save-modal').onclick = () => { p.titulo = $('p-title').value; p.html = $('p-html').value; closeModal(); renderPages(); markDirty(); }; $('edit-modal').classList.add('active'); }
+    // --- NAVEGAÇÃO E RENDERIZAÇÃO GERAL ---
+    function mudarAba(id, el) {
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      el.classList.add('active');
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      $(`aba-${id}`).classList.add('active');
+      $('view-title').textContent = el.textContent.trim();
+      state.abaAtual = id;
+    }
 
-    function renderLessons() { $('table-lessons').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `<tr><td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais ? a.materiais.length : 0}</td><td><button class="btn btn-outline btn-sm" onclick="editLesson(${i})">Editar</button></td></tr>`).join(''); }
-    
-    function editLesson(index) {
-      const isNew = index === undefined;
-      const a = isNew ? { id: Date.now(), modulo: '', titulo: '', data: '', descricao: '', video: '', materiais: [] } : state.aulas.aulas[index];
-      $('modal-title').textContent = isNew ? 'Nova Aula/Atividade' : 'Editar Aula/Atividade';
-      $('modal-form-content').innerHTML = `
+    function marcarSujo() {
+      state.isDirty = true;
+      $('stat-status').textContent = 'Alterações Pendentes';
+      $('stat-status').style.color = '#DC2626';
+    }
+
+    function renderizarTudo() {
+      $('stat-cursos').textContent = state.academico.cursos.length;
+      $('stat-turmas').textContent = state.academico.turmas.length;
+      $('stat-aulas').textContent = state.aulas.aulas.length;
+
+      // Páginas
+      $('tabela-paginas').querySelector('tbody').innerHTML = state.dados.paginas.map((p, i) => `
+        <tr><td>${p.titulo}</td><td>${p.slug}</td>
+        <td><button class="btn btn-outline" onclick="editarPagina(${i})">Editar</button></td></tr>
+      `).join('');
+
+      // Aulas
+      $('tabela-aulas').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `
+        <tr><td>${a.titulo}</td><td>${a.modulo}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais?.length || 0}</td>
+        <td><button class="btn btn-outline" onclick="editarAula(${i})">Editar</button> <button class="btn btn-perigo" onclick="removerAula(${i})">X</button></td></tr>
+      `).join('');
+
+      // Eventos
+      $('tabela-eventos').querySelector('tbody').innerHTML = state.dados.calendario.eventos.map((e, i) => `
+        <tr><td>${e.data.split('-').reverse().join('/')}</td><td>${e.titulo}</td><td>${e.tipo}</td>
+        <td><button class="btn btn-outline" onclick="editarEvento(${i})">Editar</button></td></tr>
+      `).join('');
+
+      // Cursos
+      $('tabela-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map((c, i) => `
+        <tr><td>${c.nome}</td><td>${c.nivel}</td><td>${c.cargaHoraria}h</td>
+        <td><button class="btn btn-outline" onclick="editarCurso(${i})">Editar</button></td></tr>
+      `).join('');
+
+      // Turmas
+      $('tabela-turmas').querySelector('tbody').innerHTML = state.academico.turmas.map((t, i) => {
+        const curso = state.academico.cursos.find(c => c.id === t.cursoId) || { nome: '?' };
+        return `<tr>
+          <td>${t.nome}</td><td>${curso.nome}</td><td>${t.dataInicio} a ${t.dataFim}</td><td>${t.vagas}</td>
+          <td><span class="badge ${t.status === 'Inscrições Abertas' ? 'badge-verde' : 'badge-vermelho'}">${t.status}</span></td>
+          <td><button class="btn btn-outline" onclick="editarTurma(${i})">Editar</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    // --- FUNÇÕES CRUD: MODAIS ---
+    function abrirModal(titulo, html, callback) {
+      $('modal-title').textContent = titulo;
+      $('modal-body').innerHTML = html;
+      $('btn-salvar-modal').onclick = () => { callback(); fecharModal(); marcarSujo(); renderizarTudo(); };
+      $('modal-edicao').classList.add('active');
+    }
+    function fecharModal() { $('modal-edicao').classList.remove('active'); }
+
+    // 1. Páginas
+    window.editarPagina = (index) => {
+      const p = state.dados.paginas[index];
+      abrirModal(`Editar: ${p.titulo}`, `
+        <div class="form-group"><label>Título</label><input type="text" id="edit-pg-titulo" value="${p.titulo}"></div>
+        <div class="form-group"><label>Descrição</label><input type="text" id="edit-pg-desc" value="${p.descricao || ''}"></div>
+        <div class="form-group"><label>Conteúdo (HTML)</label><textarea id="edit-pg-html" style="min-height: 200px; font-family: monospace;">${p.html || ''}</textarea></div>
+      `, () => {
+        p.titulo = $('edit-pg-titulo').value;
+        p.descricao = $('edit-pg-desc').value;
+        p.html = $('edit-pg-html').value;
+      });
+    };
+
+    // 2. Aulas
+    window.editarAula = (index = -1) => {
+      const isNew = index === -1;
+      const a = isNew ? { id: Date.now(), modulo: '', titulo: '', video: '', descricao: '', materiais: [] } : state.aulas.aulas[index];
+      abrirModal(isNew ? 'Nova Aula' : 'Editar Aula', `
         <div class="grid-2">
-          <div class="form-group"><label>Módulo</label><input type="text" id="a-mod" value="${esc(a.modulo)}"></div>
-          <div class="form-group"><label>Data</label><input type="date" id="a-data" value="${a.data}"></div>
+          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${a.modulo}"></div>
+          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-aula-data" value="${a.data || ''}"></div>
         </div>
-        <div class="form-group"><label>Título da Aula</label><input type="text" id="a-titulo" value="${esc(a.titulo)}"></div>
-        <div class="form-group"><label>Descrição da Atividade</label><textarea id="a-desc">${esc(a.descricao)}</textarea></div>
-        <div class="form-group" style="background: #F8FAFC; padding: 16px; border-radius: 4px; border: 1px solid var(--line);">
-          <label style="color: var(--blue);">Link do Vídeo (YouTube) - Opcional</label>
-          <input type="url" id="a-video" value="${a.video || ''}" placeholder="https://youtube.com/watch?v=...">
-        </div>
-        <div class="form-group" style="margin-top: 24px; border-top: 1px solid var(--line); padding-top: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <label style="margin: 0; font-size: 0.9rem;">Materiais Complementares (PDFs, Slides)</label>
-            <button type="button" class="btn btn-outline btn-sm" onclick="addMaterialRow()">+ Adicionar Material</button>
-          </div>
-          <div id="ls-materials-container"></div>
-        </div>
-      `;
-      if (a.materiais && a.materiais.length > 0) { a.materiais.forEach(mat => addMaterialRow(mat.titulo, mat.url)); }
-      
-      $('btn-save-modal').onclick = () => {
-        a.modulo = $('a-mod').value; a.data = $('a-data').value; a.titulo = $('a-titulo').value; a.descricao = $('a-desc').value;
-        let v = $('a-video').value.trim(); if(v && !v.includes('/embed/')) { const id = v.match(/(?:youtu\.be\/|v=)([^&]+)/); if(id) v = `https://www.youtube.com/embed/${id[1]}`; } a.video = v || null;
-        const newMateriais = []; document.querySelectorAll('.material-row').forEach(row => { const t = row.querySelector('.mat-title').value.trim(); const u = row.querySelector('.mat-url').value.trim(); if (t && u) newMateriais.push({ titulo: t, url: u }); }); a.materiais = newMateriais;
+        <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${a.titulo}"></div>
+        <div class="form-group"><label>Link do Vídeo (YouTube Embed)</label><input type="text" id="edit-aula-vid" value="${a.video || ''}"></div>
+        <div class="form-group"><label>Descrição</label><textarea id="edit-aula-desc">${a.descricao || ''}</textarea></div>
+      `, () => {
+        a.modulo = $('edit-aula-mod').value; a.data = $('edit-aula-data').value;
+        a.titulo = $('edit-aula-tit').value; a.video = $('edit-aula-vid').value; a.descricao = $('edit-aula-desc').value;
         if (isNew) state.aulas.aulas.push(a);
-        closeModal(); renderLessons(); markDirty();
+      });
+    };
+    window.removerAula = (i) => { if(confirm('Excluir aula?')) { state.aulas.aulas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+
+    // 3. Eventos
+    window.editarEvento = (index = -1) => {
+      const isNew = index === -1;
+      const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index];
+      abrirModal(isNew ? 'Novo Evento' : 'Editar Evento', `
+        <div class="grid-2">
+          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-ev-data" value="${e.data}"></div>
+          <div class="form-group"><label>Tipo</label><input type="text" id="edit-ev-tipo" value="${e.tipo}"></div>
+        </div>
+        <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${e.titulo}"></div>
+      `, () => {
+        e.data = $('edit-ev-data').value; e.tipo = $('edit-ev-tipo').value; e.titulo = $('edit-ev-tit').value;
+        if (isNew) state.dados.calendario.eventos.push(e);
+      });
+    };
+
+    // 4. Cursos
+    window.editarCurso = (index = -1) => {
+      const isNew = index === -1;
+      const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos[index];
+      abrirModal(isNew ? 'Novo Curso' : 'Editar Curso', `
+        <div class="form-group"><label>Nome do Curso</label><input type="text" id="edit-c-nome" value="${c.nome}"></div>
+        <div class="grid-2">
+          <div class="form-group"><label>Nível</label><input type="text" id="edit-c-nivel" value="${c.nivel}"></div>
+          <div class="form-group"><label>Carga Horária</label><input type="number" id="edit-c-carga" value="${c.cargaHoraria}"></div>
+        </div>
+      `, () => {
+        c.nome = $('edit-c-nome').value; c.nivel = $('edit-c-nivel').value; c.cargaHoraria = $('edit-c-carga').value;
+        if (isNew) state.academico.cursos.push(c);
+      });
+    };
+
+    // 5. Turmas
+    window.editarTurma = (index = -1) => {
+      if (state.academico.cursos.length === 0) return toast('Cadastre um curso primeiro.');
+      const isNew = index === -1;
+      const t = isNew ? { id: Date.now().toString(), cursoId: '', nome: '', dataInicio: '', dataFim: '', vagas: 30, status: 'Inscrições Abertas', linkFormulario: '' } : state.academico.turmas[index];
+      const opcoesCurso = state.academico.cursos.map(c => `<option value="${c.id}" ${c.id === t.cursoId ? 'selected' : ''}>${c.nome}</option>`).join('');
+      
+      abrirModal(isNew ? 'Nova Turma' : 'Editar Turma', `
+        <div class="form-group"><label>Curso Vinculado</label><select id="edit-t-curso">${opcoesCurso}</select></div>
+        <div class="form-group"><label>Nome da Turma</label><input type="text" id="edit-t-nome" value="${t.nome}"></div>
+        <div class="grid-2">
+          <div class="form-group"><label>Data Início</label><input type="date" id="edit-t-ini" value="${t.dataInicio}"></div>
+          <div class="form-group"><label>Data Fim</label><input type="date" id="edit-t-fim" value="${t.dataFim}"></div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group"><label>Vagas</label><input type="number" id="edit-t-vagas" value="${t.vagas}"></div>
+          <div class="form-group"><label>Status</label>
+            <select id="edit-t-status">
+              <option value="Inscrições Abertas" ${t.status === 'Inscrições Abertas' ? 'selected' : ''}>Inscrições Abertas</option>
+              <option value="Inscrições Encerradas" ${t.status === 'Inscrições Encerradas' ? 'selected' : ''}>Encerradas</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Link do Google Forms</label><input type="text" id="edit-t-link" value="${t.linkFormulario || ''}"></div>
+      `, () => {
+        t.cursoId = $('edit-t-curso').value; t.nome = $('edit-t-nome').value; t.dataInicio = $('edit-t-ini').value;
+        t.dataFim = $('edit-t-fim').value; t.vagas = $('edit-t-vagas').value; t.status = $('edit-t-status').value; t.linkFormulario = $('edit-t-link').value;
+        if (isNew) state.academico.turmas.push(t);
+      });
+    };
+
+    // --- GOOGLE DRIVE ---
+    async function sincronizarAlunos() {
+      const url = localStorage.getItem('g_url');
+      const senha = localStorage.getItem('g_senha');
+      if (!url || !senha) return toast('Faça login novamente fornecendo a URL e Senha do Google.');
+      
+      $('tabela-alunos').querySelector('tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;">Sincronizando...</td></tr>';
+      try {
+        const res = await fetch(`${url}?senha=${encodeURIComponent(senha)}`);
+        const data = await res.json();
+        if(data.erro) throw new Error(data.erro);
+        state.alunosDrive = data;
+        renderizarAlunos();
+        toast(`Sincronizado: ${data.length} alunos.`);
+      } catch(e) { toast('Erro: ' + e.message); }
+    }
+
+    function renderizarAlunos(filtro = '') {
+      const tbody = $('tabela-alunos').querySelector('tbody');
+      const f = state.alunosDrive.filter(a => JSON.stringify(a).toLowerCase().includes(filtro.toLowerCase()));
+      if(f.length === 0) return tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum aluno.</td></tr>';
+      
+      tbody.innerHTML = f.map(a => `
+        <tr><td>${a['Nome'] || '-'}</td><td>${a['Email'] || '-'}</td><td>${a['Turma'] || '-'}</td><td>${a['Data'] || '-'}</td></tr>
+      `).join('');
+    }
+    window.filtrarAlunos = () => renderizarAlunos($('filtro-aluno').value);
+
+    // --- PUBLICAÇÃO E BACKUP ---
+    async function publicarNoGitHub() {
+      if(!state.isDirty) return toast('Nenhuma alteração pendente.');
+      const btn = event.target; btn.textContent = 'Publicando...'; btn.disabled = true;
+
+      try {
+        const r1 = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza dados gerais');
+        state.shaDados = r1.content.sha;
+        const r2 = await apiCommit('aulas-dados.json', state.aulas, state.shaAulas, 'CMS: Atualiza aulas');
+        state.shaAulas = r2.content.sha;
+        const r3 = await apiCommit('academico-dados.json', state.academico, state.shaAcademico, 'CMS: Atualiza acadêmico');
+        state.shaAcademico = r3.content.sha;
+        
+        state.isDirty = false;
+        $('stat-status').textContent = 'Sincronizado';
+        $('stat-status').style.color = '#166534';
+        toast('Tudo publicado com sucesso!');
+      } catch(e) { toast('Erro ao publicar: ' + e.message); }
+      finally { btn.textContent = 'Publicar Alterações'; btn.disabled = false; }
+    }
+
+    window.exportarBackup = () => {
+      const baixar = (obj, nome) => {
+        const blob = new Blob([JSON.stringify(obj, null, 2)], {type: 'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nome; a.click();
       };
-      $('edit-modal').classList.add('active');
-    }
-
-    function addMaterialRow(title = '', url = '') {
-      const container = $('ls-materials-container');
-      const row = document.createElement('div'); row.className = 'material-row';
-      row.innerHTML = `<input type="text" class="mat-title" placeholder="Ex: Slides da Aula" value="${title}"><input type="url" class="mat-url" placeholder="https://drive.google.com/..." value="${url}"><button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">X</button>`;
-      container.appendChild(row);
-    }
-
-    function renderCalendar() { $('table-events').querySelector('tbody').innerHTML = state.dados.calendario.eventos.map((e, i) => `<tr><td>${e.data}</td><td>${esc(e.titulo)}</td><td>${esc(e.tipo)}</td><td><button class="btn btn-outline btn-sm" onclick="editEvent(${i})">Editar</button></td></tr>`).join(''); }
-    function editEvent(index) { const isNew = index === undefined; const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index]; $('modal-title').textContent = isNew ? 'Novo Evento' : 'Editar Evento'; $('modal-form-content').innerHTML = `<div class="grid-2"><div class="form-group"><label>Data</label><input type="date" id="e-data" value="${e.data}"></div><div class="form-group"><label>Tipo</label><select id="e-tipo"><option value="presencial">Presencial</option><option value="assincrona">Assíncrona</option></select></div></div><div class="form-group"><label>Título</label><input type="text" id="e-titulo" value="${esc(e.titulo)}"></div>`; $('btn-save-modal').onclick = () => { e.data = $('e-data').value; e.tipo = $('e-tipo').value; e.titulo = $('e-titulo').value; if (isNew) state.dados.calendario.eventos.push(e); state.dados.calendario.eventos.sort((a,b)=>a.data.localeCompare(b.data)); closeModal(); renderCalendar(); markDirty(); }; $('edit-modal').classList.add('active'); }
-
-    function renderPublish() { $('publish-status').innerHTML = `<p><strong>dados.json:</strong> ${state.shaDados ? 'Pronto' : 'Não encontrado'}</p><p><strong>aulas-dados.json:</strong> ${state.shaAulas ? 'Pronto' : 'Não encontrado'}</p><p><strong>academico-dados.json:</strong> ${state.shaAcademico ? 'Pronto' : 'Não encontrado'}</p><p style="margin-top:12px; font-weight:bold; color:${state.isDirty?'var(--danger)':'var(--success)'}">${state.isDirty ? 'Existem alterações pendentes.' : 'Tudo sincronizado.'}</p>`; }
-    $('btn-publish-header').addEventListener('click', () => document.querySelector('.nav-item[data-view="publish"]').click());
-    $('btn-confirm-publish').addEventListener('click', async () => { if (!state.isDirty) return toast('Nada para publicar.', 'info'); const btn = $('btn-confirm-publish'); btn.textContent = 'Publicando...'; btn.disabled = true; try { const r1 = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza dados gerais'); state.shaDados = r1.content.sha; const r2 = await apiCommit('aulas-dados.json', state.aulas, state.shaAulas, 'CMS: Atualiza aulas'); state.shaAulas = r2.content.sha; const r3 = await apiCommit('academico-dados.json', state.academico, state.shaAcademico, 'CMS: Atualiza cursos e turmas'); state.shaAcademico = r3.content.sha; state.isDirty = false; renderPublish(); renderDashboard(); toast('Publicado com sucesso!', 'success'); } catch (e) { toast(e.message, 'error'); } finally { btn.textContent = 'Publicar no GitHub Agora'; btn.disabled = false; } });
-
-    $('btn-export').addEventListener('click', () => {
-      const d = JSON.stringify(state.dados, null, 2);
-      const a = JSON.stringify(state.aulas, null, 2);
-      const ac = JSON.stringify(state.academico, null, 2);
-      const download = (content, name) => { const blob = new Blob([content], {type:'application/json'}); const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = name; link.click(); };
-      download(d, 'dados.json'); download(a, 'aulas-dados.json'); download(ac, 'academico-dados.json');
-      toast('Backups baixados.', 'success');
-    });
-
-    function closeModal() { $('edit-modal').classList.remove('active'); }
+      baixar(state.dados, 'dados.json');
+      setTimeout(() => baixar(state.aulas, 'aulas-dados.json'), 300);
+      setTimeout(() => baixar(state.academico, 'academico-dados.json'), 600);
+      toast('Backups baixados.');
+    };
   </script>
 </body>
 </html>
