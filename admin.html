@@ -28,7 +28,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: var(--fonte-corpo); background: #F1F5F9; color: var(--cinza-texto); height: 100vh; display: flex; overflow: hidden; }
+    body { font-family: var(--fonte-corpo); background: #F1F5F9; color: var(--cinza-texto); min-height: 100vh; height: 100dvh; display: flex; overflow: hidden; }
 
     /* ================= LOGIN ================= */
     .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
@@ -43,7 +43,7 @@
     .sidebar-header span { font-size: 0.65rem; color: var(--dourado); text-transform: uppercase; letter-spacing: 1px; }
     .user-info { padding: 16px 20px; background: rgba(0,0,0,0.2); font-size: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .nav-menu { flex: 1; overflow-y: auto; padding: 16px 0; }
-    .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: #94A3B8; text-decoration: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; }
+    .nav-item { width: 100%; text-align: left; background: transparent; border: 0; display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: #94A3B8; text-decoration: none; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent; }
     .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #FFF; border-left-color: var(--dourado); }
     .nav-category { padding: 20px 24px 8px; font-size: 0.65rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 1px; }
     
@@ -78,7 +78,7 @@
 
     .form-group { margin-bottom: 20px; }
     .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--azul-marinho); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: var(--radius); font-family: var(--fonte-corpo); font-size: 0.95rem; color: var(--text); background: var(--off-white); transition: 0.2s; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: var(--radius); font-family: var(--fonte-corpo); font-size: 0.95rem; color: var(--cinza-texto); background: var(--off-white); transition: 0.2s; }
     .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--azul-marinho); background: var(--branco); box-shadow: 0 0 0 3px rgba(15,43,76,0.1); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     
@@ -107,9 +107,19 @@
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
     @media (max-width: 768px) {
-      .sidebar { position: fixed; transform: translateX(-100%); transition: transform 0.3s; z-index: 100; }
+      .sidebar { position: fixed; inset: 0 auto 0 0; transform: translateX(-100%); transition: transform 0.3s; z-index: 100; }
+      #btn-mobile-menu { display: inline-flex !important; }
+      .topbar-actions { gap: 6px; }
+      .topbar-actions .btn { padding: 9px 10px; font-size: .68rem; }
+      .grid-stats { grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); }
+      .card { padding: 16px; }
+      .card-header { gap: 12px; flex-wrap: wrap; }
       .sidebar.open { transform: translateX(0); }
       .grid-2 { grid-template-columns: 1fr; }
+      .login-box { padding: 26px 22px; }
+      .modal-box { padding: 20px; }
+      .modal-footer { flex-wrap: wrap; }
+      #toast-container { left: 16px; right: 16px; bottom: 16px; }
       .topbar { padding: 0 20px; }
       .view-container { padding: 20px; }
     }
@@ -177,7 +187,7 @@
       </div>
       <div class="topbar-actions">
         <button class="btn btn-outline" onclick="exportarBackup()">Backup JSON</button>
-        <button class="btn btn-dourado" onclick="publicarNoGitHub()">Publicar Alterações</button>
+        <button class="btn btn-dourado" id="btn-publicar" onclick="publicarNoGitHub()">Publicar Alterações</button>
       </div>
     </header>
 
@@ -317,22 +327,31 @@
     // --- ESTADO GLOBAL ---
     const state = {
       token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main',
-      dados: {}, aulas: {}, academico: {}, alunosDrive: [],
+      dados: {}, aulas: {}, academico: {}, alunosDrive: [], googleUrl: '', googleSenha: '',
       shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false, abaAtual: 'dashboard'
     };
 
     const API = 'https://api.github.com';
     const $ = id => document.getElementById(id);
-    const toast = (msg) => { const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = `<span>${msg}</span>`; $('toast-container').appendChild(t); setTimeout(() => t.remove(), 4000); };
+    $('btn-mobile-menu').addEventListener('click', () => $('sidebar').classList.toggle('open'));
+    const toast = (msg) => {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = String(msg);
+      $('toast-container').appendChild(t);
+      setTimeout(() => t.remove(), 4000);
+    };
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[char]);
 
     // --- LÓGICA DE LOGIN E API ---
     $('btn-login').onclick = async () => {
       state.token = $('inp-token').value.trim();
       if(!state.token) return toast('O Token do GitHub é obrigatório.');
       
-      if($('inp-google-url').value) localStorage.setItem('g_url', $('inp-google-url').value);
-      if($('inp-google-senha').value) localStorage.setItem('g_senha', $('inp-google-senha').value);
-
+      state.googleUrl = $('inp-google-url').value.trim();
+      state.googleSenha = $('inp-google-senha').value;
       const btn = $('btn-login'); btn.textContent = 'Conectando...'; btn.disabled = true;
 
       try {
@@ -344,10 +363,16 @@
         if (!state.dados.paginas) state.dados.paginas = [];
         if (!state.aulas.aulas) state.aulas.aulas = [];
         if (!state.academico.cursos) state.academico.cursos = [];
-        if (!state.academico.turmas) state.academico.turmas = [];
-        if (!state.dados.calendario) state.dados.calendario = { eventos: [] };
+        if (!Array.isArray(state.academico.turmas)) state.academico.turmas = [];
+        if (!Array.isArray(state.academico.cursos)) state.academico.cursos = [];
+        if (!Array.isArray(state.aulas.aulas)) state.aulas.aulas = [];
+        if (!Array.isArray(state.dados.paginas)) state.dados.paginas = [];
+        if (!state.dados.calendario || typeof state.dados.calendario !== 'object') state.dados.calendario = { eventos: [] };
+        if (!Array.isArray(state.dados.calendario.eventos)) state.dados.calendario.eventos = [];
 
         $('login-screen').style.display = 'none';
+        $('inp-token').value = '';
+        $('inp-google-senha').value = '';
         toast('Conectado com sucesso!');
         renderizarTudo();
       } catch (e) {
@@ -357,7 +382,7 @@
 
     async function apiFetch(path) {
       const res = await fetch(`${API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, { headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' } });
-      if (res.status === 404) return { content: {}, sha: null };
+      if (res.status === 404) throw new Error(`O arquivo ${path} não foi encontrado no repositório. Nenhum dado foi inicializado ou substituído.`);
       if (!res.ok) throw new Error(`Erro ${res.status} ao buscar ${path}`);
       const data = await res.json();
       const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, '')))));
@@ -374,12 +399,15 @@
 
     // --- NAVEGAÇÃO E RENDERIZAÇÃO GERAL ---
     function mudarAba(id, el) {
+      const section = $(`aba-${id}`);
+      if (!section) return;
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      el.classList.add('active');
+      if (el) el.classList.add('active');
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       $(`aba-${id}`).classList.add('active');
-      $('view-title').textContent = el.textContent.trim();
+      $('view-title').textContent = el ? el.textContent.trim() : id;
       state.abaAtual = id;
+      if (window.matchMedia('(max-width: 768px)').matches) $('sidebar').classList.remove('open');
     }
 
     function marcarSujo() {
@@ -395,25 +423,25 @@
 
       // Páginas
       $('tabela-paginas').querySelector('tbody').innerHTML = state.dados.paginas.map((p, i) => `
-        <tr><td>${p.titulo}</td><td>${p.slug}</td>
+        <tr><td>${esc(p.titulo)}</td><td>${esc(p.slug)}</td>
         <td><button class="btn btn-outline" onclick="editarPagina(${i})">Editar</button></td></tr>
       `).join('');
 
       // Aulas
       $('tabela-aulas').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `
-        <tr><td>${a.titulo}</td><td>${a.modulo}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais?.length || 0}</td>
+        <tr><td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais?.length || 0}</td>
         <td><button class="btn btn-outline" onclick="editarAula(${i})">Editar</button> <button class="btn btn-perigo" onclick="removerAula(${i})">X</button></td></tr>
       `).join('');
 
       // Eventos
       $('tabela-eventos').querySelector('tbody').innerHTML = state.dados.calendario.eventos.map((e, i) => `
-        <tr><td>${e.data.split('-').reverse().join('/')}</td><td>${e.titulo}</td><td>${e.tipo}</td>
+        <tr><td>${esc((e.data || '').split('-').reverse().join('/'))}</td><td>${esc(e.titulo)}</td><td>${esc(e.tipo)}</td>
         <td><button class="btn btn-outline" onclick="editarEvento(${i})">Editar</button></td></tr>
       `).join('');
 
       // Cursos
       $('tabela-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map((c, i) => `
-        <tr><td>${c.nome}</td><td>${c.nivel}</td><td>${c.cargaHoraria}h</td>
+        <tr><td>${esc(c.nome)}</td><td>${esc(c.nivel)}</td><td>${esc(c.cargaHoraria)}h</td>
         <td><button class="btn btn-outline" onclick="editarCurso(${i})">Editar</button></td></tr>
       `).join('');
 
@@ -421,8 +449,8 @@
       $('tabela-turmas').querySelector('tbody').innerHTML = state.academico.turmas.map((t, i) => {
         const curso = state.academico.cursos.find(c => c.id === t.cursoId) || { nome: '?' };
         return `<tr>
-          <td>${t.nome}</td><td>${curso.nome}</td><td>${t.dataInicio} a ${t.dataFim}</td><td>${t.vagas}</td>
-          <td><span class="badge ${t.status === 'Inscrições Abertas' ? 'badge-verde' : 'badge-vermelho'}">${t.status}</span></td>
+          <td>${esc(t.nome)}</td><td>${esc(curso.nome)}</td><td>${esc(t.dataInicio)} a ${esc(t.dataFim)}</td><td>${esc(t.vagas)}</td>
+          <td><span class="badge ${t.status === 'Inscrições Abertas' ? 'badge-verde' : 'badge-vermelho'}">${esc(t.status)}</span></td>
           <td><button class="btn btn-outline" onclick="editarTurma(${i})">Editar</button></td>
         </tr>`;
       }).join('');
@@ -440,10 +468,10 @@
     // 1. Páginas
     window.editarPagina = (index) => {
       const p = state.dados.paginas[index];
-      abrirModal(`Editar: ${p.titulo}`, `
-        <div class="form-group"><label>Título</label><input type="text" id="edit-pg-titulo" value="${p.titulo}"></div>
-        <div class="form-group"><label>Descrição</label><input type="text" id="edit-pg-desc" value="${p.descricao || ''}"></div>
-        <div class="form-group"><label>Conteúdo (HTML)</label><textarea id="edit-pg-html" style="min-height: 200px; font-family: monospace;">${p.html || ''}</textarea></div>
+      abrirModal(`Editar: ${esc(p.titulo)}`, `
+        <div class="form-group"><label>Título</label><input type="text" id="edit-pg-titulo" value="${esc(p.titulo)}"></div>
+        <div class="form-group"><label>Descrição</label><input type="text" id="edit-pg-desc" value="${esc(p.descricao || '')}"></div>
+        <div class="form-group"><label>Conteúdo (HTML)</label><textarea id="edit-pg-html" style="min-height: 200px; font-family: monospace;">${esc(p.html || '')}</textarea></div>
       `, () => {
         p.titulo = $('edit-pg-titulo').value;
         p.descricao = $('edit-pg-desc').value;
@@ -457,12 +485,12 @@
       const a = isNew ? { id: Date.now(), modulo: '', titulo: '', video: '', descricao: '', materiais: [] } : state.aulas.aulas[index];
       abrirModal(isNew ? 'Nova Aula' : 'Editar Aula', `
         <div class="grid-2">
-          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${a.modulo}"></div>
-          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-aula-data" value="${a.data || ''}"></div>
+          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${esc(a.modulo)}"></div>
+          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-aula-data" value="${esc(a.data || '')}"></div>
         </div>
-        <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${a.titulo}"></div>
-        <div class="form-group"><label>Link do Vídeo (YouTube Embed)</label><input type="text" id="edit-aula-vid" value="${a.video || ''}"></div>
-        <div class="form-group"><label>Descrição</label><textarea id="edit-aula-desc">${a.descricao || ''}</textarea></div>
+        <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${esc(a.titulo)}"></div>
+        <div class="form-group"><label>Link do Vídeo (YouTube Embed)</label><input type="text" id="edit-aula-vid" value="${esc(a.video || '')}"></div>
+        <div class="form-group"><label>Descrição</label><textarea id="edit-aula-desc">${esc(a.descricao || '')}</textarea></div>
       `, () => {
         a.modulo = $('edit-aula-mod').value; a.data = $('edit-aula-data').value;
         a.titulo = $('edit-aula-tit').value; a.video = $('edit-aula-vid').value; a.descricao = $('edit-aula-desc').value;
@@ -477,10 +505,10 @@
       const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index];
       abrirModal(isNew ? 'Novo Evento' : 'Editar Evento', `
         <div class="grid-2">
-          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-ev-data" value="${e.data}"></div>
-          <div class="form-group"><label>Tipo</label><input type="text" id="edit-ev-tipo" value="${e.tipo}"></div>
+          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
+          <div class="form-group"><label>Tipo</label><input type="text" id="edit-ev-tipo" value="${esc(e.tipo)}"></div>
         </div>
-        <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${e.titulo}"></div>
+        <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${esc(e.titulo)}"></div>
       `, () => {
         e.data = $('edit-ev-data').value; e.tipo = $('edit-ev-tipo').value; e.titulo = $('edit-ev-tit').value;
         if (isNew) state.dados.calendario.eventos.push(e);
@@ -492,10 +520,10 @@
       const isNew = index === -1;
       const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos[index];
       abrirModal(isNew ? 'Novo Curso' : 'Editar Curso', `
-        <div class="form-group"><label>Nome do Curso</label><input type="text" id="edit-c-nome" value="${c.nome}"></div>
+        <div class="form-group"><label>Nome do Curso</label><input type="text" id="edit-c-nome" value="${esc(c.nome)}"></div>
         <div class="grid-2">
-          <div class="form-group"><label>Nível</label><input type="text" id="edit-c-nivel" value="${c.nivel}"></div>
-          <div class="form-group"><label>Carga Horária</label><input type="number" id="edit-c-carga" value="${c.cargaHoraria}"></div>
+          <div class="form-group"><label>Nível</label><input type="text" id="edit-c-nivel" value="${esc(c.nivel)}"></div>
+          <div class="form-group"><label>Carga Horária</label><input type="number" id="edit-c-carga" value="${esc(c.cargaHoraria)}"></div>
         </div>
       `, () => {
         c.nome = $('edit-c-nome').value; c.nivel = $('edit-c-nivel').value; c.cargaHoraria = $('edit-c-carga').value;
@@ -508,17 +536,17 @@
       if (state.academico.cursos.length === 0) return toast('Cadastre um curso primeiro.');
       const isNew = index === -1;
       const t = isNew ? { id: Date.now().toString(), cursoId: '', nome: '', dataInicio: '', dataFim: '', vagas: 30, status: 'Inscrições Abertas', linkFormulario: '' } : state.academico.turmas[index];
-      const opcoesCurso = state.academico.cursos.map(c => `<option value="${c.id}" ${c.id === t.cursoId ? 'selected' : ''}>${c.nome}</option>`).join('');
+      const opcoesCurso = state.academico.cursos.map(c => `<option value="${esc(c.id)}" ${c.id === t.cursoId ? 'selected' : ''}>${esc(c.nome)}</option>`).join('');
       
       abrirModal(isNew ? 'Nova Turma' : 'Editar Turma', `
         <div class="form-group"><label>Curso Vinculado</label><select id="edit-t-curso">${opcoesCurso}</select></div>
-        <div class="form-group"><label>Nome da Turma</label><input type="text" id="edit-t-nome" value="${t.nome}"></div>
+        <div class="form-group"><label>Nome da Turma</label><input type="text" id="edit-t-nome" value="${esc(t.nome)}"></div>
         <div class="grid-2">
-          <div class="form-group"><label>Data Início</label><input type="date" id="edit-t-ini" value="${t.dataInicio}"></div>
-          <div class="form-group"><label>Data Fim</label><input type="date" id="edit-t-fim" value="${t.dataFim}"></div>
+          <div class="form-group"><label>Data Início</label><input type="date" id="edit-t-ini" value="${esc(t.dataInicio)}"></div>
+          <div class="form-group"><label>Data Fim</label><input type="date" id="edit-t-fim" value="${esc(t.dataFim)}"></div>
         </div>
         <div class="grid-2">
-          <div class="form-group"><label>Vagas</label><input type="number" id="edit-t-vagas" value="${t.vagas}"></div>
+          <div class="form-group"><label>Vagas</label><input type="number" id="edit-t-vagas" value="${esc(t.vagas)}"></div>
           <div class="form-group"><label>Status</label>
             <select id="edit-t-status">
               <option value="Inscrições Abertas" ${t.status === 'Inscrições Abertas' ? 'selected' : ''}>Inscrições Abertas</option>
@@ -526,7 +554,7 @@
             </select>
           </div>
         </div>
-        <div class="form-group"><label>Link do Google Forms</label><input type="text" id="edit-t-link" value="${t.linkFormulario || ''}"></div>
+        <div class="form-group"><label>Link do Google Forms</label><input type="text" id="edit-t-link" value="${esc(t.linkFormulario || '')}"></div>
       `, () => {
         t.cursoId = $('edit-t-curso').value; t.nome = $('edit-t-nome').value; t.dataInicio = $('edit-t-ini').value;
         t.dataFim = $('edit-t-fim').value; t.vagas = $('edit-t-vagas').value; t.status = $('edit-t-status').value; t.linkFormulario = $('edit-t-link').value;
@@ -536,9 +564,9 @@
 
     // --- GOOGLE DRIVE ---
     async function sincronizarAlunos() {
-      const url = localStorage.getItem('g_url');
-      const senha = localStorage.getItem('g_senha');
-      if (!url || !senha) return toast('Faça login novamente fornecendo a URL e Senha do Google.');
+      const url = state.googleUrl;
+      const senha = state.googleSenha;
+      if (!url || !senha) return toast('Informe a URL e a senha do Apps Script no acesso ao painel. A senha não é salva no navegador.');
       
       $('tabela-alunos').querySelector('tbody').innerHTML = '<tr><td colspan="4" style="text-align:center;">Sincronizando...</td></tr>';
       try {
@@ -557,7 +585,7 @@
       if(f.length === 0) return tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum aluno.</td></tr>';
       
       tbody.innerHTML = f.map(a => `
-        <tr><td>${a['Nome'] || '-'}</td><td>${a['Email'] || '-'}</td><td>${a['Turma'] || '-'}</td><td>${a['Data'] || '-'}</td></tr>
+        <tr><td>${esc(a['Nome'] || '-')}</td><td>${esc(a['Email'] || '-')}</td><td>${esc(a['Turma'] || '-')}</td><td>${esc(a['Data'] || '-')}</td></tr>
       `).join('');
     }
     window.filtrarAlunos = () => renderizarAlunos($('filtro-aluno').value);
@@ -565,7 +593,7 @@
     // --- PUBLICAÇÃO E BACKUP ---
     async function publicarNoGitHub() {
       if(!state.isDirty) return toast('Nenhuma alteração pendente.');
-      const btn = event.target; btn.textContent = 'Publicando...'; btn.disabled = true;
+      const btn = $('btn-publicar'); btn.textContent = 'Publicando...'; btn.disabled = true;
 
       try {
         const r1 = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza dados gerais');
