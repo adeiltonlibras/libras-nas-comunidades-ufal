@@ -1,56 +1,73 @@
 /* ==========================================================
-   LIBRAS NAS COMUNIDADES — DESIGN SYSTEM INSTITUCIONAL
+   LIBRAS NAS COMUNIDADES — DESIGN SYSTEM GLOBAL
    ========================================================== */
 
 :root {
-  /* Cores Institucionais */
-  --azul-marinho: #0F2B4C;
-  --azul-institucional: #1E4E8C;
-  --dourado: #A88552;
-  --dourado-hover: #8E6D3E;
-  --off-white: #FBFAF6;
-  --branco: #FFFFFF;
-  --cinza-texto: #475569;
-  --cinza-muted: #94A3B8;
-  --borda-suave: #E2E8F0;
-  --cor-ava: #1F6F43; /* Verde para o Moodle/GESysLibras */
-  --cor-ava-hover: #154F2F;
+  /* Paleta de Cores */
+  --cor-primaria: #0F2B4C;      /* Azul Marinho Institucional */
+  --cor-secundaria: #1E4E8C;    /* Azul para links e hovers */
+  --cor-destaque: #A88552;      /* Dourado para detalhes */
+  --cor-ava: #1F6F43;           /* Verde para o Moodle */
+  --cor-fundo: #FBFAF6;         /* Off-white confortável */
+  --cor-superficie: #FFFFFF;    /* Branco puro para cards */
+  --cor-texto: #334155;         /* Cinza escuro para leitura */
+  --cor-texto-leve: #64748B;    /* Cinza para subtítulos */
+  --cor-borda: #E2E8F0;         /* Cinza claro para bordas */
 
   /* Tipografia */
   --fonte-titulo: 'Playfair Display', Georgia, serif;
   --fonte-corpo: 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Layout */
-  --max-width: 1140px;
-  --espacamento-padrao: 24px;
-  --border-radius: 6px;
+  /* Espaçamentos e Layout */
+  --largura-maxima: 1140px;
+  --espaco-secao: 80px;
+  --borda-raio: 8px;
+  --sombra-leve: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --transicao: 0.3s ease;
 }
 
-/* Reset Básico */
+/* ==========================================================
+   RESET E CONFIGURAÇÕES BÁSICAS
+   ========================================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--fonte-corpo);
-  background-color: var(--off-white);
-  color: var(--cinza-texto);
-  line-height: 1.6;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--fonte-titulo);
-  color: var(--azul-marinho);
+  color: var(--cor-primaria);
   line-height: 1.2;
+  font-weight: 700;
 }
 
 a {
+  color: var(--cor-secundaria);
   text-decoration: none;
-  color: var(--azul-institucional);
-  transition: color 0.2s;
+  transition: color var(--transicao);
+}
+
+a:hover {
+  color: var(--cor-primaria);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Acessibilidade */
@@ -58,41 +75,48 @@ a {
   position: absolute;
   top: -100px;
   left: 16px;
-  background: var(--azul-marinho);
-  color: var(--branco);
-  padding: 10px 16px;
+  background: var(--cor-primaria);
+  color: #FFF;
+  padding: 12px 24px;
   z-index: 9999;
-  transition: top 0.3s;
+  border-radius: 0 0 var(--borda-raio) var(--borda-raio);
+  transition: top var(--transicao);
 }
-.skip-link:focus { top: 16px; }
-:focus-visible { outline: 2px solid var(--dourado); outline-offset: 2px; }
+.skip-link:focus {
+  top: 0;
+}
+:focus-visible {
+  outline: 2px solid var(--cor-destaque);
+  outline-offset: 4px;
+}
 
 /* ==========================================================
-   HEADER E NAVEGAÇÃO
+   TOPBAR E HEADER (Navegação)
    ========================================================== */
 .topbar {
-  background-color: var(--azul-marinho);
-  color: var(--cinza-muted);
+  background-color: var(--cor-primaria);
+  color: #94A3B8;
   font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   text-align: center;
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-weight: 500;
 }
 
 .header {
-  background-color: var(--branco);
-  border-bottom: 1px solid var(--borda-suave);
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: var(--sombra-leve);
 }
 
 .header-inner {
-  max-width: var(--max-width);
+  max-width: var(--largura-maxima);
   margin: 0 auto;
-  padding: 16px var(--espacamento-padrao);
+  padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,43 +129,44 @@ a {
 
 .brand-name {
   font-family: var(--fonte-titulo);
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: var(--azul-marinho);
+  color: var(--cor-primaria);
   line-height: 1;
 }
 
 .brand-tag {
   font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--dourado);
+  letter-spacing: 2px;
+  color: var(--cor-destaque);
   font-weight: 600;
   margin-top: 4px;
 }
 
+/* Menu Hamburguer Mobile */
 .nav-toggle {
   display: block;
   background: none;
-  border: 1px solid var(--borda-suave);
-  padding: 8px 12px;
-  border-radius: var(--border-radius);
-  color: var(--azul-marinho);
+  border: 1px solid var(--cor-borda);
+  padding: 8px 16px;
+  border-radius: var(--borda-raio);
+  color: var(--cor-primaria);
   font-weight: 600;
   cursor: pointer;
+  font-family: var(--fonte-corpo);
 }
 
 .nav-menu {
-  display: none; /* Escondido no mobile por padrão */
+  display: none;
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
-  background-color: var(--branco);
-  border-bottom: 1px solid var(--borda-suave);
+  background-color: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
   flex-direction: column;
-  padding: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  padding: 16px 24px;
 }
 
 .nav-menu.active {
@@ -149,66 +174,73 @@ a {
 }
 
 .nav-menu a {
-  color: var(--cinza-texto);
-  font-size: 0.9rem;
+  color: var(--cor-texto);
+  font-size: 0.85rem;
   font-weight: 500;
   padding: 12px 0;
-  border-bottom: 1px solid var(--borda-suave);
+  border-bottom: 1px solid var(--cor-borda);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
-
 .nav-menu a:last-child { border-bottom: none; }
-.nav-menu a:hover { color: var(--azul-marinho); }
 
 /* ==========================================================
-   BOTÕES
+   BOTÕES (Componente Global)
    ========================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-size: 0.85rem;
   font-weight: 600;
-  border-radius: var(--border-radius);
+  border-radius: var(--borda-raio);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transicao);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  font-family: var(--fonte-corpo);
+  text-align: center;
 }
 
 .btn-primario {
-  background-color: var(--azul-marinho);
-  color: var(--branco);
+  background-color: var(--cor-primaria);
+  color: #FFF;
 }
-.btn-primario:hover { background-color: var(--azul-institucional); }
-
-.btn-dourado {
-  background-color: var(--dourado);
-  color: var(--branco);
+.btn-primario:hover {
+  background-color: var(--cor-secundaria);
+  color: #FFF;
 }
-.btn-dourado:hover { background-color: var(--dourado-hover); }
 
-/* Botão de Destaque para o Moodle (GESysLibras) */
 .btn-ava {
   background-color: var(--cor-ava);
-  color: var(--branco);
-  box-shadow: 0 4px 12px rgba(31, 111, 67, 0.2);
+  color: #FFF;
+  box-shadow: 0 4px 12px rgba(31, 111, 67, 0.25);
 }
 .btn-ava:hover {
-  background-color: var(--cor-ava-hover);
+  background-color: #154F2F;
+  color: #FFF;
   transform: translateY(-2px);
 }
 
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-primaria);
+}
+.btn-outline:hover {
+  border-color: var(--cor-primaria);
+  background: #FFF;
+}
+
 /* ==========================================================
-   HERO SECTION
+   SEÇÃO HERO (Destaque Inicial)
    ========================================================== */
 .hero {
-  padding: 64px 16px;
+  padding: 80px 24px;
   text-align: center;
-  background: linear-gradient(to bottom, var(--branco), var(--off-white));
+  background: linear-gradient(180deg, var(--cor-superficie) 0%, var(--cor-fundo) 100%);
 }
 
 .hero-content {
@@ -220,21 +252,21 @@ a {
   display: inline-block;
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--dourado);
+  color: var(--cor-destaque);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2.5rem, 6vw, 4rem);
   margin-bottom: 24px;
 }
 
 .hero p {
-  font-size: 1.1rem;
-  color: var(--cinza-texto);
-  margin-bottom: 32px;
+  font-size: 1.15rem;
+  color: var(--cor-texto-leve);
+  margin-bottom: 40px;
   max-width: 600px;
   margin-inline: auto;
 }
@@ -242,104 +274,109 @@ a {
 .hero-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 300px;
+  gap: 16px;
+  max-width: 320px;
   margin: 0 auto;
 }
 
 /* ==========================================================
-   DESTAQUES / CARDS
+   CONTAINER E CARDS
    ========================================================== */
 .container {
-  max-width: var(--max-width);
+  max-width: var(--largura-maxima);
   margin: 0 auto;
-  padding: 48px 16px;
+  padding: var(--espaco-secao) 24px;
 }
 
 .grid-cards {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 32px;
 }
 
 .card {
-  background-color: var(--branco);
-  border: 1px solid var(--borda-suave);
-  border-radius: var(--border-radius);
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--borda-raio);
   padding: 32px;
-  text-align: left;
-  transition: transform 0.2s;
+  transition: transform var(--transicao), box-shadow var(--transicao);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 20px -10px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.08);
 }
 
 .card-icon {
-  font-size: 2rem;
-  margin-bottom: 16px;
-  color: var(--dourado);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
 .card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 12px;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
 }
 
 .card p {
   font-size: 0.95rem;
-  margin-bottom: 20px;
+  color: var(--cor-texto-leve);
+  margin-bottom: 24px;
 }
 
 /* ==========================================================
    RODAPÉ
    ========================================================== */
 .footer {
-  background-color: var(--azul-marinho);
-  color: var(--branco);
-  padding: 48px 16px 24px;
-  margin-top: 48px;
+  background-color: var(--cor-primaria);
+  color: #94A3B8;
+  padding: 64px 24px 24px;
+  margin-top: auto;
 }
 
 .footer-inner {
-  max-width: var(--max-width);
+  max-width: var(--largura-maxima);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 40px;
   text-align: center;
 }
 
 .footer-brand h4 {
-  color: var(--branco);
-  font-size: 1.2rem;
-  margin-bottom: 8px;
+  color: #FFF;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
 }
 
 .footer-brand p {
-  color: var(--cinza-muted);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 24px;
-  margin-top: 24px;
-  font-size: 0.8rem;
-  color: var(--cinza-muted);
+  margin-top: 40px;
+  font-size: 0.85rem;
   text-align: center;
+  line-height: 1.8;
 }
 
 .footer-bottom strong {
-  color: var(--branco);
+  color: #FFF;
+  font-weight: 600;
 }
 
 /* ==========================================================
-   RESPONSIVIDADE (DESKTOP)
+   RESPONSIVIDADE (Telas maiores / Desktop)
    ========================================================== */
 @media (min-width: 768px) {
-  .nav-toggle { display: none; }
+  .nav-toggle {
+    display: none;
+  }
+  
   .nav-menu {
     display: flex;
     position: static;
@@ -348,29 +385,35 @@ a {
     border: none;
     box-shadow: none;
     padding: 0;
-    gap: 24px;
+    gap: 32px;
   }
+  
   .nav-menu a {
     border: none;
     padding: 0;
     font-size: 0.8rem;
   }
-  
+
   .hero-actions {
     flex-direction: row;
     max-width: none;
     justify-content: center;
   }
-  
+
   .grid-cards {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .footer-inner {
     flex-direction: row;
     justify-content: space-between;
     text-align: left;
   }
+  
+  .footer-brand p {
+    margin: 0;
+  }
+  
   .footer-bottom {
     text-align: left;
   }
