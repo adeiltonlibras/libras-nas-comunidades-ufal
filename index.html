@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Projeto de Extensão Libras nas Comunidades - UFAL. Língua, inclusão e acessibilidade na comunidade.">
+  <meta name="description" content="Projeto de Extensão Libras nas Comunidades - UFAL. Promovendo a difusão da Língua Brasileira de Sinais, inclusão e acessibilidade.">
   <title>Início — Libras nas Comunidades | UFAL</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,23 +14,24 @@
   
   <style>
     /* Ajustes específicos para a estrutura da Home */
-    .section-block { padding: 64px 24px; }
+    .section-block { padding: 72px 24px; }
     .section-block:nth-child(even) { background-color: var(--cor-superficie); border-top: 1px solid var(--cor-borda); border-bottom: 1px solid var(--cor-borda); }
     .section-content { max-width: 800px; margin: 0 auto; text-align: center; }
-    .section-content p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; color: var(--cor-texto); }
+    .section-content p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 24px; color: var(--cor-texto); }
+    .section-content p:last-child { margin-bottom: 0; }
     
-    /* Estilo para a Figura Histórica */
-    figure.trajetoria-figura { margin: 32px auto; max-width: 700px; }
-    .trajetoria-img { width: 100%; height: auto; border-radius: var(--borda-raio); box-shadow: var(--sombra-leve); display: block; }
-    figcaption { font-size: 0.85rem; color: var(--cor-texto-leve); margin-top: 12px; text-align: center; font-style: italic; }
+    /* Destaque para a Trajetória */
+    figure.trajetoria-figura { margin: 40px auto; max-width: 750px; }
+    .trajetoria-img { width: 100%; height: auto; border-radius: var(--borda-raio); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15); display: block; }
+    figcaption { font-size: 0.85rem; color: var(--cor-texto-leve); margin-top: 16px; text-align: center; font-style: italic; }
     
     /* Card da Nova Edição */
-    .nova-edicao-card { background-color: var(--cor-superficie); border: 2px solid var(--cor-destaque); border-radius: var(--borda-raio); padding: 40px; max-width: 800px; margin: 0 auto; text-align: left; }
-    .nova-edicao-card h2 { font-size: 2rem; margin-bottom: 16px; color: var(--cor-primaria); }
-    .info-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; margin-bottom: 32px; }
-    .info-item { border-bottom: 1px solid var(--cor-borda); padding-bottom: 12px; }
-    .info-item strong { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--cor-texto-leve); letter-spacing: 1px; margin-bottom: 4px; }
-    .info-item span { font-size: 1.05rem; font-weight: 500; color: var(--cor-primaria); }
+    .nova-edicao-card { background-color: var(--cor-superficie); border: 2px solid var(--cor-destaque); border-radius: var(--borda-raio); padding: 48px; max-width: 850px; margin: 0 auto; text-align: left; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.1); }
+    .nova-edicao-card h2 { font-size: 2.2rem; margin-bottom: 16px; color: var(--cor-primaria); }
+    .info-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 32px; margin-bottom: 40px; }
+    .info-item { border-bottom: 1px solid var(--cor-borda); padding-bottom: 16px; }
+    .info-item strong { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--cor-texto-leve); letter-spacing: 1px; margin-bottom: 6px; }
+    .info-item span { font-size: 1.1rem; font-weight: 500; color: var(--cor-primaria); }
     
     @media (min-width: 600px) {
       .info-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -39,8 +40,6 @@
 </head>
 <body>
   <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
-
-  <div class="topbar">Universidade Federal de Alagoas · FALE · PROEXC</div>
 
   <header class="header">
     <div class="header-inner">
@@ -52,7 +51,7 @@
       <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu de navegação">Menu</button>
       
       <nav class="nav-menu" id="navMenu" aria-label="Navegação Principal">
-        <!-- Fallback seguro: links básicos caso o JSON falhe -->
+        <!-- Fallback seguro -->
         <a href="index.html">Início</a>
         <a href="pagina.html?slug=sobre">O Projeto</a>
         <a href="pagina.html?slug=curso">O Curso</a>
@@ -69,8 +68,8 @@
       <div class="hero-content">
         <span class="hero-eyebrow">Projeto de Extensão · UFAL</span>
         <h1 id="home-titulo">Libras nas Comunidades</h1>
-        <p id="home-subtitulo">
-          Língua, inclusão e acessibilidade na comunidade. Promovendo a difusão da Língua Brasileira de Sinais e a construção de espaços mais inclusivos.
+        <p id="home-subtitulo" style="font-size: 1.2rem; line-height: 1.7;">
+          Promovendo a difusão da Língua Brasileira de Sinais, incentivando a comunicação acessível e construindo espaços mais inclusivos para a comunidade surda.
         </p>
         
         <div class="hero-actions">
@@ -87,34 +86,32 @@
     <!-- Seção 1: Apresentação -->
     <section class="section-block">
       <div class="section-content">
-        <h2 style="font-size: 2.2rem; margin-bottom: 24px;">Aprender Libras é construir pontes</h2>
-        <p>O projeto <strong>Libras nas Comunidades – UFAL</strong> promove a difusão da Língua Brasileira de Sinais (Libras), incentivando a comunicação acessível, o respeito à comunidade surda e a construção de espaços mais inclusivos.</p>
-        <p>Por meio de atividades formativas e ações junto à comunidade, o projeto busca ampliar o conhecimento sobre Libras, cultura surda e inclusão, contribuindo para reduzir barreiras de comunicação entre pessoas surdas e ouvintes.</p>
-        <p>A Libras é uma língua fundamental para a comunicação, a participação social e o reconhecimento da identidade e da cultura das pessoas surdas. Aprendê-la é um passo importante para desenvolver relações mais acessíveis, respeitosas e inclusivas.</p>
-        <p>O projeto aproxima o conhecimento acadêmico da realidade das comunidades, valorizando a formação, a troca de experiências e o compromisso com a acessibilidade.</p>
+        <h2 style="font-size: 2.2rem; margin-bottom: 32px;">Aprender Libras é construir pontes</h2>
+        <p>O projeto <strong>Libras nas Comunidades – UFAL</strong> nasce do compromisso de levar a Língua Brasileira de Sinais para além dos muros da universidade. Por meio de ações formativas, buscamos aproximar o conhecimento acadêmico da realidade das comunidades, valorizando a cultura surda e o respeito à diversidade linguística.</p>
+        <p>A Libras é um instrumento fundamental para a comunicação, a participação social e o reconhecimento da identidade das pessoas surdas. Ao promover a formação em Libras, o projeto contribui diretamente para reduzir barreiras de comunicação e para a construção de uma sociedade mais justa, acessível e inclusiva.</p>
       </div>
     </section>
 
     <!-- Seção 2: Trajetória -->
     <section class="section-block">
       <div class="section-content">
-        <h2 style="font-size: 2.2rem; margin-bottom: 24px;">Nossa trajetória</h2>
-        <p>O projeto já desenvolveu ações de formação em Libras na comunidade da Assembleia de Deus Gruta Alegre, em Maceió, ampliando o contato dos participantes com a língua e com aspectos da cultura surda.</p>
+        <h2 style="font-size: 2.2rem; margin-bottom: 32px;">Nossa trajetória</h2>
+        <p>A história do projeto é marcada por iniciativas que transformam realidades. Em nossa edição anterior, realizada na comunidade da Assembleia de Deus Gruta Alegre, em Maceió, tivemos a oportunidade de ampliar o contato dos participantes com a língua e com aspectos profundos da cultura surda.</p>
         
         <figure class="trajetoria-figura">
           <img src="https://img.dhost.cloud/FNk1FamQ-MW-UBQNT62cducp5uU=/fit-in/1920x1080/https://cdn.adalagoas.com.br/images/d6e66/f8950060c5c56bc558ca202303bb85f6b5f.jpeg" 
                alt="Registro fotográfico de participantes durante a edição anterior do curso na comunidade da AD Gruta Alegre." 
                class="trajetoria-img"
                loading="lazy">
-          <figcaption>Edição anterior realizada na comunidade da AD Gruta Alegre. Foto: Divulgação / AD Alagoas.</figcaption>
+          <figcaption>Registro da edição anterior na comunidade da AD Gruta Alegre. Foto: Divulgação / AD Alagoas.</figcaption>
         </figure>
         
-        <p>Essa experiência integra a trajetória do projeto e fortalece a continuidade de iniciativas voltadas à difusão da Libras em espaços comunitários.</p>
+        <p>Essa experiência de sucesso fortaleceu os laços entre a universidade e o território, pavimentando o caminho para a continuidade e a expansão das nossas ações.</p>
         
         <a href="https://adalagoas.com.br/noticias/capital/2025/09/08/19859-projeto-de-libras-leva-inclusao-e-conhecimento-a-comunidade-da-ad-gruta-alegre" 
            target="_blank" rel="noopener noreferrer" 
            class="btn btn-outline" style="margin-top: 16px;">
-          Leia a notícia sobre a edição anterior
+          Leia a notícia completa sobre a edição anterior
         </a>
       </div>
     </section>
@@ -124,7 +121,9 @@
       <div class="nova-edicao-card">
         <span class="hero-eyebrow">Nova Edição</span>
         <h2>Libras Básico I</h2>
-        <p style="color: var(--cor-texto-leve); margin-bottom: 24px;">A nova edição do curso será realizada na Congregação da Assembleia de Deus Benedito Bentes 3, no Conjunto Frei Damião, em Maceió–AL.</p>
+        <p style="color: var(--cor-texto-leve); font-size: 1.1rem; margin-bottom: 24px;">
+          Dando continuidade à nossa trajetória, temos a alegria de anunciar a nova turma do curso Básico I. A formação será realizada presencialmente na Congregação da Assembleia de Deus Benedito Bentes 3.
+        </p>
         
         <div class="info-grid">
           <div class="info-item"><strong>Curso</strong><span>Língua Brasileira de Sinais (Libras) – Básico I</span></div>
@@ -136,8 +135,8 @@
           <div class="info-item" style="grid-column: 1 / -1;"><strong>Coordenação</strong><span>Edineide dos Santos Silva</span></div>
         </div>
 
-        <div style="text-align: center; border-top: 1px solid var(--cor-borda); padding-top: 24px;">
-          <a href="inscricoes.html" class="btn btn-primario" style="width: 100%; max-width: 300px;">Ver Página de Inscrições</a>
+        <div style="text-align: center; border-top: 1px solid var(--cor-borda); padding-top: 32px;">
+          <a href="inscricoes.html" class="btn btn-primario" style="width: 100%; max-width: 350px;">Ver Página de Inscrições</a>
         </div>
       </div>
     </section>
@@ -160,14 +159,12 @@
       const navToggle = document.getElementById('navToggle');
       const navMenu = document.getElementById('navMenu');
 
-      // 1. Controle do Menu Mobile Acessível
       navToggle.addEventListener('click', () => {
         const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
         navToggle.setAttribute('aria-expanded', !isExpanded);
         navMenu.classList.toggle('active');
       });
 
-      // 2. Carregamento Seguro e Dinâmico do Menu via JSON
       fetch('dados.json?t=' + Date.now())
         .then(res => {
           if (!res.ok) throw new Error('Falha ao carregar dados');
@@ -175,10 +172,8 @@
         })
         .then(D => {
           if (D.paginas && Array.isArray(D.paginas)) {
-            // Limpa o fallback estático apenas se o JSON for válido
             navMenu.innerHTML = ''; 
             
-            // Filtra, ordena e cria os elementos de forma segura (evitando innerHTML inseguro)
             D.paginas
               .filter(p => p.publicada !== false)
               .sort((a, b) => a.ordem - b.ordem)
@@ -191,14 +186,13 @@
 
                 const a = document.createElement('a');
                 a.href = link;
-                a.textContent = p.titulo; // Seguro contra injeção de HTML
+                a.textContent = p.titulo; 
                 navMenu.appendChild(a);
               });
           }
         })
         .catch(err => {
-          console.warn("Aviso: O dados.json não foi carregado. O menu utilizará os links básicos de segurança.", err);
-          // O código HTML já contém os links básicos, então nada precisa ser feito aqui.
+          console.warn("Aviso: O dados.json não foi carregado.", err);
         });
     });
   </script>
