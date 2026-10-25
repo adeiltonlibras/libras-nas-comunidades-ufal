@@ -5,8 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <title>Painel Administrativo — Libras nas Comunidades</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Biblioteca para o Calendário de Seleção -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
   
   <style>
     :root {
@@ -24,7 +30,7 @@
       --fonte-titulo: 'Playfair Display', Georgia, serif;
       --fonte-corpo: 'Inter', system-ui, sans-serif;
       --radius: 8px;
-      --sombra: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+      --sombra: 0 4px 6px -1px rgba(0,0,0,0.05);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -92,6 +98,21 @@
     .badge-verde { background: #DCFCE7; color: #166534; }
     .badge-vermelho { background: #FEE2E2; color: #991B1B; }
 
+    /* ================= CALENDÁRIO VISUAL ================= */
+    .calendar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .calendar-controls h2 { font-family: var(--fonte-titulo); font-size: 1.4rem; color: var(--azul-marinho); }
+    
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+    .cal-header { font-weight: 600; text-align: center; padding: 10px; font-size: 0.8rem; text-transform: uppercase; color: var(--texto-leve); letter-spacing: 1px; }
+    .cal-cell { background: var(--branco); border: 1px solid var(--borda); border-radius: var(--radius); min-height: 110px; padding: 8px; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
+    .cal-cell:hover { background: #F8FAFC; border-color: var(--azul-marinho); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .cal-cell.empty { background: transparent; border: none; cursor: default; box-shadow: none; }
+    .cal-date-num { font-weight: 700; color: var(--azul-marinho); margin-bottom: 6px; font-size: 0.9rem; }
+    .cal-event { font-size: 0.7rem; padding: 4px 6px; border-radius: 4px; background: #E0F2FE; color: #0369A1; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 2px solid #0369A1; }
+    .cal-event.assincrona { background: #F3E8FF; color: #6B21A8; border-left-color: #6B21A8; }
+    .cal-add-btn { margin-top: auto; text-align: center; font-size: 1.2rem; color: var(--borda); opacity: 0; transition: 0.2s; }
+    .cal-cell:hover .cal-add-btn { opacity: 1; color: var(--azul-marinho); }
+
     /* ================= MODAL ================= */
     .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
@@ -116,6 +137,9 @@
       #btn-mobile-menu { display: inline-flex !important; }
       .grid-2 { grid-template-columns: 1fr; }
       .modal-box { padding: 20px; }
+      .cal-cell { min-height: 80px; padding: 4px; }
+      .cal-date-num { font-size: 0.8rem; }
+      .cal-event { font-size: 0.6rem; padding: 2px 4px; }
     }
   </style>
 </head>
@@ -158,8 +182,10 @@
       <a class="nav-item" onclick="mudarAba('aulas', this)">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> Aulas e Materiais
       </a>
+      
+      <div class="nav-category">Cronograma</div>
       <a class="nav-item" onclick="mudarAba('calendario', this)">
-        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg> Cronograma
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg> Calendário de Eventos
       </a>
       
       <div class="nav-category">Gestão Acadêmica</div>
@@ -235,18 +261,26 @@
         </div>
       </section>
 
-      <!-- CALENDÁRIO -->
+      <!-- CALENDÁRIO VISUAL -->
       <section class="view-section" id="aba-calendario">
         <div class="card">
-          <div class="card-header">
-            Cronograma de Eventos
-            <button class="btn btn-dourado" onclick="editarEvento()">+ Novo Evento</button>
+          <div class="calendar-controls">
+            <button class="btn btn-outline" onclick="mudarMes(-1)">&#8592; Mês Anterior</button>
+            <h2 id="cal-mes-ano">Carregando...</h2>
+            <button class="btn btn-outline" onclick="mudarMes(1)">Próximo Mês &#8594;</button>
           </div>
-          <div class="table-responsive">
-            <table id="tabela-eventos">
-              <thead><tr><th>Data</th><th>Evento</th><th>Tipo</th><th>Ações</th></tr></thead>
-              <tbody></tbody>
-            </table>
+          
+          <div class="cal-grid" id="cal-header">
+            <div class="cal-header">Dom</div>
+            <div class="cal-header">Seg</div>
+            <div class="cal-header">Ter</div>
+            <div class="cal-header">Qua</div>
+            <div class="cal-header">Qui</div>
+            <div class="cal-header">Sex</div>
+            <div class="cal-header">Sáb</div>
+          </div>
+          <div class="cal-grid" id="cal-body" style="margin-top: 8px;">
+            <!-- Dias do mês serão injetados aqui -->
           </div>
         </div>
       </section>
@@ -327,7 +361,8 @@
     const state = {
       token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main',
       dados: {}, aulas: {}, academico: {}, alunosDrive: [], googleUrl: '', googleSenha: '',
-      shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false
+      shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false,
+      calMes: new Date().getMonth(), calAno: new Date().getFullYear()
     };
 
     const API = 'https://api.github.com';
@@ -357,7 +392,6 @@
       try {
         const [d, a, ac] = await Promise.all([ apiFetch('dados.json'), apiFetch('aulas-dados.json'), apiFetch('academico-dados.json') ]);
         
-        // Parse robusto para garantir compatibilidade com arquivos antigos
         state.dados = d && d.content ? d.content : {};
         state.aulas = a && a.content ? a.content : {};
         state.academico = ac && ac.content ? ac.content : {};
@@ -388,7 +422,7 @@
 
     async function apiFetch(path) {
       const res = await fetch(`${API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, { headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' } });
-      if (res.status === 404) return { content: null, sha: null }; // Permite criar o arquivo se não existir
+      if (res.status === 404) return { content: null, sha: null };
       if (!res.ok) throw new Error(`Erro ${res.status} ao buscar ${path}`);
       const data = await res.json();
       const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, '')))));
@@ -403,15 +437,15 @@
       return await res.json();
     }
 
-    // --- NAVEGAÇÃO E RENDERIZAÇÃO GERAL ---
+    // --- NAVEGAÇÃO E RENDERIZAÇÃO ---
     function mudarAba(id, el) {
-      const section = $(`aba-${id}`);
-      if (!section) return;
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       if (el) el.classList.add('active');
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       $(`aba-${id}`).classList.add('active');
       $('view-title').textContent = el ? el.textContent.trim() : id;
+      
+      if (id === 'calendario') renderizarCalendario();
     }
 
     function marcarSujo() {
@@ -447,17 +481,6 @@
         </tr>
       `).join('');
 
-      // Eventos
-      $('tabela-eventos').querySelector('tbody').innerHTML = state.dados.calendario.eventos.map((e, i) => `
-        <tr>
-          <td>${esc((e.data || '').split('-').reverse().join('/'))}</td><td>${esc(e.titulo)}</td><td>${esc(e.tipo)}</td>
-          <td>
-            <button class="btn btn-outline" onclick="editarEvento(${i})">Editar</button>
-            <button class="btn btn-perigo" onclick="removerEvento(${i})">X</button>
-          </td>
-        </tr>
-      `).join('');
-
       // Cursos
       $('tabela-cursos').querySelector('tbody').innerHTML = state.academico.cursos.map((c, i) => `
         <tr>
@@ -483,30 +506,96 @@
       }).join('');
     }
 
-    // --- FUNÇÕES DE EXCLUSÃO (DELETE) ---
+    // --- LÓGICA DO CALENDÁRIO VISUAL ---
+    function mudarMes(delta) {
+      state.calMes += delta;
+      if (state.calMes < 0) { state.calMes = 11; state.calAno--; }
+      else if (state.calMes > 11) { state.calMes = 0; state.calAno++; }
+      renderizarCalendario();
+    }
+
+    function renderizarCalendario() {
+      const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+      $('cal-mes-ano').textContent = `${meses[state.calMes]} ${state.calAno}`;
+
+      const primeiroDia = new Date(state.calAno, state.calMes, 1).getDay();
+      const diasNoMes = new Date(state.calAno, state.calMes + 1, 0).getDate();
+      
+      let html = '';
+
+      // Dias vazios antes do dia 1
+      for (let i = 0; i < primeiroDia; i++) {
+        html += `<div class="cal-cell empty"></div>`;
+      }
+
+      // Dias do mês
+      for (let dia = 1; dia <= diasNoMes; dia++) {
+        // Formatar data para YYYY-MM-DD para bater com o JSON
+        const mesStr = String(state.calMes + 1).padStart(2, '0');
+        const diaStr = String(dia).padStart(2, '0');
+        const dataStr = `${state.calAno}-${mesStr}-${diaStr}`;
+
+        // Filtrar eventos deste dia
+        const eventosDoDia = state.dados.calendario.eventos.filter(e => e.data === dataStr);
+
+        // Gerar HTML dos eventos dentro da célula
+        const eventosHtml = eventosDoDia.map(ev => {
+          const isAssincrona = ev.tipo === 'assincrona' || ev.tipo === 'On-line';
+          return `<div class="cal-event ${isAssincrona ? 'assincrona' : ''}" title="${esc(ev.titulo)}">${esc(ev.titulo)}</div>`;
+        }).join('');
+
+        html += `
+          <div class="cal-cell" onclick="abrirModalEvento('${dataStr}')">
+            <div class="cal-date-num">${dia}</div>
+            ${eventosHtml}
+            <div class="cal-add-btn">+</div>
+          </div>
+        `;
+      }
+
+      // Dias vazios no final para completar a grade
+      const totalCelulas = primeiroDia + diasNoMes;
+      const celulasRestantes = totalCelulas % 7 === 0 ? 0 : 7 - (totalCelulas % 7);
+      for (let i = 0; i < celulasRestantes; i++) {
+        html += `<div class="cal-cell empty"></div>`;
+      }
+
+      $('cal-body').innerHTML = html;
+    }
+
+    window.abrirModalEvento = (dataStr) => {
+      editarEvento(-1, dataStr);
+    };
+
+    // --- FUNÇÕES CRUD ---
+    function abrirModal(titulo, html, callback) {
+      $('modal-title').textContent = titulo;
+      $('modal-body').innerHTML = html;
+      $('btn-salvar-modal').onclick = () => { callback(); fecharModal(); marcarSujo(); renderizarTudo(); renderizarCalendario(); };
+      $('modal-edicao').classList.add('active');
+    }
+    function fecharModal() { $('modal-edicao').classList.remove('active'); }
+
     window.removerPagina = (i) => { if (confirm('Excluir esta página permanentemente?')) { state.dados.paginas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
     window.removerAula = (i) => { if (confirm('Excluir esta aula permanentemente?')) { state.aulas.aulas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
-    window.removerEvento = (i) => { if (confirm('Excluir este evento do cronograma?')) { state.dados.calendario.eventos.splice(i, 1); renderizarTudo(); marcarSujo(); } };
     window.removerCurso = (i) => {
       const curso = state.academico.cursos[i];
       if (state.academico.turmas.some(t => t.cursoId === curso.id)) {
         return toast('Não é possível excluir: existem turmas vinculadas a este curso.');
       }
-      if (confirm(`Excluir o curso "${curso.nome}" permanentemente?`)) {
-        state.academico.cursos.splice(i, 1); renderizarTudo(); marcarSujo();
-      }
+      if (confirm(`Excluir o curso "${curso.nome}" permanentemente?`)) { state.academico.cursos.splice(i, 1); renderizarTudo(); marcarSujo(); }
     };
     window.removerTurma = (i) => { if (confirm('Excluir esta turma permanentemente?')) { state.academico.turmas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    
+    // Remover evento a partir do Modal (que agora lista os eventos do dia)
+    window.removerEvento = (index) => {
+      if(confirm('Excluir este evento?')) {
+        state.dados.calendario.eventos.splice(index, 1);
+        fecharModal(); renderizarTudo(); renderizarCalendario(); marcarSujo();
+      }
+    };
 
-    // --- FUNÇÕES DE EDIÇÃO (CREATE/UPDATE) ---
-    function abrirModal(titulo, html, callback) {
-      $('modal-title').textContent = titulo;
-      $('modal-body').innerHTML = html;
-      $('btn-salvar-modal').onclick = () => { callback(); fecharModal(); marcarSujo(); renderizarTudo(); };
-      $('modal-edicao').classList.add('active');
-    }
-    function fecharModal() { $('modal-edicao').classList.remove('active'); }
-
+    // --- EDIÇÃO ---
     window.editarPagina = (index) => {
       const p = state.dados.paginas[index];
       abrirModal(`Editar: ${esc(p.titulo)}`, `
@@ -517,9 +606,7 @@
           <textarea id="edit-pg-html" style="min-height: 300px; font-family: monospace; line-height: 1.5;">${esc(p.html || '')}</textarea>
         </div>
       `, () => {
-        p.titulo = $('edit-pg-titulo').value;
-        p.descricao = $('edit-pg-desc').value;
-        p.html = $('edit-pg-html').value;
+        p.titulo = $('edit-pg-titulo').value; p.descricao = $('edit-pg-desc').value; p.html = $('edit-pg-html').value;
       });
     };
 
@@ -563,8 +650,7 @@
         a.modulo = $('edit-aula-mod').value; a.data = $('edit-aula-data').value; a.titulo = $('edit-aula-tit').value;
         let v = $('edit-aula-vid').value.trim(); 
         if(v && !v.includes('/embed/')) { const id = v.match(/(?:youtu\.be\/|v=)([^&]+)/); if(id) v = `https://www.youtube.com/embed/${id[1]}`; } 
-        a.video = v || null;
-        a.descricao = $('edit-aula-desc').value;
+        a.video = v || null; a.descricao = $('edit-aula-desc').value;
         
         const novosMateriais = [];
         document.querySelectorAll('#lista-materiais .dynamic-item').forEach(row => {
@@ -589,21 +675,84 @@
       $('lista-materiais').appendChild(div);
     };
 
-    window.editarEvento = (index = -1) => {
+    // --- EDIÇÃO DE EVENTOS (Integrado com o Calendário e Flatpickr) ---
+    window.editarEvento = (index = -1, dataPreSelecionada = '') => {
+      // Se foi clicado no calendário (dataPreSelecionada), lista os eventos daquele dia
+      if (dataPreSelecionada) {
+        const eventosDoDia = state.dados.calendario.eventos.map((e, i) => ({...e, originalIndex: i})).filter(e => e.data === dataPreSelecionada);
+        
+        let htmlLista = '';
+        if (eventosDoDia.length > 0) {
+          htmlLista = `
+            <div style="margin-bottom: 20px;">
+              <h4 style="margin-bottom: 10px; color: var(--azul-marinho);">Eventos em ${dataPreSelecionada.split('-').reverse().join('/')}:</h4>
+              ${eventosDoDia.map(ev => `
+                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--off-white); padding: 10px; border: 1px solid var(--borda); margin-bottom: 8px; border-radius: 4px;">
+                  <div><strong>${esc(ev.titulo)}</strong> <span class="badge ${ev.tipo === 'assincrona' ? 'badge-vermelho' : 'badge-verde'}">${esc(ev.tipo)}</span></div>
+                  <button class="btn btn-perigo" style="padding: 4px 8px; font-size: 0.7rem;" onclick="removerEvento(${ev.originalIndex});">Excluir</button>
+                </div>
+              `).join('')}
+            </div>
+            <hr style="border: 0; border-top: 1px solid var(--borda); margin: 20px 0;">
+            <h4 style="margin-bottom: 10px; color: var(--azul-marinho);">Adicionar Novo Evento neste dia:</h4>
+          `;
+        }
+
+        abrirModal(`Gerenciar Dia: ${dataPreSelecionada.split('-').reverse().join('/')}`, `
+          ${htmlLista}
+          <div class="form-group"><label>Data</label><input type="text" id="edit-ev-data" value="${dataPreSelecionada}"></div>
+          <div class="form-group"><label>Título do Evento</label><input type="text" id="edit-ev-tit" value="" placeholder="Ex: Aula de Libras"></div>
+          <div class="form-group"><label>Tipo</label>
+            <select id="edit-ev-tipo">
+              <option value="presencial">Presencial</option>
+              <option value="assincrona">Assíncrona</option>
+            </select>
+          </div>
+        `, () => {
+          const novaData = $('edit-ev-data').value;
+          const novoTit = $('edit-ev-tit').value;
+          if(!novoTit) return toast('O título é obrigatório');
+          
+          state.dados.calendario.eventos.push({ data: novaData, titulo: novoTit, tipo: $('edit-ev-tipo').value });
+          
+          // Ordenar cronologicamente
+          state.dados.calendario.eventos.sort((a,b) => a.data.localeCompare(b.data));
+        });
+        
+        // Inicializa o Flatpickr no input
+        setTimeout(() => {
+          flatpickr("#edit-ev-data", { locale: "pt", dateFormat: "Y-m-d" });
+        }, 100);
+        return;
+      }
+
+      // Se foi clicado no botão global "Novo Evento" ou "Editar"
       const isNew = index === -1;
       const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index];
+      
       abrirModal(isNew ? 'Novo Evento' : 'Editar Evento', `
         <div class="grid-2">
-          <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
-          <div class="form-group"><label>Tipo</label><input type="text" id="edit-ev-tipo" value="${esc(e.tipo)}" placeholder="presencial ou assincrona"></div>
+          <div class="form-group"><label>Data (Selecione no Calendário)</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
+          <div class="form-group"><label>Tipo</label>
+            <select id="edit-ev-tipo">
+              <option value="presencial" ${e.tipo === 'presencial' ? 'selected' : ''}>Presencial</option>
+              <option value="assincrona" ${e.tipo === 'assincrona' ? 'selected' : ''}>Assíncrona</option>
+            </select>
+          </div>
         </div>
         <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${esc(e.titulo)}"></div>
       `, () => {
         e.data = $('edit-ev-data').value; e.tipo = $('edit-ev-tipo').value; e.titulo = $('edit-ev-tit').value;
         if (isNew) state.dados.calendario.eventos.push(e);
+        state.dados.calendario.eventos.sort((a,b) => a.data.localeCompare(b.data));
       });
+
+      setTimeout(() => {
+        flatpickr("#edit-ev-data", { locale: "pt", dateFormat: "Y-m-d" });
+      }, 100);
     };
 
+    // --- CURSOS E TURMAS ---
     window.editarCurso = (index = -1) => {
       const isNew = index === -1;
       const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos[index];
