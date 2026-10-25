@@ -71,6 +71,17 @@
     }
   ],
   "calendario": {
-    "eventos": []
+    "eventos": [
+      {
+        "data": "2026-11-07",
+        "titulo": "Aula cancelada ",
+        "tipo": "presencial"
+      },
+      {
+        "data": "2026-11-21",
+        "titulo": "Aula cancelada",
+        "tipo": "presencial"
+      }
+    ]
   }
 }
