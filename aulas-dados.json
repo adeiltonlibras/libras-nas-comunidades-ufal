@@ -7,7 +7,12 @@
       "data": "2026-10-17",
       "descricao": "",
       "video": "https://www.youtube.com/embed/y2b_IaicMqY",
-      "materiais": []
+      "materiais": [
+        {
+          "titulo": "teste",
+          "url": "https://www.fira.edu.br/repositorio/wp-content/uploads/tainacan-items/5/9332/PEREIRA-TCC-FIRA-POS-LIBRAS-2018.pdf"
+        }
+      ]
     },
     {
       "id": 1792580468311,
