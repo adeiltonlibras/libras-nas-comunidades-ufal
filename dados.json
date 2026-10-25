@@ -73,14 +73,106 @@
   "calendario": {
     "eventos": [
       {
+        "data": "2026-10-17",
+        "titulo": "Aula 1",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-10-24",
+        "titulo": "Aula 2",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-10-31",
+        "titulo": "Aula 3",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
         "data": "2026-11-07",
-        "titulo": "Aula cancelada ",
-        "tipo": "presencial"
+        "titulo": "AULA 4 (Ensaio do CONADKIDS) ",
+        "tipo": "presencial",
+        "status": "cancelada"
+      },
+      {
+        "data": "2026-11-14",
+        "titulo": "AULA 5",
+        "tipo": "presencial",
+        "status": "normal"
       },
       {
         "data": "2026-11-21",
-        "titulo": "Aula cancelada",
-        "tipo": "presencial"
+        "titulo": "AULA 6 (Ensaio do CONADKIDS)",
+        "tipo": "assincrona",
+        "status": "normal"
+      },
+      {
+        "data": "2026-11-28",
+        "titulo": "AULA 7",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-12-05",
+        "titulo": "AULA 8",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-12-12",
+        "titulo": "AULA 9",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-12-19",
+        "titulo": "AULA 10",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-12-19",
+        "titulo": "aula 11",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2026-12-26",
+        "titulo": "AULA 11 recesso ",
+        "tipo": "presencial",
+        "status": "cancelada"
+      },
+      {
+        "data": "2027-01-02",
+        "titulo": "AULA 12 recesso ",
+        "tipo": "presencial",
+        "status": "cancelada"
+      },
+      {
+        "data": "2027-01-09",
+        "titulo": "AULA 13",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2027-01-16",
+        "titulo": "AULA 14",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2027-01-23",
+        "titulo": "AULA 15",
+        "tipo": "presencial",
+        "status": "normal"
+      },
+      {
+        "data": "2027-01-30",
+        "titulo": "AULA 16",
+        "tipo": "presencial",
+        "status": "normal"
       }
     ]
   }
