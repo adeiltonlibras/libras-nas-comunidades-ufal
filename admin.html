@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   
-  <!-- Biblioteca para o Calendário de Seleção -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
@@ -27,6 +26,7 @@
       --borda: #E2E8F0;
       --sucesso: #10B981;
       --perigo: #EF4444;
+      --alerta: #F59E0B;
       --fonte-titulo: 'Playfair Display', Georgia, serif;
       --fonte-corpo: 'Inter', system-ui, sans-serif;
       --radius: 8px;
@@ -36,13 +36,13 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: var(--fonte-corpo); background: var(--off-white); color: var(--texto); height: 100vh; display: flex; overflow: hidden; }
 
-    /* ================= LOGIN ================= */
+    /* LOGIN */
     .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
     .login-box { background: var(--branco); padding: 40px; border-radius: var(--radius); width: 100%; max-width: 440px; border-top: 4px solid var(--dourado); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
     .login-box h2 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 8px; font-size: 1.8rem; }
     .login-box p { color: var(--texto-leve); font-size: 0.9rem; margin-bottom: 24px; }
     
-    /* ================= SIDEBAR ================= */
+    /* SIDEBAR */
     .sidebar { width: 260px; background: var(--azul-marinho); color: #FFF; display: flex; flex-direction: column; height: 100%; flex-shrink: 0; }
     .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .sidebar-header h1 { font-family: var(--fonte-titulo); font-size: 1.2rem; font-weight: 700; line-height: 1.2; color: #FFF; }
@@ -53,9 +53,9 @@
     .nav-item svg { width: 18px; height: 18px; fill: currentColor; }
     .nav-category { padding: 20px 24px 8px; font-size: 0.65rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 1px; }
     
-    /* ================= MAIN ================= */
+    /* MAIN */
     .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    .topbar { background: var(--branco); height: 72px; border-bottom: 1px solid var(--borda); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
+    .topbar { background: var(--branco); height: 72px; border-bottom: 1px solid var(--borda); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; flex-shrink: 0; }
     .topbar-title { font-family: var(--fonte-titulo); font-size: 1.5rem; font-weight: 700; color: var(--azul-marinho); }
     .topbar-actions { display: flex; gap: 12px; align-items: center; }
     .view-container { flex: 1; overflow-y: auto; padding: 32px; }
@@ -63,7 +63,7 @@
     .view-section.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ================= COMPONENTES ================= */
+    /* COMPONENTES */
     .btn { padding: 10px 18px; border-radius: var(--radius); font-size: 0.8rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-family: var(--fonte-corpo); }
     .btn-primario { background: var(--azul-marinho); color: #FFF; }
     .btn-primario:hover { background: var(--azul-claro); }
@@ -85,23 +85,29 @@
     .form-group { margin-bottom: 20px; }
     .form-group label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--azul-marinho); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
     .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: var(--radius); font-family: var(--fonte-corpo); font-size: 0.95rem; color: var(--texto); background: var(--off-white); transition: 0.2s; }
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--azul-marinho); background: var(--branco); box-shadow: 0 0 0 3px rgba(15,43,76,0.1); }
+    
+    .form-group select {
+      appearance: none; -webkit-appearance: none; -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 40px;
+    }
+    .form-group select option { background: var(--branco); color: var(--texto); }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--azul-marinho); background: var(--branco); box-shadow: 0 0 0 3px rgba(15,43,76,0.1); }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     
     .table-responsive { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--borda); }
+    th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--borda); vertical-align: top; }
     th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-leve); background: var(--off-white); font-weight: 600; }
     tr:hover td { background: #F8FAFC; }
     
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; display: inline-block; }
     .badge-verde { background: #DCFCE7; color: #166534; }
     .badge-vermelho { background: #FEE2E2; color: #991B1B; }
 
-    /* ================= CALENDÁRIO VISUAL ================= */
+    /* CALENDÁRIO */
     .calendar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .calendar-controls h2 { font-family: var(--fonte-titulo); font-size: 1.4rem; color: var(--azul-marinho); }
-    
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
     .cal-header { font-weight: 600; text-align: center; padding: 10px; font-size: 0.8rem; text-transform: uppercase; color: var(--texto-leve); letter-spacing: 1px; }
     .cal-cell { background: var(--branco); border: 1px solid var(--borda); border-radius: var(--radius); min-height: 110px; padding: 8px; display: flex; flex-direction: column; cursor: pointer; transition: 0.2s; }
@@ -109,11 +115,9 @@
     .cal-cell.empty { background: transparent; border: none; cursor: default; box-shadow: none; }
     .cal-date-num { font-weight: 700; color: var(--azul-marinho); margin-bottom: 6px; font-size: 0.9rem; }
     .cal-event { font-size: 0.7rem; padding: 4px 6px; border-radius: 4px; background: #E0F2FE; color: #0369A1; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 2px solid #0369A1; }
-    .cal-event.assincrona { background: #F3E8FF; color: #6B21A8; border-left-color: #6B21A8; }
-    .cal-add-btn { margin-top: auto; text-align: center; font-size: 1.2rem; color: var(--borda); opacity: 0; transition: 0.2s; }
-    .cal-cell:hover .cal-add-btn { opacity: 1; color: var(--azul-marinho); }
+    .cal-event.cancelada { background: #FEE2E2; color: #991B1B; border-left-color: #991B1B; text-decoration: line-through; }
 
-    /* ================= MODAL ================= */
+    /* MODAL */
     .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
     .modal-box { background: var(--branco); padding: 32px; border-radius: var(--radius); max-width: 750px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
@@ -122,12 +126,16 @@
     .modal-body { overflow-y: auto; flex: 1; padding-right: 10px; }
     .modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--borda); }
 
-    /* Listas Dinâmicas */
+    /* LISTAS DINÂMICAS E UPLOAD */
     .dynamic-list { background: var(--off-white); padding: 16px; border-radius: var(--radius); border: 1px solid var(--borda); margin-bottom: 16px; }
-    .dynamic-item { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
-    .dynamic-item input { flex: 1; margin-bottom: 0; }
-
-    /* ================= TOAST ================= */
+    .dynamic-item { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; margin-bottom: 10px; align-items: center; }
+    
+    .upload-zone { border: 2px dashed var(--borda); border-radius: var(--radius); padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; background: var(--off-white); position: relative; margin-top: 10px; }
+    .upload-zone:hover { border-color: var(--azul-marinho); background: var(--branco); }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .upload-icon { font-size: 1.5rem; color: var(--azul-marinho); margin-bottom: 8px; }
+    
+    /* TOAST */
     #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
     .toast { background: var(--azul-marinho); color: #FFF; padding: 16px 24px; border-radius: var(--radius); font-size: 0.9rem; border-left: 4px solid var(--dourado); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); animation: slideIn 0.3s ease; }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -138,14 +146,12 @@
       .grid-2 { grid-template-columns: 1fr; }
       .modal-box { padding: 20px; }
       .cal-cell { min-height: 80px; padding: 4px; }
-      .cal-date-num { font-size: 0.8rem; }
-      .cal-event { font-size: 0.6rem; padding: 2px 4px; }
+      .dynamic-item { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TELA DE LOGIN -->
   <div class="login-overlay" id="login-screen">
     <div class="login-box">
       <h2>Secretaria Digital</h2>
@@ -163,7 +169,6 @@
     </div>
   </div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h1>Libras nas Comunidades</h1>
@@ -171,39 +176,23 @@
     </div>
     <nav class="nav-menu">
       <div class="nav-category">Painel</div>
-      <a class="nav-item active" onclick="mudarAba('dashboard', this)">
-        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> Visão Geral
-      </a>
+      <a class="nav-item active" onclick="mudarAba('dashboard', this)">Visão Geral</a>
       
       <div class="nav-category">Conteúdo do Site</div>
-      <a class="nav-item" onclick="mudarAba('paginas', this)">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> Páginas e Textos
-      </a>
-      <a class="nav-item" onclick="mudarAba('aulas', this)">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> Aulas e Materiais
-      </a>
-      
-      <div class="nav-category">Cronograma</div>
-      <a class="nav-item" onclick="mudarAba('calendario', this)">
-        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg> Calendário de Eventos
-      </a>
+      <a class="nav-item" onclick="mudarAba('paginas', this)">Páginas e Textos</a>
+      <a class="nav-item" onclick="mudarAba('aulas', this)">Aulas e Materiais</a>
+      <a class="nav-item" onclick="mudarAba('midia', this)">Biblioteca de Mídia</a>
+      <a class="nav-item" onclick="mudarAba('calendario', this)">Calendário de Eventos</a>
       
       <div class="nav-category">Gestão Acadêmica</div>
-      <a class="nav-item" onclick="mudarAba('cursos', this)">
-        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9z"/></svg> Cursos e Níveis
-      </a>
-      <a class="nav-item" onclick="mudarAba('turmas', this)">
-        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> Turmas e Vagas
-      </a>
+      <a class="nav-item" onclick="mudarAba('cursos', this)">Cursos e Níveis</a>
+      <a class="nav-item" onclick="mudarAba('turmas', this)">Turmas e Vagas</a>
       
       <div class="nav-category">Alunos</div>
-      <a class="nav-item" onclick="mudarAba('alunos', this)">
-        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> Inscritos (Drive)
-      </a>
+      <a class="nav-item" onclick="mudarAba('alunos', this)">Inscritos (Drive)</a>
     </nav>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main-content">
     <header class="topbar">
       <div style="display: flex; align-items: center; gap: 16px;">
@@ -218,7 +207,6 @@
 
     <div class="view-container">
       
-      <!-- DASHBOARD -->
       <section class="view-section active" id="aba-dashboard">
         <div class="grid-stats">
           <div class="stat-card"><h3>Cursos Cadastrados</h3><div class="val" id="stat-cursos">0</div></div>
@@ -226,13 +214,8 @@
           <div class="stat-card"><h3>Aulas Gravadas</h3><div class="val" id="stat-aulas">0</div></div>
           <div class="stat-card" style="border-left-color: var(--perigo);"><h3>Status de Edição</h3><div class="val" id="stat-status" style="font-size: 1.2rem; padding-top: 8px; color: var(--sucesso);">Sincronizado</div></div>
         </div>
-        <div class="card">
-          <div class="card-header">Bem-vindo à Secretaria Digital</div>
-          <p style="color: var(--texto-leve); line-height: 1.6;">Utilize o menu lateral para navegar pelas áreas de gerenciamento. Suas alterações são salvas temporariamente e enviadas ao site público ao clicar em <strong>"Publicar Alterações"</strong>.</p>
-        </div>
       </section>
 
-      <!-- PÁGINAS -->
       <section class="view-section" id="aba-paginas">
         <div class="card">
           <div class="card-header">Páginas e Textos do Site</div>
@@ -245,7 +228,6 @@
         </div>
       </section>
 
-      <!-- AULAS -->
       <section class="view-section" id="aba-aulas">
         <div class="card">
           <div class="card-header">
@@ -254,14 +236,28 @@
           </div>
           <div class="table-responsive">
             <table id="tabela-aulas">
-              <thead><tr><th>Título</th><th>Módulo</th><th>Vídeo Principal</th><th>Materiais</th><th>Ações</th></tr></thead>
+              <thead><tr><th>Título</th><th>Módulo</th><th>Status</th><th>Vídeo/Materiais</th><th>Ações</th></tr></thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- CALENDÁRIO VISUAL -->
+      <section class="view-section" id="aba-midia">
+        <div class="card">
+          <div class="card-header">
+            Biblioteca de Mídia Geral
+            <button class="btn btn-dourado" onclick="editarMidia()">+ Novo Item</button>
+          </div>
+          <div class="table-responsive">
+            <table id="tabela-midia">
+              <thead><tr><th>Título</th><th>Tipo</th><th>Link / Arquivo</th><th>Ações</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <section class="view-section" id="aba-calendario">
         <div class="card">
           <div class="calendar-controls">
@@ -269,23 +265,13 @@
             <h2 id="cal-mes-ano">Carregando...</h2>
             <button class="btn btn-outline" onclick="mudarMes(1)">Próximo Mês &#8594;</button>
           </div>
-          
           <div class="cal-grid" id="cal-header">
-            <div class="cal-header">Dom</div>
-            <div class="cal-header">Seg</div>
-            <div class="cal-header">Ter</div>
-            <div class="cal-header">Qua</div>
-            <div class="cal-header">Qui</div>
-            <div class="cal-header">Sex</div>
-            <div class="cal-header">Sáb</div>
+            <div class="cal-header">Dom</div><div class="cal-header">Seg</div><div class="cal-header">Ter</div><div class="cal-header">Qua</div><div class="cal-header">Qui</div><div class="cal-header">Sex</div><div class="cal-header">Sáb</div>
           </div>
-          <div class="cal-grid" id="cal-body" style="margin-top: 8px;">
-            <!-- Dias do mês serão injetados aqui -->
-          </div>
+          <div class="cal-grid" id="cal-body" style="margin-top: 8px;"></div>
         </div>
       </section>
 
-      <!-- CURSOS -->
       <section class="view-section" id="aba-cursos">
         <div class="card">
           <div class="card-header">
@@ -301,7 +287,6 @@
         </div>
       </section>
 
-      <!-- TURMAS -->
       <section class="view-section" id="aba-turmas">
         <div class="card">
           <div class="card-header">
@@ -317,7 +302,6 @@
         </div>
       </section>
 
-      <!-- ALUNOS -->
       <section class="view-section" id="aba-alunos">
         <div class="card">
           <div class="card-header">
@@ -339,7 +323,6 @@
     </div>
   </main>
 
-  <!-- MODAL DE EDIÇÃO -->
   <div class="modal-overlay" id="modal-edicao">
     <div class="modal-box">
       <div class="modal-header">
@@ -360,8 +343,8 @@
     // --- ESTADO GLOBAL ---
     const state = {
       token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main',
-      dados: {}, aulas: {}, academico: {}, alunosDrive: [], googleUrl: '', googleSenha: '',
-      shaDados: null, shaAulas: null, shaAcademico: null, isDirty: false,
+      dados: {}, aulas: {}, academico: {}, midias: [], alunosDrive: [], googleUrl: '', googleSenha: '',
+      shaDados: null, shaAulas: null, shaAcademico: null, shaMidias: null, isDirty: false,
       calMes: new Date().getMonth(), calAno: new Date().getFullYear()
     };
 
@@ -380,7 +363,7 @@
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[char]);
 
-    // --- LÓGICA DE LOGIN E API ---
+    // --- LOGIN E API ---
     $('btn-login').onclick = async () => {
       state.token = $('inp-token').value.trim();
       if(!state.token) return toast('O Token do GitHub é obrigatório.');
@@ -390,23 +373,27 @@
       const btn = $('btn-login'); btn.textContent = 'Conectando...'; btn.disabled = true;
 
       try {
-        const [d, a, ac] = await Promise.all([ apiFetch('dados.json'), apiFetch('aulas-dados.json'), apiFetch('academico-dados.json') ]);
+        const [d, a, ac, m] = await Promise.all([ 
+          apiFetch('dados.json'), 
+          apiFetch('aulas-dados.json'), 
+          apiFetch('academico-dados.json'),
+          apiFetch('midia-dados.json')
+        ]);
         
         state.dados = d && d.content ? d.content : {};
         state.aulas = a && a.content ? a.content : {};
         state.academico = ac && ac.content ? ac.content : {};
+        state.midias = m && m.content && m.content.midias ? m.content.midias : [];
         
         state.shaDados = d ? d.sha : null;
         state.shaAulas = a ? a.sha : null;
         state.shaAcademico = ac ? ac.sha : null;
+        state.shaMidias = m ? m.sha : null;
 
-        // Validação de arrays e inicialização
         state.dados.paginas = Array.isArray(state.dados.paginas) ? state.dados.paginas : [];
         state.dados.calendario = state.dados.calendario || { eventos: [] };
         state.dados.calendario.eventos = Array.isArray(state.dados.calendario.eventos) ? state.dados.calendario.eventos : [];
-        
         state.aulas.aulas = Array.isArray(state.aulas.aulas) ? state.aulas.aulas : [];
-        
         state.academico.cursos = Array.isArray(state.academico.cursos) ? state.academico.cursos : [];
         state.academico.turmas = Array.isArray(state.academico.turmas) ? state.academico.turmas : [];
 
@@ -437,14 +424,53 @@
       return await res.json();
     }
 
-    // --- NAVEGAÇÃO E RENDERIZAÇÃO ---
+    // --- UPLOAD DE ARQUIVOS ---
+    async function uploadFileToGithub(file, onSuccess) {
+      if (file.size > 40 * 1024 * 1024) return toast('O arquivo é muito grande. Limite: 40MB.');
+      
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64Data = e.target.result.split(',')[1];
+        // Gera nome único para não sobrescrever: ex: 1712345678_aula.pdf
+        const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '')}`;
+        const path = `materiais/${fileName}`;
+        
+        toast('Enviando arquivo para o GitHub... aguarde.');
+        
+        try {
+          const body = {
+            message: `Upload de arquivo: ${fileName}`,
+            branch: state.branch,
+            content: base64Data
+          };
+          const res = await fetch(`${API}/repos/${state.repo}/contents/${path}`, {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' },
+            body: JSON.stringify(body)
+          });
+          
+          if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.message || 'Erro no upload');
+          }
+          
+          const rawUrl = `https://raw.githubusercontent.com/${state.repo}/${state.branch}/${path}`;
+          toast('Upload concluído com sucesso!');
+          onSuccess(rawUrl);
+        } catch(err) {
+          toast('Erro no upload: ' + err.message);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- NAVEGAÇÃO ---
     function mudarAba(id, el) {
       document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
       if (el) el.classList.add('active');
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       $(`aba-${id}`).classList.add('active');
       $('view-title').textContent = el ? el.textContent.trim() : id;
-      
       if (id === 'calendario') renderizarCalendario();
     }
 
@@ -471,12 +497,31 @@
       `).join('');
 
       // Aulas
-      $('tabela-aulas').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => `
+      $('tabela-aulas').querySelector('tbody').innerHTML = state.aulas.aulas.map((a, i) => {
+        const isCancelada = a.status === 'cancelada';
+        const badgeStatus = isCancelada ? '<span class="badge badge-vermelho">Cancelada</span>' : '<span class="badge badge-verde">Normal</span>';
+        return `
         <tr>
-          <td>${esc(a.titulo)}</td><td>${esc(a.modulo)}</td><td>${a.video ? 'Sim' : 'Não'}</td><td>${a.materiais?.length || 0}</td>
+          <td>${esc(a.titulo)}</td>
+          <td>${esc(a.modulo)}</td>
+          <td>${badgeStatus}</td>
+          <td>${a.video ? 'Sim' : 'Não'} / ${a.materiais?.length || 0} Arquivos</td>
           <td>
             <button class="btn btn-outline" onclick="editarAula(${i})">Editar</button>
             <button class="btn btn-perigo" onclick="removerAula(${i})">X</button>
+          </td>
+        </tr>
+      `}).join('');
+
+      // Biblioteca de Mídia
+      $('tabela-midia').querySelector('tbody').innerHTML = state.midias.map((m, i) => `
+        <tr>
+          <td>${esc(m.titulo)}</td>
+          <td><span class="badge badge-verde">${esc(m.tipo)}</span></td>
+          <td><a href="${esc(m.url)}" target="_blank" style="color:var(--azul-marinho); font-weight:600;">Ver Arquivo</a></td>
+          <td>
+            <button class="btn btn-outline" onclick="editarMidia(${i})">Editar</button>
+            <button class="btn btn-perigo" onclick="removerMidia(${i})">X</button>
           </td>
         </tr>
       `).join('');
@@ -506,7 +551,7 @@
       }).join('');
     }
 
-    // --- LÓGICA DO CALENDÁRIO VISUAL ---
+    // --- CALENDÁRIO ---
     function mudarMes(delta) {
       state.calMes += delta;
       if (state.calMes < 0) { state.calMes = 11; state.calAno--; }
@@ -517,57 +562,39 @@
     function renderizarCalendario() {
       const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
       $('cal-mes-ano').textContent = `${meses[state.calMes]} ${state.calAno}`;
-
       const primeiroDia = new Date(state.calAno, state.calMes, 1).getDay();
       const diasNoMes = new Date(state.calAno, state.calMes + 1, 0).getDate();
       
       let html = '';
+      for (let i = 0; i < primeiroDia; i++) html += `<div class="cal-cell empty"></div>`;
 
-      // Dias vazios antes do dia 1
-      for (let i = 0; i < primeiroDia; i++) {
-        html += `<div class="cal-cell empty"></div>`;
-      }
-
-      // Dias do mês
       for (let dia = 1; dia <= diasNoMes; dia++) {
-        // Formatar data para YYYY-MM-DD para bater com o JSON
         const mesStr = String(state.calMes + 1).padStart(2, '0');
         const diaStr = String(dia).padStart(2, '0');
         const dataStr = `${state.calAno}-${mesStr}-${diaStr}`;
-
-        // Filtrar eventos deste dia
         const eventosDoDia = state.dados.calendario.eventos.filter(e => e.data === dataStr);
-
-        // Gerar HTML dos eventos dentro da célula
         const eventosHtml = eventosDoDia.map(ev => {
-          const isAssincrona = ev.tipo === 'assincrona' || ev.tipo === 'On-line';
-          return `<div class="cal-event ${isAssincrona ? 'assincrona' : ''}" title="${esc(ev.titulo)}">${esc(ev.titulo)}</div>`;
+          const isCancelada = ev.status === 'cancelada';
+          return `<div class="cal-event ${isCancelada ? 'cancelada' : ''}" title="${esc(ev.titulo)}">${esc(ev.titulo)}</div>`;
         }).join('');
 
         html += `
           <div class="cal-cell" onclick="abrirModalEvento('${dataStr}')">
             <div class="cal-date-num">${dia}</div>
             ${eventosHtml}
-            <div class="cal-add-btn">+</div>
           </div>
         `;
       }
-
-      // Dias vazios no final para completar a grade
       const totalCelulas = primeiroDia + diasNoMes;
       const celulasRestantes = totalCelulas % 7 === 0 ? 0 : 7 - (totalCelulas % 7);
-      for (let i = 0; i < celulasRestantes; i++) {
-        html += `<div class="cal-cell empty"></div>`;
-      }
+      for (let i = 0; i < celulasRestantes; i++) html += `<div class="cal-cell empty"></div>`;
 
       $('cal-body').innerHTML = html;
     }
 
-    window.abrirModalEvento = (dataStr) => {
-      editarEvento(-1, dataStr);
-    };
+    window.abrirModalEvento = (dataStr) => editarEvento(-1, dataStr);
 
-    // --- FUNÇÕES CRUD ---
+    // --- MODAIS ---
     function abrirModal(titulo, html, callback) {
       $('modal-title').textContent = titulo;
       $('modal-body').innerHTML = html;
@@ -576,78 +603,150 @@
     }
     function fecharModal() { $('modal-edicao').classList.remove('active'); }
 
-    window.removerPagina = (i) => { if (confirm('Excluir esta página permanentemente?')) { state.dados.paginas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
-    window.removerAula = (i) => { if (confirm('Excluir esta aula permanentemente?')) { state.aulas.aulas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerPagina = (i) => { if (confirm('Excluir esta página?')) { state.dados.paginas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerAula = (i) => { if (confirm('Excluir esta aula?')) { state.aulas.aulas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerMidia = (i) => { if (confirm('Excluir esta mídia?')) { state.midias.splice(i, 1); renderizarTudo(); marcarSujo(); } };
     window.removerCurso = (i) => {
       const curso = state.academico.cursos[i];
-      if (state.academico.turmas.some(t => t.cursoId === curso.id)) {
-        return toast('Não é possível excluir: existem turmas vinculadas a este curso.');
-      }
-      if (confirm(`Excluir o curso "${curso.nome}" permanentemente?`)) { state.academico.cursos.splice(i, 1); renderizarTudo(); marcarSujo(); }
+      if (state.academico.turmas.some(t => t.cursoId === curso.id)) return toast('Não é possível excluir: existem turmas vinculadas.');
+      if (confirm(`Excluir o curso "${curso.nome}"?`)) { state.academico.cursos.splice(i, 1); renderizarTudo(); marcarSujo(); }
     };
-    window.removerTurma = (i) => { if (confirm('Excluir esta turma permanentemente?')) { state.academico.turmas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
-    
-    // Remover evento a partir do Modal (que agora lista os eventos do dia)
-    window.removerEvento = (index) => {
-      if(confirm('Excluir este evento?')) {
-        state.dados.calendario.eventos.splice(index, 1);
-        fecharModal(); renderizarTudo(); renderizarCalendario(); marcarSujo();
-      }
-    };
+    window.removerTurma = (i) => { if (confirm('Excluir esta turma?')) { state.academico.turmas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
+    window.removerEvento = (index) => { if(confirm('Excluir este evento?')) { state.dados.calendario.eventos.splice(index, 1); fecharModal(); renderizarTudo(); renderizarCalendario(); marcarSujo(); } };
 
-    // --- EDIÇÃO ---
+    // --- EDItAIS DE CONTEÚDO ---
     window.editarPagina = (index) => {
       const p = state.dados.paginas[index];
       abrirModal(`Editar: ${esc(p.titulo)}`, `
         <div class="form-group"><label>Título da Página</label><input type="text" id="edit-pg-titulo" value="${esc(p.titulo)}"></div>
-        <div class="form-group"><label>Descrição (Aparece no topo da página)</label><input type="text" id="edit-pg-desc" value="${esc(p.descricao || '')}"></div>
-        <div class="form-group">
-          <label>Conteúdo Principal (HTML)</label>
-          <textarea id="edit-pg-html" style="min-height: 300px; font-family: monospace; line-height: 1.5;">${esc(p.html || '')}</textarea>
-        </div>
+        <div class="form-group"><label>Descrição (Aparece no topo)</label><input type="text" id="edit-pg-desc" value="${esc(p.descricao || '')}"></div>
+        <div class="form-group"><label>Conteúdo Principal (HTML)</label><textarea id="edit-pg-html" style="min-height: 300px; font-family: monospace;">${esc(p.html || '')}</textarea></div>
       `, () => {
         p.titulo = $('edit-pg-titulo').value; p.descricao = $('edit-pg-desc').value; p.html = $('edit-pg-html').value;
       });
     };
 
+    // --- BIBLIOTECA DE MÍDIA (COM UPLOAD) ---
+    window.editarMidia = (index = -1) => {
+      const isNew = index === -1;
+      const m = isNew ? { titulo: '', tipo: 'pdf', url: '' } : state.midias[index];
+      
+      abrirModal(isNew ? 'Nova Mídia' : 'Editar Mídia', `
+        <div class="form-group"><label>Título do Item</label><input type="text" id="edit-m-tit" value="${esc(m.titulo)}"></div>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Tipo de Mídia</label>
+            <select id="edit-m-tipo" onchange="toggleMidiaInputs(this.value, '${m.url}')">
+              <option value="pdf" ${m.tipo === 'pdf' ? 'selected' : ''}>Arquivo (PDF, Imagem, Slide)</option>
+              <option value="video" ${m.tipo === 'video' ? 'selected' : ''}>Vídeo (YouTube)</option>
+              <option value="link" ${m.tipo === 'link' ? 'selected' : ''}>Link Externo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>URL ou Arquivo</label>
+            <div id="container-midia-input">
+              <input type="text" id="edit-m-url" value="${esc(m.url)}" placeholder="https://...">
+            </div>
+          </div>
+        </div>
+
+        <div class="upload-zone" id="zone-upload-midia" style="display: ${m.tipo === 'pdf' ? 'block' : 'none'};">
+          <input type="file" id="file-upload-midia" onchange="handleUploadMidia(this)">
+          <div class="upload-icon">📁</div>
+          <p style="font-size: 0.8rem; color: var(--texto-leve);">Clique ou arraste um arquivo (PDF, Imagem, PPT) do seu computador.<br>Limite de 40MB.</p>
+        </div>
+      `, () => {
+        const media = { 
+          titulo: $('edit-m-tit').value, 
+          tipo: $('edit-m-tipo').value, 
+          url: $('edit-m-url').value 
+        };
+        if (isNew) state.midias.push(media); else state.midias[index] = media;
+      });
+    };
+
+    window.toggleMidiaInputs = (tipo, valorAtual) => {
+      const zone = $('zone-upload-midia');
+      if (tipo === 'pdf') {
+        zone.style.display = 'block';
+      } else {
+        zone.style.display = 'none';
+        $('edit-m-url').value = valorAtual || '';
+      }
+    };
+
+    window.handleUploadMidia = (input) => {
+      if (input.files && input.files[0]) {
+        uploadFileToGithub(input.files[0], (url) => {
+          $('edit-m-url').value = url;
+          $('file-upload-midia').value = ''; // Limpa input
+        });
+      }
+    };
+
+    // --- AULA COM UPLOAD ---
     window.editarAula = (index = -1) => {
       const isNew = index === -1;
-      const a = isNew ? { id: Date.now(), modulo: '', titulo: '', video: '', descricao: '', materiais: [] } : state.aulas.aulas[index];
+      const a = isNew ? { id: Date.now(), modulo: '', titulo: '', video: '', descricao: '', materiais: [], status: 'normal', justificativa: '' } : state.aulas.aulas[index];
       
       let matsHtml = '';
       if (a.materiais && a.materiais.length > 0) {
         matsHtml = a.materiais.map(mat => `
           <div class="dynamic-item">
             <input type="text" class="mat-title" value="${esc(mat.titulo)}" placeholder="Nome do Material">
-            <input type="text" class="mat-url" value="${esc(mat.url)}" placeholder="URL do PDF/Slide">
-            <button type="button" class="btn btn-perigo" onclick="this.parentElement.remove()">X</button>
+            <input type="text" class="mat-url" value="${esc(mat.url)}" placeholder="URL do arquivo">
+            <button type="button" class="btn btn-perigo" style="padding: 0 16px;" onclick="this.parentElement.remove()">X</button>
           </div>
         `).join('');
       }
 
       abrirModal(isNew ? 'Nova Aula' : 'Editar Aula', `
         <div class="grid-2">
-          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${esc(a.modulo)}" placeholder="Ex: Módulo I"></div>
+          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${esc(a.modulo)}"></div>
           <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-aula-data" value="${esc(a.data || '')}"></div>
         </div>
         <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${esc(a.titulo)}"></div>
         
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Status</label>
+            <select id="edit-aula-status" onchange="toggleJustificativa(this.value)">
+              <option value="normal" ${a.status === 'normal' || !a.status ? 'selected' : ''}>Aula Normal</option>
+              <option value="cancelada" ${a.status === 'cancelada' ? 'selected' : ''}>Aula Cancelada</option>
+            </select>
+          </div>
+          <div class="form-group" id="div-justificativa" style="display: ${a.status === 'cancelada' ? 'block' : 'none'};">
+            <label>Justificativa</label>
+            <input type="text" id="edit-aula-just" value="${esc(a.justificativa || '')}" placeholder="Motivo...">
+          </div>
+        </div>
+
         <div class="form-group" style="background: var(--off-white); padding: 16px; border-radius: 6px;">
-          <label style="color: var(--azul-marinho);">Link do Vídeo Principal (YouTube Embed)</label>
+          <label style="color: var(--azul-marinho);">Link do Vídeo (YouTube Embed)</label>
           <input type="text" id="edit-aula-vid" value="${esc(a.video || '')}" placeholder="https://www.youtube.com/embed/...">
         </div>
 
-        <div class="form-group"><label>Descrição / Instruções</label><textarea id="edit-aula-desc" style="min-height: 100px;">${esc(a.descricao || '')}</textarea></div>
+        <div class="form-group"><label>Descrição</label><textarea id="edit-aula-desc" style="min-height: 100px;">${esc(a.descricao || '')}</textarea></div>
 
         <div style="border-top: 1px solid var(--borda); padding-top: 20px; margin-top: 20px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-            <label style="margin: 0;">Materiais Complementares (PDFs)</label>
-            <button type="button" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.7rem;" onclick="addMaterialField()">+ Adicionar PDF</button>
+            <label style="margin: 0;">Materiais Complementares</label>
+            <button type="button" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.7rem;" onclick="addMaterialField()">+ Adicionar Campo</button>
           </div>
           <div id="lista-materiais">${matsHtml}</div>
+          
+          <div class="upload-zone">
+            <input type="file" id="file-upload-aula" onchange="handleUploadAula(this)">
+            <div class="upload-icon">📁</div>
+            <p style="font-size: 0.8rem; color: var(--texto-leve);">Faça upload de um PDF/Slide para adicionar automaticamente à lista acima.</p>
+          </div>
         </div>
       `, () => {
         a.modulo = $('edit-aula-mod').value; a.data = $('edit-aula-data').value; a.titulo = $('edit-aula-tit').value;
+        a.status = $('edit-aula-status').value;
+        a.justificativa = $('edit-aula-just') ? $('edit-aula-just').value : '';
+        
         let v = $('edit-aula-vid').value.trim(); 
         if(v && !v.includes('/embed/')) { const id = v.match(/(?:youtu\.be\/|v=)([^&]+)/); if(id) v = `https://www.youtube.com/embed/${id[1]}`; } 
         a.video = v || null; a.descricao = $('edit-aula-desc').value;
@@ -664,20 +763,38 @@
       });
     };
 
+    window.handleUploadAula = (input) => {
+      if (input.files && input.files[0]) {
+        uploadFileToGithub(input.files[0], (url) => {
+          // Cria a linha visual no formulário com o link gerado
+          const div = document.createElement('div');
+          div.className = 'dynamic-item';
+          div.innerHTML = `
+            <input type="text" class="mat-title" value="${input.files[0].name}" placeholder="Nome do Material">
+            <input type="text" class="mat-url" value="${url}" placeholder="URL">
+            <button type="button" class="btn btn-perigo" style="padding: 0 16px;" onclick="this.parentElement.remove()">X</button>
+          `;
+          $('lista-materiais').appendChild(div);
+          $('file-upload-aula').value = ''; // Limpa
+        });
+      }
+    };
+
+    window.toggleJustificativa = (val) => $('div-justificativa').style.display = val === 'cancelada' ? 'block' : 'none';
+
     window.addMaterialField = () => {
       const div = document.createElement('div');
       div.className = 'dynamic-item';
       div.innerHTML = `
         <input type="text" class="mat-title" placeholder="Nome do Material">
-        <input type="text" class="mat-url" placeholder="URL do PDF/Slide">
-        <button type="button" class="btn btn-perigo" onclick="this.parentElement.remove()">X</button>
+        <input type="text" class="mat-url" placeholder="URL do arquivo">
+        <button type="button" class="btn btn-perigo" style="padding: 0 16px;" onclick="this.parentElement.remove()">X</button>
       `;
       $('lista-materiais').appendChild(div);
     };
 
-    // --- EDIÇÃO DE EVENTOS (Integrado com o Calendário e Flatpickr) ---
+    // --- EVENTOS ---
     window.editarEvento = (index = -1, dataPreSelecionada = '') => {
-      // Se foi clicado no calendário (dataPreSelecionada), lista os eventos daquele dia
       if (dataPreSelecionada) {
         const eventosDoDia = state.dados.calendario.eventos.map((e, i) => ({...e, originalIndex: i})).filter(e => e.data === dataPreSelecionada);
         
@@ -688,13 +805,15 @@
               <h4 style="margin-bottom: 10px; color: var(--azul-marinho);">Eventos em ${dataPreSelecionada.split('-').reverse().join('/')}:</h4>
               ${eventosDoDia.map(ev => `
                 <div style="display: flex; justify-content: space-between; align-items: center; background: var(--off-white); padding: 10px; border: 1px solid var(--borda); margin-bottom: 8px; border-radius: 4px;">
-                  <div><strong>${esc(ev.titulo)}</strong> <span class="badge ${ev.tipo === 'assincrona' ? 'badge-vermelho' : 'badge-verde'}">${esc(ev.tipo)}</span></div>
+                  <div>
+                    <strong>${esc(ev.titulo)}</strong> 
+                    <span class="badge ${ev.status === 'cancelada' ? 'badge-vermelho' : 'badge-verde'}">${esc(ev.status || 'normal')}</span>
+                  </div>
                   <button class="btn btn-perigo" style="padding: 4px 8px; font-size: 0.7rem;" onclick="removerEvento(${ev.originalIndex});">Excluir</button>
                 </div>
               `).join('')}
             </div>
             <hr style="border: 0; border-top: 1px solid var(--borda); margin: 20px 0;">
-            <h4 style="margin-bottom: 10px; color: var(--azul-marinho);">Adicionar Novo Evento neste dia:</h4>
           `;
         }
 
@@ -702,54 +821,36 @@
           ${htmlLista}
           <div class="form-group"><label>Data</label><input type="text" id="edit-ev-data" value="${dataPreSelecionada}"></div>
           <div class="form-group"><label>Título do Evento</label><input type="text" id="edit-ev-tit" value="" placeholder="Ex: Aula de Libras"></div>
-          <div class="form-group"><label>Tipo</label>
-            <select id="edit-ev-tipo">
-              <option value="presencial">Presencial</option>
-              <option value="assincrona">Assíncrona</option>
-            </select>
+          <div class="grid-2">
+            <div class="form-group"><label>Tipo</label><select id="edit-ev-tipo"><option value="presencial">Presencial</option><option value="assincrona">Assíncrona</option></select></div>
+            <div class="form-group"><label>Status</label><select id="edit-ev-status"><option value="normal">Normal</option><option value="cancelada">Cancelado</option></select></div>
           </div>
         `, () => {
           const novaData = $('edit-ev-data').value;
           const novoTit = $('edit-ev-tit').value;
           if(!novoTit) return toast('O título é obrigatório');
-          
-          state.dados.calendario.eventos.push({ data: novaData, titulo: novoTit, tipo: $('edit-ev-tipo').value });
-          
-          // Ordenar cronologicamente
+          state.dados.calendario.eventos.push({ data: novaData, titulo: novoTit, tipo: $('edit-ev-tipo').value, status: $('edit-ev-status').value });
           state.dados.calendario.eventos.sort((a,b) => a.data.localeCompare(b.data));
         });
-        
-        // Inicializa o Flatpickr no input
-        setTimeout(() => {
-          flatpickr("#edit-ev-data", { locale: "pt", dateFormat: "Y-m-d" });
-        }, 100);
+        setTimeout(() => flatpickr("#edit-ev-data", { locale: "pt", dateFormat: "Y-m-d" }), 100);
         return;
       }
 
-      // Se foi clicado no botão global "Novo Evento" ou "Editar"
       const isNew = index === -1;
-      const e = isNew ? { data: '', titulo: '', tipo: 'presencial' } : state.dados.calendario.eventos[index];
-      
+      const e = isNew ? { data: '', titulo: '', tipo: 'presencial', status: 'normal' } : state.dados.calendario.eventos[index];
       abrirModal(isNew ? 'Novo Evento' : 'Editar Evento', `
-        <div class="grid-2">
-          <div class="form-group"><label>Data (Selecione no Calendário)</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
-          <div class="form-group"><label>Tipo</label>
-            <select id="edit-ev-tipo">
-              <option value="presencial" ${e.tipo === 'presencial' ? 'selected' : ''}>Presencial</option>
-              <option value="assincrona" ${e.tipo === 'assincrona' ? 'selected' : ''}>Assíncrona</option>
-            </select>
-          </div>
-        </div>
+        <div class="form-group"><label>Data</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
         <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${esc(e.titulo)}"></div>
+        <div class="grid-2">
+          <div class="form-group"><label>Tipo</label><select id="edit-ev-tipo"><option value="presencial" ${e.tipo === 'presencial' ? 'selected' : ''}>Presencial</option><option value="assincrona" ${e.tipo === 'assincrona' ? 'selected' : ''}>Assíncrona</option></select></div>
+          <div class="form-group"><label>Status</label><select id="edit-ev-status"><option value="normal" ${e.status === 'normal' ? 'selected' : ''}>Normal</option><option value="cancelada" ${e.status === 'cancelada' ? 'selected' : ''}>Cancelado</option></select></div>
+        </div>
       `, () => {
-        e.data = $('edit-ev-data').value; e.tipo = $('edit-ev-tipo').value; e.titulo = $('edit-ev-tit').value;
+        e.data = $('edit-ev-data').value; e.tipo = $('edit-ev-tipo').value; e.titulo = $('edit-ev-tit').value; e.status = $('edit-ev-status').value;
         if (isNew) state.dados.calendario.eventos.push(e);
         state.dados.calendario.eventos.sort((a,b) => a.data.localeCompare(b.data));
       });
-
-      setTimeout(() => {
-        flatpickr("#edit-ev-data", { locale: "pt", dateFormat: "Y-m-d" });
-      }, 100);
+      setTimeout(() => flatpickr("#edit-ev-data", { locale: "pt", dateFormat: "Y-m-d" }), 100);
     };
 
     // --- CURSOS E TURMAS ---
@@ -819,14 +920,11 @@
       const tbody = $('tabela-alunos').querySelector('tbody');
       const f = state.alunosDrive.filter(a => JSON.stringify(a).toLowerCase().includes(filtro.toLowerCase()));
       if(f.length === 0) return tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nenhum aluno.</td></tr>';
-      
-      tbody.innerHTML = f.map(a => `
-        <tr><td>${esc(a['Nome'] || '-')}</td><td>${esc(a['Email'] || '-')}</td><td>${esc(a['Turma'] || '-')}</td><td>${esc(a['Data'] || '-')}</td></tr>
-      `).join('');
+      tbody.innerHTML = f.map(a => `<tr><td>${esc(a['Nome'] || '-')}</td><td>${esc(a['Email'] || '-')}</td><td>${esc(a['Turma'] || '-')}</td><td>${esc(a['Data'] || '-')}</td></tr>`).join('');
     }
     window.filtrarAlunos = () => renderizarAlunos($('filtro-aluno').value);
 
-    // --- PUBLICAÇÃO E BACKUP ---
+    // --- PUBLICAÇÃO ---
     async function publicarNoGitHub() {
       if(!state.isDirty) return toast('Nenhuma alteração pendente.');
       const btn = $('btn-publicar'); btn.textContent = 'Publicando...'; btn.disabled = true;
@@ -838,6 +936,8 @@
         state.shaAulas = r2.content.sha;
         const r3 = await apiCommit('academico-dados.json', state.academico, state.shaAcademico, 'CMS: Atualiza acadêmico');
         state.shaAcademico = r3.content.sha;
+        const r4 = await apiCommit('midia-dados.json', { midias: state.midias }, state.shaMidias, 'CMS: Atualiza biblioteca de mídia');
+        state.shaMidias = r4.content.sha;
         
         state.isDirty = false;
         $('stat-status').textContent = 'Sincronizado';
@@ -855,6 +955,7 @@
       baixar(state.dados, 'dados.json');
       setTimeout(() => baixar(state.aulas, 'aulas-dados.json'), 300);
       setTimeout(() => baixar(state.academico, 'academico-dados.json'), 600);
+      setTimeout(() => baixar({ midias: state.midias }, 'midia-dados.json'), 900);
       toast('Backups baixados.');
     };
   </script>
