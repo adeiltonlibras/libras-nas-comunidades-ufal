@@ -36,13 +36,13 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: var(--fonte-corpo); background: var(--off-white); color: var(--texto); height: 100vh; display: flex; overflow: hidden; }
 
-    /* LOGIN */
+    /* --- LOGIN --- */
     .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
     .login-box { background: var(--branco); padding: 40px; border-radius: var(--radius); width: 100%; max-width: 440px; border-top: 4px solid var(--dourado); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2); }
     .login-box h2 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 8px; font-size: 1.8rem; }
     .login-box p { color: var(--texto-leve); font-size: 0.9rem; margin-bottom: 24px; }
     
-    /* SIDEBAR */
+    /* --- SIDEBAR --- */
     .sidebar { width: 260px; background: var(--azul-marinho); color: #FFF; display: flex; flex-direction: column; height: 100%; flex-shrink: 0; }
     .sidebar-header { padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
     .sidebar-header h1 { font-family: var(--fonte-titulo); font-size: 1.2rem; font-weight: 700; line-height: 1.2; color: #FFF; }
@@ -53,7 +53,7 @@
     .nav-item svg { width: 18px; height: 18px; fill: currentColor; }
     .nav-category { padding: 20px 24px 8px; font-size: 0.65rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 1px; }
     
-    /* MAIN */
+    /* --- MAIN --- */
     .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
     .topbar { background: var(--branco); height: 72px; border-bottom: 1px solid var(--borda); display: flex; align-items: center; justify-content: space-between; padding: 0 32px; flex-shrink: 0; }
     .topbar-title { font-family: var(--fonte-titulo); font-size: 1.5rem; font-weight: 700; color: var(--azul-marinho); }
@@ -63,16 +63,17 @@
     .view-section.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* COMPONENTES */
+    /* --- COMPONENTES --- */
     .btn { padding: 10px 18px; border-radius: var(--radius); font-size: 0.8rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-family: var(--fonte-corpo); }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; }
     .btn-primario { background: var(--azul-marinho); color: #FFF; }
-    .btn-primario:hover { background: var(--azul-claro); }
+    .btn-primario:hover:not(:disabled) { background: var(--azul-claro); }
     .btn-dourado { background: var(--dourado); color: #FFF; }
-    .btn-dourado:hover { background: var(--dourado-hover); }
+    .btn-dourado:hover:not(:disabled) { background: var(--dourado-hover); }
     .btn-outline { background: transparent; border-color: var(--borda); color: var(--azul-marinho); }
-    .btn-outline:hover { border-color: var(--azul-marinho); background: var(--off-white); }
+    .btn-outline:hover:not(:disabled) { border-color: var(--azul-marinho); background: var(--off-white); }
     .btn-perigo { background: #FEF2F2; color: var(--perigo); border-color: #FECACA; padding: 10px 12px; }
-    .btn-perigo:hover { background: #FEE2E2; }
+    .btn-perigo:hover:not(:disabled) { background: #FEE2E2; }
     
     .card { background: var(--branco); border: 1px solid var(--borda); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; box-shadow: var(--sombra); }
     .card-header { font-family: var(--fonte-titulo); font-size: 1.2rem; font-weight: 700; color: var(--azul-marinho); margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--borda); display: flex; justify-content: space-between; align-items: center; }
@@ -105,7 +106,7 @@
     .badge-verde { background: #DCFCE7; color: #166534; }
     .badge-vermelho { background: #FEE2E2; color: #991B1B; }
 
-    /* CALENDÁRIO */
+    /* --- CALENDÁRIO --- */
     .calendar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .calendar-controls h2 { font-family: var(--fonte-titulo); font-size: 1.4rem; color: var(--azul-marinho); }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
@@ -117,7 +118,7 @@
     .cal-event { font-size: 0.7rem; padding: 4px 6px; border-radius: 4px; background: #E0F2FE; color: #0369A1; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-left: 2px solid #0369A1; }
     .cal-event.cancelada { background: #FEE2E2; color: #991B1B; border-left-color: #991B1B; text-decoration: line-through; }
 
-    /* MODAL */
+    /* --- MODAL --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
     .modal-box { background: var(--branco); padding: 32px; border-radius: var(--radius); max-width: 750px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
@@ -126,16 +127,18 @@
     .modal-body { overflow-y: auto; flex: 1; padding-right: 10px; }
     .modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--borda); }
 
-    /* LISTAS DINÂMICAS E UPLOAD */
-    .dynamic-list { background: var(--off-white); padding: 16px; border-radius: var(--radius); border: 1px solid var(--borda); margin-bottom: 16px; }
+    /* --- LISTAS E UPLOAD --- */
     .dynamic-item { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; margin-bottom: 10px; align-items: center; }
-    
     .upload-zone { border: 2px dashed var(--borda); border-radius: var(--radius); padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; background: var(--off-white); position: relative; margin-top: 10px; }
     .upload-zone:hover { border-color: var(--azul-marinho); background: var(--branco); }
     .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
     .upload-icon { font-size: 1.5rem; color: var(--azul-marinho); margin-bottom: 8px; }
     
-    /* TOAST */
+    /* --- SPINNER (CARREGAMENTO) --- */
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #FFF; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* --- TOAST --- */
     #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
     .toast { background: var(--azul-marinho); color: #FFF; padding: 16px 24px; border-radius: var(--radius); font-size: 0.9rem; border-left: 4px solid var(--dourado); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); animation: slideIn 0.3s ease; }
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -176,20 +179,36 @@
     </div>
     <nav class="nav-menu">
       <div class="nav-category">Painel</div>
-      <a class="nav-item active" onclick="mudarAba('dashboard', this)">Visão Geral</a>
+      <a class="nav-item active" onclick="mudarAba('dashboard', this)">
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> Visão Geral
+      </a>
       
       <div class="nav-category">Conteúdo do Site</div>
-      <a class="nav-item" onclick="mudarAba('paginas', this)">Páginas e Textos</a>
-      <a class="nav-item" onclick="mudarAba('aulas', this)">Aulas e Materiais</a>
-      <a class="nav-item" onclick="mudarAba('midia', this)">Biblioteca de Mídia</a>
-      <a class="nav-item" onclick="mudarAba('calendario', this)">Calendário de Eventos</a>
+      <a class="nav-item" onclick="mudarAba('paginas', this)">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> Páginas e Textos
+      </a>
+      <a class="nav-item" onclick="mudarAba('aulas', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg> Aulas e Materiais
+      </a>
+      <a class="nav-item" onclick="mudarAba('midia', this)">
+        <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg> Biblioteca de Mídia
+      </a>
+      <a class="nav-item" onclick="mudarAba('calendario', this)">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg> Calendário
+      </a>
       
       <div class="nav-category">Gestão Acadêmica</div>
-      <a class="nav-item" onclick="mudarAba('cursos', this)">Cursos e Níveis</a>
-      <a class="nav-item" onclick="mudarAba('turmas', this)">Turmas e Vagas</a>
+      <a class="nav-item" onclick="mudarAba('cursos', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9z"/></svg> Cursos e Níveis
+      </a>
+      <a class="nav-item" onclick="mudarAba('turmas', this)">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> Turmas e Vagas
+      </a>
       
       <div class="nav-category">Alunos</div>
-      <a class="nav-item" onclick="mudarAba('alunos', this)">Inscritos (Drive)</a>
+      <a class="nav-item" onclick="mudarAba('alunos', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> Inscritos (Drive)
+      </a>
     </nav>
   </aside>
 
@@ -370,7 +389,10 @@
       
       state.googleUrl = $('inp-google-url').value.trim();
       state.googleSenha = $('inp-google-senha').value;
-      const btn = $('btn-login'); btn.textContent = 'Conectando...'; btn.disabled = true;
+      
+      const btn = $('btn-login'); 
+      btn.innerHTML = '<span class="spinner"></span> Conectando...'; 
+      btn.disabled = true;
 
       try {
         const [d, a, ac, m] = await Promise.all([ 
@@ -404,7 +426,10 @@
         renderizarTudo();
       } catch (e) {
         toast('Erro ao conectar: ' + e.message);
-      } finally { btn.textContent = 'Entrar no Sistema'; btn.disabled = false; }
+      } finally { 
+        btn.innerHTML = 'Entrar no Sistema'; 
+        btn.disabled = false; 
+      }
     };
 
     async function apiFetch(path) {
@@ -431,11 +456,10 @@
       const reader = new FileReader();
       reader.onload = async (e) => {
         const base64Data = e.target.result.split(',')[1];
-        // Gera nome único para não sobrescrever: ex: 1712345678_aula.pdf
         const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '')}`;
         const path = `materiais/${fileName}`;
         
-        toast('Enviando arquivo para o GitHub... aguarde.');
+        toast('Enviando arquivo... aguarde.');
         
         try {
           const body = {
@@ -594,11 +618,23 @@
 
     window.abrirModalEvento = (dataStr) => editarEvento(-1, dataStr);
 
-    // --- MODAIS ---
+    // --- MODAIS E VALIDAÇÕES ---
     function abrirModal(titulo, html, callback) {
       $('modal-title').textContent = titulo;
       $('modal-body').innerHTML = html;
-      $('btn-salvar-modal').onclick = () => { callback(); fecharModal(); marcarSujo(); renderizarTudo(); renderizarCalendario(); };
+      $('btn-salvar-modal').onclick = () => { 
+        // Validação básica genérica
+        const inputs = $('modal-body').querySelectorAll('input[required], textarea[required]');
+        let valido = true;
+        inputs.forEach(i => { if(!i.value.trim()) valido = false; });
+        if(!valido) return toast('Preencha todos os campos obrigatórios.');
+
+        callback(); 
+        fecharModal(); 
+        marcarSujo(); 
+        renderizarTudo(); 
+        renderizarCalendario(); 
+      };
       $('modal-edicao').classList.add('active');
     }
     function fecharModal() { $('modal-edicao').classList.remove('active'); }
@@ -614,11 +650,11 @@
     window.removerTurma = (i) => { if (confirm('Excluir esta turma?')) { state.academico.turmas.splice(i, 1); renderizarTudo(); marcarSujo(); } };
     window.removerEvento = (index) => { if(confirm('Excluir este evento?')) { state.dados.calendario.eventos.splice(index, 1); fecharModal(); renderizarTudo(); renderizarCalendario(); marcarSujo(); } };
 
-    // --- EDItAIS DE CONTEÚDO ---
+    // --- EDITAIS DE CONTEÚDO ---
     window.editarPagina = (index) => {
       const p = state.dados.paginas[index];
       abrirModal(`Editar: ${esc(p.titulo)}`, `
-        <div class="form-group"><label>Título da Página</label><input type="text" id="edit-pg-titulo" value="${esc(p.titulo)}"></div>
+        <div class="form-group"><label>Título da Página</label><input type="text" id="edit-pg-titulo" value="${esc(p.titulo)}" required></div>
         <div class="form-group"><label>Descrição (Aparece no topo)</label><input type="text" id="edit-pg-desc" value="${esc(p.descricao || '')}"></div>
         <div class="form-group"><label>Conteúdo Principal (HTML)</label><textarea id="edit-pg-html" style="min-height: 300px; font-family: monospace;">${esc(p.html || '')}</textarea></div>
       `, () => {
@@ -626,13 +662,13 @@
       });
     };
 
-    // --- BIBLIOTECA DE MÍDIA (COM UPLOAD) ---
+    // --- BIBLIOTECA DE MÍDIA ---
     window.editarMidia = (index = -1) => {
       const isNew = index === -1;
       const m = isNew ? { titulo: '', tipo: 'pdf', url: '' } : state.midias[index];
       
       abrirModal(isNew ? 'Nova Mídia' : 'Editar Mídia', `
-        <div class="form-group"><label>Título do Item</label><input type="text" id="edit-m-tit" value="${esc(m.titulo)}"></div>
+        <div class="form-group"><label>Título do Item</label><input type="text" id="edit-m-tit" value="${esc(m.titulo)}" required></div>
         
         <div class="grid-2">
           <div class="form-group">
@@ -646,7 +682,7 @@
           <div class="form-group">
             <label>URL ou Arquivo</label>
             <div id="container-midia-input">
-              <input type="text" id="edit-m-url" value="${esc(m.url)}" placeholder="https://...">
+              <input type="text" id="edit-m-url" value="${esc(m.url)}" placeholder="https://..." required>
             </div>
           </div>
         </div>
@@ -654,7 +690,7 @@
         <div class="upload-zone" id="zone-upload-midia" style="display: ${m.tipo === 'pdf' ? 'block' : 'none'};">
           <input type="file" id="file-upload-midia" onchange="handleUploadMidia(this)">
           <div class="upload-icon">📁</div>
-          <p style="font-size: 0.8rem; color: var(--texto-leve);">Clique ou arraste um arquivo (PDF, Imagem, PPT) do seu computador.<br>Limite de 40MB.</p>
+          <p style="font-size: 0.8rem; color: var(--texto-leve);">Clique para subir do computador (Max 40MB).</p>
         </div>
       `, () => {
         const media = { 
@@ -680,12 +716,12 @@
       if (input.files && input.files[0]) {
         uploadFileToGithub(input.files[0], (url) => {
           $('edit-m-url').value = url;
-          $('file-upload-midia').value = ''; // Limpa input
+          $('file-upload-midia').value = ''; 
         });
       }
     };
 
-    // --- AULA COM UPLOAD ---
+    // --- AULAS ---
     window.editarAula = (index = -1) => {
       const isNew = index === -1;
       const a = isNew ? { id: Date.now(), modulo: '', titulo: '', video: '', descricao: '', materiais: [], status: 'normal', justificativa: '' } : state.aulas.aulas[index];
@@ -703,10 +739,10 @@
 
       abrirModal(isNew ? 'Nova Aula' : 'Editar Aula', `
         <div class="grid-2">
-          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${esc(a.modulo)}"></div>
+          <div class="form-group"><label>Módulo</label><input type="text" id="edit-aula-mod" value="${esc(a.modulo)}" required></div>
           <div class="form-group"><label>Data (AAAA-MM-DD)</label><input type="text" id="edit-aula-data" value="${esc(a.data || '')}"></div>
         </div>
-        <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${esc(a.titulo)}"></div>
+        <div class="form-group"><label>Título da Aula</label><input type="text" id="edit-aula-tit" value="${esc(a.titulo)}" required></div>
         
         <div class="grid-2">
           <div class="form-group">
@@ -723,7 +759,7 @@
         </div>
 
         <div class="form-group" style="background: var(--off-white); padding: 16px; border-radius: 6px;">
-          <label style="color: var(--azul-marinho);">Link do Vídeo (YouTube Embed)</label>
+          <label style="color: var(--azul-marinho);">Link do Vídeo (YouTube)</label>
           <input type="text" id="edit-aula-vid" value="${esc(a.video || '')}" placeholder="https://www.youtube.com/embed/...">
         </div>
 
@@ -739,7 +775,7 @@
           <div class="upload-zone">
             <input type="file" id="file-upload-aula" onchange="handleUploadAula(this)">
             <div class="upload-icon">📁</div>
-            <p style="font-size: 0.8rem; color: var(--texto-leve);">Faça upload de um PDF/Slide para adicionar automaticamente à lista acima.</p>
+            <p style="font-size: 0.8rem; color: var(--texto-leve);">Faça upload de um PDF para adicionar automaticamente à lista.</p>
           </div>
         </div>
       `, () => {
@@ -766,7 +802,6 @@
     window.handleUploadAula = (input) => {
       if (input.files && input.files[0]) {
         uploadFileToGithub(input.files[0], (url) => {
-          // Cria a linha visual no formulário com o link gerado
           const div = document.createElement('div');
           div.className = 'dynamic-item';
           div.innerHTML = `
@@ -775,7 +810,7 @@
             <button type="button" class="btn btn-perigo" style="padding: 0 16px;" onclick="this.parentElement.remove()">X</button>
           `;
           $('lista-materiais').appendChild(div);
-          $('file-upload-aula').value = ''; // Limpa
+          $('file-upload-aula').value = '';
         });
       }
     };
@@ -820,7 +855,7 @@
         abrirModal(`Gerenciar Dia: ${dataPreSelecionada.split('-').reverse().join('/')}`, `
           ${htmlLista}
           <div class="form-group"><label>Data</label><input type="text" id="edit-ev-data" value="${dataPreSelecionada}"></div>
-          <div class="form-group"><label>Título do Evento</label><input type="text" id="edit-ev-tit" value="" placeholder="Ex: Aula de Libras"></div>
+          <div class="form-group"><label>Título do Evento</label><input type="text" id="edit-ev-tit" value="" placeholder="Ex: Aula de Libras" required></div>
           <div class="grid-2">
             <div class="form-group"><label>Tipo</label><select id="edit-ev-tipo"><option value="presencial">Presencial</option><option value="assincrona">Assíncrona</option></select></div>
             <div class="form-group"><label>Status</label><select id="edit-ev-status"><option value="normal">Normal</option><option value="cancelada">Cancelado</option></select></div>
@@ -839,8 +874,8 @@
       const isNew = index === -1;
       const e = isNew ? { data: '', titulo: '', tipo: 'presencial', status: 'normal' } : state.dados.calendario.eventos[index];
       abrirModal(isNew ? 'Novo Evento' : 'Editar Evento', `
-        <div class="form-group"><label>Data</label><input type="text" id="edit-ev-data" value="${esc(e.data)}"></div>
-        <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${esc(e.titulo)}"></div>
+        <div class="form-group"><label>Data</label><input type="text" id="edit-ev-data" value="${esc(e.data)}" required></div>
+        <div class="form-group"><label>Título</label><input type="text" id="edit-ev-tit" value="${esc(e.titulo)}" required></div>
         <div class="grid-2">
           <div class="form-group"><label>Tipo</label><select id="edit-ev-tipo"><option value="presencial" ${e.tipo === 'presencial' ? 'selected' : ''}>Presencial</option><option value="assincrona" ${e.tipo === 'assincrona' ? 'selected' : ''}>Assíncrona</option></select></div>
           <div class="form-group"><label>Status</label><select id="edit-ev-status"><option value="normal" ${e.status === 'normal' ? 'selected' : ''}>Normal</option><option value="cancelada" ${e.status === 'cancelada' ? 'selected' : ''}>Cancelado</option></select></div>
@@ -858,7 +893,7 @@
       const isNew = index === -1;
       const c = isNew ? { id: Date.now().toString(), nome: '', nivel: '', cargaHoraria: 40 } : state.academico.cursos[index];
       abrirModal(isNew ? 'Novo Curso' : 'Editar Curso', `
-        <div class="form-group"><label>Nome do Curso</label><input type="text" id="edit-c-nome" value="${esc(c.nome)}"></div>
+        <div class="form-group"><label>Nome do Curso</label><input type="text" id="edit-c-nome" value="${esc(c.nome)}" required></div>
         <div class="grid-2">
           <div class="form-group"><label>Nível</label><input type="text" id="edit-c-nivel" value="${esc(c.nivel)}"></div>
           <div class="form-group"><label>Carga Horária</label><input type="number" id="edit-c-carga" value="${esc(c.cargaHoraria)}"></div>
@@ -877,10 +912,10 @@
       
       abrirModal(isNew ? 'Nova Turma' : 'Editar Turma', `
         <div class="form-group"><label>Curso Vinculado</label><select id="edit-t-curso">${opcoesCurso}</select></div>
-        <div class="form-group"><label>Nome da Turma</label><input type="text" id="edit-t-nome" value="${esc(t.nome)}"></div>
+        <div class="form-group"><label>Nome da Turma</label><input type="text" id="edit-t-nome" value="${esc(t.nome)}" required></div>
         <div class="grid-2">
-          <div class="form-group"><label>Data Início</label><input type="date" id="edit-t-ini" value="${esc(t.dataInicio)}"></div>
-          <div class="form-group"><label>Data Fim</label><input type="date" id="edit-t-fim" value="${esc(t.dataFim)}"></div>
+          <div class="form-group"><label>Data Início</label><input type="date" id="edit-t-ini" value="${esc(t.dataInicio)}" required></div>
+          <div class="form-group"><label>Data Fim</label><input type="date" id="edit-t-fim" value="${esc(t.dataFim)}" required></div>
         </div>
         <div class="grid-2">
           <div class="form-group"><label>Vagas</label><input type="number" id="edit-t-vagas" value="${esc(t.vagas)}"></div>
@@ -927,7 +962,9 @@
     // --- PUBLICAÇÃO ---
     async function publicarNoGitHub() {
       if(!state.isDirty) return toast('Nenhuma alteração pendente.');
-      const btn = $('btn-publicar'); btn.textContent = 'Publicando...'; btn.disabled = true;
+      const btn = $('btn-publicar'); 
+      btn.innerHTML = '<span class="spinner"></span> Publicando...'; 
+      btn.disabled = true;
 
       try {
         const r1 = await apiCommit('dados.json', state.dados, state.shaDados, 'CMS: Atualiza dados gerais');
@@ -944,7 +981,10 @@
         $('stat-status').style.color = 'var(--sucesso)';
         toast('Tudo publicado com sucesso!');
       } catch(e) { toast('Erro ao publicar: ' + e.message); }
-      finally { btn.textContent = 'Publicar Alterações'; btn.disabled = false; }
+      finally { 
+        btn.innerHTML = 'Publicar Alterações'; 
+        btn.disabled = false; 
+      }
     }
 
     window.exportarBackup = () => {
