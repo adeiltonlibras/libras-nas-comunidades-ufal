@@ -3,66 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Página — Libras nas Comunidades</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Página — Libras nas Comunidades | UFAL</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="estilo.css">
+  
+  <style>
+    /* Estilo específico para os textos longos vindos do HTML do JSON */
+    .conteudo-html { max-width: 800px; margin: 0 auto; }
+    .conteudo-html h2 { font-family: var(--fonte-titulo); font-size: 1.8rem; color: var(--azul-marinho); margin: 40px 0 16px; }
+    .conteudo-html h3 { font-family: var(--fonte-titulo); font-size: 1.4rem; color: var(--azul-marinho); margin: 32px 0 12px; }
+    .conteudo-html p { font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; color: var(--texto); }
+    .conteudo-html ul, .conteudo-html ol { margin: 0 0 24px 24px; font-size: 1.05rem; line-height: 1.8; }
+    .conteudo-html li { margin-bottom: 8px; }
+    .conteudo-html a { color: var(--azul-claro); font-weight: 600; text-decoration: underline; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <div class="topbar"><div class="topbar-inner"><span>Universidade Federal de Alagoas</span><span class="topbar-sep">·</span><span>FALE</span><span class="topbar-sep">·</span><span>PROEXC</span></div></div>
-  <header class="header"><div class="header-inner"><a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a><button class="nav-toggle" id="navToggle">Menu</button><nav class="nav" id="nav"><ul id="menu"></ul></nav></div></header>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="Página Inicial">
+        <span class="brand-name">Libras nas Comunidades</span>
+        <span class="brand-tag">Projeto de Extensão</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">Menu</button>
+      <nav class="nav-menu" id="navMenu">
+        <!-- Links injetados via JS -->
+      </nav>
+    </div>
+  </header>
 
   <main id="main">
-    <div id="app"><div style="padding:100px; text-align:center;">Carregando conteúdo...</div></div>
+    <section class="hero" style="padding: 60px 24px 40px; background: var(--branco); border-bottom: 1px solid var(--borda);">
+      <div style="max-width: 800px; margin: 0 auto; text-align: left;">
+        <div id="page-eyebrow" class="hero-eyebrow">Carregando...</div>
+        <h1 id="page-title" style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px;">Carregando...</h1>
+        <p id="page-desc" style="color: var(--texto-leve); font-size: 1.1rem; margin: 0;"></p>
+      </div>
+    </section>
+
+    <section class="container" style="padding: 48px 24px 80px;">
+      <div class="conteudo-html" id="page-content">
+        <!-- HTML da página será injetado aqui -->
+      </div>
+    </section>
   </main>
 
-  <footer class="footer"><div class="footer-inner"><div><div class="footer-brand-name">Libras nas Comunidades</div><p>Projeto de Extensão da UFAL.</p></div></div><div class="footer-base"><div class="footer-base-inner"><span>Desenvolvido por Adeilton Olimpio</span><span>© 2026 UFAL</span></div></div></footer>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>Libras nas Comunidades – UFAL</h4>
+        <p>Conhecimento, comunicação e inclusão.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Desenvolvido por <strong>Adeilton Olimpio</strong></p>
+    </div>
+  </footer>
 
   <script>
-    (async function () {
-      function urlPagina(p) { if (p.tipo === 'index') return 'index.html'; if (p.tipo === 'calendario') return 'calendario.html'; if (p.tipo === 'externo') return p.arquivo; return `pagina.html?slug=${encodeURIComponent(p.slug)}`; }
-      const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      document.getElementById('navToggle').onclick = () => document.getElementById('nav').querySelector('ul').classList.toggle('open');
+    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
 
-      try {
-        const r = await fetch('dados.json?t=' + Date.now());
-        const D = await r.json();
-        
-        const paginas = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>a.ordem-b.ordem);
-        const slug = new URLSearchParams(location.search).get('slug') || 'sobre';
-        const atual = paginas.find(p => p.slug === slug) || paginas[0];
+    fetch('dados.json?t=' + Date.now())
+      .then(res => res.json())
+      .then(D => {
+        // 1. Monta o Menu
+        const menu = document.getElementById('navMenu');
+        if(D.paginas) {
+          menu.innerHTML = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>a.ordem-b.ordem).map(p => {
+            const link = p.tipo === 'index' ? 'index.html' : p.tipo === 'externo' ? p.arquivo : p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${p.slug}`;
+            return `<a href="${link}">${p.titulo}</a>`;
+          }).join('');
+        }
 
-        if (atual.tipo === 'externo') { window.location.replace(atual.arquivo); return; }
-        if (atual.tipo === 'calendario') { window.location.replace('calendario.html'); return; }
-        if (atual.tipo === 'index') { window.location.replace('index.html'); return; }
+        // 2. Descobre qual página carregar
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get('slug') || 'sobre';
+        const pagina = D.paginas.find(p => p.slug === slug);
 
-        document.getElementById('menu').innerHTML = paginas.map(p => {
-          const link = urlPagina(p); const active = p.slug === atual.slug ? 'active' : '';
-          return `<li><a href="${link}" class="${active}">${esc(p.titulo)}</a></li>`;
-        }).join('');
-
-        document.title = `${atual.titulo} — Libras nas Comunidades`;
-        document.getElementById('page-title').textContent = document.title;
-
-        document.getElementById('app').innerHTML = `
-          <section class="hero hero--compact">
-            <div class="hero-pattern"></div>
-            <div class="hero-content">
-              <div class="breadcrumb"><a href="index.html">Início</a><span>/</span>${esc(atual.titulo)}</div>
-              <div class="hero-eyebrow">Projeto de Extensão · UFAL</div>
-              <h1 class="hero-title">${esc(atual.titulo)}</h1>
-              <div class="hero-rule"></div>
-              ${atual.descricao ? `<p class="hero-lede">${esc(atual.descricao)}</p>` : ''}
-            </div>
-          </section>
-          <section class="section">
-            <div class="section-inner">
-              <div class="article">${atual.html || '<p>Conteúdo em preparação.</p>'}</div>
-            </div>
-          </section>
-        `;
-      } catch (e) { document.getElementById('app').innerHTML = '<p style="padding:100px; text-align:center;">Erro ao carregar.</p>'; }
-    })();
+        if (pagina) {
+          document.title = `${pagina.titulo} — Libras nas Comunidades`;
+          document.getElementById('page-eyebrow').textContent = 'Projeto de Extensão · UFAL';
+          document.getElementById('page-title').textContent = pagina.titulo;
+          document.getElementById('page-desc').textContent = pagina.descricao || '';
+          document.getElementById('page-content').innerHTML = pagina.html || '<p>Conteúdo em construção.</p>';
+        } else {
+          document.getElementById('page-title').textContent = 'Página não encontrada';
+          document.getElementById('page-desc').textContent = '';
+          document.getElementById('page-content').innerHTML = '<p>O conteúdo solicitado não existe ou foi removido.</p>';
+        }
+      })
+      .catch(err => {
+        document.getElementById('page-title').textContent = 'Erro de carregamento';
+        document.getElementById('page-content').innerHTML = '<p>Não foi possível carregar as informações. Verifique sua conexão.</p>';
+      });
   </script>
 </body>
 </html>
