@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /dados.json
+Disallow: /aulas-dados.json
+Disallow: /academico-dados.json
+Disallow: /midia-dados.json
