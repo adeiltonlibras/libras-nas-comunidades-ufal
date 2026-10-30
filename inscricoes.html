@@ -3,72 +3,259 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Informações e passo a passo para inscrição no Curso Básico de Libras — Nível I do projeto Libras nas Comunidades (UFAL).">
   <title>Inscrições — Libras nas Comunidades | UFAL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="estilo.css">
+  
+  <style>
+    /* Estilos específicos para os cartões de inscrição */
+    .inscricao-card {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: var(--sombra);
+      border-left: 4px solid var(--sucesso); /* Borda verde para aberto */
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .inscricao-card.fechada {
+      border-left-color: var(--perigo); /* Borda vermelha para fechado */
+      text-align: center;
+    }
+
+    .inscricao-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .inscricao-header h2 {
+      font-family: var(--fonte-titulo);
+      color: var(--azul-marinho);
+      font-size: 1.6rem;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .inscricao-info {
+      font-size: 1rem;
+      color: var(--texto);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+
+    .inscricao-acoes {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--borda);
+      padding-top: 24px;
+    }
+
+    .badge { 
+      padding: 6px 12px; 
+      border-radius: 20px; 
+      font-size: 0.75rem; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+    }
+    .badge-aberta { background: #DCFCE7; color: #166534; }
+    .badge-fechada { background: #FEE2E2; color: #991B1B; }
+    
+    .passo-a-passo {
+      background: var(--off-white);
+      padding: 24px;
+      border-radius: var(--radius);
+      margin-top: 32px;
+      border: 1px solid var(--borda);
+    }
+    .passo-a-passo h3 {
+      font-family: var(--fonte-titulo);
+      font-size: 1.2rem;
+      color: var(--azul-marinho);
+      margin-bottom: 16px;
+    }
+    .passo-a-passo ol {
+      margin-left: 20px;
+      color: var(--texto);
+      line-height: 1.8;
+    }
+    .passo-a-passo li { margin-bottom: 8px; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <div class="topbar"><div class="topbar-inner"><span>Universidade Federal de Alagoas</span><span class="topbar-sep">·</span><span>FALE</span><span class="topbar-sep">·</span><span>PROEXC</span></div></div>
-  <header class="header"><div class="header-inner"><a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a><button class="nav-toggle" id="navToggle">Menu</button><nav class="nav" id="nav"><ul id="menu"></ul></nav></div></header>
+
+  <!-- HEADER PADRONIZADO -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="Página Inicial">
+        <span class="brand-name">Libras nas Comunidades</span>
+        <span class="brand-tag">Projeto de Extensão</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">Menu</button>
+      <nav class="nav-menu" id="navMenu">
+        <!-- Links injetados via JS -->
+      </nav>
+    </div>
+  </header>
 
   <main id="main">
-    <section class="hero hero--compact">
-      <div class="hero-pattern"></div>
-      <div class="hero-content">
-        <div class="breadcrumb"><a href="index.html">Início</a><span>/</span>Inscrições</div>
-        <div class="hero-eyebrow">Projeto de Extensão · UFAL</div>
-        <h1 class="hero-title">Inscrições</h1>
-        <div class="hero-rule"></div>
-        <p class="hero-lede">Informações sobre o processo de inscrição nos cursos de Libras.</p>
+    <!-- HERO SECTION -->
+    <section class="hero" style="padding: 60px 24px 40px; background: var(--off-white); text-align: center;">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <span class="hero-eyebrow">Junte-se a nós</span>
+        <h1 style="font-family: var(--fonte-titulo); font-size: clamp(2rem, 5vw, 3rem); color: var(--azul-marinho); margin-bottom: 16px;">Inscrições</h1>
+        <p style="color: var(--texto-leve); font-size: 1.1rem; margin: 0;">Garanta sua vaga no Curso Básico de Libras.</p>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-inner">
-        <div class="article" id="inscricoes-container">
-          <p>Carregando informações de inscrição…</p>
-        </div>
+    <!-- ÁREA DE INSCRIÇÕES -->
+    <section class="container" style="max-width: 800px; padding: 40px 24px 80px;">
+      <div id="inscricoes-container">
+        <p style="text-align: center; color: var(--texto-leve);">Buscando informações sobre as turmas...</p>
       </div>
     </section>
   </main>
 
-  <footer class="footer"><div class="footer-inner"><div><div class="footer-brand-name">Libras nas Comunidades</div><p>Projeto de Extensão da UFAL.</p></div></div><div class="footer-base"><div class="footer-base-inner"><span>Desenvolvido por Adeilton Olimpio</span><span>© 2026 UFAL</span></div></div></footer>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>Libras nas Comunidades – UFAL</h4>
+        <p>Conhecimento, comunicação e inclusão. Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL).</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Desenvolvido por <strong>Adeilton Olimpio</strong></p>
+    </div>
+  </footer>
 
   <script>
-    (async function () {
-      const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      function urlPagina(p) { if (p.tipo === 'index') return 'index.html'; if (p.tipo === 'calendario') return 'calendario.html'; if (p.tipo === 'externo') return p.arquivo; return `pagina.html?slug=${encodeURIComponent(p.slug)}`; }
+    // Lógica do Menu Mobile
+    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
+
+    // Carrega os dados
+    Promise.all([
+      fetch('dados.json?t=' + Date.now()).then(r => r.json()),
+      fetch('academico-dados.json?t=' + Date.now()).then(r => r.json())
+    ]).then(([D, A]) => {
       
-      document.getElementById('navToggle').onclick = () => document.getElementById('nav').querySelector('ul').classList.toggle('open');
+      // 1. Monta o Menu Dinâmico
+      const menu = document.getElementById('navMenu');
+      if(D.paginas) {
+        menu.innerHTML = D.paginas
+          .filter(p => p.publicada !== false)
+          .sort((a,b)=>a.ordem-b.ordem)
+          .map(p => {
+            const link = p.tipo === 'index' ? 'index.html' : 
+                         p.tipo === 'externo' ? p.arquivo : 
+                         p.tipo === 'calendario' ? 'calendario.html' : 
+                         `pagina.html?slug=${p.slug}`;
+            const isCurrent = p.slug === 'inscricoes' ? 'aria-current="page"' : '';
+            return `<a href="${link}" ${isCurrent}>${p.titulo}</a>`;
+          }).join('');
+      }
 
-      try {
-        const [rDados, rAcademico] = await Promise.all([ fetch('dados.json?t=' + Date.now()), fetch('academico-dados.json?t=' + Date.now()) ]);
-        const D = rDados.ok ? await rDados.json() : { paginas: [] };
-        const A = rAcademico.ok ? await rAcademico.json() : { turmas: [], cursos: [] };
-        
-        document.getElementById('menu').innerHTML = (D.paginas || []).sort((a,b)=>a.ordem-b.ordem).map(p => {
-          const link = urlPagina(p); const active = p.slug === 'inscricoes' ? 'active' : ''; const cta = p.slug === 'inscricoes' ? 'nav-cta' : '';
-          return `<li><a href="${link}" class="${active} ${cta}">${esc(p.titulo)}</a></li>`;
-        }).join('');
+      // 2. Lógica de Inscrições
+      const container = document.getElementById('inscricoes-container');
+      const turmas = A.turmas || [];
+      const cursos = A.cursos || [];
+      
+      const linkSigaa = D.configInscricoes?.linkSigaa || 'https://sigaa.sig.ufal.br/';
+      const msgEncerrada = D.configInscricoes?.msgEncerrado || 'As inscrições estão encerradas no momento. Acompanhe nossas redes para futuras edições.';
 
-        const turmasAbertas = (A.turmas || []).filter(t => t.status === 'Inscrições Abertas');
-        const linkSigaa = D.configInscricoes?.linkSigaa || 'https://sigaa.sig.ufal.br/';
+      // Se não houver turmas cadastradas
+      if (turmas.length === 0) {
+        container.innerHTML = `
+          <div class="inscricao-card fechada">
+            <div class="inscricao-header" style="justify-content: center;">
+              <h2>Nenhuma turma disponível</h2>
+            </div>
+            <p class="inscricao-info">${msgEncerrada}</p>
+          </div>`;
+        return;
+      }
 
-        let html = '';
-        if (turmasAbertas.length === 0) {
-          html = `<div class="status-box status-breve"><span class="status-icon">i</span><div><div class="status-label">Situação</div><div class="status-title">Nenhuma turma aberta</div><p class="status-desc">${D.configInscricoes?.msgEncerrado || 'As inscrições estão encerradas no momento.'}</p></div></div>`;
-        } else {
-          html = `<p>Confira abaixo as turmas com inscrições abertas. Para se inscrever, o aluno deve preencher o formulário e também realizar o cadastro no SIGAA.</p>`;
-          turmasAbertas.forEach(t => {
-            const curso = (A.cursos || []).find(c => c.id === t.cursoId) || { nome: 'Curso de Libras' };
-            html += `<div class="step-card" style="margin-top:24px; border-left-color: #3B6B3B;"><h3><span style="background:#3B6B3B;">✓</span> ${esc(curso.nome)} - ${esc(t.nome)}</h3><p><strong>Período:</strong> ${t.dataInicio.split('-').reverse().join('/')} a ${t.dataFim.split('-').reverse().join('/')}</p><div style="margin-top:16px;">${t.linkFormulario ? `<a class="btn-link" href="${t.linkFormulario}" target="_blank">1. Formulário</a>` : ''}<a class="btn-link btn-link--ghost" href="${linkSigaa}" target="_blank">2. SIGAA</a></div></div>`;
-          });
+      // Renderiza cada turma cadastrada
+      container.innerHTML = turmas.map(t => {
+        const curso = cursos.find(c => c.id === t.cursoId) || { nome: 'Curso de Libras' };
+        const isAberta = t.status === 'Inscrições Abertas';
+
+        if (!isAberta) {
+          // Se a turma não estiver aberta, mostra o aviso vermelho
+          return `
+            <div class="inscricao-card fechada">
+              <div class="inscricao-header" style="justify-content: center;">
+                <h2>${curso.nome} - ${t.nome}</h2>
+              </div>
+              <div style="margin-bottom: 20px;">
+                <span class="badge badge-fechada">Inscrições Encerradas</span>
+              </div>
+              <p class="inscricao-info">${msgEncerrada}</p>
+            </div>
+          `;
         }
-        html += `<h2>Requisitos</h2><ul><li>Ser jovem ou adulto ouvinte;</li><li>Não é necessário conhecimento prévio.</li></ul>`;
-        document.getElementById('inscricoes-container').innerHTML = html;
-      } catch (e) { document.getElementById('inscricoes-container').innerHTML = '<p>Erro ao carregar informações.</p>'; }
-    })();
+
+        // Se estiver aberta, exibe os botões
+        return `
+          <div class="inscricao-card">
+            <div class="inscricao-header">
+              <h2>${curso.nome} - ${t.nome}</h2>
+              <span class="badge badge-aberta">Inscrições Abertas</span>
+            </div>
+            
+            <div class="inscricao-info">
+              <strong>Período do curso:</strong> ${t.dataInicio.split('-').reverse().join('/')} a ${t.dataFim.split('-').reverse().join('/')}<br>
+              <strong>Vagas disponíveis:</strong> ${t.vagas} vagas
+            </div>
+
+            <div class="inscricao-acoes">
+              ${t.linkFormulario ? `
+                <a href="${t.linkFormulario}" target="_blank" rel="noopener" class="btn btn-dourado" style="flex: 1; min-width: 200px;">
+                  1. Preencher Formulário
+                </a>
+              ` : ''}
+              <a href="${linkSigaa}" target="_blank" rel="noopener" class="btn btn-primario" style="flex: 1; min-width: 200px;">
+                2. Cadastrar no SIGAA
+              </a>
+            </div>
+
+            <div class="passo-a-passo">
+              <h3>Como se inscrever</h3>
+              <p style="font-size: 0.95rem; color: var(--texto); margin-bottom: 16px;">
+                Para concluir sua inscrição, é obrigatório realizar <strong>os dois passos</strong> acima:
+              </p>
+              <ol>
+                <li><strong>Formulário:</strong> Preencha seus dados para a coordenação ter o controle interno da turma.</li>
+                <li><strong>SIGAA:</strong> Gere seu vínculo oficial com a UFAL. É por lá que seu certificado será emitido no futuro.</li>
+              </ol>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+    }).catch(err => {
+      console.error(err);
+      document.getElementById('inscricoes-container').innerHTML = `
+        <div class="inscricao-card fechada" style="border-left-color: var(--alerta);">
+          <p class="inscricao-info" style="color: var(--perigo); margin: 0;">
+            Não foi possível carregar as informações de inscrição no momento. Verifique sua conexão ou tente novamente mais tarde.
+          </p>
+        </div>`;
+    });
   </script>
 </body>
 </html>
