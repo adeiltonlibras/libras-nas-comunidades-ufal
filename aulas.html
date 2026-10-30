@@ -3,98 +3,335 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aulas — Libras nas Comunidades | UFAL</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>Aulas e Materiais — Libras nas Comunidades | UFAL</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="estilo.css">
+  
+  <style>
+    /* Container principal das aulas */
+    .aulas-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* Cartão de cada aula */
+    .aula-card {
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      margin-bottom: 40px;
+      box-shadow: var(--sombra);
+      overflow: hidden;
+    }
+
+    /* Cabeçalho do cartão */
+    .aula-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--borda);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .aula-info h2 {
+      font-family: var(--fonte-titulo);
+      font-size: 1.6rem;
+      color: var(--azul-marinho);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .aula-meta {
+      font-size: 0.85rem;
+      color: var(--texto-leve);
+      display: flex;
+      gap: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    /* Aviso de Aula Cancelada */
+    .aviso-cancelamento {
+      background: #FEF2F2;
+      border-left: 4px solid var(--perigo);
+      padding: 16px 24px;
+      margin: 0;
+      color: #991B1B;
+    }
+
+    .aviso-cancelamento strong {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .aviso-cancelamento p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    /* Corpo do cartão */
+    .aula-body {
+      padding: 32px;
+    }
+
+    .aula-descricao {
+      font-size: 1rem;
+      color: var(--texto);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* Player de Vídeo 16:9 */
+    .aula-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .aula-video iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* Área de Materiais (PDFs) */
+    .aula-materiais {
+      background: var(--off-white);
+      border: 1px solid var(--borda);
+      border-radius: 6px;
+      padding: 24px;
+    }
+
+    .materiais-titulo {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--azul-marinho);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .materiais-lista {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn-material {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      color: var(--azul-marinho);
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .btn-material:hover {
+      border-color: var(--azul-marinho);
+      background: #F8FAFC;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .btn-material::before {
+      content: "📄";
+      font-size: 1.1rem;
+    }
+
+    /* Estado vazio */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--texto-leve);
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      .aula-header { flex-direction: column; padding: 20px; gap: 10px; }
+      .aula-body { padding: 20px; }
+      .aula-info h2 { font-size: 1.3rem; }
+      .aula-meta { flex-direction: column; gap: 4px; }
+      .btn-material { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <div class="topbar"><div class="topbar-inner"><span>Universidade Federal de Alagoas</span><span class="topbar-sep">·</span><span>FALE</span><span class="topbar-sep">·</span><span>PROEXC</span></div></div>
-  <header class="header"><div class="header-inner"><a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a><button class="nav-toggle" id="navToggle">Menu</button><nav class="nav" id="nav"><ul id="menu"></ul></nav></div></header>
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
+
+  <!-- HEADER PADRONIZADO -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand" aria-label="Página Inicial">
+        <span class="brand-name">Libras nas Comunidades</span>
+        <span class="brand-tag">Projeto de Extensão</span>
+      </a>
+      
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu de navegação">Menu</button>
+      
+      <nav class="nav-menu" id="navMenu" aria-label="Navegação Principal">
+        <a href="index.html">Início</a>
+        <a href="pagina.html?slug=sobre">O Projeto</a>
+        <a href="pagina.html?slug=curso">O Curso</a>
+        <a href="calendario.html">Cronograma</a>
+        <a href="aulas.html" aria-current="page">Aulas</a>
+        <a href="inscricoes.html">Inscrições</a>
+      </nav>
+    </div>
+  </header>
 
   <main id="main">
-    <section class="hero hero--compact">
-      <div class="hero-pattern"></div>
-      <div class="hero-content">
-        <div class="breadcrumb"><a href="index.html">Início</a><span>/</span>Aulas</div>
-        <div class="hero-eyebrow">Material didático complementar</div>
-        <h1 class="hero-title">Aulas e Atividades</h1>
-        <div class="hero-rule"></div>
-        <p class="hero-lede">Assista às aulas gravadas e acesse os materiais de apoio disponibilizados pela equipe do projeto.</p>
+    <!-- HERO SECTION -->
+    <section class="hero" style="padding-top: 60px; padding-bottom: 40px; text-align: center; background: var(--off-white);">
+      <div style="max-width: 1140px; margin-inline: auto; padding-inline: 24px;">
+        <span class="hero-eyebrow">Material Didático Complementar</span>
+        <h1 style="font-family: var(--fonte-titulo); font-size: clamp(2rem, 5vw, 3rem); color: var(--azul-marinho); margin-bottom: 16px;">Aulas e Materiais</h1>
+        <p style="color: var(--texto-leve); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+          Assista às videoaulas e acesse os PDFs de apoio disponibilizados pela equipe do projeto.
+        </p>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-inner">
-        <div id="aulas-list"></div>
+    <!-- LISTA DE AULAS -->
+    <div class="aulas-container" id="aulas-list">
+      <!-- O conteúdo será injetado via JavaScript -->
+      <div class="empty-state">
+        <p>Carregando aulas...</p>
       </div>
-    </section>
+    </div>
   </main>
 
-  <footer class="footer"><div class="footer-inner"><div><div class="footer-brand-name">Libras nas Comunidades</div><p>Projeto de Extensão da UFAL.</p></div></div><div class="footer-base"><div class="footer-base-inner"><span>Desenvolvido por Adeilton Olimpio</span><span>© 2026 UFAL</span></div></div></footer>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>Libras nas Comunidades – UFAL</h4>
+        <p>Conhecimento, comunicação e inclusão. Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL), Faculdade de Letras (FALE) e Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Desenvolvido por <strong>Adeilton Olimpio</strong></p>
+    </div>
+  </footer>
 
   <script>
-    (async function () {
-      const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      function urlPagina(p) { if (p.tipo === 'index') return 'index.html'; if (p.tipo === 'calendario') return 'calendario.html'; if (p.tipo === 'externo') return p.arquivo; return `pagina.html?slug=${encodeURIComponent(p.slug)}`; }
-      
-      document.getElementById('navToggle').onclick = () => document.getElementById('nav').querySelector('ul').classList.toggle('open');
+    // Menu Mobile
+    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
 
-      try {
-        const rD = await fetch('dados.json?t=' + Date.now());
-        if(rD.ok) {
-          const D = await rD.json();
-          document.getElementById('menu').innerHTML = D.paginas.sort((a,b)=>a.ordem-b.ordem).map(p => {
-            const link = urlPagina(p); const active = p.slug === 'aulas' ? 'active' : '';
-            return `<li><a href="${link}" class="${active}">${esc(p.titulo)}</a></li>`;
-          }).join('');
-        }
+    // Carrega os dados do JSON
+    fetch('aulas-dados.json?t=' + Date.now())
+      .then(res => {
+        if (!res.ok) throw new Error('Falha ao carregar');
+        return res.json();
+      })
+      .then(data => {
+        const container = document.getElementById('aulas-list');
+        const aulas = data.aulas || [];
 
-        const rA = await fetch('aulas-dados.json?t=' + Date.now());
-        const A = rA.ok ? await rA.json() : { aulas: [] };
-        
-        if (!A.aulas || A.aulas.length === 0) {
-          document.getElementById('aulas-list').innerHTML = '<p style="text-align:center; font-style:italic; color:var(--muted);">Nenhuma aula publicada no momento.</p>';
+        if (aulas.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <h3 style="font-family: var(--fonte-titulo); font-size: 1.5rem; margin-bottom: 12px; color: var(--azul-marinho);">Nenhuma aula publicada</h3>
+              <p>As videoaulas e materiais serão disponibilizados em breve.</p>
+            </div>
+          `;
           return;
         }
-        
-        document.getElementById('aulas-list').innerHTML = A.aulas.map((a, i) => {
-          const num = String(i + 1).padStart(2, '0');
-          
-          const videoHtml = a.video 
-            ? `<div class="aula-video" style="margin-top:20px; margin-bottom:20px;"><iframe src="${a.video}" allowfullscreen></iframe></div>` 
-            : '';
 
-          const materiaisHtml = (a.materiais && a.materiais.length) 
-            ? `<div class="aula-materiais" style="border-top:1px solid var(--line); padding-top:16px; margin-top:16px;">
-                <div class="aula-materiais-label" style="margin-bottom:12px;">Materiais Complementares</div>
-                <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                  ${a.materiais.map(m => `<a class="btn-link btn-link--ghost" href="${m.url}" target="_blank" style="margin:0;">📄 ${esc(m.titulo)}</a>`).join('')}
-                </div>
-               </div>` 
-            : '';
+        // Renderiza cada aula
+        container.innerHTML = aulas.map((aula, index) => {
+          const num = String(index + 1).padStart(2, '0');
+          const dataFormatada = aula.data ? aula.data.split('-').reverse().join('/') : '';
+          const isCancelada = aula.status === 'cancelada';
+
+          // Bloco de aviso se a aula for cancelada
+          const avisoHtml = isCancelada ? `
+            <div class="aviso-cancelamento">
+              <strong>Atenção: Esta aula foi cancelada</strong>
+              <p><b>Motivo:</b> ${aula.justificativa || 'Não informado pela coordenação.'}</p>
+            </div>
+          ` : '';
+
+          // Player de vídeo (só aparece se não estiver cancelada e tiver link)
+          const videoHtml = (!isCancelada && aula.video) ? `
+            <div class="aula-video">
+              <iframe src="${aula.video}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          ` : '';
+
+          // Lista de materiais (PDFs)
+          const materiaisHtml = (aula.materiais && aula.materiais.length > 0) ? `
+            <div class="aula-materiais">
+              <div class="materiais-titulo">📚 Materiais de Apoio</div>
+              <div class="materiais-lista">
+                ${aula.materiais.map(mat => `
+                  <a href="${mat.url}" target="_blank" rel="noopener" class="btn-material">
+                    ${mat.titulo}
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          ` : '';
 
           return `
-            <article class="aula">
-              <div class="aula-side">
-                <div class="aula-num">${num}</div>
-                <div class="aula-modulo">${esc(a.modulo)}</div>
-                <div style="font-size:0.7rem; color:var(--muted); margin-top:4px;">${a.data ? a.data.split('-').reverse().join('/') : ''}</div>
+            <article class="aula-card">
+              <div class="aula-header">
+                <div class="aula-info">
+                  <h2>${esc(aula.titulo)}</h2>
+                  <div class="aula-meta">
+                    <span>Aula ${num}</span>
+                    <span>Módulo: ${esc(aula.modulo || 'Geral')}</span>
+                    ${dataFormatada ? `<span>Data: ${dataFormatada}</span>` : ''}
+                  </div>
+                </div>
               </div>
-              <div class="aula-main">
-                <h3 class="aula-titulo">${esc(a.titulo)}</h3>
-                <p class="aula-descricao">${esc(a.descricao)}</p>
+
+              ${avisoHtml}
+
+              <div class="aula-body">
+                <p class="aula-descricao">${esc(aula.descricao || 'Sem descrição para esta aula.')}</p>
                 ${videoHtml}
                 ${materiaisHtml}
               </div>
             </article>
           `;
         }).join('');
-        
-      } catch (e) { 
-        document.getElementById('aulas-list').innerHTML = '<p style="text-align:center;">Erro ao carregar as aulas.</p>'; 
-      }
-    })();
+      })
+      .catch(err => {
+        document.getElementById('aulas-list').innerHTML = `
+          <div class="empty-state" style="color: var(--perigo);">
+            <p>Ocorreu um erro ao carregar as aulas. Tente novamente mais tarde.</p>
+          </div>
+        `;
+      });
+
+    // Função de segurança contra injeção de HTML
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[char]);
+    }
   </script>
 </body>
 </html>
