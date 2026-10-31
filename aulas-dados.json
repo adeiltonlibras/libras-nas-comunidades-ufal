@@ -39,6 +39,22 @@
       "descricao": "",
       "video": "https://www.youtube.com/embed/HvzC6nLf9iE?si=ck5e5sq9TpYuvX1F",
       "materiais": []
+    },
+    {
+      "id": 1793421341733,
+      "modulo": "Vídeo ",
+      "titulo": "i",
+      "video": "https://www.youtube.com/embed/y2b_IaicMqY",
+      "descricao": "u",
+      "materiais": [
+        {
+          "titulo": "PauloLibras2023.otf",
+          "url": "https://raw.githubusercontent.com/adeiltonlibras/libras-nas-comunidades-ufal/main/materiais/1793421363820_PauloLibras2023.otf"
+        }
+      ],
+      "status": "normal",
+      "justificativa": "",
+      "data": "010000"
     }
   ]
 }
