@@ -3,335 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Acervo de videoaulas e materiais de apoio do projeto Libras nas Comunidades (UFAL).">
-  <title>Aulas e Materiais — Libras nas Comunidades | UFAL</title>
+  <meta name="robots" content="noindex, nofollow">
+  <title>Painel Administrativo — Libras nas Comunidades</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="estilo.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* --- ESTILO ACADÊMICO E ORGANIZADO --- */
-    .acervo-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
+    :root {
+      --azul-marinho: #0F2B4C; --azul-claro: #1E4E8C; --dourado: #A88552;
+      --off-white: #F8FAFC; --branco: #FFFFFF; --texto: #334155;
+      --texto-leve: #64748B; --borda: #E2E8F0; --perigo: #EF4444;
+      --fonte-titulo: 'Playfair Display', serif; --fonte-corpo: 'Inter', sans-serif;
     }
-
-    .aula-doc {
-      background: var(--branco);
-      border: 1px solid var(--borda);
-      border-radius: var(--radius);
-      padding: 40px;
-      margin-bottom: 48px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-      position: relative;
-    }
-
-    /* Detalhe dourado discreto na lateral */
-    .aula-doc::before {
-      content: "";
-      position: absolute;
-      top: 40px;
-      bottom: 40px;
-      left: 0;
-      width: 3px;
-      background: var(--dourado);
-      border-radius: 0 3px 3px 0;
-    }
-
-    /* Cabeçalho da Aula */
-    .doc-header {
-      margin-bottom: 24px;
-    }
-
-    .doc-modulo {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--dourado);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .doc-titulo {
-      font-family: var(--fonte-titulo);
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      color: var(--azul-marinho);
-      margin: 0;
-      line-height: 1.25;
-    }
-
-    /* Wrapper do Vídeo */
-    .video-wrapper {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border-radius: 6px;
-      overflow: hidden;
-      margin-bottom: 32px;
-      border: 1px solid var(--borda);
-    }
-
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      border: 0;
-    }
-
-    /* Bloco de Sem Vídeo */
-    .sem-video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: var(--off-white);
-      border: 1px dashed var(--borda);
-      border-radius: 6px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--texto-leve);
-      margin-bottom: 32px;
-    }
-    .sem-video span { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
-
-    /* Descrição (só aparece se tiver texto) */
-    .doc-descricao {
-      font-size: 1.05rem;
-      color: var(--texto);
-      line-height: 1.8;
-      margin-bottom: 32px;
-    }
-
-    /* Área de Downloads */
-    .doc-materiais {
-      background: var(--off-white);
-      border: 1px solid var(--borda);
-      border-radius: 6px;
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    .doc-materiais h4 {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--azul-marinho);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 0 0 16px 0;
-    }
-
-    .lista-downloads {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .lista-downloads a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--branco);
-      border: 1px solid var(--borda);
-      color: var(--azul-marinho);
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .lista-downloads a:hover {
-      border-color: var(--azul-marinho);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-
-    .lista-downloads a svg {
-      width: 16px; height: 16px; fill: var(--dourado);
-    }
-
-    /* Citação ABNT */
-    .doc-abnt {
-      font-size: 0.8rem;
-      color: var(--texto-leve);
-      font-style: italic;
-      line-height: 1.6;
-      padding-top: 16px;
-      border-top: 1px dashed var(--borda);
-    }
-
-    .doc-abnt strong {
-      font-style: normal;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      display: block;
-      margin-bottom: 4px;
-      color: var(--azul-marinho);
-    }
-
-    @media (max-width: 768px) {
-      .aula-doc { padding: 24px; }
-      .aula-doc::before { top: 24px; bottom: 24px; }
-      .doc-titulo { font-size: 1.4rem; }
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--fonte-corpo); background: var(--off-white); color: var(--texto); display: flex; height: 100vh; overflow: hidden; }
+    
+    /* Login */
+    .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    .login-box { background: var(--branco); padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border-top: 4px solid var(--dourado); }
+    .login-box h2 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 20px; text-align: center; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; color: var(--azul-marinho); }
+    .form-group input { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: 6px; background: var(--off-white); outline: none; }
+    
+    /* Layout */
+    .sidebar { width: 250px; background: var(--azul-marinho); color: #fff; padding: 24px; display: flex; flex-direction: column; }
+    .sidebar h2 { font-family: var(--fonte-titulo); font-size: 1.2rem; margin-bottom: 30px; color: #fff;}
+    .main-content { flex: 1; padding: 32px; overflow-y: auto; }
+    
+    .card { background: #fff; padding: 24px; border-radius: 8px; border: 1px solid var(--borda); box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 24px; }
+    .card h3 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 20px; font-size: 1.4rem; }
+    
+    .btn { padding: 12px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
+    .btn-dourado { background: var(--dourado); color: #fff; width: 100%; }
+    .btn-dourado:hover { background: #8E6D3E; }
+    .btn-perigo { background: #FEE2E2; color: var(--perigo); padding: 8px 12px; font-size: 0.8rem; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--borda); font-size: 0.9rem; }
+    th { font-size: 0.75rem; text-transform: uppercase; color: var(--texto-leve); background: var(--off-white); }
+    
+    .hidden { display: none !important; }
+    #erro-login { color: var(--perigo); font-size: 0.8rem; text-align: center; margin-top: 10px; display: block; }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
 
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="brand" aria-label="Página Inicial">
-        <span class="brand-name">Libras nas Comunidades</span>
-        <span class="brand-tag">Projeto de Extensão</span>
-      </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">Menu</button>
-      <nav class="nav-menu" id="navMenu"></nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <!-- HERO -->
-    <section class="hero" style="padding: 64px 24px 48px; text-align: center; background: var(--branco); border-bottom: 1px solid var(--borda);">
-      <div style="max-width: 800px; margin: 0 auto;">
-        <span style="font-size: 0.75rem; font-weight: 700; color: var(--dourado); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 16px;">
-          Material Didático Complementar
-        </span>
-        <h1 style="font-family: var(--fonte-titulo); font-size: clamp(2.5rem, 5vw, 3.5rem); color: var(--azul-marinho); margin-bottom: 16px;">
-          Aulas e Materiais
-        </h1>
-        <p style="font-size: 1.1rem; color: var(--texto-leve); line-height: 1.6; margin: 0 auto; max-width: 600px;">
-          Assista às videoaulas e acesse os PDFs de apoio disponibilizados pela equipe do projeto.
-        </p>
+  <!-- TELA DE LOGIN -->
+  <div class="login-overlay" id="login-screen">
+    <div class="login-box">
+      <h2>Acesso Restrito</h2>
+      <div class="form-group">
+        <label>E-mail Administrativo</label>
+        <input type="email" id="inp-email" placeholder="seu@email.com">
       </div>
-    </section>
-
-    <!-- CONTEÚDO DAS AULAS -->
-    <div class="acervo-container" style="padding-top: 48px;">
-      <div id="aulas-container">
-        <p style="text-align: center; color: var(--texto-leve);">Carregando acervo...</p>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="inp-senha" placeholder="********">
       </div>
+      <button class="btn btn-dourado" id="btn-login">Entrar no Sistema</button>
+      <span id="erro-login"></span>
     </div>
-  </main>
+  </div>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <h4>Libras nas Comunidades – UFAL</h4>
-        <p>Conhecimento, comunicação e inclusão. Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL), Faculdade de Letras (FALE) e Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>Desenvolvido por <strong>Adeilton Olimpio</strong></p>
-    </div>
-  </footer>
+  <!-- PAINEL -->
+  <div id="app-painel" class="hidden" style="display: flex; width: 100%;">
+    <aside class="sidebar">
+      <h2>Secretaria Digital</h2>
+      <div style="flex: 1;"></div>
+      <button class="btn" style="background: rgba(255,255,255,0.1); color: #fff;" id="btn-sair">Sair do Sistema</button>
+    </aside>
 
-  <script>
-    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
-
-    const esc = s => String(s ?? '').replace(/[&<>"']/g, char => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    })[char]);
-
-    Promise.all([
-      fetch('dados.json?t=' + Date.now()).then(r => r.json()),
-      fetch('aulas-dados.json?t=' + Date.now()).then(r => r.json())
-    ]).then(([D, A]) => {
-      
-      // Menu
-      document.getElementById('navMenu').innerHTML = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>a.ordem-b.ordem).map(p => {
-        const link = p.tipo === 'index' ? 'index.html' : p.tipo === 'externo' ? p.arquivo : p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${p.slug}`;
-        return `<li><a href="${link}" ${p.slug === 'aulas' ? 'aria-current="page"' : ''}>${p.titulo}</a></li>`;
-      }).join('');
-
-      // Aulas
-      const container = document.getElementById('aulas-container');
-      const aulas = A.aulas || [];
-
-      if (aulas.length === 0) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 40px; background: var(--branco); border: 1px solid var(--borda); border-radius: var(--radius);">
-            <h2 style="font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 12px;">Acervo em atualização</h2>
-            <p style="color: var(--texto-leve);">As videoaulas serão disponibilizadas em breve.</p>
-          </div>`;
-        return;
-      }
-
-      container.innerHTML = aulas.map((aula) => {
+    <main class="main-content">
+      <div class="card">
+        <h3>Gerenciar Aulas</h3>
         
-        // Só mostra o módulo se ele existir e não for "Vídeo" ou "Geral"
-        let moduloHtml = '';
-        if (aula.modulo && aula.modulo.trim() !== '') {
-          let mod = aula.modulo.trim();
-          if (mod.toLowerCase() !== 'vídeo' && mod.toLowerCase() !== 'video' && mod.toLowerCase() !== 'geral') {
-            moduloHtml = `<span class="doc-modulo">${esc(mod)}</span>`;
-          }
-        }
-
-        const videoHtml = aula.video 
-          ? `<div class="video-wrapper"><iframe src="${esc(aula.video)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
-          : `<div class="sem-video"><span>📹</span>Gravação indisponível</div>`;
-
-        // Só mostra a descrição se você tiver escrito algo no painel
-        const descricaoHtml = (aula.descricao && aula.descricao.trim() !== '') 
-          ? `<div class="doc-descricao">${esc(aula.descricao)}</div>` 
-          : '';
-
-        const materiaisHtml = (aula.materiais && aula.materiais.length > 0) ? `
-          <div class="doc-materiais">
-            <h4>Documentos Anexos</h4>
-            <ul class="lista-downloads">
-              ${aula.materiais.map(mat => `
-                <li>
-                  <a href="${esc(mat.url)}" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    ${esc(mat.titulo)}
-                  </a>
-                </li>
-              `).join('')}
-            </ul>
+        <!-- Formulário -->
+        <div style="background: var(--off-white); padding: 20px; border-radius: 6px; margin-bottom: 20px;">
+          <input type="hidden" id="edit-id">
+          <div class="form-group">
+            <label>Título da Aula</label>
+            <input type="text" id="inp-titulo" placeholder="Ex: Alfabeto em Libras">
           </div>
-        ` : '';
-
-        const abntHtml = (aula.referencia && aula.referencia.trim() !== '') ? `
-          <div class="doc-abnt">
-            <strong>Fonte / Referência Bibliográfica</strong>
-            ${esc(aula.referencia)}
+          <div class="form-group">
+            <label>Link do Vídeo (Embed)</label>
+            <input type="text" id="inp-video" placeholder="https://www.youtube.com/embed/...">
           </div>
-        ` : '';
+          <div class="form-group">
+            <label>Descrição</label>
+            <input type="text" id="inp-descricao" placeholder="O que o aluno vai aprender...">
+          </div>
+          <div class="form-group">
+            <label>Referência ABNT (Opcional)</label>
+            <input type="text" id="inp-referencia" placeholder="SILVA, João. 2026.">
+          </div>
+          <button class="btn btn-dourado" style="width: auto;" id="btn-salvar">Salvar Aula</button>
+          <button class="btn" style="background: #E2E8F0; display: none;" id="btn-cancelar">Cancelar Edição</button>
+        </div>
 
-        return `
-          <article class="aula-doc">
-            <div class="doc-header">
-              ${moduloHtml}
-              <h2 class="doc-titulo">${esc(aula.titulo)}</h2>
-            </div>
-            
-            ${videoHtml}
-            ${descricaoHtml}
-            ${materiaisHtml}
-            ${abntHtml}
-          </article>
-        `;
-      }).join('');
+        <!-- Tabela -->
+        <table>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Vídeo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-aulas">
+            <tr><td colspan="3">Carregando dados do Firebase...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
 
-    }).catch(err => {
-      console.error(err);
-      document.getElementById('aulas-container').innerHTML = `
-        <div style="text-align: center; padding: 40px; background: var(--branco); border: 1px solid var(--perigo); border-radius: var(--radius);">
-          <p style="color: var(--perigo); font-weight: 600;">Erro de conexão. Não foi possível carregar o acervo.</p>
-        </div>`;
-    });
-  </script>
+  <script type="module" src="admin.js"></script>
 </body>
 </html>
