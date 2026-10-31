@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Acervo de videoaulas e materiais de apoio do projeto Libras nas Comunidades (UFAL).">
-  <title>Acervo de Aulas — Libras nas Comunidades | UFAL</title>
+  <title>Aulas e Materiais — Libras nas Comunidades | UFAL</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,202 +13,162 @@
   <link rel="stylesheet" href="estilo.css">
   
   <style>
-    /* --- DESIGN EDITORIAL ACADÊMICO --- */
-    
-    /* Barra de Aviso do AVA (Elegante e Discreta) */
-    .ava-bar {
-      background: var(--azul-marinho);
-      color: var(--branco);
-      padding: 16px 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      border-bottom: 2px solid var(--dourado);
-    }
-    .ava-bar p {
-      margin: 0;
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
-    }
-    .ava-bar a {
-      color: var(--dourado);
-      font-weight: 600;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: 0.2s;
-    }
-    .ava-bar a:hover {
-      border-bottom-color: var(--dourado);
-    }
-
-    /* Container do Acervo */
+    /* --- ESTILO ACADÊMICO E ORGANIZADO --- */
     .acervo-container {
-      max-width: 960px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 60px 24px 100px;
+      padding: 0 24px 80px;
     }
 
-    /* Cabeçalho do Acervo */
-    .acervo-header {
-      text-align: center;
-      margin-bottom: 64px;
-    }
-    .acervo-header h1 {
-      font-family: var(--fonte-titulo);
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
-      color: var(--azul-marinho);
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-    }
-    .acervo-header p {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.2rem;
-      color: var(--texto-leve);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Cartão da Aula (Estilo Documento Acadêmico) */
     .aula-doc {
       background: var(--branco);
       border: 1px solid var(--borda);
-      margin-bottom: 64px;
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 48px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
       position: relative;
     }
-    
-    /* Detalhe dourado na lateral */
+
+    /* Detalhe dourado discreto na lateral */
     .aula-doc::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; bottom: 0;
-      width: 4px;
+      top: 40px;
+      bottom: 40px;
+      left: 0;
+      width: 3px;
       background: var(--dourado);
+      border-radius: 0 3px 3px 0;
     }
 
-    /* Área do Player de Vídeo */
-    .doc-video {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border-bottom: 1px solid var(--borda);
-    }
-    .doc-video iframe {
-      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
-    }
-    .doc-sem-video {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--azul-marinho); color: var(--texto-leve);
-      font-family: var(--fonte-titulo); font-size: 1.2rem;
+    /* Cabeçalho da Aula */
+    .doc-header {
+      margin-bottom: 24px;
     }
 
-    /* Conteúdo de Texto */
-    .doc-conteudo {
-      padding: 40px;
-    }
-
-    /* Etiquetas do Topo */
-    .doc-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--off-white);
-      padding-bottom: 16px;
-    }
     .doc-modulo {
       font-size: 0.75rem;
       font-weight: 700;
       color: var(--dourado);
       text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    .doc-numero {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1rem;
-      color: var(--texto-leve);
+      letter-spacing: 1.5px;
+      display: block;
+      margin-bottom: 8px;
     }
 
-    /* Título da Aula */
     .doc-titulo {
       font-family: var(--fonte-titulo);
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
       color: var(--azul-marinho);
-      margin: 0 0 24px 0;
-      line-height: 1.2;
-      letter-spacing: -0.5px;
+      margin: 0;
+      line-height: 1.25;
     }
+
+    /* Wrapper do Vídeo */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      border: 1px solid var(--borda);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* Bloco de Sem Vídeo */
+    .sem-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--off-white);
+      border: 1px dashed var(--borda);
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--texto-leve);
+      margin-bottom: 32px;
+    }
+    .sem-video span { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
 
     /* Descrição */
     .doc-descricao {
-      font-family: var(--fonte-corpo);
       font-size: 1.05rem;
       color: var(--texto);
       line-height: 1.8;
-      margin-bottom: 40px;
-      max-width: 80ch;
+      margin-bottom: 32px;
     }
 
-    /* Área de Downloads (Estilo Índice de Biblioteca) */
+    /* Área de Downloads */
     .doc-materiais {
-      border-top: 1px solid var(--borda);
-      padding-top: 24px;
-      margin-top: 24px;
+      background: var(--off-white);
+      border: 1px solid var(--borda);
+      border-radius: 6px;
+      padding: 24px;
+      margin-bottom: 24px;
     }
+
     .doc-materiais h4 {
-      font-family: var(--fonte-titulo);
-      font-size: 1.1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
       color: var(--azul-marinho);
+      text-transform: uppercase;
+      letter-spacing: 1px;
       margin: 0 0 16px 0;
     }
+
     .lista-downloads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
       list-style: none;
       padding: 0;
       margin: 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 12px;
-    }
-    .lista-downloads li a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: var(--off-white);
-      border: 1px solid var(--borda);
-      border-radius: 4px;
-      text-decoration: none;
-      color: var(--texto);
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-    }
-    .lista-downloads li a:hover {
-      background: var(--branco);
-      border-color: var(--azul-marinho);
-      color: var(--azul-marinho);
-      transform: translateX(4px);
-    }
-    .lista-downloads li a svg {
-      width: 20px; height: 20px; fill: var(--dourado); flex-shrink: 0;
     }
 
-    /* Referência ABNT (Rodapé do Documento) */
+    .lista-downloads a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      color: var(--azul-marinho);
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .lista-downloads a:hover {
+      border-color: var(--azul-marinho);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    .lista-downloads a svg {
+      width: 16px; height: 16px; fill: var(--dourado);
+    }
+
+    /* Citação ABNT */
     .doc-abnt {
-      margin-top: 32px;
-      padding: 16px 24px;
-      background: #F8FAFC;
-      border-left: 3px solid var(--borda);
       font-size: 0.8rem;
       color: var(--texto-leve);
       font-style: italic;
       line-height: 1.6;
+      padding-top: 16px;
+      border-top: 1px dashed var(--borda);
     }
+
     .doc-abnt strong {
       font-style: normal;
       font-size: 0.65rem;
@@ -219,29 +179,15 @@
       color: var(--azul-marinho);
     }
 
-    /* Estado Vazio */
-    .estado-vazio {
-      text-align: center;
-      padding: 100px 20px;
-      background: var(--branco);
-      border: 1px solid var(--borda);
-    }
-
     @media (max-width: 768px) {
-      .doc-conteudo { padding: 24px; }
-      .ava-bar { flex-direction: column; text-align: center; gap: 8px; }
-      .lista-downloads { grid-template-columns: 1fr; }
+      .aula-doc { padding: 24px; }
+      .aula-doc::before { top: 24px; bottom: 24px; }
+      .doc-titulo { font-size: 1.4rem; }
     }
   </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Pular para o conteúdo</a>
-
-  <!-- BARRA AVA DISCRETA -->
-  <div class="ava-bar">
-    <p>O ambiente oficial para notas e avaliações é o Moodle.</p>
-    <a href="https://gesyslibras.com" target="_blank" rel="noopener">Acessar o GESysLibras &rarr;</a>
-  </div>
 
   <header class="header">
     <div class="header-inner">
@@ -255,19 +201,26 @@
   </header>
 
   <main id="main">
-    <div class="acervo-container">
-      
-      <!-- CABEÇALHO DA PÁGINA -->
-      <div class="acervo-header">
-        <h1>Acervo de Aulas</h1>
-        <p>Registros audiovisuais e materiais de apoio organizados para consulta dos participantes do projeto.</p>
+    <!-- HERO -->
+    <section class="hero" style="padding: 64px 24px 48px; text-align: center; background: var(--branco); border-bottom: 1px solid var(--borda);">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <span style="font-size: 0.75rem; font-weight: 700; color: var(--dourado); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 16px;">
+          Material Didático Complementar
+        </span>
+        <h1 style="font-family: var(--fonte-titulo); font-size: clamp(2.5rem, 5vw, 3.5rem); color: var(--azul-marinho); margin-bottom: 16px;">
+          Aulas e Materiais
+        </h1>
+        <p style="font-size: 1.1rem; color: var(--texto-leve); line-height: 1.6; margin: 0 auto; max-width: 600px;">
+          Assista às videoaulas e acesse os PDFs de apoio disponibilizados pela equipe do projeto.
+        </p>
       </div>
+    </section>
 
-      <!-- LISTA DE AULAS -->
+    <!-- CONTEÚDO DAS AULAS -->
+    <div class="acervo-container" style="padding-top: 48px;">
       <div id="aulas-container">
         <p style="text-align: center; color: var(--texto-leve);">Carregando acervo...</p>
       </div>
-
     </div>
   </main>
 
@@ -275,7 +228,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h4>Libras nas Comunidades – UFAL</h4>
-        <p>Conhecimento, comunicação e inclusão. Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL).</p>
+        <p>Conhecimento, comunicação e inclusão. Projeto de Extensão vinculado à Universidade Federal de Alagoas (UFAL), Faculdade de Letras (FALE) e Pró-Reitoria de Extensão e Cultura (PROEXC).</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -283,91 +236,114 @@
     </div>
   </footer>
 
-  <script>
+  <!-- SCRIPT ADAPTADO PARA O FIREBASE -->
+  <script type="module">
+    import { db } from './firebase-config.js';
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
     document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
 
     const esc = s => String(s ?? '').replace(/[&<>"']/g, char => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     })[char]);
 
-    Promise.all([
-      fetch('dados.json?t=' + Date.now()).then(r => r.json()),
-      fetch('aulas-dados.json?t=' + Date.now()).then(r => r.json())
-    ]).then(([D, A]) => {
-      
-      document.getElementById('navMenu').innerHTML = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>a.ordem-b.ordem).map(p => {
-        const link = p.tipo === 'index' ? 'index.html' : p.tipo === 'externo' ? p.arquivo : p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${p.slug}`;
-        return `<li><a href="${link}" ${p.slug === 'aulas' ? 'aria-current="page"' : ''}>${p.titulo}</a></li>`;
-      }).join('');
-
-      const container = document.getElementById('aulas-container');
-      const aulas = A.aulas || [];
-
-      if (aulas.length === 0) {
-        container.innerHTML = `<div class="estado-vazio"><h2 style="font-family: var(--fonte-titulo); color: var(--azul-marinho);">Acervo em atualização</h2><p style="color: var(--texto-leve);">Novas aulas serão publicadas em breve.</p></div>`;
-        return;
-      }
-
-      container.innerHTML = aulas.map((aula, index) => {
-        const num = String(index + 1).padStart(2, '0');
+    async function carregarDados() {
+      try {
+        // 1. Carregar Menu (ainda do JSON local, pois não mudou)
+        const resMenu = await fetch('dados.json?t=' + Date.now());
+        const D = await resMenu.json();
         
-        // Tratamento para não mostrar módulos genéricos
-        let modulo = (aula.modulo || 'Geral').trim();
-        if (modulo.toLowerCase() === 'vídeo' || modulo.toLowerCase() === 'video') modulo = 'Geral';
+        document.getElementById('navMenu').innerHTML = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>a.ordem-b.ordem).map(p => {
+          const link = p.tipo === 'index' ? 'index.html' : p.tipo === 'externo' ? p.arquivo : p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${p.slug}`;
+          return `<li><a href="${link}" ${p.slug === 'aulas' ? 'aria-current="page"' : ''}>${p.titulo}</a></li>`;
+        }).join('');
 
-        const videoHtml = aula.video 
-          ? `<iframe src="${esc(aula.video)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-          : `<div class="doc-sem-video">Gravação indisponível</div>`;
+        // 2. Carregar Aulas direto do Firebase
+        const container = document.getElementById('aulas-container');
+        const querySnapshot = await getDocs(collection(db, "aulas"));
+        
+        if (querySnapshot.empty) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 40px; background: var(--branco); border: 1px solid var(--borda); border-radius: var(--radius);">
+              <h2 style="font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 12px;">Acervo em atualização</h2>
+              <p style="color: var(--texto-leve);">As videoaulas serão disponibilizadas em breve.</p>
+            </div>`;
+          return;
+        }
 
-        const materiaisHtml = (aula.materiais && aula.materiais.length > 0) ? `
-          <div class="doc-materiais">
-            <h4>Documentos Anexos</h4>
-            <ul class="lista-downloads">
-              ${aula.materiais.map(mat => `
-                <li>
-                  <a href="${esc(mat.url)}" target="_blank" rel="noopener">
-                    <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    ${esc(mat.titulo)}
-                  </a>
-                </li>
-              `).join('')}
-            </ul>
-          </div>
-        ` : '';
+        let aulas = [];
+        querySnapshot.forEach((doc) => {
+          aulas.push(doc.data());
+        });
 
-        const abntHtml = aula.referencia ? `
-          <div class="doc-abnt">
-            <strong>Fonte / Referência Bibliográfica</strong>
-            ${esc(aula.referencia)}
-          </div>
-        ` : '';
+        // Renderiza o HTML bonito
+        container.innerHTML = aulas.map((aula) => {
+          
+          let moduloHtml = '';
+          if (aula.modulo && aula.modulo.trim() !== '') {
+            let mod = aula.modulo.trim();
+            if (mod.toLowerCase() !== 'vídeo' && mod.toLowerCase() !== 'video' && mod.toLowerCase() !== 'geral') {
+              moduloHtml = `<span class="doc-modulo">${esc(mod)}</span>`;
+            }
+          }
 
-        return `
-          <article class="aula-doc">
-            <div class="doc-video">
-              ${videoHtml}
+          const videoHtml = aula.video 
+            ? `<div class="video-wrapper"><iframe src="${esc(aula.video)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+            : `<div class="sem-video"><span>📹</span>Gravação indisponível</div>`;
+
+          const descricaoHtml = (aula.descricao && aula.descricao.trim() !== '') 
+            ? `<div class="doc-descricao">${esc(aula.descricao)}</div>` 
+            : '';
+
+          // Materiais (se você adicionar a coleção de materiais no futuro)
+          const materiaisHtml = (aula.materiais && aula.materiais.length > 0) ? `
+            <div class="doc-materiais">
+              <h4>Documentos Anexos</h4>
+              <ul class="lista-downloads">
+                ${aula.materiais.map(mat => `
+                  <li>
+                    <a href="${esc(mat.url)}" target="_blank" rel="noopener">
+                      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                      ${esc(mat.titulo)}
+                    </a>
+                  </li>
+                `).join('')}
+              </ul>
             </div>
-            
-            <div class="doc-conteudo">
-              <div class="doc-meta">
-                <span class="doc-modulo">${esc(modulo)}</span>
-                <span class="doc-numero">Registro ${num}</span>
+          ` : '';
+
+          const abntHtml = (aula.referencia && aula.referencia.trim() !== '') ? `
+            <div class="doc-abnt">
+              <strong>Fonte / Referência Bibliográfica</strong>
+              ${esc(aula.referencia)}
+            </div>
+          ` : '';
+
+          return `
+            <article class="aula-doc">
+              <div class="doc-header">
+                ${moduloHtml}
+                <h2 class="doc-titulo">${esc(aula.titulo)}</h2>
               </div>
               
-              <h2 class="doc-titulo">${esc(aula.titulo)}</h2>
-              <div class="doc-descricao">${esc(aula.descricao || 'Consulte a gravação e os materiais de apoio referentes a este encontro.')}</div>
-              
+              ${videoHtml}
+              ${descricaoHtml}
               ${materiaisHtml}
               ${abntHtml}
-            </div>
-          </article>
-        `;
-      }).join('');
+            </article>
+          `;
+        }).join('');
 
-    }).catch(err => {
-      console.error(err);
-      document.getElementById('aulas-container').innerHTML = `<div class="estado-vazio" style="border-color: var(--perigo);"><p style="color: var(--perigo);">Erro de conexão. Não foi possível carregar o acervo.</p></div>`;
-    });
+      } catch (err) {
+        console.error(err);
+        document.getElementById('aulas-container').innerHTML = `
+          <div style="text-align: center; padding: 40px; background: var(--branco); border: 1px solid var(--perigo); border-radius: var(--radius);">
+            <p style="color: var(--perigo); font-weight: 600;">Erro de conexão. Não foi possível carregar o acervo.</p>
+          </div>`;
+      }
+    }
+
+    carregarDados();
   </script>
 </body>
 </html>
