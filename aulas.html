@@ -1,298 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <!-- O <head> e o CSS continuam iguais ao estilo YouTube que fizemos antes -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Painel Administrativo — Libras nas Comunidades</title>
+  <title>Aulas e Materiais — Libras nas Comunidades | UFAL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
   <style>
-    :root { --azul-marinho: #0F2B4C; --azul-claro: #1E4E8C; --dourado: #A88552; --off-white: #F8FAFC; --branco: #FFFFFF; --texto: #334155; --borda: #E2E8F0; --perigo: #EF4444; --sucesso: #10B981; --fonte-titulo: 'Playfair Display', serif; --fonte-corpo: 'Inter', sans-serif; --radius: 8px; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: var(--fonte-corpo); background: var(--off-white); color: var(--texto); display: flex; height: 100vh; overflow: hidden; }
-    
-    /* LOGIN E LAYOUT */
-    .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 9999; }
-    .login-box { background: var(--branco); padding: 40px; border-radius: 8px; width: 100%; max-width: 440px; border-top: 4px solid var(--dourado); }
-    .login-box h2 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 20px; text-align: center; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; color: var(--azul-marinho); }
-    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: 6px; background: var(--off-white); outline: none; }
-    
-    .sidebar { width: 260px; background: var(--azul-marinho); color: #fff; padding: 24px 0; display: flex; flex-direction: column; }
-    .sidebar-header { padding: 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px; }
-    .sidebar-header h2 { font-family: var(--fonte-titulo); font-size: 1.2rem; color: #fff;}
-    .nav-item { padding: 12px 24px; color: #94A3B8; cursor: pointer; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 10px; transition: 0.2s; border-left: 3px solid transparent; }
-    .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; border-left-color: var(--dourado); }
-    .main-content { flex: 1; padding: 32px; overflow-y: auto; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.3s; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .card { background: #fff; padding: 24px; border-radius: 8px; border: 1px solid var(--borda); margin-bottom: 24px; }
-    .card h3 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 20px; font-size: 1.4rem; display: flex; justify-content: space-between; align-items: center; }
-    .btn { padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; font-size: 0.8rem; }
-    .btn-dourado { background: var(--dourado); color: #fff; }
-    .btn-outline { background: transparent; border: 1px solid var(--borda); color: var(--texto); }
-    .btn-perigo { background: #FEE2E2; color: var(--perigo); }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--borda); font-size: 0.9rem; }
-    th { font-size: 0.75rem; text-transform: uppercase; color: var(--texto-leve); background: var(--off-white); }
-    .hidden { display: none !important; }
-    
-    /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,43,76,0.7); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(4px); }
-    .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--branco); padding: 32px; border-radius: var(--radius); max-width: 650px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--borda); }
-    .modal-header h3 { font-family: var(--fonte-titulo); font-size: 1.5rem; color: var(--azul-marinho); }
-    .modal-body { overflow-y: auto; flex: 1; padding-right: 10px; }
-    .modal-footer { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--borda); }
-    
-    .dynamic-item { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; margin-bottom: 10px; align-items: center; }
-    .upload-zone { border: 2px dashed var(--borda); border-radius: var(--radius); padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; background: var(--off-white); position: relative; margin-top: 10px; }
-    .upload-zone:hover { border-color: var(--azul-marinho); background: var(--branco); }
-    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    /* (Mantenha todos os estilos .aulas-container, .video-card, etc. da mensagem anterior) */
+    .grid-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; max-width: 1140px; margin: 0 auto; padding: 40px 24px; }
+    .video-card { background: var(--branco); border-radius: var(--radius); border: 1px solid var(--borda); overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; }
+    .video-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0F2B4C; }
+    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .video-info { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+    .video-title { font-family: var(--fonte-titulo); font-size: 1.25rem; color: var(--azul-marinho); margin: 0 0 10px 0; }
+    .video-desc { font-size: 0.9rem; color: var(--texto-leve); margin-bottom: 20px; flex: 1; }
+    .video-actions { border-top: 1px solid var(--borda); padding-top: 16px; }
+    .btn-download { display: inline-flex; align-items: center; gap: 8px; background: var(--off-white); border: 1px solid var(--borda); color: var(--azul-marinho); text-decoration: none; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; margin-right: 8px; }
   </style>
 </head>
 <body>
-
-  <div class="login-overlay" id="login-screen">
-    <div class="login-box">
-      <h2>Acesso Restrito</h2>
-      <div class="form-group">
-        <label>Token de Acesso GitHub</label>
-        <input type="password" id="inp-token" placeholder="github_pat_...">
-      </div>
-      <button class="btn btn-dourado" style="width: 100%;" id="btn-login">Conectar Sistema</button>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a>
+      <button class="nav-toggle" id="navToggle">Menu</button>
+      <nav class="nav-menu" id="navMenu"></nav>
     </div>
-  </div>
+  </header>
 
-  <div id="app-painel" class="hidden" style="display: flex; width: 100%;">
-    <aside class="sidebar">
-      <div class="sidebar-header"><h2>Secretaria Digital</h2></div>
-      <div class="nav-item active" onclick="mudarAba('aulas', this)">🎥 Aulas</div>
-      <div class="nav-item" onclick="mudarAba('cursos', this)">🎓 Cursos</div>
-      <div class="nav-item" onclick="mudarAba('turmas', this)">👥 Turmas</div>
-      <div style="flex: 1;"></div>
-      <button class="btn btn-outline" style="margin: 0 24px; color: #fff; border-color: rgba(255,255,255,0.2);" onclick="location.reload()">Sair</button>
-    </aside>
+  <main>
+    <div style="text-align: center; padding: 40px 20px 0;"><h1 style="font-family: var(--fonte-titulo); color: var(--azul-marinho);">Aulas e Materiais</h1></div>
+    <div id="aulas-list" class="grid-videos"></div>
+  </main>
 
-    <main class="main-content">
-      <!-- ABA AULAS -->
-      <div class="tab-content active" id="tab-aulas">
-        <div class="card">
-          <h3>Gerenciar Aulas <button class="btn btn-dourado" onclick="editarAula()">+ Nova Aula</button></h3>
-          <table>
-            <thead><tr><th>Título</th><th>Vídeo</th><th>Materiais</th><th>Ações</th></tr></thead>
-            <tbody id="tabela-aulas"></tbody>
-          </table>
-        </div>
-      </div>
-      <!-- ABA CURSOS -->
-      <div class="tab-content" id="tab-cursos">
-        <div class="card">
-          <h3>Gerenciar Cursos <button class="btn btn-dourado" onclick="editarCurso()">+ Novo Curso</button></h3>
-          <table>
-            <thead><tr><th>Nome</th><th>Nível</th><th>Ações</th></tr></thead>
-            <tbody id="tabela-cursos"></tbody>
-          </table>
-        </div>
-      </div>
-      <!-- ABA TURMAS -->
-      <div class="tab-content" id="tab-turmas">
-        <div class="card">
-          <h3>Gerenciar Turmas <button class="btn btn-dourado" onclick="editarTurma()">+ Nova Turma</button></h3>
-          <table>
-            <thead><tr><th>Turma</th><th>Curso</th><th>Status</th><th>Ações</th></tr></thead>
-            <tbody id="tabela-turmas"></tbody>
-          </table>
-        </div>
-      </div>
-    </main>
-  </div>
+  <footer class="footer"><div class="footer-inner"><div class="footer-brand"><h4>Libras nas Comunidades – UFAL</h4></div></div></footer>
 
-  <div class="modal-overlay" id="modal-edicao">
-    <div class="modal-box">
-      <div class="modal-header"><h3 id="modal-title">Editar</h3><button class="btn btn-outline" onclick="fecharModal()">X</button></div>
-      <div class="modal-body" id="modal-body"></div>
-      <div class="modal-footer">
-        <button class="btn btn-outline" onclick="fecharModal()">Cancelar</button>
-        <button class="btn btn-dourado" id="btn-salvar-modal">Salvar no GitHub</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCRIPT COM A LÓGICA DO GITHUB -->
+  <!-- O SCRIPT ANTIGO DO GITHUB -->
   <script>
-    const state = { token: '', repo: 'adeiltonlibras/libras-nas-comunidades-ufal', branch: 'main', aulas: [], cursos: [], turmas: [], shaAulas: null, shaCursos: null, shaTurmas: null };
-    const API = 'https://api.github.com';
-    const $ = id => document.getElementById(id);
-    
-    // --- LOGIN ---
-    $('btn-login').onclick = async () => {
-      state.token = $('inp-token').value.trim();
-      if(!state.token) return alert('Insira o Token do GitHub');
-      
-      $('btn-login').textContent = 'Conectando...';
-      try {
-        await carregarTudo();
-        $('login-screen').style.display = 'none';
-        $('app-painel').classList.remove('hidden');
-      } catch (e) {
-        alert('Erro ao conectar. Verifique o token e os arquivos JSON no repositório.\n' + e.message);
-      } finally {
-        $('btn-login').textContent = 'Conectar Sistema';
-      }
-    };
+    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
-    async function apiFetch(path) {
-      const res = await fetch(`${API}/repos/${state.repo}/contents/${path}?ref=${state.branch}`, { headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' } });
-      if (!res.ok) throw new Error(`Erro ${res.status} ao buscar ${path}`);
-      const data = await res.json();
-      return { sha: data.sha, content: JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\s/g, ''))))) };
+    function getIcone(url) {
+      const ext = url.split('.').pop().toLowerCase().split(/[?#]/)[0];
+      if (['jpg','png','jpeg','gif'].includes(ext)) return '🖼️';
+      if (['pdf'].includes(ext)) return '📄';
+      if (['ppt','pptx'].includes(ext)) return '📊';
+      return '🔗';
     }
 
-    async function apiCommit(path, obj, sha, msg) {
-      const body = { message: msg, branch: state.branch, content: btoa(unescape(encodeURIComponent(JSON.stringify(obj, null, 2)))) };
-      if (sha) body.sha = sha;
-      const res = await fetch(`${API}/repos/${state.repo}/contents/${path}`, { method: 'PUT', headers: { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json' }, body: JSON.stringify(body) });
-      if (!res.ok) throw new Error('Falha no commit');
-      return await res.json();
-    }
+    fetch('aulas-dados.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(data => {
+        const container = document.getElementById('aulas-list');
+        const aulas = data.aulas || [];
+        
+        if (aulas.length === 0) {
+          container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Nenhuma aula publicada.</p>';
+          return;
+        }
 
-    // --- CARREGAR DADOS DO GITHUB ---
-    async function carregarTudo() {
-      // Aulas
-      const a = await apiFetch('aulas-dados.json');
-      state.aulas = a.content.aulas || []; state.shaAulas = a.sha;
-      $('tabela-aulas').querySelector('tbody').innerHTML = state.aulas.map((aula, i) => `
-        <tr>
-          <td>${aula.titulo}</td>
-          <td>${aula.video ? 'Sim' : 'Não'}</td>
-          <td>${aula.materiais ? aula.materiais.length : 0}</td>
-          <td>
-            <button class="btn btn-outline" onclick="editarAula(${i})">Editar</button>
-            <button class="btn btn-perigo" onclick="removerAula(${i})">X</button>
-          </td>
-        </tr>
-      `).join('');
+        container.innerHTML = aulas.map(aula => {
+          const videoHtml = aula.video ? `<div class="video-wrapper"><iframe src="${aula.video}" allowfullscreen></iframe></div>` : '';
+          const descHtml = aula.descricao ? `<div class="video-desc">${aula.descricao}</div>` : '';
+          
+          let matHtml = '';
+          if (aula.materiais && aula.materiais.length > 0) {
+            matHtml = `<div style="display:flex; flex-wrap:wrap;">` + aula.materiais.map(m => `
+              <a href="${m.url}" target="_blank" class="btn-download"><span style="font-size:1.1rem;">${getIcone(m.url)}</span> ${m.titulo}</a>
+            `).join('') + `</div>`;
+          }
 
-      // Cursos
-      const c = await apiFetch('academico-dados.json');
-      state.cursos = c.content.cursos || []; state.turmas = c.content.turmas || []; state.shaCursos = c.sha;
-      $('tabela-cursos').querySelector('tbody').innerHTML = state.cursos.map((curso, i) => `
-        <tr><td>${curso.nome}</td><td>${curso.nivel}</td>
-        <td><button class="btn btn-outline" onclick="editarCurso(${i})">Editar</button> <button class="btn btn-perigo" onclick="removerCurso(${i})">X</button></td></tr>
-      `).join('');
-
-      // Turmas
-      $('tabela-turmas').querySelector('tbody').innerHTML = state.turmas.map((turma, i) => `
-        <tr><td>${turma.nome}</td><td>${turma.status}</td>
-        <td><button class="btn btn-outline" onclick="editarTurma(${i})">Editar</button> <button class="btn btn-perigo" onclick="removerTurma(${i})">X</button></td></tr>
-      `).join('');
-    }
-
-    window.mudarAba = (id, el) => {
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      if (el) el.classList.add('active');
-      document.querySelectorAll('.tab-content').forEach(sec => sec.classList.remove('active'));
-      $(`tab-${id}`).classList.add('active');
-    };
-
-    // --- LÓGICA DE SALVAR NO GITHUB ---
-    async function salvarNoGitHub() {
-      try {
-        await apiCommit('aulas-dados.json', { aulas: state.aulas }, state.shaAulas, 'CMS: Atualiza aulas');
-        await apiCommit('academico-dados.json', { cursos: state.cursos, turmas: state.turmas }, state.shaCursos, 'CMS: Atualiza acadêmico');
-        alert('Alterações salvas no GitHub com sucesso! O site público será atualizado em instantes.');
-        await carregarTudo(); // Recarrega para pegar os novos SHAs
-        fecharModal();
-      } catch (e) {
-        alert('Erro ao salvar: ' + e.message);
-      }
-    }
-
-    // --- MODAIS (AULAS, CURSOS, TURMAS) ---
-    function abrirModal(titulo, html, callback) {
-      $('modal-title').textContent = titulo;
-      $('modal-body').innerHTML = html;
-      $('btn-salvar-modal').onclick = async () => { await callback(); await salvarNoGitHub(); };
-      $('modal-edicao').classList.add('active');
-    }
-    window.fecharModal = () => $('modal-edicao').classList.remove('active');
-
-    // Modal Aula
-    window.editarAula = (index = -1) => {
-      const isNew = index === -1;
-      const a = isNew ? { titulo: '', video: '', descricao: '', referencia: '', materiais: [] } : state.aulas[index];
-      
-      let matsHtml = (a.materiais || []).map(mat => `
-        <div class="dynamic-item">
-          <input type="text" class="mat-title" value="${mat.titulo}">
-          <input type="text" class="mat-url" value="${mat.url}">
-          <button type="button" class="btn btn-perigo" onclick="this.parentElement.remove()">X</button>
-        </div>
-      `).join('');
-
-      abrirModal(isNew ? 'Nova Aula' : 'Editar Aula', `
-        <div class="form-group"><label>Título</label><input type="text" id="a-titulo" value="${a.titulo}"></div>
-        <div class="form-group"><label>Link do Vídeo</label><input type="text" id="a-video" value="${a.video || ''}"></div>
-        <div class="form-group"><label>Descrição</label><textarea id="a-desc">${a.descricao || ''}</textarea></div>
-        <div class="form-group"><label>Referência ABNT</label><input type="text" id="a-ref" value="${a.referencia || ''}"></div>
-        <div style="margin-top:20px;">
-          <label>Materiais (PDF, Imagem, etc)</label>
-          <div id="lista-materiais">${matsHtml}</div>
-          <button type="button" class="btn btn-outline" onclick="addMaterial()">+ Adicionar Material</button>
-        </div>
-      `, () => {
-        const dados = { titulo: $('a-titulo').value, video: $('a-video').value, descricao: $('a-desc').value, referencia: $('a-ref').value, materiais: [] };
-        document.querySelectorAll('#lista-materiais .dynamic-item').forEach(row => {
-          const t = row.querySelector('.mat-title').value;
-          const u = row.querySelector('.mat-url').value;
-          if (t && u) dados.materiais.push({ titulo: t, url: u });
-        });
-        if (isNew) state.aulas.push(dados); else state.aulas[index] = dados;
+          return `
+            <article class="video-card">
+              ${videoHtml}
+              <div class="video-info">
+                <h2 class="video-title">${aula.titulo}</h2>
+                ${descHtml}
+                <div class="video-actions">${matHtml}</div>
+              </div>
+            </article>
+          `;
+        }).join('');
       });
-    };
-
-    window.addMaterial = () => {
-      const div = document.createElement('div');
-      div.className = 'dynamic-item';
-      div.innerHTML = `<input type="text" class="mat-title" placeholder="Nome"><input type="text" class="mat-url" placeholder="Link do Drive"><button type="button" class="btn btn-perigo" onclick="this.parentElement.remove()">X</button>`;
-      $('lista-materiais').appendChild(div);
-    };
-
-    window.removerAula = (i) => { if(confirm('Excluir?')) { state.aulas.splice(i, 1); salvarNoGitHub(); } };
-    
-    // (Cursos e Turmas seguem a mesma lógica simplificada)
-    window.editarCurso = (index = -1) => {
-      const isNew = index === -1;
-      const c = isNew ? { nome: '', nivel: '' } : state.cursos[index];
-      abrirModal(isNew ? 'Novo Curso' : 'Editar Curso', `
-        <div class="form-group"><label>Nome</label><input type="text" id="c-nome" value="${c.nome}"></div>
-        <div class="form-group"><label>Nível</label><input type="text" id="c-nivel" value="${c.nivel}"></div>
-      `, () => {
-        const dados = { nome: $('c-nome').value, nivel: $('c-nivel').value };
-        if (isNew) state.cursos.push(dados); else state.cursos[index] = dados;
-      });
-    };
-    window.removerCurso = (i) => { if(confirm('Excluir?')) { state.cursos.splice(i, 1); salvarNoGitHub(); } };
-
-    window.editarTurma = (index = -1) => {
-      const isNew = index === -1;
-      const t = isNew ? { nome: '', status: 'Inscrições Abertas' } : state.turmas[index];
-      abrirModal(isNew ? 'Nova Turma' : 'Editar Turma', `
-        <div class="form-group"><label>Nome</label><input type="text" id="t-nome" value="${t.nome}"></div>
-        <div class="form-group"><label>Status</label>
-          <select id="t-status"><option value="Inscrições Abertas" ${t.status==='Inscrições Abertas'?'selected':''}>Abertas</option><option value="Inscrições Encerradas" ${t.status==='Inscrições Encerradas'?'selected':''}>Encerradas</option></select>
-        </div>
-      `, () => {
-        const dados = { nome: $('t-nome').value, status: $('t-status').value };
-        if (isNew) state.turmas.push(dados); else state.turmas[index] = dados;
-      });
-    };
-    window.removerTurma = (i) => { if(confirm('Excluir?')) { state.turmas.splice(i, 1); salvarNoGitHub(); } };
   </script>
 </body>
 </html>
