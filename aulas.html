@@ -4,96 +4,115 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aulas e Materiais — Libras nas Comunidades | UFAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilo.css">
-  
   <style>
-    .aulas-container { max-width: 1140px; margin: 0 auto; padding: 40px 24px 80px; }
-    .page-header { text-align: center; margin-bottom: 48px; }
-    .page-header span { font-size: 0.75rem; font-weight: 700; color: var(--dourado); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 12px; }
-    .page-header h1 { font-family: var(--fonte-titulo); font-size: clamp(2rem, 4vw, 3rem); color: var(--azul-marinho); margin-bottom: 16px; }
-    .page-header p { font-size: 1.1rem; color: var(--texto-leve); max-width: 600px; margin: 0 auto; line-height: 1.6; }
-
+    .aulas-section { padding: 40px 0 80px; background: var(--cor-fundo); }
     .grid-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
-    .video-card { background: var(--branco); border-radius: var(--radius); border: 1px solid var(--borda); overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .video-card { background: var(--cor-superficie); border-radius: var(--borda-raio); border: 1px solid var(--cor-borda); overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; box-shadow: var(--sombra-leve); }
     .video-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.15); }
     
-    /* Área de Mídia (Vídeo ou Slide) */
-    .media-area { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0F2B4C; border-bottom: 1px solid var(--borda); display: flex; align-items: center; justify-content: center; }
+    .media-area { position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--cor-primaria); border-bottom: 1px solid var(--cor-borda); display: flex; align-items: center; justify-content: center; }
     .media-area iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     
-    /* Botão para Slides */
-    .btn-slide { background: var(--branco); color: var(--azul-marinho); padding: 12px 24px; text-decoration: none; font-weight: 700; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: 0.2s; z-index: 2; }
-    .btn-slide:hover { background: var(--off-white); transform: scale(1.05); }
+    .btn-slide { background: var(--cor-superficie); color: var(--cor-primaria); padding: 12px 24px; text-decoration: none; font-weight: 700; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: 0.2s; z-index: 2; }
+    .btn-slide:hover { background: var(--cor-fundo); transform: scale(1.05); }
 
     .video-info { padding: 20px; display: flex; flex-direction: column; flex: 1; }
-    .video-title { font-family: var(--fonte-titulo); font-size: 1.25rem; color: var(--azul-marinho); margin: 0 0 10px 0; line-height: 1.3; }
-    .video-desc { font-size: 0.9rem; color: var(--texto-leve); margin-bottom: 20px; flex: 1; line-height: 1.6; }
-    .video-actions { border-top: 1px solid var(--borda); padding-top: 16px; }
+    .video-title { font-family: var(--fonte-titulo); font-size: 1.25rem; color: var(--cor-primaria); margin: 0 0 10px 0; line-height: 1.3; }
+    .video-desc { font-size: 0.9rem; color: var(--cor-texto-leve); margin-bottom: 20px; flex: 1; line-height: 1.6; }
+    .video-actions { border-top: 1px solid var(--cor-borda); padding-top: 16px; }
     
-    .materiais-titulo { font-size: 0.7rem; font-weight: 700; color: var(--texto); text-transform: uppercase; margin-bottom: 10px; }
-    .btn-download { display: inline-flex; align-items: center; gap: 8px; background: var(--off-white); border: 1px solid var(--borda); color: var(--azul-marinho); text-decoration: none; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; margin-right: 8px; }
-    .btn-download:hover { background: var(--azul-marinho); color: var(--branco); }
-    .abnt { font-size: 0.75rem; color: var(--texto-leve); font-style: italic; margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--borda); }
+    .materiais-titulo { font-size: 0.7rem; font-weight: 700; color: var(--cor-texto); text-transform: uppercase; margin-bottom: 10px; }
+    .btn-download { display: inline-flex; align-items: center; gap: 8px; background: var(--cor-fundo); border: 1px solid var(--cor-borda); color: var(--cor-primaria); text-decoration: none; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; margin-right: 8px; }
+    .btn-download:hover { background: var(--cor-primaria); color: #fff; }
+    .abnt { font-size: 0.75rem; color: var(--cor-texto-leve); font-style: italic; margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--cor-borda); }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="brand">
+      <a href="index.html" class="brand" aria-label="Libras nas Comunidades — página inicial">
         <span class="brand-name">Libras nas Comunidades</span>
-        <span class="brand-tag">Projeto de Extensão</span>
+        <span class="brand-tag">UFAL</span>
       </a>
-      <button class="nav-toggle" id="navToggle">Menu</button>
-      <nav class="nav-menu" id="navMenu"></nav>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu de navegação">Menu</button>
+      <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="pagina.html?slug=sobre">O Projeto</a>
+        <a href="pagina.html?slug=curso">O Curso</a>
+        <a href="calendario.html">Cronograma</a>
+        <a href="aulas.html" aria-current="page">Aulas</a>
+        <a href="inscricoes.html">Inscrições</a>
+      </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="page-header" style="padding-top: 60px;">
-      <span>Material Didático</span>
-      <h1>Aulas e Materiais</h1>
-      <p>Assista às videoaulas e acesse os materiais de apoio (PDFs, imagens, slides) disponibilizados pela equipe do projeto.</p>
+    <section class="hero" style="padding-top: 60px; padding-bottom: 40px;">
+      <div class="hero-content home-wrap">
+        <h1>Aulas e Materiais</h1>
+        <p>Assista às videoaulas e acesse os materiais de apoio disponibilizados pela equipe do projeto.</p>
+      </div>
     </section>
 
-    <div class="aulas-container">
-      <div id="aulas-list" class="grid-videos">
-        <p style="text-align: center; grid-column: 1/-1;">Carregando acervo...</p>
+    <section class="aulas-section">
+      <div class="home-wrap">
+        <div id="aulas-list" class="grid-videos">
+          <p style="text-align: center; grid-column: 1/-1;">Carregando acervo...</p>
+        </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <div class="footer-inner"><div class="footer-brand"><h4>Libras nas Comunidades – UFAL</h4></div></div>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>Libras nas Comunidades – UFAL</h4>
+        <p>Conhecimento, comunicação e inclusão. Uma iniciativa voltada à difusão da Libras, à valorização da comunidade surda e à promoção da acessibilidade.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Desenvolvimento do site: <strong>Adeilton Olimpio</strong></p>
+    </div>
   </footer>
 
   <script>
-    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
-    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    document.addEventListener('DOMContentLoaded', () => {
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      const fallbackLinks = navMenu.innerHTML;
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!expanded));
+        navMenu.classList.toggle('active', !expanded);
+      });
+      fetch('dados.json').then(r => r.json()).then(data => {
+        if (data && data.paginas) {
+          const fragment = document.createDocumentFragment();
+          data.paginas.filter(p => p.publicada !== false && p.titulo).sort((a,b) => (a.ordem||0) - (b.ordem||0)).forEach(p => {
+            let href = p.tipo === 'index' ? 'index.html' : p.tipo === 'calendario' ? 'calendario.html' : p.tipo === 'externo' ? p.arquivo : `pagina.html?slug=${p.slug}`;
+            const link = document.createElement('a');
+            link.href = href; link.textContent = p.titulo;
+            if (window.location.pathname.endsWith(href)) link.setAttribute('aria-current', 'page');
+            fragment.appendChild(link);
+          });
+          navMenu.replaceChildren(fragment);
+        }
+      }).catch(console.warn);
 
-    function getIcone(url) {
-      if (!url) return '📁';
-      const ext = url.split('.').pop().toLowerCase().split(/[?#]/)[0];
-      if (['jpg','png','jpeg','gif'].includes(ext)) return '🖼️';
-      if (['pdf'].includes(ext)) return '📄';
-      return '🔗';
-    }
+      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+      function getIcone(url) { if (!url) return '📁'; const ext = url.split('.').pop().toLowerCase().split(/[?#]/)[0]; if (['jpg','png','jpeg','gif'].includes(ext)) return '🖼️'; if (['pdf'].includes(ext)) return '📄'; return '🔗'; }
 
-    fetch('aulas-dados.json?t=' + Date.now())
-      .then(r => r.json())
-      .then(data => {
+      fetch('aulas-dados.json?t=' + Date.now()).then(r => r.json()).then(data => {
         const container = document.getElementById('aulas-list');
         const aulas = data.aulas || [];
-        
-        if (aulas.length === 0) {
-          container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Nenhuma aula publicada.</p>';
-          return;
-        }
-
+        if (aulas.length === 0) { container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Nenhuma aula publicada.</p>'; return; }
         container.innerHTML = aulas.map(aula => {
           let mediaHtml = '';
-
-          // Lógica para decidir se é vídeo (YouTube) ou Slide (Canva/Drive)
           if (aula.video) {
             const url = aula.video.toLowerCase();
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
@@ -102,44 +121,21 @@
               if (url.includes('youtu.be/')) embedUrl = aula.video.replace('youtu.be/', 'youtube.com/embed/');
               mediaHtml = `<div class="media-area"><iframe src="${esc(embedUrl)}" allowfullscreen></iframe></div>`;
             } else {
-              // Se for Canva, Google Slides, etc -> Mostra um botão elegante
-              mediaHtml = `
-                <div class="media-area" style="background: #F8FAFC;">
-                  <a href="${esc(aula.video)}" target="_blank" rel="noopener" class="btn-slide">
-                    <span style="font-size: 1.2rem;">📊</span> Acessar Apresentação
-                  </a>
-                </div>`;
+              mediaHtml = `<div class="media-area" style="background: var(--cor-fundo);"><a href="${esc(aula.video)}" target="_blank" rel="noopener" class="btn-slide"><span style="font-size: 1.2rem;">📊</span> Acessar Apresentação</a></div>`;
             }
           } else {
              mediaHtml = `<div class="media-area"><div style="color: #94A3B8;">Mídia indisponível</div></div>`;
           }
-
           const descHtml = aula.descricao ? `<div class="video-desc">${esc(aula.descricao)}</div>` : '';
-          
           let matHtml = '';
           if (aula.materiais && aula.materiais.length > 0) {
-            matHtml = `<div class="materiais-titulo">Materiais de Apoio</div>` + aula.materiais.map(m => `
-              <a href="${esc(m.url)}" target="_blank" class="btn-download"><span>${getIcone(m.url)}</span> ${esc(m.titulo)}</a>
-            `).join('');
+            matHtml = `<div class="materiais-titulo">Materiais de Apoio</div>` + aula.materiais.map(m => `<a href="${esc(m.url)}" target="_blank" class="btn-download"><span>${getIcone(m.url)}</span> ${esc(m.titulo)}</a>`).join('');
           }
-
           const abntHtml = aula.referencia ? `<div class="abnt"><strong>Ref:</strong> ${esc(aula.referencia)}</div>` : '';
-
-          return `
-            <article class="video-card">
-              ${mediaHtml}
-              <div class="video-info">
-                <h2 class="video-title">${esc(aula.titulo)}</h2>
-                ${descHtml}
-                <div class="video-actions">
-                  ${matHtml}
-                  ${abntHtml}
-                </div>
-              </div>
-            </article>
-          `;
+          return `<article class="video-card">${mediaHtml}<div class="video-info"><h2 class="video-title">${esc(aula.titulo)}</h2>${descHtml}<div class="video-actions">${matHtml}${abntHtml}</div></div></article>`;
         }).join('');
       });
+    });
   </script>
 </body>
 </html>
