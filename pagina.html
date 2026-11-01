@@ -4,52 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Página — Libras nas Comunidades | UFAL</title>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="estilo.css">
-  
   <style>
-    /* Estilo específico para os textos longos vindos do HTML do JSON */
-    .conteudo-html { max-width: 800px; margin: 0 auto; }
-    .conteudo-html h2 { font-family: var(--fonte-titulo); font-size: 1.8rem; color: var(--azul-marinho); margin: 40px 0 16px; }
-    .conteudo-html h3 { font-family: var(--fonte-titulo); font-size: 1.4rem; color: var(--azul-marinho); margin: 32px 0 12px; }
-    .conteudo-html p { font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; color: var(--texto); }
-    .conteudo-html ul, .conteudo-html ol { margin: 0 0 24px 24px; font-size: 1.05rem; line-height: 1.8; }
+    .conteudo-html { max-width: 800px; margin: 0 auto; padding: 40px 0 80px; }
+    .conteudo-html h2 { font-family: var(--fonte-titulo); font-size: 1.8rem; color: var(--cor-primaria); margin: 40px 0 16px; }
+    .conteudo-html h3 { font-family: var(--fonte-titulo); font-size: 1.4rem; color: var(--cor-primaria); margin: 32px 0 12px; }
+    .conteudo-html p { font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; color: var(--cor-texto); }
+    .conteudo-html ul, .conteudo-html ol { margin: 0 0 24px 24px; font-size: 1.05rem; line-height: 1.8; color: var(--cor-texto); }
     .conteudo-html li { margin-bottom: 8px; }
-    .conteudo-html a { color: var(--azul-claro); font-weight: 600; text-decoration: underline; }
+    .conteudo-html a { color: var(--cor-destaque); font-weight: 600; text-decoration: underline; }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="brand" aria-label="Página Inicial">
+      <a href="index.html" class="brand" aria-label="Libras nas Comunidades — página inicial">
         <span class="brand-name">Libras nas Comunidades</span>
-        <span class="brand-tag">Projeto de Extensão</span>
+        <span class="brand-tag">UFAL</span>
       </a>
-      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">Menu</button>
-      <nav class="nav-menu" id="navMenu">
-        <!-- Links injetados via JS -->
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu de navegação">Menu</button>
+      <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="pagina.html?slug=sobre">O Projeto</a>
+        <a href="pagina.html?slug=curso">O Curso</a>
+        <a href="calendario.html">Cronograma</a>
+        <a href="aulas.html">Aulas</a>
+        <a href="inscricoes.html">Inscrições</a>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <section class="hero" style="padding: 60px 24px 40px; background: var(--branco); border-bottom: 1px solid var(--borda);">
-      <div style="max-width: 800px; margin: 0 auto; text-align: left;">
-        <div id="page-eyebrow" class="hero-eyebrow">Carregando...</div>
-        <h1 id="page-title" style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 16px;">Carregando...</h1>
-        <p id="page-desc" style="color: var(--texto-leve); font-size: 1.1rem; margin: 0;"></p>
+    <section class="hero" style="padding-top: 60px; padding-bottom: 40px;">
+      <div class="hero-content home-wrap">
+        <h1 id="page-title">Carregando...</h1>
+        <p id="page-desc"></p>
       </div>
     </section>
 
-    <section class="container" style="padding: 48px 24px 80px;">
-      <div class="conteudo-html" id="page-content">
-        <!-- HTML da página será injetado aqui -->
+    <section style="background: var(--cor-fundo);">
+      <div class="home-wrap">
+        <div class="conteudo-html" id="page-content">
+          <!-- Conteúdo injetado via JS -->
+        </div>
       </div>
     </section>
   </main>
@@ -58,50 +59,53 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h4>Libras nas Comunidades – UFAL</h4>
-        <p>Conhecimento, comunicação e inclusão.</p>
+        <p>Conhecimento, comunicação e inclusão. Uma iniciativa voltada à difusão da Libras, à valorização da comunidade surda e à promoção da acessibilidade.</p>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>Desenvolvido por <strong>Adeilton Olimpio</strong></p>
+      <p>Desenvolvimento do site: <strong>Adeilton Olimpio</strong></p>
     </div>
   </footer>
 
   <script>
-    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
-
-    fetch('dados.json?t=' + Date.now())
-      .then(res => res.json())
-      .then(D => {
-        // 1. Monta o Menu
-        const menu = document.getElementById('navMenu');
-        if(D.paginas) {
-          menu.innerHTML = D.paginas.filter(p => p.publicada !== false).sort((a,b)=>a.ordem-b.ordem).map(p => {
-            const link = p.tipo === 'index' ? 'index.html' : p.tipo === 'externo' ? p.arquivo : p.tipo === 'calendario' ? 'calendario.html' : `pagina.html?slug=${p.slug}`;
-            return `<a href="${link}">${p.titulo}</a>`;
-          }).join('');
-        }
-
-        // 2. Descobre qual página carregar
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get('slug') || 'sobre';
-        const pagina = D.paginas.find(p => p.slug === slug);
-
-        if (pagina) {
-          document.title = `${pagina.titulo} — Libras nas Comunidades`;
-          document.getElementById('page-eyebrow').textContent = 'Projeto de Extensão · UFAL';
-          document.getElementById('page-title').textContent = pagina.titulo;
-          document.getElementById('page-desc').textContent = pagina.descricao || '';
-          document.getElementById('page-content').innerHTML = pagina.html || '<p>Conteúdo em construção.</p>';
-        } else {
-          document.getElementById('page-title').textContent = 'Página não encontrada';
-          document.getElementById('page-desc').textContent = '';
-          document.getElementById('page-content').innerHTML = '<p>O conteúdo solicitado não existe ou foi removido.</p>';
-        }
-      })
-      .catch(err => {
-        document.getElementById('page-title').textContent = 'Erro de carregamento';
-        document.getElementById('page-content').innerHTML = '<p>Não foi possível carregar as informações. Verifique sua conexão.</p>';
+    document.addEventListener('DOMContentLoaded', () => {
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      const fallbackLinks = navMenu.innerHTML;
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!expanded));
+        navMenu.classList.toggle('active', !expanded);
       });
+      fetch('dados.json').then(r => r.json()).then(data => {
+        if (data && data.paginas) {
+          const fragment = document.createDocumentFragment();
+          data.paginas.filter(p => p.publicada !== false && p.titulo).sort((a,b) => (a.ordem||0) - (b.ordem||0)).forEach(p => {
+            let href = p.tipo === 'index' ? 'index.html' : p.tipo === 'calendario' ? 'calendario.html' : p.tipo === 'externo' ? p.arquivo : `pagina.html?slug=${p.slug}`;
+            const link = document.createElement('a');
+            link.href = href; link.textContent = p.titulo;
+            if (window.location.search.includes(`slug=${p.slug}`)) link.setAttribute('aria-current', 'page');
+            fragment.appendChild(link);
+          });
+          navMenu.replaceChildren(fragment);
+
+          // Carrega o conteúdo da página
+          const params = new URLSearchParams(window.location.search);
+          const slug = params.get('slug') || 'sobre';
+          const pagina = data.paginas.find(p => p.slug === slug);
+
+          if (pagina) {
+            document.title = `${pagina.titulo} — Libras nas Comunidades`;
+            document.getElementById('page-title').textContent = pagina.titulo;
+            document.getElementById('page-desc').textContent = pagina.descricao || '';
+            document.getElementById('page-content').innerHTML = pagina.html || '<p>Conteúdo em construção.</p>';
+          } else {
+            document.getElementById('page-title').textContent = 'Página não encontrada';
+            document.getElementById('page-content').innerHTML = '<p>O conteúdo solicitado não existe.</p>';
+          }
+        }
+      }).catch(console.warn);
+    });
   </script>
 </body>
 </html>
