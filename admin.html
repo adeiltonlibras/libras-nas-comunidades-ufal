@@ -82,7 +82,6 @@
     .status-line{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
     .status-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0}
     .status-dot.good{background:var(--good)}.status-dot.bad{background:var(--bad)}.status-dot.warn{background:#d49a21}
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
     .span-2{grid-column:1/-1}
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:#0f2b4cb8;z-index:1000}
@@ -92,11 +91,8 @@
     .modal-head h2{font-size:1.15rem;color:var(--navy);margin:0}
     .modal-body{padding:22px;overflow:auto}
     .modal-foot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end}
-    
-    /* Ajuste para o botão de upload */
     .material-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;margin-bottom:9px;align-items:center}
     .material-row input{min-width:0;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px}
-    
     .toast-area{position:fixed;right:18px;bottom:18px;z-index:2000;display:flex;flex-direction:column;gap:8px;width:min(400px,calc(100vw - 36px))}
     .toast{background:var(--navy);color:#fff;padding:13px 16px;border-left:4px solid var(--gold);border-radius:8px;box-shadow:var(--shadow);line-height:1.45}
     .toast.error{border-left-color:#e35b5b}.toast.success{border-left-color:#2db67b}
@@ -104,12 +100,8 @@
     .file-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:8px}
     .file-row strong{font-size:.9rem}.file-row small{display:block;color:var(--muted);margin-top:4px}
     .subtle{font-size:.82rem;color:var(--muted);line-height:1.55}
-    
     @media(max-width:1050px){.app{grid-template-columns:220px minmax(0,1fr)}.content{padding:20px}.topbar{padding:15px 20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:760px){
-      .app{display:block}.sidebar{min-height:auto}.brand{padding:16px 18px}.nav{display:flex;overflow-x:auto;padding:5px 10px}.nav-label,.side-footer{display:none}.nav button{white-space:nowrap;width:auto;border-left:0;border-bottom:3px solid transparent;padding:11px 13px}.nav button[aria-current="page"]{border-bottom-color:var(--gold)}
-      .topbar{position:static;align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.content{padding:14px}.stats{gap:10px}.stat{padding:15px}.stat-value{font-size:1.6rem}.panel{padding:15px}.two-col,.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.material-row{grid-template-columns:1fr}.modal-head,.modal-foot{padding:14px 16px}.modal-body{padding:16px}
-    }
+    @media(max-width:760px){.app{display:block}.sidebar{min-height:auto}.brand{padding:16px 18px}.nav{display:flex;overflow-x:auto;padding:5px 10px}.nav-label,.side-footer{display:none}.nav button{white-space:nowrap;width:auto;border-left:0;border-bottom:3px solid transparent;padding:11px 13px}.nav button[aria-current="page"]{border-bottom-color:var(--gold)}.topbar{position:static;align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.content{padding:14px}.stats{gap:10px}.stat{padding:15px}.stat-value{font-size:1.6rem}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.material-row{grid-template-columns:1fr}.modal-head,.modal-foot{padding:14px 16px}.modal-body{padding:16px}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
@@ -125,7 +117,7 @@
       <label for="inp-token">Token de acesso do GitHub</label>
       <input id="inp-token" type="password" autocomplete="off" spellcheck="false" placeholder="Cole o token somente nesta sessão">
     </div>
-    <div class="notice"><strong>Atenção à segurança:</strong> o token é usado pelo navegador e mantido apenas na memória desta página. Use um token de escopo mínimo (Fine-grained), restrito a este repositório, com permissão de Contents (Leitura e Gravação).</div>
+    <div class="notice"><strong>Atenção à segurança:</strong> o token é usado pelo navegador e mantido apenas na memória desta página. Use um token de escopo mínimo (Fine-grained).</div>
     <button class="btn btn-primary btn-full" id="btn-connect" type="button">Conectar ao repositório</button>
     <div id="login-error" class="subtle" role="status" aria-live="polite" style="margin-top:12px"></div>
   </div>
@@ -162,7 +154,7 @@
 
     <div class="content" id="main-content">
       <section class="page active" id="page-dashboard">
-        <div class="page-intro"><h2>Visão geral</h2><p>Resumo calculado a partir dos dados carregados do repositório. Nenhum número é pré-cadastrado.</p></div>
+        <div class="page-intro"><h2>Visão geral</h2><p>Resumo calculado a partir dos dados carregados do repositório.</p></div>
         <div class="stats">
           <div class="stat"><div class="stat-label">Cursos cadastrados</div><div class="stat-value" id="stat-cursos">—</div></div>
           <div class="stat"><div class="stat-label">Turmas cadastradas</div><div class="stat-value" id="stat-turmas">—</div></div>
@@ -174,11 +166,10 @@
           <p class="muted" id="dashboard-message">Conecte-se para carregar os arquivos existentes.</p>
           <div class="actions"><button type="button" class="btn btn-secondary" data-go="sincronizacao">Ver arquivos</button><button type="button" class="btn btn-secondary" id="btn-reload">Recarregar do GitHub</button></div>
         </div>
-        <div class="notice">Antes de publicar, baixe um backup e confira os dados. A publicação de arquivos no GitHub gera commits no repositório.</div>
       </section>
 
       <section class="page" id="page-paginas">
-        <div class="page-intro"><h2>Páginas e textos</h2><p>Edite somente páginas que já existem no arquivo de dados. O painel não cria páginas novas sem conhecer o esquema completo do site.</p></div>
+        <div class="page-intro"><h2>Páginas e textos</h2><p>Edite somente páginas que já existem no arquivo de dados.</p></div>
         <div class="panel"><div class="panel-head"><div><h3>Páginas cadastradas</h3><p>Arquivo: dados.json</p></div><input class="search-input" id="search-paginas" aria-label="Pesquisar páginas" placeholder="Pesquisar páginas…" style="max-width:260px"></div>
           <div class="table-wrap"><table><thead><tr><th>Título</th><th>Slug</th><th>Ações</th></tr></thead><tbody id="tbody-paginas"></tbody></table></div>
         </div>
@@ -192,7 +183,7 @@
       </section>
 
       <section class="page" id="page-calendario">
-        <div class="page-intro"><h2>Calendário</h2><p>Organize os eventos existentes, preservando o formato de data e os tipos aceitos pelo site.</p></div>
+        <div class="page-intro"><h2>Calendário</h2><p>Organize os eventos existentes.</p></div>
         <div class="panel"><div class="panel-head"><div><h3>Eventos cadastrados</h3><p>Arquivo: dados.json</p></div><button class="btn btn-primary" id="btn-new-evento" type="button">Novo evento</button></div>
           <div class="table-wrap"><table><thead><tr><th>Data</th><th>Evento</th><th>Tipo</th><th>Ações</th></tr></thead><tbody id="tbody-calendario"></tbody></table></div>
         </div>
@@ -217,7 +208,6 @@
         <div class="panel"><div class="panel-head"><div><h3>Arquivos do repositório</h3><p id="repo-label">Repositório configurado no código</p></div><button type="button" class="btn btn-secondary" id="btn-refresh-files">Verificar novamente</button></div><div class="file-status" id="file-status"></div></div>
         <div class="panel"><div class="panel-head"><div><h3>Operações</h3><p>Faça backup antes de publicar.</p></div></div>
           <div class="actions"><button class="btn btn-secondary" id="btn-backup-system" type="button">Baixar backup dos três arquivos</button><button class="btn btn-secondary" id="btn-reload-system" type="button">Descartar alterações e recarregar</button><button class="btn btn-primary" id="btn-publish-system" type="button">Publicar alterações</button></div>
-          <p class="subtle" style="margin:14px 0 0">Se a publicação de um arquivo falhar após outro já ter sido gravado, o painel informará quais etapas foram concluídas.</p>
         </div>
       </section>
     </div>
@@ -303,7 +293,6 @@
     return { sha: result.sha, content: parsed };
   }
 
-  // --- FUNÇÃO DE UPLOAD DE ARQUIVO PARA O GITHUB ---
   async function uploadFileToGithub(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -335,7 +324,6 @@
     });
   }
 
-  // Função global para o evento do input
   window.handleFileUpload = async function(input) {
     const file = input.files[0];
     if (!file) return;
@@ -541,7 +529,6 @@
       ${valueField('p-titulo','Título',p.titulo)}
       ${valueField('p-desc','Descrição (SEO)',p.descricao)}
       ${textField('p-html','Conteúdo HTML',p.html,'spellcheck="false"')}
-      <p class="subtle">Os demais campos da página serão preservados.</p>
     `,()=>{
       const title=$('p-titulo').value.trim();
       if (!title) throw new Error('Informe o título da página.');
@@ -559,31 +546,30 @@
     
     openModal(isNew?'Nova aula':'Editar aula', `
       ${valueField('a-titulo','Título',current.titulo)}
-      ${valueField('a-video','Vídeo (URL)',current.video,'url','placeholder="https://…"')}
+      ${valueField('a-video','Vídeo / Slide (URL)',current.video,'url','placeholder="Cole qualquer link (YouTube, Canva, Google Drive...)"')}
       ${textField('a-desc','Descrição',current.descricao)}
       ${valueField('a-ref','Referência bibliográfica',current.referencia)}
       
       <div class="field span-2">
-        <label>Materiais (PDF, Imagem, etc)</label>
+        <label>Materiais Complementares</label>
         <div id="materials-list">${materialMarkup}</div>
         <button class="btn btn-secondary" type="button" id="add-material">Adicionar campo de link</button>
-        <p class="subtle">Você pode colar um link ou usar o botão "Subir PDF" em cada linha.</p>
+        <p class="subtle">Cole links ou use o botão "Subir PDF" em cada linha.</p>
       </div>
     `,()=>{
       const title=$('a-titulo').value.trim();
       if(!title) throw new Error('Informe o título da aula.');
       const video=$('a-video').value.trim();
-      if(video && !validHttpUrl(video)) throw new Error('A URL do vídeo precisa começar com http:// ou https://.');
       
       const materials=[];
       document.querySelectorAll('#materials-list .material-row').forEach(row=>{
-        const title=row.querySelector('.mat-title').value.trim();
-        const url=row.querySelector('.mat-url').value.trim();
-        if(title || url) {
-          if(!title || !validHttpUrl(url)) throw new Error('Cada material precisa de nome e URL http(s) válida.');
-          materials.push({titulo:title,url});
+        const matTitle=row.querySelector('.mat-title').value.trim();
+        const matUrl=row.querySelector('.mat-url').value.trim();
+        if(matUrl) {
+          materials.push({ titulo: matTitle || 'Material Anexo', url: matUrl });
         }
       });
+      
       const next={...current,id:current.id ?? Date.now(),titulo:title,video,descricao:$('a-desc').value,referencia:$('a-ref').value,materiais:materials};
       if(isNew) state.data.aulas.aulas.push(next); else state.data.aulas.aulas[index]=next;
       return 'aulas';
@@ -598,7 +584,6 @@
         <input class="mat-title" aria-label="Nome do material" placeholder="Nome do material" value="${esc(material.titulo)}">
         <input class="mat-url" aria-label="URL do material" placeholder="https://…" value="${esc(material.url)}">
         
-        <!-- Botão de Upload integrado -->
         <label class="btn btn-secondary" style="margin: 0; cursor: pointer; padding: 8px 12px; font-size: 0.8rem;">
           Subir PDF
           <input type="file" class="mat-file" accept=".pdf,.ppt,.pptx,.doc,.docx,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(this)">
@@ -609,10 +594,6 @@
     `;
   }
 
-  function validHttpUrl(value) {
-    try { const url = new URL(value); return url.protocol === 'https:' || url.protocol === 'http:'; } catch { return false; }
-  }
-
   function editEvent(index = -1) {
     const isNew=index===-1;
     const current=isNew?{data:'',titulo:'',tipo:'presencial'}:state.data.dados.calendario.eventos[index];
@@ -620,7 +601,16 @@
     openModal(isNew?'Novo evento':'Editar evento',`
       ${valueField('ev-data','Data',current.data,'date')}
       ${valueField('ev-titulo','Título',current.titulo)}
-      <div class="field"><label for="ev-tipo">Tipo</label><select id="ev-tipo"><option value="presencial" ${current.tipo==='presencial'?'selected':''}>Presencial</option><option value="assincrona" ${current.tipo==='assincrona'?'selected':''}>Assíncrona</option></select></div>
+      <div class="field">
+        <label for="ev-tipo">Tipo / Situação</label>
+        <select id="ev-tipo">
+          <option value="presencial" ${current.tipo==='presencial'?'selected':''}>Presencial</option>
+          <option value="online" ${current.tipo==='online'?'selected':''}>Online (Ao Vivo)</option>
+          <option value="assincrona" ${current.tipo==='assincrona'?'selected':''}>Assíncrona</option>
+          <option value="cancelada" ${current.tipo==='cancelada'?'selected':''}>Cancelada</option>
+          <option value="reagendada" ${current.tipo==='reagendada'?'selected':''}>Reagendada</option>
+        </select>
+      </div>
     `,()=>{
       const data=$('ev-data').value, titulo=$('ev-titulo').value.trim();
       if(!data || !titulo) throw new Error('Informe a data e o título do evento.');
@@ -697,7 +687,7 @@
   async function publish() {
     if(!state.loaded || state.dirty.size===0) return toast('Não há alterações pendentes.');
     if(state.publishing) return;
-    if(!confirm('Publicar os arquivos alterados no repositório GitHub? Recomenda-se ter um backup atualizado.')) return;
+    if(!confirm('Publicar os arquivos alterados no repositório GitHub?')) return;
     state.publishing=true;
     $('btn-publish').disabled=true;
     $('btn-publish-system').disabled=true;
