@@ -3,155 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cronograma — Libras nas Comunidades | UFAL</title>
-  
+  <title>Calendário Acadêmico — Libras nas Comunidades | UFAL</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="estilo.css">
-  
   <style>
-    /* --- ESTILO CALENDÁRIO ACADÊMICO --- */
-    .calendar-section {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-    }
-
-    /* Controles do Mês */
-    .calendar-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--branco);
-      padding: 16px 24px;
-      border-radius: var(--radius);
-      border: 1px solid var(--borda);
-      box-shadow: var(--sombra);
-      margin-bottom: 24px;
-    }
-
-    .calendar-controls h2 {
-      font-family: var(--fonte-titulo);
-      font-size: 1.5rem;
-      color: var(--azul-marinho);
-      margin: 0;
-      text-transform: capitalize;
-    }
-
-    /* Grade do Calendário */
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-      background: var(--branco);
-      padding: 24px;
-      border-radius: var(--radius);
-      border: 1px solid var(--borda);
-      box-shadow: var(--sombra);
-    }
-
-    .day-name {
-      text-align: center;
-      font-weight: 700;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: var(--texto-leve);
-      letter-spacing: 1px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--borda);
-      margin-bottom: 8px;
-    }
-
-    .day-cell {
-      min-height: 110px;
-      border: 1px solid var(--borda);
-      border-radius: 6px;
-      padding: 8px;
-      background: #FCFDFE;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .day-cell.empty {
-      background: var(--off-white);
-      border-color: transparent;
-    }
-
-    .day-number {
-      font-weight: 700;
-      color: var(--texto-leve);
-      font-size: 0.9rem;
-      align-self: flex-end;
-    }
-
-    /* Destaque para o dia atual */
-    .day-cell.today {
-      border-color: var(--dourado);
-      background: #FFFDF5;
-    }
-    .day-cell.today .day-number {
-      color: var(--dourado);
-      background: var(--azul-marinho);
-      color: white;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Etiquetas de Eventos dentro do dia */
-    .event-badge {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 4px 6px;
-      border-radius: 4px;
-      border-left: 3px solid;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: default;
-    }
-
-    /* Cores das Etiquetas */
+    .calendar-section { padding: 40px 0 80px; background: var(--cor-fundo); }
+    .calendar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .calendar-controls h2 { font-family: var(--cor-primaria); font-size: 1.5rem; color: var(--cor-primaria); margin: 0; text-transform: capitalize; }
+    
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; background: var(--cor-superficie); padding: 24px; border-radius: var(--borda-raio); border: 1px solid var(--cor-borda); box-shadow: var(--sombra-leve); }
+    .day-name { text-align: center; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--cor-texto-leve); letter-spacing: 1px; padding-bottom: 12px; border-bottom: 2px solid var(--cor-borda); margin-bottom: 8px; }
+    .day-cell { min-height: 110px; border: 1px solid var(--cor-borda); border-radius: 6px; padding: 8px; background: #FCFDFE; display: flex; flex-direction: column; gap: 4px; }
+    .day-cell.empty { background: var(--cor-fundo); border-color: transparent; }
+    .day-number { font-weight: 700; color: var(--cor-texto-leve); font-size: 0.9rem; align-self: flex-end; }
+    .day-cell.today { border-color: var(--cor-destaque); background: #FFFDF5; }
+    .day-cell.today .day-number { color: #fff; background: var(--cor-primaria); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    
+    .event-badge { font-size: 0.7rem; font-weight: 600; padding: 4px 6px; border-radius: 4px; border-left: 3px solid; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .ev-presencial { background: #DCFCE7; color: #166534; border-color: #166534; }
     .ev-sincrona { background: #DBEAFE; color: #1E40AF; border-color: #1E40AF; }
-    .ev-online { background: #F3E8FF; color: #6B21A8; border-color: #6B21A8; }
     .ev-assincrona { background: #F1F5F9; color: #475569; border-color: #475569; }
     .ev-cancelada { background: #FEE2E2; color: #991B1B; border-color: #991B1B; text-decoration: line-through; }
     .ev-reagendada { background: #FEF3C7; color: #92400E; border-color: #92400E; }
 
-    /* Legenda */
-    .calendar-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 24px;
-      padding: 16px 24px;
-      background: var(--branco);
-      border: 1px solid var(--borda);
-      border-radius: var(--radius);
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-      color: var(--texto-leve);
-      font-weight: 500;
-    }
-    .legend-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 2px solid;
-    }
-
-    @media (max-width: 768px) {
+    .calendar-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; padding: 16px 24px; background: var(--cor-superficie); border: 1px solid var(--cor-borda); border-radius: var(--borda-raio); }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--cor-texto-leve); font-weight: 500; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+    
+    @media (max-width: 760px) {
       .calendar-grid { gap: 4px; padding: 12px; }
       .day-cell { min-height: 80px; padding: 4px; }
       .event-badge { font-size: 0.6rem; padding: 2px; }
@@ -160,136 +41,128 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-
+  <a class="skip-link" href="#main">Pular para o conteúdo principal</a>
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="brand">
+      <a href="index.html" class="brand" aria-label="Libras nas Comunidades — página inicial">
         <span class="brand-name">Libras nas Comunidades</span>
-        <span class="brand-tag">Projeto de Extensão</span>
+        <span class="brand-tag">UFAL</span>
       </a>
-      <button class="nav-toggle" id="navToggle">Menu</button>
-      <nav class="nav-menu" id="navMenu"></nav>
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menu de navegação">Menu</button>
+      <nav class="nav-menu" id="navMenu" aria-label="Navegação principal">
+        <a href="index.html">Início</a>
+        <a href="pagina.html?slug=sobre">O Projeto</a>
+        <a href="pagina.html?slug=curso">O Curso</a>
+        <a href="calendario.html" aria-current="page">Cronograma</a>
+        <a href="aulas.html">Aulas</a>
+        <a href="inscricoes.html">Inscrições</a>
+      </nav>
     </div>
   </header>
 
   <main id="main">
-    <section style="padding: 60px 24px 20px; text-align: center; background: var(--off-white);">
-      <span style="font-size: 0.75rem; font-weight: 700; color: var(--dourado); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 12px;">Projeto de Extensão · UFAL</span>
-      <h1 style="font-family: var(--fonte-titulo); font-size: clamp(2rem, 4vw, 3rem); color: var(--azul-marinho);">Calendário Acadêmico</h1>
-      <p style="color: var(--texto-leve); font-size: 1.1rem;">Acompanhe as datas das nossas aulas e atividades.</p>
+    <section class="hero" style="padding-top: 60px; padding-bottom: 40px;">
+      <div class="hero-content home-wrap">
+        <h1>Calendário Acadêmico</h1>
+        <p>Acompanhe as datas das nossas aulas e atividades.</p>
+      </div>
     </section>
 
-    <div class="calendar-section">
-      
-      <div class="calendar-controls">
-        <button class="btn btn-outline" id="btn-prev" style="padding: 8px 16px;">&larr; Anterior</button>
-        <h2 id="month-display">Carregando...</h2>
-        <button class="btn btn-outline" id="btn-next" style="padding: 8px 16px;">Próximo &rarr;</button>
+    <section class="calendar-section">
+      <div class="home-wrap">
+        <div class="calendar-controls">
+          <button class="btn btn-outline" id="btn-prev">&larr; Anterior</button>
+          <h2 id="month-display">Carregando...</h2>
+          <button class="btn btn-outline" id="btn-next">Próximo &rarr;</button>
+        </div>
+        <div class="calendar-grid" id="calendar-body"></div>
+        <div class="calendar-legend">
+          <div class="legend-item"><span class="legend-dot ev-presencial"></span> Presencial</div>
+          <div class="legend-item"><span class="legend-dot ev-sincrona"></span> Síncrona</div>
+          <div class="legend-item"><span class="legend-dot ev-assincrona"></span> Assíncrona</div>
+          <div class="legend-item"><span class="legend-dot ev-cancelada"></span> Cancelada</div>
+          <div class="legend-item"><span class="legend-dot ev-reagendada"></span> Reagendada</div>
+        </div>
       </div>
-
-      <div class="calendar-grid" id="calendar-body">
-        <!-- Dias gerados via JS -->
-      </div>
-
-      <div class="calendar-legend">
-        <div class="legend-item"><span class="legend-dot ev-presencial"></span> Presencial</div>
-        <div class="legend-item"><span class="legend-dot ev-sincrona"></span> Síncrona</div>
-        <div class="legend-item"><span class="legend-dot ev-assincrona"></span> Assíncrona</div>
-        <div class="legend-item"><span class="legend-dot ev-cancelada"></span> Cancelada</div>
-        <div class="legend-item"><span class="legend-dot ev-reagendada"></span> Reagendada</div>
-      </div>
-
-    </div>
+    </section>
   </main>
 
   <footer class="footer">
-    <div class="footer-inner"><div class="footer-brand"><h4>Libras nas Comunidades – UFAL</h4></div></div>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h4>Libras nas Comunidades – UFAL</h4>
+        <p>Conhecimento, comunicação e inclusão. Uma iniciativa voltada à difusão da Libras, à valorização da comunidade surda e à promoção da acessibilidade.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Desenvolvimento do site: <strong>Adeilton Olimpio</strong></p>
+    </div>
   </footer>
 
   <script>
-    document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
+    document.addEventListener('DOMContentLoaded', () => {
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      const fallbackLinks = navMenu.innerHTML;
+      navToggle.addEventListener('click', () => {
+        const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+        navToggle.setAttribute('aria-expanded', String(!expanded));
+        navMenu.classList.toggle('active', !expanded);
+      });
 
-    // Estado atual do calendário
-    let currentDate = new Date();
-    let eventsData = [];
-    
-    // Nomes dos meses e dias
-    const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-    const dayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+      fetch('dados.json').then(r => r.json()).then(data => {
+        if (data && data.paginas) {
+          const fragment = document.createDocumentFragment();
+          data.paginas.filter(p => p.publicada !== false && p.titulo).sort((a,b) => (a.ordem||0) - (b.ordem||0)).forEach(p => {
+            let href = p.tipo === 'index' ? 'index.html' : p.tipo === 'calendario' ? 'calendario.html' : p.tipo === 'externo' ? p.arquivo : `pagina.html?slug=${p.slug}`;
+            const link = document.createElement('a');
+            link.href = href; link.textContent = p.titulo;
+            if (window.location.pathname.endsWith(href)) link.setAttribute('aria-current', 'page');
+            fragment.appendChild(link);
+          });
+          navMenu.replaceChildren(fragment);
+        }
+      }).catch(console.warn);
+      
+      let currentDate = new Date();
+      let eventsData = [];
+      const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+      const dayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
-    // Busca os dados
-    fetch('dados.json?t=' + Date.now())
-      .then(res => res.json())
-      .then(D => {
+      fetch('dados.json?t=' + Date.now()).then(res => res.json()).then(D => {
         eventsData = D.calendario?.eventos || [];
         renderCalendar();
       });
 
-    function renderCalendar() {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth();
-
-      // Atualiza o título
-      document.getElementById('month-display').textContent = `${monthNames[month]} ${year}`;
-
-      // Descobre o primeiro dia do mês e quantos dias tem
-      const firstDay = new Date(year, month, 1).getDay();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      const calendarBody = document.getElementById('calendar-body');
-      
-      // Cabeçalho dos dias da semana
-      let html = dayNames.map(d => `<div class="day-name">${d}</div>`).join('');
-
-      // Células vazias antes do dia 1
-      for (let i = 0; i < firstDay; i++) {
-        html += `<div class="day-cell empty"></div>`;
+      function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        document.getElementById('month-display').textContent = `${monthNames[month]} ${year}`;
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        let html = dayNames.map(d => `<div class="day-name">${d}</div>`).join('');
+        for (let i = 0; i < firstDay; i++) html += `<div class="day-cell empty"></div>`;
+        const today = new Date();
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+          const dayEvents = eventsData.filter(e => e.data === dateStr);
+          const eventsHtml = dayEvents.map(e => {
+            let css = 'ev-presencial';
+            if (e.tipo === 'online' || e.tipo === 'sincrona') css = 'ev-sincrona';
+            else if (e.tipo === 'assincrona') css = 'ev-assincrona';
+            else if (e.tipo === 'cancelada') css = 'ev-cancelada';
+            else if (e.tipo === 'reagendada') css = 'ev-reagendada';
+            return `<div class="event-badge ${css}" title="${e.titulo}">${e.titulo}</div>`;
+          }).join('');
+          html += `<div class="day-cell ${isToday ? 'today' : ''}"><div class="day-number">${day}</div>${eventsHtml}</div>`;
+        }
+        document.getElementById('calendar-body').innerHTML = html;
       }
 
-      // Dias do mês
-      const today = new Date();
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        
-        // Verifica se é hoje
-        const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-        
-        // Filtra os eventos do dia
-        const dayEvents = eventsData.filter(e => e.data === dateStr);
-
-        // Cria as etiquetas dos eventos
-        const eventsHtml = dayEvents.map(e => {
-          let cssClass = 'ev-presencial';
-          if (e.tipo === 'online' || e.tipo === 'sincrona') cssClass = 'ev-sincrona';
-          else if (e.tipo === 'assincrona') cssClass = 'ev-assincrona';
-          else if (e.tipo === 'cancelada') cssClass = 'ev-cancelada';
-          else if (e.tipo === 'reagendada') cssClass = 'ev-reagendada';
-          
-          return `<div class="event-badge ${cssClass}" title="${e.titulo}">${e.titulo}</div>`;
-        }).join('');
-
-        html += `
-          <div class="day-cell ${isToday ? 'today' : ''}">
-            <div class="day-number">${day}</div>
-            ${eventsHtml}
-          </div>
-        `;
-      }
-
-      calendarBody.innerHTML = html;
-    }
-
-    // Navegação
-    document.getElementById('btn-prev').onclick = () => {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      renderCalendar();
-    };
-
-    document.getElementById('btn-next').onclick = () => {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      renderCalendar();
-    };
+      document.getElementById('btn-prev').onclick = () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); };
+      document.getElementById('btn-next').onclick = () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); };
+    });
   </script>
 </body>
 </html>
