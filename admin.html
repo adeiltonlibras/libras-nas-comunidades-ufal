@@ -1,124 +1,714 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>Painel Administrativo — Libras nas Comunidades</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="color-scheme" content="light">
+  <title>Secretaria Digital | Libras nas Comunidades – UFAL</title>
   <style>
-    :root {
-      --azul-marinho: #0F2B4C; --azul-claro: #1E4E8C; --dourado: #A88552;
-      --off-white: #F8FAFC; --branco: #FFFFFF; --texto: #334155;
-      --texto-leve: #64748B; --borda: #E2E8F0; --perigo: #EF4444;
-      --fonte-titulo: 'Playfair Display', serif; --fonte-corpo: 'Inter', sans-serif;
+    :root{
+      --navy:#0f2b4c;--blue:#1e4e8c;--gold:#a88552;--paper:#f5f7fa;
+      --white:#fff;--text:#263548;--muted:#64748b;--line:#dce3ec;
+      --good:#147d52;--good-bg:#e7f6ee;--bad:#a52828;--bad-bg:#fff0f0;
+      --warn:#805d19;--warn-bg:#fff7df;--radius:12px;
+      --shadow:0 8px 24px rgba(15,43,76,.06);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: var(--fonte-corpo); background: var(--off-white); color: var(--texto); display: flex; height: 100vh; overflow: hidden; }
-    
-    /* Login */
-    .login-overlay { position: fixed; inset: 0; background: var(--azul-marinho); display: flex; align-items: center; justify-content: center; z-index: 9999; }
-    .login-box { background: var(--branco); padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; border-top: 4px solid var(--dourado); }
-    .login-box h2 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 20px; text-align: center; }
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; color: var(--azul-marinho); }
-    .form-group input { width: 100%; padding: 12px; border: 1px solid var(--borda); border-radius: 6px; background: var(--off-white); outline: none; }
-    
-    /* Layout */
-    .sidebar { width: 250px; background: var(--azul-marinho); color: #fff; padding: 24px; display: flex; flex-direction: column; }
-    .sidebar h2 { font-family: var(--fonte-titulo); font-size: 1.2rem; margin-bottom: 30px; color: #fff;}
-    .main-content { flex: 1; padding: 32px; overflow-y: auto; }
-    
-    .card { background: #fff; padding: 24px; border-radius: 8px; border: 1px solid var(--borda); box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 24px; }
-    .card h3 { font-family: var(--fonte-titulo); color: var(--azul-marinho); margin-bottom: 20px; font-size: 1.4rem; }
-    
-    .btn { padding: 12px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
-    .btn-dourado { background: var(--dourado); color: #fff; width: 100%; }
-    .btn-dourado:hover { background: #8E6D3E; }
-    .btn-perigo { background: #FEE2E2; color: var(--perigo); padding: 8px 12px; font-size: 0.8rem; }
-    
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--borda); font-size: 0.9rem; }
-    th { font-size: 0.75rem; text-transform: uppercase; color: var(--texto-leve); background: var(--off-white); }
-    
-    .hidden { display: none !important; }
-    #erro-login { color: var(--perigo); font-size: 0.8rem; text-align: center; margin-top: 10px; display: block; }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--text);min-height:100vh}
+    button,input,textarea,select{font:inherit}
+    button,a{touch-action:manipulation}
+    button{cursor:pointer}
+    a{color:inherit}
+    .hidden{display:none!important}
+    .skip-link{position:absolute;left:-9999px;top:8px;background:#fff;padding:10px;z-index:10000}
+    .skip-link:focus{left:8px}
+    .login-screen{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--navy)}
+    .login-card{width:min(100%,520px);background:var(--white);padding:clamp(24px,5vw,40px);border-radius:16px;border-top:5px solid var(--gold);box-shadow:0 24px 70px #0003}
+    .eyebrow{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:800}
+    h1,h2,h3,p{margin-top:0}
+    .login-card h1{color:var(--navy);font-size:clamp(1.6rem,4vw,2rem);margin:10px 0}
+    .muted{color:var(--muted);line-height:1.6}
+    .field{display:flex;flex-direction:column;gap:7px;margin:0 0 16px}
+    .field label{font-size:.78rem;font-weight:750;color:var(--navy)}
+    .field input,.field textarea,.field select,.search-input{
+      width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;background:#fff;color:var(--text);min-width:0
+    }
+    .field textarea{min-height:130px;resize:vertical}
+    input:focus,textarea:focus,select:focus,button:focus-visible,a:focus-visible{outline:3px solid #1e4e8c55;outline-offset:2px}
+    .notice{border:1px solid #ead9ad;background:var(--warn-bg);color:#654b13;padding:12px 14px;border-radius:9px;font-size:.88rem;line-height:1.5;margin:16px 0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border:1px solid transparent;border-radius:8px;font-weight:750;font-size:.88rem;text-decoration:none;transition:background .15s,border-color .15s;min-height:40px}
+    .btn:disabled{opacity:.55;cursor:not-allowed}
+    .btn-primary{background:var(--gold);color:#fff}.btn-primary:hover:not(:disabled){background:#8e6d3e}
+    .btn-secondary{background:#fff;border-color:var(--line);color:var(--navy)}.btn-secondary:hover{border-color:var(--navy)}
+    .btn-danger{background:var(--bad-bg);color:var(--bad);border-color:#f1caca}
+    .btn-full{width:100%}
+    .app{min-height:100vh;display:grid;grid-template-columns:260px minmax(0,1fr)}
+    .sidebar{background:var(--navy);color:#fff;display:flex;flex-direction:column;min-height:100vh}
+    .brand{padding:25px 22px 21px;border-bottom:1px solid #ffffff20}
+    .brand h2{font-size:1.12rem;line-height:1.35;margin:0 0 5px;color:#fff}
+    .brand p{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:#d7bd96;margin:0}
+    .nav{padding:14px 0;overflow-y:auto;flex:1}
+    .nav-label{font-size:.67rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#8fa0b5;padding:18px 22px 8px}
+    .nav button{display:block;width:100%;text-align:left;padding:12px 20px 12px 22px;border:0;border-left:3px solid transparent;background:transparent;color:#c5d0df;font-size:.9rem}
+    .nav button:hover,.nav button[aria-current="page"]{background:#ffffff0e;color:#fff;border-left-color:var(--gold)}
+    .side-footer{padding:16px 20px;border-top:1px solid #ffffff20;font-size:.76rem;color:#b7c4d4}
+    .main{min-width:0;display:flex;flex-direction:column}
+    .topbar{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 28px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+    .topbar h1{font-size:1.25rem;color:var(--navy);margin:0}
+    .top-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+    .content{padding:28px;max-width:1600px;width:100%;margin:0 auto}
+    .page{display:none}.page.active{display:block}
+    .page-intro{margin-bottom:22px}.page-intro h2{font-size:1.35rem;color:var(--navy);margin:0 0 6px}.page-intro p{color:var(--muted);margin:0;line-height:1.55}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:22px}
+    .stat,.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .stat{padding:20px;border-left:4px solid var(--gold)}
+    .stat-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:9px}
+    .stat-value{font-size:2rem;font-weight:800;color:var(--navy);line-height:1.1;overflow-wrap:anywhere}
+    .panel{padding:22px;margin-bottom:20px}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:15px;border-bottom:1px solid var(--line);margin-bottom:16px}
+    .panel-head h3{font-size:1.05rem;color:var(--navy);margin:0}
+    .panel-head p{font-size:.85rem;color:var(--muted);margin:5px 0 0}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:600px}
+    th,td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);background:#f8fafc;white-space:nowrap}
+    tbody tr:hover{background:#fafcff}
+    .actions{display:flex;gap:7px;flex-wrap:wrap}
+    .badge{display:inline-block;padding:4px 8px;border-radius:99px;font-size:.72rem;font-weight:800;background:#edf1f6;color:#455468}
+    .badge.good{background:var(--good-bg);color:var(--good)}.badge.bad{background:var(--bad-bg);color:var(--bad)}
+    .empty{padding:25px!important;text-align:center;color:var(--muted)}
+    .status-line{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+    .status-dot{width:9px;height:9px;border-radius:50%;background:#94a3b8;display:inline-block;flex-shrink:0}
+    .status-dot.good{background:var(--good)}.status-dot.bad{background:var(--bad)}.status-dot.warn{background:#d49a21}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+    .span-2{grid-column:1/-1}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;background:#0f2b4cb8;z-index:1000}
+    .modal.open{display:flex}
+    .modal-card{width:min(100%,800px);max-height:92vh;display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 25px 70px #0004}
+    .modal-head,.modal-foot{padding:17px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}
+    .modal-head h2{font-size:1.15rem;color:var(--navy);margin:0}
+    .modal-body{padding:22px;overflow:auto}
+    .modal-foot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end}
+    .material-row{display:grid;grid-template-columns:1fr 1.4fr auto;gap:8px;margin-bottom:9px}
+    .material-row input{min-width:0;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px}
+    .toast-area{position:fixed;right:18px;bottom:18px;z-index:2000;display:flex;flex-direction:column;gap:8px;width:min(400px,calc(100vw - 36px))}
+    .toast{background:var(--navy);color:#fff;padding:13px 16px;border-left:4px solid var(--gold);border-radius:8px;box-shadow:var(--shadow);line-height:1.45}
+    .toast.error{border-left-color:#e35b5b}.toast.success{border-left-color:#2db67b}
+    .file-status{display:grid;gap:10px}
+    .file-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:8px}
+    .file-row strong{font-size:.9rem}.file-row small{display:block;color:var(--muted);margin-top:4px}
+    .subtle{font-size:.82rem;color:var(--muted);line-height:1.55}
+    @media(max-width:1050px){.app{grid-template-columns:220px minmax(0,1fr)}.content{padding:20px}.topbar{padding:15px 20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){
+      .app{display:block}.sidebar{min-height:auto}.brand{padding:16px 18px}.nav{display:flex;overflow-x:auto;padding:5px 10px}.nav-label,.side-footer{display:none}.nav button{white-space:nowrap;width:auto;border-left:0;border-bottom:3px solid transparent;padding:11px 13px}.nav button[aria-current="page"]{border-bottom-color:var(--gold)}
+      .topbar{position:static;align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.content{padding:14px}.stats{gap:10px}.stat{padding:15px}.stat-value{font-size:1.6rem}.panel{padding:15px}.two-col,.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.material-row{grid-template-columns:1fr}.modal-head,.modal-foot{padding:14px 16px}.modal-body{padding:16px}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Pular para o conteúdo</a>
 
-  <!-- TELA DE LOGIN -->
-  <div class="login-overlay" id="login-screen">
-    <div class="login-box">
-      <h2>Acesso Restrito</h2>
-      <div class="form-group">
-        <label>E-mail Administrativo</label>
-        <input type="email" id="inp-email" placeholder="seu@email.com">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="inp-senha" placeholder="********">
-      </div>
-      <button class="btn btn-dourado" id="btn-login">Entrar no Sistema</button>
-      <span id="erro-login"></span>
+<section class="login-screen" id="login-screen" aria-labelledby="login-title">
+  <div class="login-card">
+    <div class="eyebrow">Área administrativa</div>
+    <h1 id="login-title">Secretaria Digital</h1>
+    <p class="muted">Libras nas Comunidades – UFAL. Conecte-se ao repositório para carregar os dados do painel.</p>
+    <div class="field">
+      <label for="inp-token">Token de acesso do GitHub</label>
+      <input id="inp-token" type="password" autocomplete="off" spellcheck="false" placeholder="Cole o token somente nesta sessão">
     </div>
+    <div class="notice"><strong>Atenção à segurança:</strong> o GitHub Pages não possui servidor privado. Neste modo, o token é usado pelo navegador e pode ser exposto por código malicioso executado na página. Use apenas um token de escopo mínimo, restrito a este repositório, com permissão de Contents necessária para leitura e gravação. Não use token clássico amplo. Para administração de alto risco, adote um backend autenticado.</div>
+    <button class="btn btn-primary btn-full" id="btn-connect" type="button">Conectar ao repositório</button>
+    <p class="subtle" style="margin:14px 0 0">O token não é salvo no navegador nem incluído nos arquivos JSON. Ele é mantido apenas na memória desta página.</p>
+    <div id="login-error" class="subtle" role="status" aria-live="polite" style="margin-top:12px"></div>
   </div>
+</section>
 
-  <!-- PAINEL -->
-  <div id="app-painel" class="hidden" style="display: flex; width: 100%;">
-    <aside class="sidebar">
-      <h2>Secretaria Digital</h2>
-      <div style="flex: 1;"></div>
-      <button class="btn" style="background: rgba(255,255,255,0.1); color: #fff;" id="btn-sair">Sair do Sistema</button>
-    </aside>
+<div class="app hidden" id="app">
+  <aside class="sidebar">
+    <div class="brand"><h2>Libras nas Comunidades</h2><p>Painel administrativo</p></div>
+    <nav class="nav" aria-label="Navegação administrativa">
+      <div class="nav-label">Painel</div>
+      <button type="button" data-page="dashboard" aria-current="page">Visão geral</button>
+      <div class="nav-label">Conteúdo do site</div>
+      <button type="button" data-page="paginas">Páginas e textos</button>
+      <button type="button" data-page="aulas">Aulas e materiais</button>
+      <button type="button" data-page="calendario">Calendário</button>
+      <div class="nav-label">Gestão acadêmica</div>
+      <button type="button" data-page="cursos">Cursos e níveis</button>
+      <button type="button" data-page="turmas">Turmas e vagas</button>
+      <div class="nav-label">Sistema</div>
+      <button type="button" data-page="sincronizacao">Arquivos e sincronização</button>
+    </nav>
+    <div class="side-footer">Libras nas Comunidades · UFAL</div>
+  </aside>
 
-    <main class="main-content">
-      <div class="card">
-        <h3>Gerenciar Aulas</h3>
-        
-        <!-- Formulário -->
-        <div style="background: var(--off-white); padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-          <input type="hidden" id="edit-id">
-          <div class="form-group">
-            <label>Título da Aula</label>
-            <input type="text" id="inp-titulo" placeholder="Ex: Alfabeto em Libras">
-          </div>
-          <div class="form-group">
-            <label>Link do Vídeo (Embed)</label>
-            <input type="text" id="inp-video" placeholder="https://www.youtube.com/embed/...">
-          </div>
-          <div class="form-group">
-            <label>Descrição</label>
-            <input type="text" id="inp-descricao" placeholder="O que o aluno vai aprender...">
-          </div>
-          <div class="form-group">
-            <label>Referência ABNT (Opcional)</label>
-            <input type="text" id="inp-referencia" placeholder="SILVA, João. 2026.">
-          </div>
-          <button class="btn btn-dourado" style="width: auto;" id="btn-salvar">Salvar Aula</button>
-          <button class="btn" style="background: #E2E8F0; display: none;" id="btn-cancelar">Cancelar Edição</button>
-        </div>
-
-        <!-- Tabela -->
-        <table>
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Vídeo</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-aulas">
-            <tr><td colspan="3">Carregando dados do Firebase...</td></tr>
-          </tbody>
-        </table>
+  <main class="main">
+    <header class="topbar">
+      <h1 id="page-title">Visão geral</h1>
+      <div class="top-actions">
+        <button class="btn btn-secondary" type="button" id="btn-backup">Baixar backup</button>
+        <button class="btn btn-secondary" type="button" id="btn-logout">Desconectar</button>
+        <button class="btn btn-primary" type="button" id="btn-publish" disabled>Publicar alterações</button>
       </div>
-    </main>
-  </div>
+    </header>
 
-  <script type="module" src="admin.js"></script>
+    <div class="content" id="main-content">
+      <section class="page active" id="page-dashboard">
+        <div class="page-intro"><h2>Visão geral</h2><p>Resumo calculado a partir dos dados carregados do repositório. Nenhum número é pré-cadastrado.</p></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Cursos cadastrados</div><div class="stat-value" id="stat-cursos">—</div></div>
+          <div class="stat"><div class="stat-label">Turmas cadastradas</div><div class="stat-value" id="stat-turmas">—</div></div>
+          <div class="stat"><div class="stat-label">Aulas cadastradas</div><div class="stat-value" id="stat-aulas">—</div></div>
+          <div class="stat"><div class="stat-label">Estado dos dados</div><div class="stat-value" id="stat-status" style="font-size:1.05rem">Conectando</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Estado da sessão</h3><p>Conexão, alterações e publicação</p></div><span class="status-line"><span class="status-dot" id="status-dot"></span><span id="status-text">Aguardando conexão</span></span></div>
+          <p class="muted" id="dashboard-message">Conecte-se para carregar os arquivos existentes.</p>
+          <div class="actions"><button type="button" class="btn btn-secondary" data-go="sincronizacao">Ver arquivos</button><button type="button" class="btn btn-secondary" id="btn-reload">Recarregar do GitHub</button></div>
+        </div>
+        <div class="notice">Antes de publicar, baixe um backup e confira os dados. A publicação de arquivos no GitHub gera commits no repositório.</div>
+      </section>
+
+      <section class="page" id="page-paginas">
+        <div class="page-intro"><h2>Páginas e textos</h2><p>Edite somente páginas que já existem no arquivo de dados. O painel não cria páginas novas sem conhecer o esquema completo do site.</p></div>
+        <div class="panel"><div class="panel-head"><div><h3>Páginas cadastradas</h3><p>Arquivo: dados.json</p></div><input class="search-input" id="search-paginas" aria-label="Pesquisar páginas" placeholder="Pesquisar páginas…" style="max-width:260px"></div>
+          <div class="table-wrap"><table><thead><tr><th>Título</th><th>Slug</th><th>Ações</th></tr></thead><tbody id="tbody-paginas"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-aulas">
+        <div class="page-intro"><h2>Aulas e materiais</h2><p>Gerencie vídeos, descrições, referências e links de materiais didáticos.</p></div>
+        <div class="panel"><div class="panel-head"><div><h3>Aulas cadastradas</h3><p>Arquivo: aulas-dados.json</p></div><div class="actions"><input class="search-input" id="search-aulas" aria-label="Pesquisar aulas" placeholder="Pesquisar aulas…" style="max-width:220px"><button class="btn btn-primary" id="btn-new-aula" type="button">Nova aula</button></div></div>
+          <div class="table-wrap"><table><thead><tr><th>Título</th><th>Vídeo</th><th>Materiais</th><th>Ações</th></tr></thead><tbody id="tbody-aulas"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-calendario">
+        <div class="page-intro"><h2>Calendário</h2><p>Organize os eventos existentes, preservando o formato de data e os tipos aceitos pelo site.</p></div>
+        <div class="panel"><div class="panel-head"><div><h3>Eventos cadastrados</h3><p>Arquivo: dados.json</p></div><button class="btn btn-primary" id="btn-new-evento" type="button">Novo evento</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Data</th><th>Evento</th><th>Tipo</th><th>Ações</th></tr></thead><tbody id="tbody-calendario"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-cursos">
+        <div class="page-intro"><h2>Cursos e níveis</h2><p>Os identificadores dos cursos são preservados para manter o vínculo com as turmas.</p></div>
+        <div class="panel"><div class="panel-head"><div><h3>Cursos cadastrados</h3><p>Arquivo: academico-dados.json</p></div><button class="btn btn-primary" id="btn-new-curso" type="button">Novo curso</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Nome</th><th>Nível</th><th>Carga horária</th><th>Ações</th></tr></thead><tbody id="tbody-cursos"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-turmas">
+        <div class="page-intro"><h2>Turmas e vagas</h2><p>Confira os cursos vinculados, o período, as vagas e o estado das inscrições.</p></div>
+        <div class="panel"><div class="panel-head"><div><h3>Turmas cadastradas</h3><p>Arquivo: academico-dados.json</p></div><button class="btn btn-primary" id="btn-new-turma" type="button">Nova turma</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Turma</th><th>Curso</th><th>Período</th><th>Vagas</th><th>Status</th><th>Ações</th></tr></thead><tbody id="tbody-turmas"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-sincronizacao">
+        <div class="page-intro"><h2>Arquivos e sincronização</h2><p>Estado dos arquivos lidos, quantidade de alterações locais e controle de publicação.</p></div>
+        <div class="panel"><div class="panel-head"><div><h3>Arquivos do repositório</h3><p id="repo-label">Repositório configurado no código</p></div><button type="button" class="btn btn-secondary" id="btn-refresh-files">Verificar novamente</button></div><div class="file-status" id="file-status"></div></div>
+        <div class="panel"><div class="panel-head"><div><h3>Operações</h3><p>Faça backup antes de publicar.</p></div></div>
+          <div class="actions"><button class="btn btn-secondary" id="btn-backup-system" type="button">Baixar backup dos três arquivos</button><button class="btn btn-secondary" id="btn-reload-system" type="button">Descartar alterações e recarregar</button><button class="btn btn-primary" id="btn-publish-system" type="button">Publicar alterações</button></div>
+          <p class="subtle" style="margin:14px 0 0">Se a publicação de um arquivo falhar após outro já ter sido gravado, o painel informará quais etapas foram concluídas. Os commits individuais não são uma transação única.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="modal" id="edit-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <div class="modal-head"><h2 id="modal-title">Editar registro</h2><button type="button" class="btn btn-secondary" id="modal-close" aria-label="Fechar janela">Fechar</button></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot"><button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button><button type="button" class="btn btn-primary" id="modal-save">Salvar alterações locais</button></div>
+  </div>
+</div>
+<div class="toast-area" id="toast-area" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  const REPO = 'adeiltonlibras/libras-nas-comunidades-ufal';
+  const BRANCH = 'main';
+  const FILES = {
+    dados: 'dados.json',
+    aulas: 'aulas-dados.json',
+    academico: 'academico-dados.json'
+  };
+  const state = {
+    token: '',
+    data: { dados: null, aulas: null, academico: null },
+    sha: { dados: null, aulas: null, academico: null },
+    dirty: new Set(),
+    loaded: false,
+    publishing: false
+  };
+  const $ = id => document.getElementById(id);
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[ch]);
+  const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+
+  function toast(message, type = '') {
+    const item = document.createElement('div');
+    item.className = 'toast' + (type ? ' ' + type : '');
+    item.textContent = message;
+    $('toast-area').appendChild(item);
+    window.setTimeout(() => item.remove(), 5500);
+  }
+
+  function setStatus(message, kind = '') {
+    $('status-text').textContent = message;
+    $('status-dot').className = 'status-dot' + (kind ? ' ' + kind : '');
+    $('stat-status').textContent = state.dirty.size ? 'Pendente' : (state.loaded ? 'Carregado' : 'Desconectado');
+    $('dashboard-message').textContent = state.dirty.size
+      ? `${state.dirty.size} arquivo(s) com alterações locais ainda não publicadas.`
+      : (state.loaded ? 'Os dados foram carregados. Nenhuma alteração local pendente.' : message);
+    $('btn-publish').disabled = !state.loaded || state.dirty.size === 0 || state.publishing;
+    $('btn-publish-system').disabled = !state.loaded || state.dirty.size === 0 || state.publishing;
+  }
+
+  function apiHeaders(extra = {}) {
+    return { 'Authorization': `Bearer ${state.token}`, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...extra };
+  }
+
+  async function githubGet(path) {
+    const url = `https://api.github.com/repos/${REPO}/contents/${encodeURIComponent(path).replace(/%2F/g, '/')}`;
+    const response = await fetch(url, { headers: apiHeaders() });
+    if (!response.ok) {
+      let detail = '';
+      try { const body = await response.json(); detail = body.message || ''; } catch {}
+      if (response.status === 404) throw new Error(`O arquivo "${path}" não foi encontrado na raiz do repositório ou o token não tem acesso.`);
+      if (response.status === 401 || response.status === 403) throw new Error(`Acesso negado ao GitHub (${response.status}). Verifique o token, as permissões e os limites da API. ${detail}`);
+      throw new Error(`Falha ao ler "${path}" (${response.status}). ${detail}`);
+    }
+    const result = await response.json();
+    if (result.type !== 'file' || typeof result.content !== 'string') throw new Error(`"${path}" não retornou um arquivo de texto válido.`);
+    let parsed;
+    try {
+      const bytes = Uint8Array.from(atob(result.content.replace(/\s/g, '')), c => c.charCodeAt(0));
+      parsed = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
+    } catch {
+      throw new Error(`O arquivo "${path}" não contém JSON UTF-8 válido. Nenhum dado foi substituído.`);
+    }
+    return { sha: result.sha, content: parsed };
+  }
+
+  function validateShape(key, content) {
+    if (!isObject(content)) throw new Error(`${FILES[key]} precisa conter um objeto JSON na raiz.`);
+    if (key === 'dados') {
+      if (!Array.isArray(content.paginas)) throw new Error('dados.json: o campo "paginas" não existe ou não é uma lista. Carga interrompida para proteger os dados.');
+      if (!isObject(content.calendario) || !Array.isArray(content.calendario.eventos)) throw new Error('dados.json: "calendario.eventos" não existe ou não é uma lista. Carga interrompida para proteger os dados.');
+    }
+    if (key === 'aulas' && !Array.isArray(content.aulas)) throw new Error('aulas-dados.json: o campo "aulas" não existe ou não é uma lista.');
+    if (key === 'academico' && (!Array.isArray(content.cursos) || !Array.isArray(content.turmas))) throw new Error('academico-dados.json: "cursos" e "turmas" precisam ser listas.');
+  }
+
+  async function loadAll() {
+    const results = await Promise.all(Object.entries(FILES).map(async ([key, path]) => [key, await githubGet(path)]));
+    const nextData = {}, nextSha = {};
+    for (const [key, result] of results) {
+      validateShape(key, result.content);
+      nextData[key] = result.content;
+      nextSha[key] = result.sha;
+    }
+    state.data = nextData;
+    state.sha = nextSha;
+    state.dirty.clear();
+    state.loaded = true;
+    renderAll();
+    setStatus('Conectado ao GitHub', 'good');
+    $('file-status').innerHTML = '';
+    renderFileStatus();
+  }
+
+  async function connect() {
+    const token = $('inp-token').value.trim();
+    if (!token) { $('login-error').textContent = 'Informe o token para continuar.'; return; }
+    state.token = token;
+    $('btn-connect').disabled = true;
+    $('btn-connect').textContent = 'Conectando…';
+    $('login-error').textContent = '';
+    try {
+      await loadAll();
+      $('login-screen').classList.add('hidden');
+      $('app').classList.remove('hidden');
+      $('inp-token').value = '';
+      toast('Arquivos carregados com sucesso.', 'success');
+    } catch (error) {
+      state.token = '';
+      $('login-error').textContent = error.message;
+      toast(error.message, 'error');
+    } finally {
+      $('btn-connect').disabled = false;
+      $('btn-connect').textContent = 'Conectar ao repositório';
+    }
+  }
+
+  function disconnect() {
+    if (state.dirty.size && !confirm('Existem alterações não publicadas. Desconectar e descartá-las?')) return;
+    state.token = '';
+    state.data = { dados: null, aulas: null, academico: null };
+    state.sha = { dados: null, aulas: null, academico: null };
+    state.dirty.clear();
+    state.loaded = false;
+    $('app').classList.add('hidden');
+    $('login-screen').classList.remove('hidden');
+    $('inp-token').value = '';
+    $('login-error').textContent = '';
+    setStatus('Desconectado');
+  }
+
+  const pageNames = {
+    dashboard:'Visão geral', paginas:'Páginas e textos', aulas:'Aulas e materiais',
+    calendario:'Calendário', cursos:'Cursos e níveis', turmas:'Turmas e vagas',
+    sincronizacao:'Arquivos e sincronização'
+  };
+  function navigate(page) {
+    if (!pageNames[page]) return;
+    document.querySelectorAll('.page').forEach(el => el.classList.toggle('active', el.id === `page-${page}`));
+    document.querySelectorAll('.nav [data-page]').forEach(el => {
+      if (el.dataset.page === page) el.setAttribute('aria-current', 'page');
+      else el.removeAttribute('aria-current');
+    });
+    $('page-title').textContent = pageNames[page];
+  }
+
+  function markDirty(key) {
+    state.dirty.add(key);
+    setStatus('Alterações locais pendentes', 'warn');
+    renderFileStatus();
+  }
+
+  function rowActions(edit, remove) {
+    return `<div class="actions"><button type="button" class="btn btn-secondary" data-edit="${esc(edit)}">Editar</button>${remove ? `<button type="button" class="btn btn-danger" data-remove="${esc(remove)}">Excluir</button>` : ''}</div>`;
+  }
+  function fillTable(id, rows, colspan) {
+    $(id).innerHTML = rows.length ? rows.join('') : `<tr><td colspan="${colspan}" class="empty">Nenhum registro encontrado.</td></tr>`;
+  }
+
+  function renderAll() {
+    const d = state.data.dados, a = state.data.aulas, ac = state.data.academico;
+    $('stat-cursos').textContent = ac.cursos.length;
+    $('stat-turmas').textContent = ac.turmas.length;
+    $('stat-aulas').textContent = a.aulas.length;
+
+    const qP = $('search-paginas').value.trim().toLocaleLowerCase('pt-BR');
+    fillTable('tbody-paginas', d.paginas.map((p,i)=>({p,i})).filter(({p}) => `${p.titulo||''} ${p.slug||''}`.toLocaleLowerCase('pt-BR').includes(qP)).map(({p,i})=>
+      `<tr><td>${esc(p.titulo || '(sem título)')}</td><td>${esc(p.slug || '—')}</td><td>${rowActions(`pagina:${i}`, '')}</td></tr>`), 3);
+
+    const qA = $('search-aulas').value.trim().toLocaleLowerCase('pt-BR');
+    fillTable('tbody-aulas', a.aulas.map((item,i)=>({item,i})).filter(({item})=>`${item.titulo||''} ${item.descricao||''}`.toLocaleLowerCase('pt-BR').includes(qA)).map(({item,i})=>
+      `<tr><td>${esc(item.titulo || '(sem título)')}</td><td>${item.video ? 'Informado' : 'Não informado'}</td><td>${Array.isArray(item.materiais)?item.materiais.length:0}</td><td>${rowActions(`aula:${i}`,`aula:${i}`)}</td></tr>`), 4);
+
+    fillTable('tbody-calendario', d.calendario.eventos.map((e,i)=>({e,i})).sort((x,y)=>String(x.e.data||'').localeCompare(String(y.e.data||''))).map(({e,i})=>
+      `<tr><td>${esc(formatDate(e.data))}</td><td>${esc(e.titulo || '(sem título)')}</td><td>${esc(e.tipo || '—')}</td><td>${rowActions(`evento:${i}`,`evento:${i}`)}</td></tr>`), 4);
+
+    fillTable('tbody-cursos', ac.cursos.map((c,i)=>
+      `<tr><td>${esc(c.nome || '(sem nome)')}</td><td>${esc(c.nivel || '—')}</td><td>${esc(c.cargaHoraria ?? '—')} h</td><td>${rowActions(`curso:${i}`,`curso:${i}`)}</td></tr>`), 4);
+
+    fillTable('tbody-turmas', ac.turmas.map((t,i)=>{
+      const curso = ac.cursos.find(c=>String(c.id)===String(t.cursoId));
+      const status = t.status || 'Não informado';
+      return `<tr><td>${esc(t.nome || '(sem nome)')}</td><td>${esc(curso?.nome || 'Curso não localizado')}</td><td>${esc(formatDate(t.dataInicio))} a ${esc(formatDate(t.dataFim))}</td><td>${esc(t.vagas ?? '—')}</td><td><span class="badge ${status==='Inscrições Abertas'?'good':status==='Inscrições Encerradas'?'bad':''}">${esc(status)}</span></td><td>${rowActions(`turma:${i}`,`turma:${i}`)}</td></tr>`;
+    }), 6);
+
+    renderFileStatus();
+    setStatus(state.dirty.size ? 'Alterações locais pendentes' : 'Dados carregados', state.dirty.size ? 'warn' : 'good');
+  }
+
+  function formatDate(value) {
+    if (!value) return '—';
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value));
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : String(value);
+  }
+
+  function renderFileStatus() {
+    if (!state.loaded) return;
+    $('repo-label').textContent = `${REPO} · branch ${BRANCH}`;
+    $('file-status').innerHTML = Object.entries(FILES).map(([key,path])=>{
+      const dirty = state.dirty.has(key);
+      return `<div class="file-row"><div><strong>${esc(path)}</strong><small>${dirty?'Há alterações locais não publicadas':'Carregado do repositório'}</small></div><span class="badge ${dirty?'bad':'good'}">${dirty?'Pendente':'Carregado'}</span></div>`;
+    }).join('');
+  }
+
+  let modalSave = null;
+  function openModal(title, body, save) {
+    $('modal-title').textContent = title;
+    $('modal-body').innerHTML = body;
+    modalSave = save;
+    $('edit-modal').classList.add('open');
+    $('modal-close').focus();
+  }
+  function closeModal() {
+    $('edit-modal').classList.remove('open');
+    modalSave = null;
+  }
+  function valueField(id, label, value, type='text', extra='') {
+    return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${esc(value ?? '')}" ${extra}></div>`;
+  }
+  function textField(id, label, value, extra='') {
+    return `<div class="field span-2"><label for="${id}">${label}</label><textarea id="${id}" ${extra}>${esc(value ?? '')}</textarea></div>`;
+  }
+  function saveModal() {
+    if (!modalSave) return;
+    try {
+      const changedKey = modalSave();
+      closeModal();
+      renderAll();
+      if (changedKey) markDirty(changedKey);
+      toast('Alterações guardadas nesta sessão. Publique para gravar no GitHub.', 'success');
+    } catch (error) { toast(error.message, 'error'); }
+  }
+
+  function editPage(index) {
+    const p = state.data.dados.paginas[index];
+    if (!p) return toast('A página selecionada não foi encontrada.', 'error');
+    openModal(`Editar página: ${p.titulo || 'Sem título'}`, `
+      ${valueField('p-titulo','Título',p.titulo)}
+      ${valueField('p-desc','Descrição (SEO)',p.descricao)}
+      ${textField('p-html','Conteúdo HTML',p.html,'spellcheck="false"')}
+      <p class="subtle">Os demais campos da página serão preservados.</p>
+    `,()=>{
+      const title=$('p-titulo').value.trim();
+      if (!title) throw new Error('Informe o título da página.');
+      p.titulo=title; p.descricao=$('p-desc').value; p.html=$('p-html').value;
+      return 'dados';
+    });
+  }
+
+  function editAula(index = -1) {
+    const isNew = index === -1;
+    const current = isNew ? { id: Date.now(), titulo:'', video:'', descricao:'', referencia:'', materiais:[] } : state.data.aulas.aulas[index];
+    if (!current) return toast('A aula selecionada não foi encontrada.', 'error');
+    const mats = Array.isArray(current.materiais) ? current.materiais : [];
+    const materialMarkup = mats.map(m=>materialRow(m)).join('');
+    openModal(isNew?'Nova aula':'Editar aula', `
+      ${valueField('a-titulo','Título',current.titulo)}
+      ${valueField('a-video','Vídeo (URL)',current.video,'url','placeholder="https://…"')}
+      ${textField('a-desc','Descrição',current.descricao)}
+      ${valueField('a-ref','Referência bibliográfica',current.referencia)}
+      <div class="field span-2"><label>Materiais</label><div id="materials-list">${materialMarkup}</div><button class="btn btn-secondary" type="button" id="add-material">Adicionar material</button><p class="subtle">Informe um nome e uma URL válida para cada material.</p></div>
+    `,()=>{
+      const title=$('a-titulo').value.trim();
+      if(!title) throw new Error('Informe o título da aula.');
+      const video=$('a-video').value.trim();
+      if(video && !validHttpUrl(video)) throw new Error('A URL do vídeo precisa começar com http:// ou https://.');
+      const materials=[];
+      document.querySelectorAll('#materials-list .material-row').forEach(row=>{
+        const title=row.querySelector('.mat-title').value.trim();
+        const url=row.querySelector('.mat-url').value.trim();
+        if(title || url) {
+          if(!title || !validHttpUrl(url)) throw new Error('Cada material precisa de nome e URL http(s) válida.');
+          materials.push({titulo:title,url});
+        }
+      });
+      const next={...current,id:current.id ?? Date.now(),titulo:title,video,descricao:$('a-desc').value,referencia:$('a-ref').value,materiais};
+      if(isNew) state.data.aulas.aulas.push(next); else state.data.aulas.aulas[index]=next;
+      return 'aulas';
+    });
+    $('add-material').addEventListener('click',()=>{ $('materials-list').insertAdjacentHTML('beforeend',materialRow({titulo:'',url:''})); });
+  }
+  function materialRow(material) {
+    return `<div class="material-row"><input class="mat-title" aria-label="Nome do material" placeholder="Nome do material" value="${esc(material.titulo)}"><input class="mat-url" aria-label="URL do material" placeholder="https://…" value="${esc(material.url)}"><button type="button" class="btn btn-danger remove-material">Remover</button></div>`;
+  }
+  function validHttpUrl(value) {
+    try { const url = new URL(value); return url.protocol === 'https:' || url.protocol === 'http:'; } catch { return false; }
+  }
+
+  function editEvent(index = -1) {
+    const isNew=index===-1;
+    const current=isNew?{data:'',titulo:'',tipo:'presencial'}:state.data.dados.calendario.eventos[index];
+    if(!current) return toast('O evento selecionado não foi encontrado.','error');
+    openModal(isNew?'Novo evento':'Editar evento',`
+      ${valueField('ev-data','Data',current.data,'date')}
+      ${valueField('ev-titulo','Título',current.titulo)}
+      <div class="field"><label for="ev-tipo">Tipo</label><select id="ev-tipo"><option value="presencial" ${current.tipo==='presencial'?'selected':''}>Presencial</option><option value="assincrona" ${current.tipo==='assincrona'?'selected':''}>Assíncrona</option></select></div>
+    `,()=>{
+      const data=$('ev-data').value, titulo=$('ev-titulo').value.trim();
+      if(!data || !titulo) throw new Error('Informe a data e o título do evento.');
+      const next={...current,data,titulo,tipo:$('ev-tipo').value};
+      if(isNew) state.data.dados.calendario.eventos.push(next); else state.data.dados.calendario.eventos[index]=next;
+      state.data.dados.calendario.eventos.sort((a,b)=>String(a.data||'').localeCompare(String(b.data||'')));
+      return 'dados';
+    });
+  }
+
+  function editCurso(index = -1) {
+    const isNew=index===-1;
+    const current=isNew?{id:String(Date.now()),nome:'',nivel:'',cargaHoraria:40}:state.data.academico.cursos[index];
+    if(!current) return toast('O curso selecionado não foi encontrado.','error');
+    openModal(isNew?'Novo curso':'Editar curso',`
+      ${valueField('c-nome','Nome',current.nome)}
+      <div class="form-grid">
+        <div>${valueField('c-nivel','Nível',current.nivel)}</div>
+        <div>${valueField('c-carga','Carga horária (horas)',current.cargaHoraria,'number','min="0" step="1"')}</div>
+      </div>
+    `,()=>{
+      const nome=$('c-nome').value.trim(), nivel=$('c-nivel').value.trim(), carga=Number($('c-carga').value);
+      if(!nome || !nivel) throw new Error('Informe o nome e o nível do curso.');
+      if(!Number.isFinite(carga)||carga<0) throw new Error('Informe uma carga horária válida.');
+      const next={...current,id:current.id ?? String(Date.now()),nome,nivel,cargaHoraria:carga};
+      if(isNew) state.data.academico.cursos.push(next); else state.data.academico.cursos[index]=next;
+      return 'academico';
+    });
+  }
+
+  function editTurma(index = -1) {
+    if(!state.data.academico.cursos.length) return toast('Cadastre um curso antes de criar uma turma.','error');
+    const isNew=index===-1;
+    const current=isNew?{id:String(Date.now()),cursoId:state.data.academico.cursos[0].id,nome:'',dataInicio:'',dataFim:'',vagas:40,status:'Inscrições Abertas'}:state.data.academico.turmas[index];
+    if(!current) return toast('A turma selecionada não foi encontrada.','error');
+    const options=state.data.academico.cursos.map(c=>`<option value="${esc(c.id)}" ${String(c.id)===String(current.cursoId)?'selected':''}>${esc(c.nome)}</option>`).join('');
+    openModal(isNew?'Nova turma':'Editar turma',`
+      <div class="field"><label for="t-curso">Curso vinculado</label><select id="t-curso">${options}</select></div>
+      ${valueField('t-nome','Nome da turma',current.nome)}
+      <div class="form-grid"><div>${valueField('t-ini','Data de início',current.dataInicio,'date')}</div><div>${valueField('t-fim','Data de término',current.dataFim,'date')}</div></div>
+      <div class="form-grid"><div>${valueField('t-vagas','Número de vagas',current.vagas,'number','min="0" step="1"')}</div><div class="field"><label for="t-status">Status</label><select id="t-status"><option value="Inscrições Abertas" ${current.status==='Inscrições Abertas'?'selected':''}>Inscrições abertas</option><option value="Inscrições Encerradas" ${current.status==='Inscrições Encerradas'?'selected':''}>Inscrições encerradas</option></select></div></div>
+    `,()=>{
+      const nome=$('t-nome').value.trim(), ini=$('t-ini').value, fim=$('t-fim').value, vagas=Number($('t-vagas').value);
+      if(!nome || !ini || !fim) throw new Error('Informe o nome e as duas datas da turma.');
+      if(fim<ini) throw new Error('A data final não pode ser anterior à data inicial.');
+      if(!Number.isInteger(vagas)||vagas<0) throw new Error('Informe uma quantidade inteira de vagas igual ou superior a zero.');
+      const next={...current,id:current.id ?? String(Date.now()),cursoId:$('t-curso').value,nome,dataInicio:ini,dataFim:fim,vagas,status:$('t-status').value};
+      if(isNew) state.data.academico.turmas.push(next); else state.data.academico.turmas[index]=next;
+      return 'academico';
+    });
+  }
+
+  async function deleteRecord(type,index) {
+    const mapping={
+      aula:{key:'aulas',array:()=>state.data.aulas.aulas,label:'aula'},
+      evento:{key:'dados',array:()=>state.data.dados.calendario.eventos,label:'evento'},
+      curso:{key:'academico',array:()=>state.data.academico.cursos,label:'curso'},
+      turma:{key:'academico',array:()=>state.data.academico.turmas,label:'turma'}
+    };
+    const item=mapping[type];
+    if(!item) return;
+    const arr=item.array(), record=arr[index];
+    if(!record) return toast('Registro não encontrado.','error');
+    if(type==='curso' && state.data.academico.turmas.some(t=>String(t.cursoId)===String(record.id))) {
+      return toast('Este curso está vinculado a uma ou mais turmas. Transfira ou remova as turmas antes de excluir o curso.','error');
+    }
+    if(!confirm(`Tem certeza de que deseja excluir este(a) ${item.label}? A exclusão só será gravada no GitHub após a publicação.`)) return;
+    arr.splice(index,1);
+    renderAll();
+    markDirty(item.key);
+    toast('Registro removido das alterações locais.');
+  }
+
+  async function publish() {
+    if(!state.loaded || state.dirty.size===0) return toast('Não há alterações pendentes.');
+    if(state.publishing) return;
+    if(!confirm('Publicar os arquivos alterados no repositório GitHub? Recomenda-se ter um backup atualizado.')) return;
+    state.publishing=true;
+    $('btn-publish').disabled=true;
+    $('btn-publish-system').disabled=true;
+    const keys=[...state.dirty];
+    const completed=[];
+    try {
+      for(const key of keys) {
+        const path=FILES[key];
+        const payload={
+          message:`CMS: atualiza ${path}`,
+          branch:BRANCH,
+          sha:state.sha[key],
+          content:btoa(Array.from(new TextEncoder().encode(JSON.stringify(state.data[key],null,2)),b=>String.fromCharCode(b)).join(''))
+        };
+        const response=await fetch(`https://api.github.com/repos/${REPO}/contents/${encodeURIComponent(path)}`,{
+          method:'PUT',headers:apiHeaders({'Content-Type':'application/json'}),body:JSON.stringify(payload)
+        });
+        let body={}; try{body=await response.json()}catch{}
+        if(!response.ok) {
+          if(response.status===409 || response.status===422) throw new Error(`Conflito ao publicar ${path}. O arquivo pode ter mudado no GitHub desde o carregamento. Recarregue os dados, confira as diferenças e aplique novamente suas alterações.`);
+          throw new Error(`Falha ao publicar ${path} (${response.status}): ${body.message||'erro não especificado'}`);
+        }
+        state.sha[key]=body.content?.sha || state.sha[key];
+        state.dirty.delete(key);
+        completed.push(path);
+        renderFileStatus();
+      }
+      setStatus('Publicação concluída','good');
+      toast(`Publicação concluída: ${completed.join(', ')}.`, 'success');
+    } catch(error) {
+      setStatus('Publicação parcial ou interrompida','warn');
+      const done=completed.length?` Arquivos já publicados: ${completed.join(', ')}.`:'';
+      toast(error.message+done,'error');
+    } finally {
+      state.publishing=false;
+      setStatus(state.dirty.size?'Há alterações pendentes':'Dados sincronizados',state.dirty.size?'warn':'good');
+      renderFileStatus();
+    }
+  }
+
+  function downloadFile(filename, content) {
+    const blob=new Blob([JSON.stringify(content,null,2)],{type:'application/json;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+    window.setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function backup() {
+    if(!state.loaded) return toast('Conecte-se e carregue os dados antes de gerar o backup.','error');
+    for(const [key,path] of Object.entries(FILES)) downloadFile(path,state.data[key]);
+    toast('Backup dos três arquivos iniciado. Confira se os downloads foram concluídos.','success');
+  }
+  async function reloadData() {
+    if(state.dirty.size && !confirm('Recarregar descartará as alterações locais ainda não publicadas. Continuar?')) return;
+    try { await loadAll(); toast('Dados recarregados do GitHub.','success'); }
+    catch(error) { toast(error.message,'error'); setStatus('Falha ao recarregar','bad'); }
+  }
+
+  document.querySelectorAll('.nav [data-page]').forEach(button=>button.addEventListener('click',()=>navigate(button.dataset.page)));
+  document.querySelectorAll('[data-go]').forEach(button=>button.addEventListener('click',()=>navigate(button.dataset.go)));
+  $('btn-connect').addEventListener('click',connect);
+  $('inp-token').addEventListener('keydown',event=>{if(event.key==='Enter')connect();});
+  $('btn-logout').addEventListener('click',disconnect);
+  $('btn-backup').addEventListener('click',backup);
+  $('btn-backup-system').addEventListener('click',backup);
+  $('btn-publish').addEventListener('click',publish);
+  $('btn-publish-system').addEventListener('click',publish);
+  $('btn-reload').addEventListener('click',reloadData);
+  $('btn-reload-system').addEventListener('click',reloadData);
+  $('btn-refresh-files').addEventListener('click',async()=>{try{await loadAll();toast('Estado dos arquivos atualizado.','success')}catch(e){toast(e.message,'error')}});
+  $('btn-new-aula').addEventListener('click',()=>editAula());
+  $('btn-new-evento').addEventListener('click',()=>editEvent());
+  $('btn-new-curso').addEventListener('click',()=>editCurso());
+  $('btn-new-turma').addEventListener('click',()=>editTurma());
+  $('modal-close').addEventListener('click',closeModal);
+  $('modal-cancel').addEventListener('click',closeModal);
+  $('modal-save').addEventListener('click',saveModal);
+  $('edit-modal').addEventListener('click',event=>{if(event.target===$('edit-modal'))closeModal();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')closeModal();});
+  $('search-paginas').addEventListener('input',()=>{if(state.loaded)renderAll();});
+  $('search-aulas').addEventListener('input',()=>{if(state.loaded)renderAll();});
+
+  document.addEventListener('click',event=>{
+    const edit=event.target.closest('[data-edit]');
+    const remove=event.target.closest('[data-remove]');
+    if(edit) {
+      const [type,indexText]=edit.dataset.edit.split(':');
+      const index=Number(indexText);
+      if(type==='pagina')editPage(index);
+      if(type==='aula')editAula(index);
+      if(type==='evento')editEvent(index);
+      if(type==='curso')editCurso(index);
+      if(type==='turma')editTurma(index);
+    }
+    if(remove) {
+      const [type,indexText]=remove.dataset.remove.split(':');
+      deleteRecord(type,Number(indexText));
+    }
+    if(event.target.closest('.remove-material')) event.target.closest('.material-row').remove();
+  });
+
+  setStatus('Aguardando conexão');
+})();
+</script>
 </body>
 </html>
