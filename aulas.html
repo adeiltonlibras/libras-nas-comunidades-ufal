@@ -1,51 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <!-- O <head> e o CSS continuam iguais ao estilo YouTube que fizemos antes -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aulas e Materiais — Libras nas Comunidades | UFAL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilo.css">
+  
   <style>
-    /* (Mantenha todos os estilos .aulas-container, .video-card, etc. da mensagem anterior) */
-    .grid-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; max-width: 1140px; margin: 0 auto; padding: 40px 24px; }
-    .video-card { background: var(--branco); border-radius: var(--radius); border: 1px solid var(--borda); overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; }
-    .video-wrapper { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0F2B4C; }
-    .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    .aulas-container { max-width: 1140px; margin: 0 auto; padding: 40px 24px 80px; }
+    .page-header { text-align: center; margin-bottom: 48px; }
+    .page-header span { font-size: 0.75rem; font-weight: 700; color: var(--dourado); text-transform: uppercase; letter-spacing: 2px; display: block; margin-bottom: 12px; }
+    .page-header h1 { font-family: var(--fonte-titulo); font-size: clamp(2rem, 4vw, 3rem); color: var(--azul-marinho); margin-bottom: 16px; }
+    .page-header p { font-size: 1.1rem; color: var(--texto-leve); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+    .grid-videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
+    .video-card { background: var(--branco); border-radius: var(--radius); border: 1px solid var(--borda); overflow: hidden; display: flex; flex-direction: column; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .video-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px -10px rgba(0,0,0,0.15); }
+    
+    /* Área de Mídia (Vídeo ou Slide) */
+    .media-area { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0F2B4C; border-bottom: 1px solid var(--borda); display: flex; align-items: center; justify-content: center; }
+    .media-area iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    
+    /* Botão para Slides */
+    .btn-slide { background: var(--branco); color: var(--azul-marinho); padding: 12px 24px; text-decoration: none; font-weight: 700; border-radius: 4px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: 0.2s; z-index: 2; }
+    .btn-slide:hover { background: var(--off-white); transform: scale(1.05); }
+
     .video-info { padding: 20px; display: flex; flex-direction: column; flex: 1; }
-    .video-title { font-family: var(--fonte-titulo); font-size: 1.25rem; color: var(--azul-marinho); margin: 0 0 10px 0; }
-    .video-desc { font-size: 0.9rem; color: var(--texto-leve); margin-bottom: 20px; flex: 1; }
+    .video-title { font-family: var(--fonte-titulo); font-size: 1.25rem; color: var(--azul-marinho); margin: 0 0 10px 0; line-height: 1.3; }
+    .video-desc { font-size: 0.9rem; color: var(--texto-leve); margin-bottom: 20px; flex: 1; line-height: 1.6; }
     .video-actions { border-top: 1px solid var(--borda); padding-top: 16px; }
+    
+    .materiais-titulo { font-size: 0.7rem; font-weight: 700; color: var(--texto); text-transform: uppercase; margin-bottom: 10px; }
     .btn-download { display: inline-flex; align-items: center; gap: 8px; background: var(--off-white); border: 1px solid var(--borda); color: var(--azul-marinho); text-decoration: none; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; margin-bottom: 8px; margin-right: 8px; }
+    .btn-download:hover { background: var(--azul-marinho); color: var(--branco); }
+    .abnt { font-size: 0.75rem; color: var(--texto-leve); font-style: italic; margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--borda); }
   </style>
 </head>
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="brand"><span class="brand-name">Libras nas Comunidades</span><span class="brand-tag">Projeto de Extensão</span></a>
+      <a href="index.html" class="brand">
+        <span class="brand-name">Libras nas Comunidades</span>
+        <span class="brand-tag">Projeto de Extensão</span>
+      </a>
       <button class="nav-toggle" id="navToggle">Menu</button>
       <nav class="nav-menu" id="navMenu"></nav>
     </div>
   </header>
 
-  <main>
-    <div style="text-align: center; padding: 40px 20px 0;"><h1 style="font-family: var(--fonte-titulo); color: var(--azul-marinho);">Aulas e Materiais</h1></div>
-    <div id="aulas-list" class="grid-videos"></div>
+  <main id="main">
+    <section class="page-header" style="padding-top: 60px;">
+      <span>Material Didático</span>
+      <h1>Aulas e Materiais</h1>
+      <p>Assista às videoaulas e acesse os materiais de apoio (PDFs, imagens, slides) disponibilizados pela equipe do projeto.</p>
+    </section>
+
+    <div class="aulas-container">
+      <div id="aulas-list" class="grid-videos">
+        <p style="text-align: center; grid-column: 1/-1;">Carregando acervo...</p>
+      </div>
+    </div>
   </main>
 
-  <footer class="footer"><div class="footer-inner"><div class="footer-brand"><h4>Libras nas Comunidades – UFAL</h4></div></div></footer>
+  <footer class="footer">
+    <div class="footer-inner"><div class="footer-brand"><h4>Libras nas Comunidades – UFAL</h4></div></div>
+  </footer>
 
-  <!-- O SCRIPT ANTIGO DO GITHUB -->
   <script>
     document.getElementById('navToggle').onclick = () => document.getElementById('navMenu').classList.toggle('active');
-    const esc = s => String(s ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
     function getIcone(url) {
+      if (!url) return '📁';
       const ext = url.split('.').pop().toLowerCase().split(/[?#]/)[0];
       if (['jpg','png','jpeg','gif'].includes(ext)) return '🖼️';
       if (['pdf'].includes(ext)) return '📄';
-      if (['ppt','pptx'].includes(ext)) return '📊';
       return '🔗';
     }
 
@@ -56,28 +86,55 @@
         const aulas = data.aulas || [];
         
         if (aulas.length === 0) {
-          container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Nenhuma aula publicada.</p>';
+          container.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Nenhuma aula publicada.</p>';
           return;
         }
 
         container.innerHTML = aulas.map(aula => {
-          const videoHtml = aula.video ? `<div class="video-wrapper"><iframe src="${aula.video}" allowfullscreen></iframe></div>` : '';
-          const descHtml = aula.descricao ? `<div class="video-desc">${aula.descricao}</div>` : '';
+          let mediaHtml = '';
+
+          // Lógica para decidir se é vídeo (YouTube) ou Slide (Canva/Drive)
+          if (aula.video) {
+            const url = aula.video.toLowerCase();
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+              let embedUrl = aula.video;
+              if (url.includes('watch?v=')) embedUrl = aula.video.replace('watch?v=', 'embed/');
+              if (url.includes('youtu.be/')) embedUrl = aula.video.replace('youtu.be/', 'youtube.com/embed/');
+              mediaHtml = `<div class="media-area"><iframe src="${esc(embedUrl)}" allowfullscreen></iframe></div>`;
+            } else {
+              // Se for Canva, Google Slides, etc -> Mostra um botão elegante
+              mediaHtml = `
+                <div class="media-area" style="background: #F8FAFC;">
+                  <a href="${esc(aula.video)}" target="_blank" rel="noopener" class="btn-slide">
+                    <span style="font-size: 1.2rem;">📊</span> Acessar Apresentação
+                  </a>
+                </div>`;
+            }
+          } else {
+             mediaHtml = `<div class="media-area"><div style="color: #94A3B8;">Mídia indisponível</div></div>`;
+          }
+
+          const descHtml = aula.descricao ? `<div class="video-desc">${esc(aula.descricao)}</div>` : '';
           
           let matHtml = '';
           if (aula.materiais && aula.materiais.length > 0) {
-            matHtml = `<div style="display:flex; flex-wrap:wrap;">` + aula.materiais.map(m => `
-              <a href="${m.url}" target="_blank" class="btn-download"><span style="font-size:1.1rem;">${getIcone(m.url)}</span> ${m.titulo}</a>
-            `).join('') + `</div>`;
+            matHtml = `<div class="materiais-titulo">Materiais de Apoio</div>` + aula.materiais.map(m => `
+              <a href="${esc(m.url)}" target="_blank" class="btn-download"><span>${getIcone(m.url)}</span> ${esc(m.titulo)}</a>
+            `).join('');
           }
+
+          const abntHtml = aula.referencia ? `<div class="abnt"><strong>Ref:</strong> ${esc(aula.referencia)}</div>` : '';
 
           return `
             <article class="video-card">
-              ${videoHtml}
+              ${mediaHtml}
               <div class="video-info">
-                <h2 class="video-title">${aula.titulo}</h2>
+                <h2 class="video-title">${esc(aula.titulo)}</h2>
                 ${descHtml}
-                <div class="video-actions">${matHtml}</div>
+                <div class="video-actions">
+                  ${matHtml}
+                  ${abntHtml}
+                </div>
               </div>
             </article>
           `;
