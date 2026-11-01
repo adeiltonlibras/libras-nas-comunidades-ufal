@@ -91,8 +91,11 @@
     .modal-head h2{font-size:1.15rem;color:var(--navy);margin:0}
     .modal-body{padding:22px;overflow:auto}
     .modal-foot{border-bottom:0;border-top:1px solid var(--line);justify-content:flex-end}
+    
+    /* Ajuste para o botão de upload */
     .material-row{display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;margin-bottom:9px;align-items:center}
     .material-row input{min-width:0;width:100%;padding:10px;border:1px solid var(--line);border-radius:8px}
+    
     .toast-area{position:fixed;right:18px;bottom:18px;z-index:2000;display:flex;flex-direction:column;gap:8px;width:min(400px,calc(100vw - 36px))}
     .toast{background:var(--navy);color:#fff;padding:13px 16px;border-left:4px solid var(--gold);border-radius:8px;box-shadow:var(--shadow);line-height:1.45}
     .toast.error{border-left-color:#e35b5b}.toast.success{border-left-color:#2db67b}
@@ -100,8 +103,12 @@
     .file-row{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:8px}
     .file-row strong{font-size:.9rem}.file-row small{display:block;color:var(--muted);margin-top:4px}
     .subtle{font-size:.82rem;color:var(--muted);line-height:1.55}
+    
     @media(max-width:1050px){.app{grid-template-columns:220px minmax(0,1fr)}.content{padding:20px}.topbar{padding:15px 20px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media(max-width:760px){.app{display:block}.sidebar{min-height:auto}.brand{padding:16px 18px}.nav{display:flex;overflow-x:auto;padding:5px 10px}.nav-label,.side-footer{display:none}.nav button{white-space:nowrap;width:auto;border-left:0;border-bottom:3px solid transparent;padding:11px 13px}.nav button[aria-current="page"]{border-bottom-color:var(--gold)}.topbar{position:static;align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.content{padding:14px}.stats{gap:10px}.stat{padding:15px}.stat-value{font-size:1.6rem}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.material-row{grid-template-columns:1fr}.modal-head,.modal-foot{padding:14px 16px}.modal-body{padding:16px}}
+    @media(max-width:760px){
+      .app{display:block}.sidebar{min-height:auto}.brand{padding:16px 18px}.nav{display:flex;overflow-x:auto;padding:5px 10px}.nav-label,.side-footer{display:none}.nav button{white-space:nowrap;width:auto;border-left:0;border-bottom:3px solid transparent;padding:11px 13px}.nav button[aria-current="page"]{border-bottom-color:var(--gold)}
+      .topbar{position:static;align-items:flex-start;flex-direction:column}.top-actions{width:100%}.top-actions .btn{flex:1}.content{padding:14px}.stats{gap:10px}.stat{padding:15px}.stat-value{font-size:1.6rem}.panel{padding:15px}.form-grid{grid-template-columns:1fr}.span-2{grid-column:auto}.material-row{grid-template-columns:1fr}.modal-head,.modal-foot{padding:14px 16px}.modal-body{padding:16px}
+    }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
@@ -161,11 +168,6 @@
           <div class="stat"><div class="stat-label">Aulas cadastradas</div><div class="stat-value" id="stat-aulas">—</div></div>
           <div class="stat"><div class="stat-label">Estado dos dados</div><div class="stat-value" id="stat-status" style="font-size:1.05rem">Conectando</div></div>
         </div>
-        <div class="panel">
-          <div class="panel-head"><div><h3>Estado da sessão</h3><p>Conexão, alterações e publicação</p></div><span class="status-line"><span class="status-dot" id="status-dot"></span><span id="status-text">Aguardando conexão</span></span></div>
-          <p class="muted" id="dashboard-message">Conecte-se para carregar os arquivos existentes.</p>
-          <div class="actions"><button type="button" class="btn btn-secondary" data-go="sincronizacao">Ver arquivos</button><button type="button" class="btn btn-secondary" id="btn-reload">Recarregar do GitHub</button></div>
-        </div>
       </section>
 
       <section class="page" id="page-paginas">
@@ -204,11 +206,8 @@
       </section>
 
       <section class="page" id="page-sincronizacao">
-        <div class="page-intro"><h2>Arquivos e sincronização</h2><p>Estado dos arquivos lidos, quantidade de alterações locais e controle de publicação.</p></div>
+        <div class="page-intro"><h2>Arquivos e sincronização</h2><p>Estado dos arquivos lidos e controle de publicação.</p></div>
         <div class="panel"><div class="panel-head"><div><h3>Arquivos do repositório</h3><p id="repo-label">Repositório configurado no código</p></div><button type="button" class="btn btn-secondary" id="btn-refresh-files">Verificar novamente</button></div><div class="file-status" id="file-status"></div></div>
-        <div class="panel"><div class="panel-head"><div><h3>Operações</h3><p>Faça backup antes de publicar.</p></div></div>
-          <div class="actions"><button class="btn btn-secondary" id="btn-backup-system" type="button">Baixar backup dos três arquivos</button><button class="btn btn-secondary" id="btn-reload-system" type="button">Descartar alterações e recarregar</button><button class="btn btn-primary" id="btn-publish-system" type="button">Publicar alterações</button></div>
-        </div>
       </section>
     </div>
   </main>
@@ -229,23 +228,15 @@
 
   const REPO = 'adeiltonlibras/libras-nas-comunidades-ufal';
   const BRANCH = 'main';
-  const FILES = {
-    dados: 'dados.json',
-    aulas: 'aulas-dados.json',
-    academico: 'academico-dados.json'
-  };
+  const FILES = { dados: 'dados.json', aulas: 'aulas-dados.json', academico: 'academico-dados.json' };
+  
   const state = {
-    token: '',
-    data: { dados: null, aulas: null, academico: null },
-    sha: { dados: null, aulas: null, academico: null },
-    dirty: new Set(),
-    loaded: false,
-    publishing: false
+    token: '', data: { dados: null, aulas: null, academico: null }, sha: { dados: null, aulas: null, academico: null },
+    dirty: new Set(), loaded: false, publishing: false
   };
+
   const $ = id => document.getElementById(id);
-  const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  })[ch]);
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[ch]);
   const isObject = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 
   function toast(message, type = '') {
@@ -260,11 +251,7 @@
     $('status-text').textContent = message;
     $('status-dot').className = 'status-dot' + (kind ? ' ' + kind : '');
     $('stat-status').textContent = state.dirty.size ? 'Pendente' : (state.loaded ? 'Carregado' : 'Desconectado');
-    $('dashboard-message').textContent = state.dirty.size
-      ? `${state.dirty.size} arquivo(s) com alterações locais ainda não publicadas.`
-      : (state.loaded ? 'Os dados foram carregados. Nenhuma alteração local pendente.' : message);
     $('btn-publish').disabled = !state.loaded || state.dirty.size === 0 || state.publishing;
-    $('btn-publish-system').disabled = !state.loaded || state.dirty.size === 0 || state.publishing;
   }
 
   function apiHeaders(extra = {}) {
@@ -275,22 +262,13 @@
     const url = `https://api.github.com/repos/${REPO}/contents/${encodeURIComponent(path).replace(/%2F/g, '/')}`;
     const response = await fetch(url, { headers: apiHeaders() });
     if (!response.ok) {
-      let detail = '';
-      try { const body = await response.json(); detail = body.message || ''; } catch {}
-      if (response.status === 404) throw new Error(`O arquivo "${path}" não foi encontrado na raiz do repositório ou o token não tem acesso.`);
-      if (response.status === 401 || response.status === 403) throw new Error(`Acesso negado ao GitHub (${response.status}). Verifique o token, as permissões e os limites da API. ${detail}`);
-      throw new Error(`Falha ao ler "${path}" (${response.status}). ${detail}`);
+      if (response.status === 404) throw new Error(`O arquivo "${path}" não foi encontrado na raiz do repositório.`);
+      if (response.status === 401 || response.status === 403) throw new Error(`Acesso negado ao GitHub (${response.status}).`);
+      throw new Error(`Falha ao ler "${path}" (${response.status}).`);
     }
     const result = await response.json();
-    if (result.type !== 'file' || typeof result.content !== 'string') throw new Error(`"${path}" não retornou um arquivo de texto válido.`);
-    let parsed;
-    try {
-      const bytes = Uint8Array.from(atob(result.content.replace(/\s/g, '')), c => c.charCodeAt(0));
-      parsed = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
-    } catch {
-      throw new Error(`O arquivo "${path}" não contém JSON UTF-8 válido. Nenhum dado foi substituído.`);
-    }
-    return { sha: result.sha, content: parsed };
+    const bytes = Uint8Array.from(atob(result.content.replace(/\s/g, '')), c => c.charCodeAt(0));
+    return { sha: result.sha, content: JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)) };
   }
 
   async function uploadFileToGithub(file) {
@@ -356,13 +334,13 @@
   };
 
   function validateShape(key, content) {
-    if (!isObject(content)) throw new Error(`${FILES[key]} precisa conter um objeto JSON na raiz.`);
+    if (!isObject(content)) throw new Error(`${FILES[key]} precisa conter um objeto JSON.`);
     if (key === 'dados') {
-      if (!Array.isArray(content.paginas)) throw new Error('dados.json: o campo "paginas" não existe ou não é uma lista. Carga interrompida para proteger os dados.');
-      if (!isObject(content.calendario) || !Array.isArray(content.calendario.eventos)) throw new Error('dados.json: "calendario.eventos" não existe ou não é uma lista. Carga interrompida para proteger os dados.');
+      if (!Array.isArray(content.paginas)) throw new Error('dados.json: "paginas" não é uma lista.');
+      if (!isObject(content.calendario) || !Array.isArray(content.calendario.eventos)) throw new Error('dados.json: "calendario.eventos" não é uma lista.');
     }
-    if (key === 'aulas' && !Array.isArray(content.aulas)) throw new Error('aulas-dados.json: o campo "aulas" não existe ou não é uma lista.');
-    if (key === 'academico' && (!Array.isArray(content.cursos) || !Array.isArray(content.turmas))) throw new Error('academico-dados.json: "cursos" e "turmas" precisam ser listas.');
+    if (key === 'aulas' && !Array.isArray(content.aulas)) throw new Error('aulas-dados.json: "aulas" não é uma lista.');
+    if (key === 'academico' && (!Array.isArray(content.cursos) || !Array.isArray(content.turmas))) throw new Error('academico-dados.json: listas inválidas.');
   }
 
   async function loadAll() {
@@ -379,13 +357,12 @@
     state.loaded = true;
     renderAll();
     setStatus('Conectado ao GitHub', 'good');
-    $('file-status').innerHTML = '';
     renderFileStatus();
   }
 
   async function connect() {
     const token = $('inp-token').value.trim();
-    if (!token) { $('login-error').textContent = 'Informe o token para continuar.'; return; }
+    if (!token) { $('login-error').textContent = 'Informe o token.'; return; }
     state.token = token;
     $('btn-connect').disabled = true;
     $('btn-connect').textContent = 'Conectando…';
@@ -407,7 +384,7 @@
   }
 
   function disconnect() {
-    if (state.dirty.size && !confirm('Existem alterações não publicadas. Desconectar e descartá-las?')) return;
+    if (state.dirty.size && !confirm('Existem alterações não publicadas. Desconectar?')) return;
     state.token = '';
     state.data = { dados: null, aulas: null, academico: null };
     state.sha = { dados: null, aulas: null, academico: null };
@@ -422,8 +399,7 @@
 
   const pageNames = {
     dashboard:'Visão geral', paginas:'Páginas e textos', aulas:'Aulas e materiais',
-    calendario:'Calendário', cursos:'Cursos e níveis', turmas:'Turmas e vagas',
-    sincronizacao:'Arquivos e sincronização'
+    calendario:'Calendário', cursos:'Cursos e níveis', turmas:'Turmas e vagas', sincronizacao:'Arquivos e sincronização'
   };
   function navigate(page) {
     if (!pageNames[page]) return;
@@ -606,6 +582,7 @@
         <select id="ev-tipo">
           <option value="presencial" ${current.tipo==='presencial'?'selected':''}>Presencial</option>
           <option value="online" ${current.tipo==='online'?'selected':''}>Online (Ao Vivo)</option>
+          <option value="sincrona" ${current.tipo==='sincrona'?'selected':''}>Aula Síncrona</option>
           <option value="assincrona" ${current.tipo==='assincrona'?'selected':''}>Assíncrona</option>
           <option value="cancelada" ${current.tipo==='cancelada'?'selected':''}>Cancelada</option>
           <option value="reagendada" ${current.tipo==='reagendada'?'selected':''}>Reagendada</option>
@@ -687,10 +664,9 @@
   async function publish() {
     if(!state.loaded || state.dirty.size===0) return toast('Não há alterações pendentes.');
     if(state.publishing) return;
-    if(!confirm('Publicar os arquivos alterados no repositório GitHub?')) return;
+    if(!confirm('Publicar os arquivos alterados no repositório GitHub? Recomenda-se ter um backup atualizado.')) return;
     state.publishing=true;
     $('btn-publish').disabled=true;
-    $('btn-publish-system').disabled=true;
     const keys=[...state.dirty];
     const completed=[];
     try {
@@ -751,11 +727,8 @@
   $('inp-token').addEventListener('keydown',event=>{if(event.key==='Enter')connect();});
   $('btn-logout').addEventListener('click',disconnect);
   $('btn-backup').addEventListener('click',backup);
-  $('btn-backup-system').addEventListener('click',backup);
   $('btn-publish').addEventListener('click',publish);
-  $('btn-publish-system').addEventListener('click',publish);
   $('btn-reload').addEventListener('click',reloadData);
-  $('btn-reload-system').addEventListener('click',reloadData);
   $('btn-refresh-files').addEventListener('click',async()=>{try{await loadAll();toast('Estado dos arquivos atualizado.','success')}catch(e){toast(e.message,'error')}});
   $('btn-new-aula').addEventListener('click',()=>editAula());
   $('btn-new-evento').addEventListener('click',()=>editEvent());
