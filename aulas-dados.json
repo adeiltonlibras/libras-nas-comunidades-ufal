@@ -41,20 +41,12 @@
       "materiais": []
     },
     {
-      "id": 1793421341733,
-      "modulo": "Vídeo ",
-      "titulo": "i",
-      "video": "https://www.youtube.com/embed/y2b_IaicMqY",
-      "descricao": "u",
-      "materiais": [
-        {
-          "titulo": "PauloLibras2023.otf",
-          "url": "https://raw.githubusercontent.com/adeiltonlibras/libras-nas-comunidades-ufal/main/materiais/1793421363820_PauloLibras2023.otf"
-        }
-      ],
-      "status": "normal",
-      "justificativa": "",
-      "data": "010000"
+      "id": 1793553646254,
+      "titulo": "Slide aula 3",
+      "video": "https://canva.link/7yus7anhz0k0t5j",
+      "descricao": "",
+      "referencia": "",
+      "materiais": []
     }
   ]
 }
